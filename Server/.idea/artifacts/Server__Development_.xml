@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="Server (Development)">
+    <output-path>$PROJECT_DIR$/out/artifacts/Server__Development_</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Server" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="org.json:json:Release" />
+          <element id="library" level="project" name="javax.ws.rs:javax.ws.rs-api:2.0.1" />
+          <element id="library" level="project" name="Java EE 6-Java EE 6" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="Server/web/Web" />
+    </root>
+  </artifact>
+</component>
