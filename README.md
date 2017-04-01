@@ -42,5 +42,5 @@ Describe and show how to run the tests with code examples.
 ## Coding conventions
 Use the [Google style guide](https://google.github.io/styleguide/javaguide.html)
 
-##README syntax
+## README syntax
 [Documentation](https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf)
