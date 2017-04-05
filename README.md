@@ -14,6 +14,12 @@ The git commands are in the bottom right corner of Intellij.
 
 Or use a [Git](https://git-scm.com/downloads) client and a preffered IDE.
 
+## Maven
+**InteliJ has a bug!**
+1. **Do not "auto import" the maven dependencies**
+2. **Instead right click on the pom.xml in the root directory and select "reimport" in the Maven submenu!**
+**otherwise the file "Server/idea/Server.iml" will be flooded with unnecessary entries**
+
 ## Project structure
 * Server
   * Contains the logic for the data validation
