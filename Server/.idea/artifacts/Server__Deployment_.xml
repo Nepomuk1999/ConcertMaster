@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="Server (Deployment)">
-    <output-path>$PROJECT_DIR$/out/artifacts/Server__Deployment_</output-path>
-    <root id="archive" name="Server (Deployment).war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Server-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="Server (Development)" />
     </root>
   </artifact>
