@@ -79,6 +79,7 @@ Server/.idea/**/mongoSettings.xml
 
 # IntelliJ
 out/
+resources-filtered/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
