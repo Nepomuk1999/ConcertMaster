@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Hybernate/Hybernate.iml" filepath="$PROJECT_DIR$/Hybernate/Hybernate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Hibernate/Hybernate.iml" filepath="$PROJECT_DIR$/Hibernate/Hybernate.iml" />
       <module fileurl="file://$PROJECT_DIR$/concertmaster.iml" filepath="$PROJECT_DIR$/concertmaster.iml" />
     </modules>
   </component>
