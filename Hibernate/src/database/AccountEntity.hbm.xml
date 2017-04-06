@@ -15,7 +15,7 @@
             <column name="password" sql-type="varchar(255)"/>
         </property>
         <property name="accountRole">
-            <column name="accountRole" sql-type="enum"/>
-        </property>
+        <column name="accountRole" sql-type="enum"/>
+    </property>
     </class>
 </hibernate-mapping>
