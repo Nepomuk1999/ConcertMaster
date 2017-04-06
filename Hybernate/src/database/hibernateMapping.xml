@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.AccountEntity" table="Account" schema="sem4_team2">
+        <id name="accountId" column="accountID"/>
+        <property name="username" column="username"/>
+        <property name="password" column="password"/>
+        <property name="accountRole" column="accountRole"/>
+    </class>
+    <class name="database.BrassInstrumentationEntity" table="BrassInstrumentation" schema="sem4_team2">
+        <id name="brassInstrumentationId" column="brassInstrumentationID"/>
+        <property name="horn" column="horn"/>
+        <property name="trumpet" column="trumpet"/>
+        <property name="trombone" column="trombone"/>
+        <property name="tube" column="tube"/>
+    </class>
+    <class name="database.DutyDispositionEntity" table="DutyDisposition" schema="sem4_team2">
+        <property name="eventDuty" column="eventDuty"/>
+        <property name="musician" column="musician"/>
+        <property name="points" column="points"/>
+        <property name="description" column="description"/>
+        <property name="dutyDispositionStatus" column="dutyDispositionStatus"/>
+    </class>
+    <class name="database.EventDutyEntity" table="EventDuty" schema="sem4_team2">
+        <id name="eventDutyId" column="eventDutyID"/>
+        <property name="name" column="name"/>
+        <property name="description" column="description"/>
+        <property name="starttime" column="starttime"/>
+        <property name="endtime" column="endtime"/>
+        <property name="eventType" column="eventType"/>
+        <property name="eventStatus" column="eventStatus"/>
+        <property name="conductor" column="conductor"/>
+        <property name="location" column="location"/>
+        <property name="rehearsalFor" column="rehearsalFor"/>
+        <property name="defaultPoints" column="defaultPoints"/>
+        <property name="instrumentation" column="instrumentation"/>
+    </class>
+    <class name="database.EventDutyMusicalWorkEntity" table="EventDuty_MusicalWork" schema="sem4_team2">
+        <property name="eventDuty" column="eventDuty"/>
+        <property name="musicalWork" column="musicalWork"/>
+        <property name="alternativeInstrumentation" column="alternativeInstrumentation"/>
+    </class>
+    <class name="database.EventDutySectionDutyRosterEntity" table="EventDuty_SectionDutyRoster" schema="sem4_team2">
+        <property name="eventDuty" column="eventDuty"/>
+        <property name="sectionDutyRoster" column="sectionDutyRoster"/>
+    </class>
+    <class name="database.InstrumentEntity" table="Instrument" schema="sem4_team2">
+        <id name="instrumentId" column="instrumentID"/>
+        <property name="instrumentType" column="instrumentType"/>
+        <property name="brand" column="brand"/>
+        <property name="model" column="model"/>
+        <property name="description" column="description"/>
+        <property name="musician" column="musician"/>
+    </class>
+    <class name="database.InstrumentTypeEntity" table="InstrumentType" schema="sem4_team2">
+        <id name="instrumentTypeId" column="instrumentTypeID"/>
+        <property name="instrumentType" column="instrumentType"/>
+    </class>
+    <class name="database.InstrumentationEntity" table="Instrumentation" schema="sem4_team2">
+        <id name="instrumentationId" column="instrumentationID"/>
+        <property name="stringInstrumentation" column="stringInstrumentation"/>
+        <property name="woodInstrumentation" column="woodInstrumentation"/>
+        <property name="brassInstrumentation" column="brassInstrumentation"/>
+        <property name="percussionInstrumentation" column="percussionInstrumentation"/>
+    </class>
+    <class name="database.MusicalWorkEntity" table="MusicalWork" schema="sem4_team2">
+        <id name="musicalWorkId" column="musicalWorkID"/>
+        <property name="instrumentationId" column="instrumentationID"/>
+        <property name="name" column="name"/>
+        <property name="composer" column="composer"/>
+    </class>
+    <class name="database.PartEntity" table="Part" schema="sem4_team2">
+        <id name="partId" column="partID"/>
+        <property name="partType" column="partType"/>
+    </class>
+    <class name="database.PartTypeEntity" table="PartType" schema="sem4_team2">
+        <id name="partTypeId" column="partTypeID"/>
+        <property name="partType" column="partType"/>
+    </class>
+    <class name="database.PercussionInstrumentationEntity" table="PercussionInstrumentation" schema="sem4_team2">
+        <id name="percussionInstrumentationId" column="percussionInstrumentationID"/>
+        <property name="kettledrum" column="kettledrum"/>
+        <property name="percussion" column="percussion"/>
+        <property name="harp" column="harp"/>
+        <property name="percussionDescription" column="percussionDescription"/>
+    </class>
+    <class name="database.PersonEntity" table="Person" schema="sem4_team2">
+        <id name="personId" column="personId"/>
+        <property name="initials" column="initials"/>
+        <property name="firstname" column="firstname"/>
+        <property name="lastname" column="lastname"/>
+        <property name="email" column="email"/>
+        <property name="gender" column="gender"/>
+        <property name="address" column="address"/>
+        <property name="phoneNumber" column="phoneNumber"/>
+        <property name="personRole" column="personRole"/>
+        <property name="account" column="account"/>
+    </class>
+    <class name="database.PersonOrchestraRoleEntity" table="Person_OrchestraRole" schema="sem4_team2">
+        <property name="person" column="person"/>
+        <property name="orchestraRole" column="orchestraRole"/>
+    </class>
+    <class name="database.PersonPartEntity" table="Person_Part" schema="sem4_team2">
+        <property name="musician" column="musician"/>
+        <property name="part" column="part"/>
+    </class>
+    <class name="database.RequestEntity" table="Request" schema="sem4_team2">
+        <property name="eventDuty" column="eventDuty"/>
+        <property name="musician" column="musician"/>
+        <property name="requestType" column="requestType"/>
+        <property name="description" column="description"/>
+    </class>
+    <class name="database.SectionDutyRosterEntity" table="SectionDutyRoster" schema="sem4_team2">
+        <id name="sectionDutyRosterId" column="sectionDutyRosterID"/>
+        <property name="dutyRosterStatus" column="dutyRosterStatus"/>
+        <property name="sectionType" column="sectionType"/>
+    </class>
+    <class name="database.SpecialInstrumentationEntity" table="SpecialInstrumentation" schema="sem4_team2">
+        <id name="specialInstrumentationId" column="specialInstrumentationID"/>
+        <property name="sectionType" column="sectionType"/>
+        <property name="instrumentationId" column="instrumentationID"/>
+        <property name="specialInstrument" column="specialInstrument"/>
+        <property name="specialInstrumentationNumber" column="specialInstrumentationNumber"/>
+    </class>
+    <class name="database.StringInstrumentationEntity" table="StringInstrumentation" schema="sem4_team2">
+        <id name="stringInstrumentationId" column="stringInstrumentationID"/>
+        <property name="violin1" column="violin1"/>
+        <property name="violin2" column="violin2"/>
+        <property name="viola" column="viola"/>
+        <property name="violincello" column="violincello"/>
+        <property name="doublebass" column="doublebass"/>
+    </class>
+    <class name="database.WoodInstrumentationEntity" table="WoodInstrumentation" schema="sem4_team2">
+        <id name="woodInstrumentationId" column="woodInstrumentationID"/>
+        <property name="flute" column="flute"/>
+        <property name="oboe" column="oboe"/>
+        <property name="clarinet" column="clarinet"/>
+        <property name="bassoon" column="bassoon"/>
+    </class>
+</hibernate-mapping>
