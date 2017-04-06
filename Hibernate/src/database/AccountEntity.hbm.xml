@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.AccountEntity" table="Account" schema="sem4_team2">
+        <id name="accountId">
+            <column name="accountID" sql-type="int(11)"/>
+        </id>
+        <property name="username">
+            <column name="username" sql-type="varchar(255)"/>
+        </property>
+        <property name="password">
+            <column name="password" sql-type="varchar(255)"/>
+        </property>
+        <property name="accountRole">
+            <column name="accountRole" sql-type="enum"/>
+        </property>
+    </class>
+</hibernate-mapping>

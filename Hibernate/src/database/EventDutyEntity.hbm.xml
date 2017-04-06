@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.EventDutyEntity" table="EventDuty" schema="sem4_team2">
+        <id name="eventDutyId">
+            <column name="eventDutyID" sql-type="int(11)"/>
+        </id>
+        <property name="name">
+            <column name="name" sql-type="varchar(255)"/>
+        </property>
+        <property name="description">
+            <column name="description" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="starttime">
+            <column name="starttime" sql-type="datetime"/>
+        </property>
+        <property name="endtime">
+            <column name="endtime" sql-type="datetime"/>
+        </property>
+        <property name="conductor">
+            <column name="conductor" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="location">
+            <column name="location" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="rehearsalFor">
+            <column name="rehearsalFor" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="defaultPoints">
+            <column name="defaultPoints" sql-type="double" precision="-1"/>
+        </property>
+        <property name="instrumentation">
+            <column name="instrumentation" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
