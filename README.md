@@ -1,4 +1,4 @@
-# GruppeF
+# concertmaster
 Git Repository for Group F of OOA&amp;D
 
 Git project in Intellij:
