@@ -1,4 +1,4 @@
-package main;
+
 
 import org.hibernate.HibernateException;
 import org.hibernate.Metamodel;

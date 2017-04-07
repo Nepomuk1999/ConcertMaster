@@ -1,10 +1,7 @@
-package main;
-
-import hibernate.EventDutyEntity;
+import database.EventDutyEntity;
 import enums.EventStatus;
 import enums.EventType;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.sql.Timestamp;
 
