@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="database.AccountEntity" table="Account" schema="sem4_team2">
+        <id name="accountId">
+            <column name="accountID" sql-type="int(11)"/>
+        </id>
+        <property name="username">
+            <column name="username" sql-type="varchar(255)"/>
+        </property>
+        <property name="password">
+            <column name="password" sql-type="varchar(255)"/>
+        </property>
+        <property name="accountRole">
+            <column name="accountRole"
+                    sql-type="enum('musician', 'administrator', 'manager', 'substitute', 'section_representative')"/>
+        </property>
+    </class>
+    <class name="database.BrassInstrumentationEntity" table="BrassInstrumentation" schema="sem4_team2">
+        <id name="brassInstrumentationId">
+            <column name="brassInstrumentationID" sql-type="int(11)"/>
+        </id>
+        <property name="horn">
+            <column name="horn" sql-type="int(11)"/>
+        </property>
+        <property name="trumpet">
+            <column name="trumpet" sql-type="int(11)"/>
+        </property>
+        <property name="trombone">
+            <column name="trombone" sql-type="int(11)"/>
+        </property>
+        <property name="tube">
+            <column name="tube" sql-type="int(11)"/>
+        </property>
+    </class>
+    <class name="database.DutyDispositionEntity" table="DutyDisposition" schema="sem4_team2">
+        <composite-id mapped="true" class="database.DutyDispositionEntityPK">
+            <key-property name="eventDuty">
+                <column name="eventDuty" sql-type="int(11)"/>
+            </key-property>
+            <key-property name="musician">
+                <column name="musician" sql-type="int(11)"/>
+            </key-property>
+        </composite-id>
+        <property name="points">
+            <column name="points" sql-type="double" precision="-1"/>
+        </property>
+        <property name="description">
+            <column name="description" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="dutyDispositionStatus">
+            <column name="dutyDispositionStatus" sql-type="enum('spare', 'illness', 'normal')"/>
+        </property>
+    </class>
+    <class name="database.EventDutyEntity" table="EventDuty" schema="sem4_team2">
+        <id name="eventDutyId">
+            <column name="eventDutyID" sql-type="int(11)"/>
+        </id>
+        <property name="name">
+            <column name="name" sql-type="varchar(255)"/>
+        </property>
+        <property name="description">
+            <column name="description" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="starttime">
+            <column name="starttime" sql-type="datetime"/>
+        </property>
+        <property name="endtime">
+            <column name="endtime" sql-type="datetime"/>
+        </property>
+        <property name="eventType">
+            <column name="eventType"
+                    sql-type="enum('opera', 'concert', 'hofkapelle', 'tour', 'rehearsal', 'nonmusicalevent')"/>
+        </property>
+        <property name="eventStatus">
+            <column name="eventStatus" sql-type="enum('unpublished', 'published', 'cancelled')"/>
+        </property>
+        <property name="conductor">
+            <column name="conductor" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="location">
+            <column name="location" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="rehearsalFor">
+            <column name="rehearsalFor" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="defaultPoints">
+            <column name="defaultPoints" sql-type="double" precision="-1"/>
+        </property>
+        <property name="instrumentation">
+            <column name="instrumentation" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.EventDutyMusicalWorkEntity" table="EventDuty_MusicalWork" schema="sem4_team2">
+        <composite-id mapped="true" class="database.EventDutyMusicalWorkEntityPK">
+            <key-property name="eventDuty">
+                <column name="eventDuty" sql-type="int(11)"/>
+            </key-property>
+            <key-property name="musicalWork">
+                <column name="musicalWork" sql-type="int(11)"/>
+            </key-property>
+        </composite-id>
+        <property name="alternativeInstrumentation">
+            <column name="alternativeInstrumentation" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.EventDutySectionDutyRosterEntity" table="EventDuty_SectionDutyRoster" schema="sem4_team2">
+        <composite-id mapped="true" class="database.EventDutySectionDutyRosterEntityPK">
+            <key-property name="eventDuty">
+                <column name="eventDuty" sql-type="int(11)"/>
+            </key-property>
+            <key-property name="sectionDutyRoster">
+                <column name="sectionDutyRoster" sql-type="int(11)"/>
+            </key-property>
+        </composite-id>
+    </class>
+    <class name="database.InstrumentEntity" table="Instrument" schema="sem4_team2">
+        <id name="instrumentId">
+            <column name="instrumentID" sql-type="int(11)"/>
+        </id>
+        <property name="instrumentType">
+            <column name="instrumentType" sql-type="int(11)"/>
+        </property>
+        <property name="brand">
+            <column name="brand" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="model">
+            <column name="model" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="description">
+            <column name="description" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="musician">
+            <column name="musician" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.InstrumentTypeEntity" table="InstrumentType" schema="sem4_team2">
+        <id name="instrumentTypeId">
+            <column name="instrumentTypeID" sql-type="int(11)"/>
+        </id>
+        <property name="instrumentType">
+            <column name="instrumentType" sql-type="varchar(255)"/>
+        </property>
+    </class>
+    <class name="database.InstrumentationEntity" table="Instrumentation" schema="sem4_team2">
+        <id name="instrumentationId">
+            <column name="instrumentationID" sql-type="int(11)"/>
+        </id>
+        <property name="stringInstrumentation">
+            <column name="stringInstrumentation" sql-type="int(11)"/>
+        </property>
+        <property name="woodInstrumentation">
+            <column name="woodInstrumentation" sql-type="int(11)"/>
+        </property>
+        <property name="brassInstrumentation">
+            <column name="brassInstrumentation" sql-type="int(11)"/>
+        </property>
+        <property name="percussionInstrumentation">
+            <column name="percussionInstrumentation" sql-type="int(11)"/>
+        </property>
+    </class>
+    <class name="database.MusicalWorkEntity" table="MusicalWork" schema="sem4_team2">
+        <id name="musicalWorkId">
+            <column name="musicalWorkID" sql-type="int(11)"/>
+        </id>
+        <property name="instrumentationId">
+            <column name="instrumentationID" sql-type="int(11)"/>
+        </property>
+        <property name="name">
+            <column name="name" sql-type="varchar(255)"/>
+        </property>
+        <property name="composer">
+            <column name="composer" sql-type="varchar(255)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.MusicianPartEntity" table="Musician_Part" schema="sem4_team2">
+        <composite-id mapped="true" class="database.MusicianPartEntityPK">
+            <key-property name="musician">
+                <column name="musician" sql-type="int(11)"/>
+            </key-property>
+            <key-property name="part">
+                <column name="part" sql-type="int(11)"/>
+            </key-property>
+        </composite-id>
+    </class>
+    <class name="database.PartEntity" table="Part" schema="sem4_team2">
+        <id name="partId">
+            <column name="partID" sql-type="int(11)"/>
+        </id>
+        <property name="partType">
+            <column name="partType" sql-type="int(11)"/>
+        </property>
+        <property name="sectionType">
+            <column name="sectionType"
+                    sql-type="enum('violin1', 'violin2', 'viola', 'violincello', 'doublebass', 'woodwind', 'brass', 'percussion')"
+                    precision="-1"/>
+        </property>
+    </class>
+    <class name="database.PartTypeEntity" table="PartType" schema="sem4_team2">
+        <id name="partTypeId">
+            <column name="partTypeID" sql-type="int(11)"/>
+        </id>
+        <property name="partType">
+            <column name="partType" sql-type="varchar(255)"/>
+        </property>
+    </class>
+    <class name="database.PercussionInstrumentationEntity" table="PercussionInstrumentation" schema="sem4_team2">
+        <id name="percussionInstrumentationId">
+            <column name="percussionInstrumentationID" sql-type="int(11)"/>
+        </id>
+        <property name="kettledrum">
+            <column name="kettledrum" sql-type="int(11)"/>
+        </property>
+        <property name="percussion">
+            <column name="percussion" sql-type="int(11)"/>
+        </property>
+        <property name="harp">
+            <column name="harp" sql-type="int(11)"/>
+        </property>
+        <property name="percussionDescription">
+            <column name="percussionDescription" sql-type="varchar(255)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.PersonEntity" table="Person" schema="sem4_team2">
+        <id name="personId">
+            <column name="personId" sql-type="int(11)"/>
+        </id>
+        <property name="initials">
+            <column name="initials" sql-type="varchar(10)" length="10" not-null="true"/>
+        </property>
+        <property name="firstname">
+            <column name="firstname" sql-type="varchar(255)"/>
+        </property>
+        <property name="lastname">
+            <column name="lastname" sql-type="varchar(255)"/>
+        </property>
+        <property name="email">
+            <column name="email" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="gender">
+            <column name="gender" sql-type="char(1)" length="1"/>
+        </property>
+        <property name="address">
+            <column name="address" sql-type="varchar(255)"/>
+        </property>
+        <property name="phoneNumber">
+            <column name="phoneNumber" sql-type="varchar(255)"/>
+        </property>
+        <property name="personRole">
+            <column name="personRole"
+                    sql-type="enum('musician', 'substitute', 'external_musician', 'orchestral_facility_manager', 'music_librarian', 'manager')"/>
+        </property>
+        <property name="account">
+            <column name="account" sql-type="int(11)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.PersonOrchestraRoleEntity" table="Person_OrchestraRole" schema="sem4_team2">
+        <composite-id mapped="true" class="database.PersonOrchestraRoleEntityPK">
+            <key-property name="person">
+                <column name="person" sql-type="int(11)"/>
+            </key-property>
+            <key-property name="orchestraRole">
+                <column name="orchestraRole"
+                        sql-type="enum('concertmaster', 'section_leader', 'tuttiplayer', 'soloist')"/>
+            </key-property>
+        </composite-id>
+    </class>
+    <class name="database.RequestEntity" table="Request" schema="sem4_team2">
+        <composite-id mapped="true" class="database.RequestEntityPK">
+            <key-property name="eventDuty">
+                <column name="eventDuty" sql-type="int(11)"/>
+            </key-property>
+            <key-property name="musician">
+                <column name="musician" sql-type="int(11)"/>
+            </key-property>
+        </composite-id>
+        <property name="requestType">
+            <column name="requestType" sql-type="enum('leave_of_absence', 'playrequest')"/>
+        </property>
+        <property name="description">
+            <column name="description" sql-type="varchar(255)" not-null="true"/>
+        </property>
+    </class>
+    <class name="database.SectionDutyRosterEntity" table="SectionDutyRoster" schema="sem4_team2">
+        <id name="sectionDutyRosterId">
+            <column name="sectionDutyRosterID" sql-type="int(11)"/>
+        </id>
+        <property name="dutyRosterStatus">
+            <column name="dutyRosterStatus" sql-type="enum('unpublished', 'published')"/>
+        </property>
+        <property name="sectionType">
+            <column name="sectionType"
+                    sql-type="enum('violin1', 'violin2', 'viola', 'violincello', 'doublebass', 'woodwind', 'brass', 'percussion')"
+                    precision="-1"/>
+        </property>
+    </class>
+    <class name="database.SpecialInstrumentationEntity" table="SpecialInstrumentation" schema="sem4_team2">
+        <id name="specialInstrumentationId">
+            <column name="specialInstrumentationID" sql-type="int(11)"/>
+        </id>
+        <property name="sectionType">
+            <column name="sectionType"
+                    sql-type="enum('violin1', 'violin2', 'viola', 'violincello', 'doublebass', 'woodwind', 'brass', 'percussion')"
+                    precision="-1"/>
+        </property>
+        <property name="instrumentationId">
+            <column name="instrumentationID" sql-type="int(11)"/>
+        </property>
+        <property name="specialInstrument">
+            <column name="specialInstrument" sql-type="varchar(255)"/>
+        </property>
+        <property name="specialInstrumentationNumber">
+            <column name="specialInstrumentationNumber" sql-type="int(11)"/>
+        </property>
+    </class>
+    <class name="database.StringInstrumentationEntity" table="StringInstrumentation" schema="sem4_team2">
+        <id name="stringInstrumentationId">
+            <column name="stringInstrumentationID" sql-type="int(11)"/>
+        </id>
+        <property name="violin1">
+            <column name="violin1" sql-type="int(11)"/>
+        </property>
+        <property name="violin2">
+            <column name="violin2" sql-type="int(11)"/>
+        </property>
+        <property name="viola">
+            <column name="viola" sql-type="int(11)"/>
+        </property>
+        <property name="violincello">
+            <column name="violincello" sql-type="int(11)"/>
+        </property>
+        <property name="doublebass">
+            <column name="doublebass" sql-type="int(11)"/>
+        </property>
+    </class>
+    <class name="database.WoodInstrumentationEntity" table="WoodInstrumentation" schema="sem4_team2">
+        <id name="woodInstrumentationId">
+            <column name="woodInstrumentationID" sql-type="int(11)"/>
+        </id>
+        <property name="flute">
+            <column name="flute" sql-type="int(11)"/>
+        </property>
+        <property name="oboe">
+            <column name="oboe" sql-type="int(11)"/>
+        </property>
+        <property name="clarinet">
+            <column name="clarinet" sql-type="int(11)"/>
+        </property>
+        <property name="bassoon">
+            <column name="bassoon" sql-type="int(11)"/>
+        </property>
+    </class>
+</hibernate-mapping>

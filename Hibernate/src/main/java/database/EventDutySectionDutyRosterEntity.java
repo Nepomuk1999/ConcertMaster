@@ -1,0 +1,54 @@
+package database;
+
+import javax.persistence.*;
+
+/**
+ * Created by Home on 06.04.2017.
+ */
+@Entity
+@Table(name = "EventDuty_SectionDutyRoster", schema = "sem4_team2")
+@IdClass(EventDutySectionDutyRosterEntityPK.class)
+public class EventDutySectionDutyRosterEntity {
+    private int eventDuty;
+    private int sectionDutyRoster;
+
+    @Id
+    @Column(name = "eventDuty", nullable = false)
+    public int getEventDuty() {
+        return eventDuty;
+    }
+
+    public void setEventDuty(int eventDuty) {
+        this.eventDuty = eventDuty;
+    }
+
+    @Id
+    @Column(name = "sectionDutyRoster", nullable = false)
+    public int getSectionDutyRoster() {
+        return sectionDutyRoster;
+    }
+
+    public void setSectionDutyRoster(int sectionDutyRoster) {
+        this.sectionDutyRoster = sectionDutyRoster;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EventDutySectionDutyRosterEntity that = (EventDutySectionDutyRosterEntity) o;
+
+        if (eventDuty != that.eventDuty) return false;
+        if (sectionDutyRoster != that.sectionDutyRoster) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = eventDuty;
+        result = 31 * result + sectionDutyRoster;
+        return result;
+    }
+}
