@@ -3,16 +3,17 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "SpecialInstrumentation", schema = "sem4_team2")
+@Table(name = "SpecialInstrumentation", schema = "sem4_team2", catalog = "")
 public class SpecialInstrumentationEntity {
     private int specialInstrumentationId;
     private Enum sectionType;
     private int instrumentationId;
     private String specialInstrument;
     private int specialInstrumentationNumber;
+    private InstrumentationEntity instrumentationByInstrumentationId;
 
     @Id
     @Column(name = "specialInstrumentationID", nullable = false)
@@ -89,5 +90,15 @@ public class SpecialInstrumentationEntity {
         result = 31 * result + (specialInstrument != null ? specialInstrument.hashCode() : 0);
         result = 31 * result + specialInstrumentationNumber;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "instrumentationID", referencedColumnName = "instrumentationID", nullable = false, insertable = false, updatable = false)
+    public InstrumentationEntity getInstrumentationByInstrumentationId() {
+        return instrumentationByInstrumentationId;
+    }
+
+    public void setInstrumentationByInstrumentationId(InstrumentationEntity instrumentationByInstrumentationId) {
+        this.instrumentationByInstrumentationId = instrumentationByInstrumentationId;
     }
 }

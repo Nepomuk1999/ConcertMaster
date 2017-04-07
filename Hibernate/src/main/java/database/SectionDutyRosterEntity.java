@@ -1,16 +1,18 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "SectionDutyRoster", schema = "sem4_team2")
+@Table(name = "SectionDutyRoster", schema = "sem4_team2", catalog = "")
 public class SectionDutyRosterEntity {
     private int sectionDutyRosterId;
     private Enum dutyRosterStatus;
     private Enum sectionType;
+    private Collection<EventDutySectionDutyRosterEntity> eventDutySectionDutyRostersBySectionDutyRosterId;
 
     @Id
     @Column(name = "sectionDutyRosterID", nullable = false)
@@ -63,5 +65,14 @@ public class SectionDutyRosterEntity {
         result = 31 * result + (dutyRosterStatus != null ? dutyRosterStatus.hashCode() : 0);
         result = 31 * result + (sectionType != null ? sectionType.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "sectionDutyRosterBySectionDutyRoster")
+    public Collection<EventDutySectionDutyRosterEntity> getEventDutySectionDutyRostersBySectionDutyRosterId() {
+        return eventDutySectionDutyRostersBySectionDutyRosterId;
+    }
+
+    public void setEventDutySectionDutyRostersBySectionDutyRosterId(Collection<EventDutySectionDutyRosterEntity> eventDutySectionDutyRostersBySectionDutyRosterId) {
+        this.eventDutySectionDutyRostersBySectionDutyRosterId = eventDutySectionDutyRostersBySectionDutyRosterId;
     }
 }

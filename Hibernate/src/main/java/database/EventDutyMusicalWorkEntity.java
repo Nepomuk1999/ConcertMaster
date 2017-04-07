@@ -3,15 +3,18 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "EventDuty_MusicalWork", schema = "sem4_team2")
+@Table(name = "EventDuty_MusicalWork", schema = "sem4_team2", catalog = "")
 @IdClass(EventDutyMusicalWorkEntityPK.class)
 public class EventDutyMusicalWorkEntity {
     private int eventDuty;
     private int musicalWork;
     private Integer alternativeInstrumentation;
+    private EventDutyEntity eventDutyByEventDuty;
+    private MusicalWorkEntity musicalWorkByMusicalWork;
+    private InstrumentationEntity instrumentationByAlternativeInstrumentation;
 
     @Id
     @Column(name = "eventDuty", nullable = false)
@@ -64,5 +67,35 @@ public class EventDutyMusicalWorkEntity {
         result = 31 * result + musicalWork;
         result = 31 * result + (alternativeInstrumentation != null ? alternativeInstrumentation.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "eventDuty", referencedColumnName = "eventDutyID", nullable = false, insertable = false, updatable = false)
+    public EventDutyEntity getEventDutyByEventDuty() {
+        return eventDutyByEventDuty;
+    }
+
+    public void setEventDutyByEventDuty(EventDutyEntity eventDutyByEventDuty) {
+        this.eventDutyByEventDuty = eventDutyByEventDuty;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "musicalWork", referencedColumnName = "musicalWorkID", nullable = false, insertable = false, updatable = false)
+    public MusicalWorkEntity getMusicalWorkByMusicalWork() {
+        return musicalWorkByMusicalWork;
+    }
+
+    public void setMusicalWorkByMusicalWork(MusicalWorkEntity musicalWorkByMusicalWork) {
+        this.musicalWorkByMusicalWork = musicalWorkByMusicalWork;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "alternativeInstrumentation", referencedColumnName = "instrumentationID", insertable = false, updatable = false)
+    public InstrumentationEntity getInstrumentationByAlternativeInstrumentation() {
+        return instrumentationByAlternativeInstrumentation;
+    }
+
+    public void setInstrumentationByAlternativeInstrumentation(InstrumentationEntity instrumentationByAlternativeInstrumentation) {
+        this.instrumentationByAlternativeInstrumentation = instrumentationByAlternativeInstrumentation;
     }
 }

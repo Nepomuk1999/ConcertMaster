@@ -1,18 +1,20 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "WoodInstrumentation", schema = "sem4_team2")
+@Table(name = "WoodInstrumentation", schema = "sem4_team2", catalog = "")
 public class WoodInstrumentationEntity {
     private int woodInstrumentationId;
     private int flute;
     private int oboe;
     private int clarinet;
     private int bassoon;
+    private Collection<InstrumentationEntity> instrumentationsByWoodInstrumentationId;
 
     @Id
     @Column(name = "woodInstrumentationID", nullable = false)
@@ -88,5 +90,14 @@ public class WoodInstrumentationEntity {
         result = 31 * result + clarinet;
         result = 31 * result + bassoon;
         return result;
+    }
+
+    @OneToMany(mappedBy = "woodInstrumentationByWoodInstrumentation")
+    public Collection<InstrumentationEntity> getInstrumentationsByWoodInstrumentationId() {
+        return instrumentationsByWoodInstrumentationId;
+    }
+
+    public void setInstrumentationsByWoodInstrumentationId(Collection<InstrumentationEntity> instrumentationsByWoodInstrumentationId) {
+        this.instrumentationsByWoodInstrumentationId = instrumentationsByWoodInstrumentationId;
     }
 }

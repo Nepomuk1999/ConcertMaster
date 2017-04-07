@@ -1,4 +1,6 @@
-import database.EventDutyEntity;
+package main;
+
+import hibernate.EventDutyEntity;
 import enums.EventStatus;
 import enums.EventType;
 import org.hibernate.Session;
@@ -10,10 +12,14 @@ import java.sql.Timestamp;
  * Created by Christoph on 07.04.2017.
  */
 public class Facade {
-    SessionFactory sessionFactory;
+    Session _session;
+
+    public Facade(Session session) {
+        _session = session;
+    }
 
     protected Session getCurrentSession(){
-        return sessionFactory.getCurrentSession();
+        return _session;
     }
 
     /**

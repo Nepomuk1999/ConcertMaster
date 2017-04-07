@@ -3,18 +3,15 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
- */
-
-/**
- * , catalog = ""aus @Table am Schluss entfernt
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "Person_OrchestraRole", schema = "sem4_team2")
+@Table(name = "Person_OrchestraRole", schema = "sem4_team2", catalog = "")
 @IdClass(PersonOrchestraRoleEntityPK.class)
 public class PersonOrchestraRoleEntity {
     private int person;
     private Enum orchestraRole;
+    private PersonEntity personByPerson;
 
     @Id
     @Column(name = "person", nullable = false)
@@ -55,5 +52,15 @@ public class PersonOrchestraRoleEntity {
         int result = person;
         result = 31 * result + (orchestraRole != null ? orchestraRole.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "person", referencedColumnName = "personId", nullable = false, insertable = false, updatable = false)
+    public PersonEntity getPersonByPerson() {
+        return personByPerson;
+    }
+
+    public void setPersonByPerson(PersonEntity personByPerson) {
+        this.personByPerson = personByPerson;
     }
 }

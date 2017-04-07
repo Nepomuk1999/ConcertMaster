@@ -3,14 +3,16 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "EventDuty_SectionDutyRoster", schema = "sem4_team2")
+@Table(name = "EventDuty_SectionDutyRoster", schema = "sem4_team2", catalog = "")
 @IdClass(EventDutySectionDutyRosterEntityPK.class)
 public class EventDutySectionDutyRosterEntity {
     private int eventDuty;
     private int sectionDutyRoster;
+    private EventDutyEntity eventDutyByEventDuty;
+    private SectionDutyRosterEntity sectionDutyRosterBySectionDutyRoster;
 
     @Id
     @Column(name = "eventDuty", nullable = false)
@@ -50,5 +52,25 @@ public class EventDutySectionDutyRosterEntity {
         int result = eventDuty;
         result = 31 * result + sectionDutyRoster;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "eventDuty", referencedColumnName = "eventDutyID", nullable = false, insertable = false, updatable = false)
+    public EventDutyEntity getEventDutyByEventDuty() {
+        return eventDutyByEventDuty;
+    }
+
+    public void setEventDutyByEventDuty(EventDutyEntity eventDutyByEventDuty) {
+        this.eventDutyByEventDuty = eventDutyByEventDuty;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "sectionDutyRoster", referencedColumnName = "sectionDutyRosterID", nullable = false, insertable = false, updatable = false)
+    public SectionDutyRosterEntity getSectionDutyRosterBySectionDutyRoster() {
+        return sectionDutyRosterBySectionDutyRoster;
+    }
+
+    public void setSectionDutyRosterBySectionDutyRoster(SectionDutyRosterEntity sectionDutyRosterBySectionDutyRoster) {
+        this.sectionDutyRosterBySectionDutyRoster = sectionDutyRosterBySectionDutyRoster;
     }
 }

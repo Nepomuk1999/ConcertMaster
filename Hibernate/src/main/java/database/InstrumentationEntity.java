@@ -1,18 +1,27 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "Instrumentation", schema = "sem4_team2")
+@Table(name = "Instrumentation", schema = "sem4_team2", catalog = "")
 public class InstrumentationEntity {
     private int instrumentationId;
     private int stringInstrumentation;
     private int woodInstrumentation;
     private int brassInstrumentation;
     private int percussionInstrumentation;
+    private Collection<EventDutyEntity> eventDutiesByInstrumentationId;
+    private Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByInstrumentationId;
+    private StringInstrumentationEntity stringInstrumentationByStringInstrumentation;
+    private WoodInstrumentationEntity woodInstrumentationByWoodInstrumentation;
+    private BrassInstrumentationEntity brassInstrumentationByBrassInstrumentation;
+    private PercussionInstrumentationEntity percussionInstrumentationByPercussionInstrumentation;
+    private Collection<MusicalWorkEntity> musicalWorksByInstrumentationId;
+    private Collection<SpecialInstrumentationEntity> specialInstrumentationsByInstrumentationId;
 
     @Id
     @Column(name = "instrumentationID", nullable = false)
@@ -88,5 +97,81 @@ public class InstrumentationEntity {
         result = 31 * result + brassInstrumentation;
         result = 31 * result + percussionInstrumentation;
         return result;
+    }
+
+    @OneToMany(mappedBy = "instrumentationByInstrumentation")
+    public Collection<EventDutyEntity> getEventDutiesByInstrumentationId() {
+        return eventDutiesByInstrumentationId;
+    }
+
+    public void setEventDutiesByInstrumentationId(Collection<EventDutyEntity> eventDutiesByInstrumentationId) {
+        this.eventDutiesByInstrumentationId = eventDutiesByInstrumentationId;
+    }
+
+    @OneToMany(mappedBy = "instrumentationByAlternativeInstrumentation")
+    public Collection<EventDutyMusicalWorkEntity> getEventDutyMusicalWorksByInstrumentationId() {
+        return eventDutyMusicalWorksByInstrumentationId;
+    }
+
+    public void setEventDutyMusicalWorksByInstrumentationId(Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByInstrumentationId) {
+        this.eventDutyMusicalWorksByInstrumentationId = eventDutyMusicalWorksByInstrumentationId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "stringInstrumentation", referencedColumnName = "stringInstrumentationID", nullable = false, insertable = false, updatable = false)
+    public StringInstrumentationEntity getStringInstrumentationByStringInstrumentation() {
+        return stringInstrumentationByStringInstrumentation;
+    }
+
+    public void setStringInstrumentationByStringInstrumentation(StringInstrumentationEntity stringInstrumentationByStringInstrumentation) {
+        this.stringInstrumentationByStringInstrumentation = stringInstrumentationByStringInstrumentation;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "woodInstrumentation", referencedColumnName = "woodInstrumentationID", nullable = false, insertable = false, updatable = false)
+    public WoodInstrumentationEntity getWoodInstrumentationByWoodInstrumentation() {
+        return woodInstrumentationByWoodInstrumentation;
+    }
+
+    public void setWoodInstrumentationByWoodInstrumentation(WoodInstrumentationEntity woodInstrumentationByWoodInstrumentation) {
+        this.woodInstrumentationByWoodInstrumentation = woodInstrumentationByWoodInstrumentation;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "brassInstrumentation", referencedColumnName = "brassInstrumentationID", nullable = false, insertable = false, updatable = false)
+    public BrassInstrumentationEntity getBrassInstrumentationByBrassInstrumentation() {
+        return brassInstrumentationByBrassInstrumentation;
+    }
+
+    public void setBrassInstrumentationByBrassInstrumentation(BrassInstrumentationEntity brassInstrumentationByBrassInstrumentation) {
+        this.brassInstrumentationByBrassInstrumentation = brassInstrumentationByBrassInstrumentation;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "percussionInstrumentation", referencedColumnName = "percussionInstrumentationID", nullable = false, insertable = false, updatable = false)
+    public PercussionInstrumentationEntity getPercussionInstrumentationByPercussionInstrumentation() {
+        return percussionInstrumentationByPercussionInstrumentation;
+    }
+
+    public void setPercussionInstrumentationByPercussionInstrumentation(PercussionInstrumentationEntity percussionInstrumentationByPercussionInstrumentation) {
+        this.percussionInstrumentationByPercussionInstrumentation = percussionInstrumentationByPercussionInstrumentation;
+    }
+
+    @OneToMany(mappedBy = "instrumentationByInstrumentationId")
+    public Collection<MusicalWorkEntity> getMusicalWorksByInstrumentationId() {
+        return musicalWorksByInstrumentationId;
+    }
+
+    public void setMusicalWorksByInstrumentationId(Collection<MusicalWorkEntity> musicalWorksByInstrumentationId) {
+        this.musicalWorksByInstrumentationId = musicalWorksByInstrumentationId;
+    }
+
+    @OneToMany(mappedBy = "instrumentationByInstrumentationId")
+    public Collection<SpecialInstrumentationEntity> getSpecialInstrumentationsByInstrumentationId() {
+        return specialInstrumentationsByInstrumentationId;
+    }
+
+    public void setSpecialInstrumentationsByInstrumentationId(Collection<SpecialInstrumentationEntity> specialInstrumentationsByInstrumentationId) {
+        this.specialInstrumentationsByInstrumentationId = specialInstrumentationsByInstrumentationId;
     }
 }

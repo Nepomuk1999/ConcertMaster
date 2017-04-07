@@ -1,17 +1,20 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "MusicalWork", schema = "sem4_team2")
+@Table(name = "MusicalWork", schema = "sem4_team2", catalog = "")
 public class MusicalWorkEntity {
     private int musicalWorkId;
     private int instrumentationId;
     private String name;
     private String composer;
+    private Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByMusicalWorkId;
+    private InstrumentationEntity instrumentationByInstrumentationId;
 
     @Id
     @Column(name = "musicalWorkID", nullable = false)
@@ -75,5 +78,24 @@ public class MusicalWorkEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (composer != null ? composer.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "musicalWorkByMusicalWork")
+    public Collection<EventDutyMusicalWorkEntity> getEventDutyMusicalWorksByMusicalWorkId() {
+        return eventDutyMusicalWorksByMusicalWorkId;
+    }
+
+    public void setEventDutyMusicalWorksByMusicalWorkId(Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByMusicalWorkId) {
+        this.eventDutyMusicalWorksByMusicalWorkId = eventDutyMusicalWorksByMusicalWorkId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "instrumentationID", referencedColumnName = "instrumentationID", nullable = false, insertable = false, updatable = false)
+    public InstrumentationEntity getInstrumentationByInstrumentationId() {
+        return instrumentationByInstrumentationId;
+    }
+
+    public void setInstrumentationByInstrumentationId(InstrumentationEntity instrumentationByInstrumentationId) {
+        this.instrumentationByInstrumentationId = instrumentationByInstrumentationId;
     }
 }

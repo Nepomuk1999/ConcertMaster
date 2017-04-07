@@ -3,14 +3,16 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "Musician_Part", schema = "sem4_team2")
+@Table(name = "Musician_Part", schema = "sem4_team2", catalog = "")
 @IdClass(MusicianPartEntityPK.class)
 public class MusicianPartEntity {
     private int musician;
     private int part;
+    private PersonEntity personByMusician;
+    private PartEntity partByPart;
 
     @Id
     @Column(name = "musician", nullable = false)
@@ -50,5 +52,25 @@ public class MusicianPartEntity {
         int result = musician;
         result = 31 * result + part;
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "musician", referencedColumnName = "personId", nullable = false, insertable = false, updatable = false)
+    public PersonEntity getPersonByMusician() {
+        return personByMusician;
+    }
+
+    public void setPersonByMusician(PersonEntity personByMusician) {
+        this.personByMusician = personByMusician;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "part", referencedColumnName = "partID", nullable = false, insertable = false, updatable = false)
+    public PartEntity getPartByPart() {
+        return partByPart;
+    }
+
+    public void setPartByPart(PartEntity partByPart) {
+        this.partByPart = partByPart;
     }
 }
