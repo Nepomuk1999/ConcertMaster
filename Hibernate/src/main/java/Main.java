@@ -1,13 +1,13 @@
 import org.hibernate.HibernateException;
 import org.hibernate.Metamodel;
-import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import javax.persistence.metamodel.EntityType;
+import java.sql.Timestamp;
 
-import java.util.Map;
+import static enums.EventStatus.UNPUBLISHED;
+import static enums.EventType.OPRA;
 
 /**
  * Created by Home on 06.04.2017.
@@ -32,17 +32,16 @@ public class Main {
 
     public static void main(final String[] args) throws Exception {
         final Session session = getSession();
+        Facade facade = new Facade();
         try {
-            System.out.println("querying all the managed entities...");
+            System.out.println("Testing to add Entities in Database ...");
             final Metamodel metamodel = session.getSessionFactory().getMetamodel();
-            for (EntityType<?> entityType : metamodel.getEntities()) {
-                final String entityName = entityType.getName();
-                final Query query = session.createQuery("from " + entityName);
-                System.out.println("executing: " + query.getQueryString());
-                for (Object o : query.list()) {
-                    System.out.println("  " + o);
-                }
-            }
+
+            Timestamp s = new Timestamp(2017,6,12,18,00, 00, 00);
+            Timestamp e = new Timestamp(2017,6,12,22,00, 00, 00);
+
+            facade.addEvent("TestEvent", "dies ist ein Test", s, e, OPRA, UNPUBLISHED, "Test Conductor", "Opernhaus", 2, 1);
+
         } finally {
             session.close();
         }
