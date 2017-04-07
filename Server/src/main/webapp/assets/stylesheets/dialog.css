@@ -1,0 +1,11 @@
+.dialog {
+    z-index: 999999 !important;
+}
+
+.ui-dialog {
+    z-index: 999999 !important;
+}
+
+.ui-dialog-titlebar-close {
+    display: none;
+}
