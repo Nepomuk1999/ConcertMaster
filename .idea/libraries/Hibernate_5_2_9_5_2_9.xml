@@ -12,7 +12,7 @@
       <root url="jar://$PROJECT_DIR$/Hibernate/lib/jboss-logging-3.3.0.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/Hibernate/lib/javassist-3.20.0-GA.jar!/" />
       <root url="jar://$PROJECT_DIR$/Hibernate/lib/hibernate-core-5.2.9.Final.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../Treiber/mysql-connector-java-5.1.23-bin.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

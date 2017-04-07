@@ -4,6 +4,7 @@ import enums.EventType;
 import org.hibernate.Session;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by Christoph on 07.04.2017.
@@ -56,5 +57,16 @@ public class Facade {
         session.getTransaction().commit();
 
         return event.getEventDutyId();
+    }
+
+    public void getEvents() {
+        Session session = getCurrentSession();
+        session.getTransaction().begin();
+
+        List<EventDutyEntity> events = (List<EventDutyEntity>) session.createQuery("from database.EventDutyEntity").list();
+
+        for (EventDutyEntity e : events) {
+            System.out.println(e.getName());
+        }
     }
 }

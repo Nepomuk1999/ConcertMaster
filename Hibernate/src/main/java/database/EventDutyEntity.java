@@ -1,4 +1,6 @@
 package database;
+import enums.EventType;
+import enums.EventStatus;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,8 +17,8 @@ public class EventDutyEntity {
     private String description;
     private Timestamp starttime;
     private Timestamp endtime;
-    private Enum eventType;
-    private Enum eventStatus;
+    private EventType eventType;
+    private EventStatus eventStatus;
     private String conductor;
     private String location;
     private Integer rehearsalFor;
@@ -82,21 +84,23 @@ public class EventDutyEntity {
 
     @Basic
     @Column(name = "eventType", nullable = false)
-    public Enum getEventType() {
+    @Enumerated(EnumType.STRING)
+    public EventType getEventType() {
         return eventType;
     }
 
-    public void setEventType(Enum eventType) {
+    public void setEventType(EventType eventType) {
         this.eventType = eventType;
     }
 
     @Basic
     @Column(name = "eventStatus", nullable = false)
-    public Enum getEventStatus() {
+    @Enumerated(EnumType.STRING)
+    public EventStatus getEventStatus() {
         return eventStatus;
     }
 
-    public void setEventStatus(Enum eventStatus) {
+    public void setEventStatus(EventStatus eventStatus) {
         this.eventStatus = eventStatus;
     }
 
