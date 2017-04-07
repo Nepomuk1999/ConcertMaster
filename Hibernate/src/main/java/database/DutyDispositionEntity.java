@@ -3,10 +3,10 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "DutyDisposition", schema = "sem4_team2")
+@Table(name = "DutyDisposition", schema = "sem4_team2", catalog = "")
 @IdClass(DutyDispositionEntityPK.class)
 public class DutyDispositionEntity {
     private int eventDuty;
@@ -14,6 +14,8 @@ public class DutyDispositionEntity {
     private double points;
     private String description;
     private Enum dutyDispositionStatus;
+    private EventDutyEntity eventDutyByEventDuty;
+    private PersonEntity personByMusician;
 
     @Id
     @Column(name = "eventDuty", nullable = false)
@@ -93,5 +95,25 @@ public class DutyDispositionEntity {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (dutyDispositionStatus != null ? dutyDispositionStatus.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "eventDuty", referencedColumnName = "eventDutyID", nullable = false, insertable = false, updatable = false)
+    public EventDutyEntity getEventDutyByEventDuty() {
+        return eventDutyByEventDuty;
+    }
+
+    public void setEventDutyByEventDuty(EventDutyEntity eventDutyByEventDuty) {
+        this.eventDutyByEventDuty = eventDutyByEventDuty;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "musician", referencedColumnName = "personId", nullable = false, insertable = false, updatable = false)
+    public PersonEntity getPersonByMusician() {
+        return personByMusician;
+    }
+
+    public void setPersonByMusician(PersonEntity personByMusician) {
+        this.personByMusician = personByMusician;
     }
 }

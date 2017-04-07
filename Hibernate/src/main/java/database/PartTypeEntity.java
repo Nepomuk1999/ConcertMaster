@@ -1,15 +1,17 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "PartType", schema = "sem4_team2")
+@Table(name = "PartType", schema = "sem4_team2", catalog = "")
 public class PartTypeEntity {
     private int partTypeId;
     private String partType;
+    private Collection<PartEntity> partsByPartTypeId;
 
     @Id
     @Column(name = "partTypeID", nullable = false)
@@ -49,5 +51,14 @@ public class PartTypeEntity {
         int result = partTypeId;
         result = 31 * result + (partType != null ? partType.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "partTypeByPartType")
+    public Collection<PartEntity> getPartsByPartTypeId() {
+        return partsByPartTypeId;
+    }
+
+    public void setPartsByPartTypeId(Collection<PartEntity> partsByPartTypeId) {
+        this.partsByPartTypeId = partsByPartTypeId;
     }
 }

@@ -1,3 +1,5 @@
+
+
 import org.hibernate.HibernateException;
 import org.hibernate.Metamodel;
 import org.hibernate.Session;
@@ -32,7 +34,7 @@ public class Main {
 
     public static void main(final String[] args) throws Exception {
         final Session session = getSession();
-        Facade facade = new Facade();
+        Facade facade = new Facade(session);
         try {
             System.out.println("Testing to add Entities in Database ...");
             final Metamodel metamodel = session.getSessionFactory().getMetamodel();

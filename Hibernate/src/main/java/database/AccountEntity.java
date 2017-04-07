@@ -1,19 +1,19 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
-
-//, catalog = ""aus @Table am Schluss entfernt
 @Entity
-@Table(name = "Account", schema = "sem4_team2")
+@Table(name = "Account", schema = "sem4_team2", catalog = "")
 public class AccountEntity {
     private int accountId;
     private String username;
     private String password;
     private Enum accountRole;
+    private Collection<PersonEntity> peopleByAccountId;
 
     @Id
     @Column(name = "accountID", nullable = false)
@@ -77,5 +77,14 @@ public class AccountEntity {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (accountRole != null ? accountRole.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "accountByAccount")
+    public Collection<PersonEntity> getPeopleByAccountId() {
+        return peopleByAccountId;
+    }
+
+    public void setPeopleByAccountId(Collection<PersonEntity> peopleByAccountId) {
+        this.peopleByAccountId = peopleByAccountId;
     }
 }

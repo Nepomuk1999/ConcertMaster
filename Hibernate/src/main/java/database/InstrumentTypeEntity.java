@@ -1,17 +1,17 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
-
-//, catalog = ""aus @Table am Schluss entfernt
 @Entity
-@Table(name = "InstrumentType", schema = "sem4_team2")
+@Table(name = "InstrumentType", schema = "sem4_team2", catalog = "")
 public class InstrumentTypeEntity {
     private int instrumentTypeId;
     private String instrumentType;
+    private Collection<InstrumentEntity> instrumentsByInstrumentTypeId;
 
     @Id
     @Column(name = "instrumentTypeID", nullable = false)
@@ -52,5 +52,14 @@ public class InstrumentTypeEntity {
         int result = instrumentTypeId;
         result = 31 * result + (instrumentType != null ? instrumentType.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "instrumentTypeByInstrumentType")
+    public Collection<InstrumentEntity> getInstrumentsByInstrumentTypeId() {
+        return instrumentsByInstrumentTypeId;
+    }
+
+    public void setInstrumentsByInstrumentTypeId(Collection<InstrumentEntity> instrumentsByInstrumentTypeId) {
+        this.instrumentsByInstrumentTypeId = instrumentsByInstrumentTypeId;
     }
 }

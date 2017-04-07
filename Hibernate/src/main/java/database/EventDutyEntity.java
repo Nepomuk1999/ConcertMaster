@@ -2,12 +2,13 @@ package database;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "EventDuty", schema = "sem4_team2")
+@Table(name = "EventDuty", schema = "sem4_team2", catalog = "")
 public class EventDutyEntity {
     private int eventDutyId;
     private String name;
@@ -21,6 +22,13 @@ public class EventDutyEntity {
     private Integer rehearsalFor;
     private double defaultPoints;
     private Integer instrumentation;
+    private Collection<DutyDispositionEntity> dutyDispositionsByEventDutyId;
+    private EventDutyEntity eventDutyByRehearsalFor;
+    private Collection<EventDutyEntity> eventDutiesByEventDutyId;
+    private InstrumentationEntity instrumentationByInstrumentation;
+    private Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByEventDutyId;
+    private Collection<EventDutySectionDutyRosterEntity> eventDutySectionDutyRostersByEventDutyId;
+    private Collection<RequestEntity> requestsByEventDutyId;
 
     @Id
     @Column(name = "eventDutyID", nullable = false)
@@ -184,5 +192,70 @@ public class EventDutyEntity {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (instrumentation != null ? instrumentation.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "eventDutyByEventDuty")
+    public Collection<DutyDispositionEntity> getDutyDispositionsByEventDutyId() {
+        return dutyDispositionsByEventDutyId;
+    }
+
+    public void setDutyDispositionsByEventDutyId(Collection<DutyDispositionEntity> dutyDispositionsByEventDutyId) {
+        this.dutyDispositionsByEventDutyId = dutyDispositionsByEventDutyId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "rehearsalFor", referencedColumnName = "eventDutyID", insertable = false, updatable = false)
+    public EventDutyEntity getEventDutyByRehearsalFor() {
+        return eventDutyByRehearsalFor;
+    }
+
+    public void setEventDutyByRehearsalFor(EventDutyEntity eventDutyByRehearsalFor) {
+        this.eventDutyByRehearsalFor = eventDutyByRehearsalFor;
+    }
+
+    @OneToMany(mappedBy = "eventDutyByRehearsalFor")
+    public Collection<EventDutyEntity> getEventDutiesByEventDutyId() {
+        return eventDutiesByEventDutyId;
+    }
+
+    public void setEventDutiesByEventDutyId(Collection<EventDutyEntity> eventDutiesByEventDutyId) {
+        this.eventDutiesByEventDutyId = eventDutiesByEventDutyId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "instrumentation", referencedColumnName = "instrumentationID", insertable = false, updatable = false)
+    public InstrumentationEntity getInstrumentationByInstrumentation() {
+        return instrumentationByInstrumentation;
+    }
+
+    public void setInstrumentationByInstrumentation(InstrumentationEntity instrumentationByInstrumentation) {
+        this.instrumentationByInstrumentation = instrumentationByInstrumentation;
+    }
+
+    @OneToMany(mappedBy = "eventDutyByEventDuty")
+    public Collection<EventDutyMusicalWorkEntity> getEventDutyMusicalWorksByEventDutyId() {
+        return eventDutyMusicalWorksByEventDutyId;
+    }
+
+    public void setEventDutyMusicalWorksByEventDutyId(Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByEventDutyId) {
+        this.eventDutyMusicalWorksByEventDutyId = eventDutyMusicalWorksByEventDutyId;
+    }
+
+    @OneToMany(mappedBy = "eventDutyByEventDuty")
+    public Collection<EventDutySectionDutyRosterEntity> getEventDutySectionDutyRostersByEventDutyId() {
+        return eventDutySectionDutyRostersByEventDutyId;
+    }
+
+    public void setEventDutySectionDutyRostersByEventDutyId(Collection<EventDutySectionDutyRosterEntity> eventDutySectionDutyRostersByEventDutyId) {
+        this.eventDutySectionDutyRostersByEventDutyId = eventDutySectionDutyRostersByEventDutyId;
+    }
+
+    @OneToMany(mappedBy = "eventDutyByEventDuty")
+    public Collection<RequestEntity> getRequestsByEventDutyId() {
+        return requestsByEventDutyId;
+    }
+
+    public void setRequestsByEventDutyId(Collection<RequestEntity> requestsByEventDutyId) {
+        this.requestsByEventDutyId = requestsByEventDutyId;
     }
 }

@@ -1,12 +1,13 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "StringInstrumentation", schema = "sem4_team2")
+@Table(name = "StringInstrumentation", schema = "sem4_team2", catalog = "")
 public class StringInstrumentationEntity {
     private int stringInstrumentationId;
     private int violin1;
@@ -14,6 +15,7 @@ public class StringInstrumentationEntity {
     private int viola;
     private int violincello;
     private int doublebass;
+    private Collection<InstrumentationEntity> instrumentationsByStringInstrumentationId;
 
     @Id
     @Column(name = "stringInstrumentationID", nullable = false)
@@ -101,5 +103,14 @@ public class StringInstrumentationEntity {
         result = 31 * result + violincello;
         result = 31 * result + doublebass;
         return result;
+    }
+
+    @OneToMany(mappedBy = "stringInstrumentationByStringInstrumentation")
+    public Collection<InstrumentationEntity> getInstrumentationsByStringInstrumentationId() {
+        return instrumentationsByStringInstrumentationId;
+    }
+
+    public void setInstrumentationsByStringInstrumentationId(Collection<InstrumentationEntity> instrumentationsByStringInstrumentationId) {
+        this.instrumentationsByStringInstrumentationId = instrumentationsByStringInstrumentationId;
     }
 }

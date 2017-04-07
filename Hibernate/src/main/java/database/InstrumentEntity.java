@@ -3,10 +3,10 @@ package database;
 import javax.persistence.*;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "Instrument", schema = "sem4_team2")
+@Table(name = "Instrument", schema = "sem4_team2", catalog = "")
 public class InstrumentEntity {
     private int instrumentId;
     private int instrumentType;
@@ -14,6 +14,8 @@ public class InstrumentEntity {
     private String model;
     private String description;
     private Integer musician;
+    private InstrumentTypeEntity instrumentTypeByInstrumentType;
+    private PersonEntity personByMusician;
 
     @Id
     @Column(name = "instrumentID", nullable = false)
@@ -101,5 +103,25 @@ public class InstrumentEntity {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (musician != null ? musician.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "instrumentType", referencedColumnName = "instrumentTypeID", nullable = false, insertable = false, updatable = false)
+    public InstrumentTypeEntity getInstrumentTypeByInstrumentType() {
+        return instrumentTypeByInstrumentType;
+    }
+
+    public void setInstrumentTypeByInstrumentType(InstrumentTypeEntity instrumentTypeByInstrumentType) {
+        this.instrumentTypeByInstrumentType = instrumentTypeByInstrumentType;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "musician", referencedColumnName = "personId", insertable = false, updatable = false)
+    public PersonEntity getPersonByMusician() {
+        return personByMusician;
+    }
+
+    public void setPersonByMusician(PersonEntity personByMusician) {
+        this.personByMusician = personByMusician;
     }
 }

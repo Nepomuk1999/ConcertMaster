@@ -14,7 +14,6 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="database.AccountEntity"/>
-        <mapping resource="hibernateMapping.hbm.xml"/>
         <mapping class="database.BrassInstrumentationEntity"/>
         <mapping class="database.DutyDispositionEntity"/>
         <mapping class="database.EventDutyEntity"/>

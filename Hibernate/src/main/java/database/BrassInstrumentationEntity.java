@@ -1,18 +1,20 @@
-package database;;
+package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "BrassInstrumentation", schema = "sem4_team2")
+@Table(name = "BrassInstrumentation", schema = "sem4_team2", catalog = "")
 public class BrassInstrumentationEntity {
     private int brassInstrumentationId;
     private int horn;
     private int trumpet;
     private int trombone;
     private int tube;
+    private Collection<InstrumentationEntity> instrumentationsByBrassInstrumentationId;
 
     @Id
     @Column(name = "brassInstrumentationID", nullable = false)
@@ -88,5 +90,14 @@ public class BrassInstrumentationEntity {
         result = 31 * result + trombone;
         result = 31 * result + tube;
         return result;
+    }
+
+    @OneToMany(mappedBy = "brassInstrumentationByBrassInstrumentation")
+    public Collection<InstrumentationEntity> getInstrumentationsByBrassInstrumentationId() {
+        return instrumentationsByBrassInstrumentationId;
+    }
+
+    public void setInstrumentationsByBrassInstrumentationId(Collection<InstrumentationEntity> instrumentationsByBrassInstrumentationId) {
+        this.instrumentationsByBrassInstrumentationId = instrumentationsByBrassInstrumentationId;
     }
 }

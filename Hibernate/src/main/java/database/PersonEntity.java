@@ -1,12 +1,13 @@
 package database;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by Home on 06.04.2017.
+ * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "Person", schema = "sem4_team2")
+@Table(name = "Person", schema = "sem4_team2", catalog = "")
 public class PersonEntity {
     private int personId;
     private String initials;
@@ -18,6 +19,12 @@ public class PersonEntity {
     private String phoneNumber;
     private Enum personRole;
     private Integer account;
+    private Collection<DutyDispositionEntity> dutyDispositionsByPersonId;
+    private Collection<InstrumentEntity> instrumentsByPersonId;
+    private Collection<MusicianPartEntity> musicianPartsByPersonId;
+    private AccountEntity accountByAccount;
+    private Collection<PersonOrchestraRoleEntity> personOrchestraRolesByPersonId;
+    private Collection<RequestEntity> requestsByPersonId;
 
     @Id
     @Column(name = "personId", nullable = false)
@@ -153,5 +160,60 @@ public class PersonEntity {
         result = 31 * result + (personRole != null ? personRole.hashCode() : 0);
         result = 31 * result + (account != null ? account.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "personByMusician")
+    public Collection<DutyDispositionEntity> getDutyDispositionsByPersonId() {
+        return dutyDispositionsByPersonId;
+    }
+
+    public void setDutyDispositionsByPersonId(Collection<DutyDispositionEntity> dutyDispositionsByPersonId) {
+        this.dutyDispositionsByPersonId = dutyDispositionsByPersonId;
+    }
+
+    @OneToMany(mappedBy = "personByMusician")
+    public Collection<InstrumentEntity> getInstrumentsByPersonId() {
+        return instrumentsByPersonId;
+    }
+
+    public void setInstrumentsByPersonId(Collection<InstrumentEntity> instrumentsByPersonId) {
+        this.instrumentsByPersonId = instrumentsByPersonId;
+    }
+
+    @OneToMany(mappedBy = "personByMusician")
+    public Collection<MusicianPartEntity> getMusicianPartsByPersonId() {
+        return musicianPartsByPersonId;
+    }
+
+    public void setMusicianPartsByPersonId(Collection<MusicianPartEntity> musicianPartsByPersonId) {
+        this.musicianPartsByPersonId = musicianPartsByPersonId;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "account", referencedColumnName = "accountID", insertable = false, updatable = false)
+    public AccountEntity getAccountByAccount() {
+        return accountByAccount;
+    }
+
+    public void setAccountByAccount(AccountEntity accountByAccount) {
+        this.accountByAccount = accountByAccount;
+    }
+
+    @OneToMany(mappedBy = "personByPerson")
+    public Collection<PersonOrchestraRoleEntity> getPersonOrchestraRolesByPersonId() {
+        return personOrchestraRolesByPersonId;
+    }
+
+    public void setPersonOrchestraRolesByPersonId(Collection<PersonOrchestraRoleEntity> personOrchestraRolesByPersonId) {
+        this.personOrchestraRolesByPersonId = personOrchestraRolesByPersonId;
+    }
+
+    @OneToMany(mappedBy = "personByMusician")
+    public Collection<RequestEntity> getRequestsByPersonId() {
+        return requestsByPersonId;
+    }
+
+    public void setRequestsByPersonId(Collection<RequestEntity> requestsByPersonId) {
+        this.requestsByPersonId = requestsByPersonId;
     }
 }
