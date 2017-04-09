@@ -13,27 +13,27 @@
         <property name="connection.password">8fpE?2j2E6kis2~9</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="database.AccountEntity"/>
-        <mapping class="database.BrassInstrumentationEntity"/>
-        <mapping class="database.DutyDispositionEntity"/>
-        <mapping class="database.EventDutyEntity"/>
-        <mapping class="database.EventDutyMusicalWorkEntity"/>
-        <mapping class="database.EventDutySectionDutyRosterEntity"/>
-        <mapping class="database.InstrumentEntity"/>
-        <mapping class="database.InstrumentTypeEntity"/>
-        <mapping class="database.InstrumentationEntity"/>
-        <mapping class="database.MusicalWorkEntity"/>
-        <mapping class="database.MusicianPartEntity"/>
-        <mapping class="database.PartEntity"/>
-        <mapping class="database.PartTypeEntity"/>
-        <mapping class="database.PercussionInstrumentationEntity"/>
-        <mapping class="database.PersonEntity"/>
-        <mapping class="database.PersonOrchestraRoleEntity"/>
-        <mapping class="database.RequestEntity"/>
-        <mapping class="database.SectionDutyRosterEntity"/>
-        <mapping class="database.SpecialInstrumentationEntity"/>
-        <mapping class="database.StringInstrumentationEntity"/>
-        <mapping class="database.WoodInstrumentationEntity"/>
+        <mapping class="team_f.database_wrapper.database.AccountEntity"/>
+        <mapping class="team_f.database_wrapper.database.BrassInstrumentationEntity"/>
+        <mapping class="team_f.database_wrapper.database.DutyDispositionEntity"/>
+        <mapping class="team_f.database_wrapper.database.EventDutyEntity"/>
+        <mapping class="team_f.database_wrapper.database.EventDutyMusicalWorkEntity"/>
+        <mapping class="team_f.database_wrapper.database.EventDutySectionDutyRosterEntity"/>
+        <mapping class="team_f.database_wrapper.database.InstrumentEntity"/>
+        <mapping class="team_f.database_wrapper.database.InstrumentTypeEntity"/>
+        <mapping class="team_f.database_wrapper.database.InstrumentationEntity"/>
+        <mapping class="team_f.database_wrapper.database.MusicalWorkEntity"/>
+        <mapping class="team_f.database_wrapper.database.MusicianPartEntity"/>
+        <mapping class="team_f.database_wrapper.database.PartEntity"/>
+        <mapping class="team_f.database_wrapper.database.PartTypeEntity"/>
+        <mapping class="team_f.database_wrapper.database.PercussionInstrumentationEntity"/>
+        <mapping class="team_f.database_wrapper.database.PersonEntity"/>
+        <mapping class="team_f.database_wrapper.database.PersonOrchestraRoleEntity"/>
+        <mapping class="team_f.database_wrapper.database.RequestEntity"/>
+        <mapping class="team_f.database_wrapper.database.SectionDutyRosterEntity"/>
+        <mapping class="team_f.database_wrapper.database.SpecialInstrumentationEntity"/>
+        <mapping class="team_f.database_wrapper.database.StringInstrumentationEntity"/>
+        <mapping class="team_f.database_wrapper.database.WoodInstrumentationEntity"/>
 
     </session-factory>
 </hibernate-configuration>

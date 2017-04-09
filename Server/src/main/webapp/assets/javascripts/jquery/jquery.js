@@ -3797,7 +3797,7 @@ jQuery.extend( {
 		return deferred;
 	},
 
-	// Deferred helper
+	// Deferred team_f.database_wrapper.helper
 	when: function( singleValue ) {
 		var
 

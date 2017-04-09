@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
-import Facade.Facade;
-import database.EventDutyEntity;
+import team_f.database_wrapper.Facade.Facade;
+import team_f.database_wrapper.database.EventDutyEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import javax.ws.rs.core.MediaType;
@@ -47,7 +47,7 @@ public class Calendar extends HttpServlet {
             }
 
             if(startDate != null && endDate != null) {
-                // add the data from the database
+                // add the data from the team_f.database_wrapper.database
 
                 Facade facade = new Facade();
                 List<EventDutyEntity> eventList = facade.getEvents(startDate.getMonthValue(), startDate.getYear());

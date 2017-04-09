@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="database.AccountEntity" table="Account" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.AccountEntity" table="Account" schema="sem4_team2">
         <id name="accountId">
             <column name="accountID" sql-type="int(11)"/>
         </id>
@@ -19,7 +19,7 @@
                     sql-type="enum('musician', 'administrator', 'manager', 'substitute', 'section_representative')"/>
         </property>
     </class>
-    <class name="database.BrassInstrumentationEntity" table="BrassInstrumentation" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.BrassInstrumentationEntity" table="BrassInstrumentation" schema="sem4_team2">
         <id name="brassInstrumentationId">
             <column name="brassInstrumentationID" sql-type="int(11)"/>
         </id>
@@ -36,8 +36,8 @@
             <column name="tube" sql-type="int(11)"/>
         </property>
     </class>
-    <class name="database.DutyDispositionEntity" table="DutyDisposition" schema="sem4_team2">
-        <composite-id mapped="true" class="database.DutyDispositionEntityPK">
+    <class name="team_f.database_wrapper.database.DutyDispositionEntity" table="DutyDisposition" schema="sem4_team2">
+        <composite-id mapped="true" class="team_f.database_wrapper.database.DutyDispositionEntityPK">
             <key-property name="eventDuty">
                 <column name="eventDuty" sql-type="int(11)"/>
             </key-property>
@@ -55,7 +55,7 @@
             <column name="dutyDispositionStatus" sql-type="enum('spare', 'illness', 'normal')"/>
         </property>
     </class>
-    <class name="database.EventDutyEntity" table="EventDuty" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.EventDutyEntity" table="EventDuty" schema="sem4_team2">
         <id name="eventDutyId">
             <column name="eventDutyID" sql-type="int(11)"/>
         </id>
@@ -94,8 +94,8 @@
             <column name="instrumentation" sql-type="int(11)" not-null="true"/>
         </property>
     </class>
-    <class name="database.EventDutyMusicalWorkEntity" table="EventDuty_MusicalWork" schema="sem4_team2">
-        <composite-id mapped="true" class="database.EventDutyMusicalWorkEntityPK">
+    <class name="team_f.database_wrapper.database.EventDutyMusicalWorkEntity" table="EventDuty_MusicalWork" schema="sem4_team2">
+        <composite-id mapped="true" class="team_f.database_wrapper.database.EventDutyMusicalWorkEntityPK">
             <key-property name="eventDuty">
                 <column name="eventDuty" sql-type="int(11)"/>
             </key-property>
@@ -107,8 +107,8 @@
             <column name="alternativeInstrumentation" sql-type="int(11)" not-null="true"/>
         </property>
     </class>
-    <class name="database.EventDutySectionDutyRosterEntity" table="EventDuty_SectionDutyRoster" schema="sem4_team2">
-        <composite-id mapped="true" class="database.EventDutySectionDutyRosterEntityPK">
+    <class name="team_f.database_wrapper.database.EventDutySectionDutyRosterEntity" table="EventDuty_SectionDutyRoster" schema="sem4_team2">
+        <composite-id mapped="true" class="team_f.database_wrapper.database.EventDutySectionDutyRosterEntityPK">
             <key-property name="eventDuty">
                 <column name="eventDuty" sql-type="int(11)"/>
             </key-property>
@@ -117,7 +117,7 @@
             </key-property>
         </composite-id>
     </class>
-    <class name="database.InstrumentEntity" table="Instrument" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.InstrumentEntity" table="Instrument" schema="sem4_team2">
         <id name="instrumentId">
             <column name="instrumentID" sql-type="int(11)"/>
         </id>
@@ -137,7 +137,7 @@
             <column name="musician" sql-type="int(11)" not-null="true"/>
         </property>
     </class>
-    <class name="database.InstrumentTypeEntity" table="InstrumentType" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.InstrumentTypeEntity" table="InstrumentType" schema="sem4_team2">
         <id name="instrumentTypeId">
             <column name="instrumentTypeID" sql-type="int(11)"/>
         </id>
@@ -145,7 +145,7 @@
             <column name="instrumentType" sql-type="varchar(255)"/>
         </property>
     </class>
-    <class name="database.InstrumentationEntity" table="Instrumentation" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.InstrumentationEntity" table="Instrumentation" schema="sem4_team2">
         <id name="instrumentationId">
             <column name="instrumentationID" sql-type="int(11)"/>
         </id>
@@ -162,7 +162,7 @@
             <column name="percussionInstrumentation" sql-type="int(11)"/>
         </property>
     </class>
-    <class name="database.MusicalWorkEntity" table="MusicalWork" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.MusicalWorkEntity" table="MusicalWork" schema="sem4_team2">
         <id name="musicalWorkId">
             <column name="musicalWorkID" sql-type="int(11)"/>
         </id>
@@ -176,8 +176,8 @@
             <column name="composer" sql-type="varchar(255)" not-null="true"/>
         </property>
     </class>
-    <class name="database.MusicianPartEntity" table="Musician_Part" schema="sem4_team2">
-        <composite-id mapped="true" class="database.MusicianPartEntityPK">
+    <class name="team_f.database_wrapper.database.MusicianPartEntity" table="Musician_Part" schema="sem4_team2">
+        <composite-id mapped="true" class="team_f.database_wrapper.database.MusicianPartEntityPK">
             <key-property name="musician">
                 <column name="musician" sql-type="int(11)"/>
             </key-property>
@@ -186,7 +186,7 @@
             </key-property>
         </composite-id>
     </class>
-    <class name="database.PartEntity" table="Part" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.PartEntity" table="Part" schema="sem4_team2">
         <id name="partId">
             <column name="partID" sql-type="int(11)"/>
         </id>
@@ -199,7 +199,7 @@
                     precision="-1"/>
         </property>
     </class>
-    <class name="database.PartTypeEntity" table="PartType" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.PartTypeEntity" table="PartType" schema="sem4_team2">
         <id name="partTypeId">
             <column name="partTypeID" sql-type="int(11)"/>
         </id>
@@ -207,7 +207,7 @@
             <column name="partType" sql-type="varchar(255)"/>
         </property>
     </class>
-    <class name="database.PercussionInstrumentationEntity" table="PercussionInstrumentation" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.PercussionInstrumentationEntity" table="PercussionInstrumentation" schema="sem4_team2">
         <id name="percussionInstrumentationId">
             <column name="percussionInstrumentationID" sql-type="int(11)"/>
         </id>
@@ -224,7 +224,7 @@
             <column name="percussionDescription" sql-type="varchar(255)" not-null="true"/>
         </property>
     </class>
-    <class name="database.PersonEntity" table="Person" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.PersonEntity" table="Person" schema="sem4_team2">
         <id name="personId">
             <column name="personId" sql-type="int(11)"/>
         </id>
@@ -257,8 +257,8 @@
             <column name="account" sql-type="int(11)" not-null="true"/>
         </property>
     </class>
-    <class name="database.PersonOrchestraRoleEntity" table="Person_OrchestraRole" schema="sem4_team2">
-        <composite-id mapped="true" class="database.PersonOrchestraRoleEntityPK">
+    <class name="team_f.database_wrapper.database.PersonOrchestraRoleEntity" table="Person_OrchestraRole" schema="sem4_team2">
+        <composite-id mapped="true" class="team_f.database_wrapper.database.PersonOrchestraRoleEntityPK">
             <key-property name="person">
                 <column name="person" sql-type="int(11)"/>
             </key-property>
@@ -268,8 +268,8 @@
             </key-property>
         </composite-id>
     </class>
-    <class name="database.RequestEntity" table="Request" schema="sem4_team2">
-        <composite-id mapped="true" class="database.RequestEntityPK">
+    <class name="team_f.database_wrapper.database.RequestEntity" table="Request" schema="sem4_team2">
+        <composite-id mapped="true" class="team_f.database_wrapper.database.RequestEntityPK">
             <key-property name="eventDuty">
                 <column name="eventDuty" sql-type="int(11)"/>
             </key-property>
@@ -284,7 +284,7 @@
             <column name="description" sql-type="varchar(255)" not-null="true"/>
         </property>
     </class>
-    <class name="database.SectionDutyRosterEntity" table="SectionDutyRoster" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.SectionDutyRosterEntity" table="SectionDutyRoster" schema="sem4_team2">
         <id name="sectionDutyRosterId">
             <column name="sectionDutyRosterID" sql-type="int(11)"/>
         </id>
@@ -297,7 +297,7 @@
                     precision="-1"/>
         </property>
     </class>
-    <class name="database.SpecialInstrumentationEntity" table="SpecialInstrumentation" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.SpecialInstrumentationEntity" table="SpecialInstrumentation" schema="sem4_team2">
         <id name="specialInstrumentationId">
             <column name="specialInstrumentationID" sql-type="int(11)"/>
         </id>
@@ -316,7 +316,7 @@
             <column name="specialInstrumentationNumber" sql-type="int(11)"/>
         </property>
     </class>
-    <class name="database.StringInstrumentationEntity" table="StringInstrumentation" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.StringInstrumentationEntity" table="StringInstrumentation" schema="sem4_team2">
         <id name="stringInstrumentationId">
             <column name="stringInstrumentationID" sql-type="int(11)"/>
         </id>
@@ -336,7 +336,7 @@
             <column name="doublebass" sql-type="int(11)"/>
         </property>
     </class>
-    <class name="database.WoodInstrumentationEntity" table="WoodInstrumentation" schema="sem4_team2">
+    <class name="team_f.database_wrapper.database.WoodInstrumentationEntity" table="WoodInstrumentation" schema="sem4_team2">
         <id name="woodInstrumentationId">
             <column name="woodInstrumentationID" sql-type="int(11)"/>
         </id>
