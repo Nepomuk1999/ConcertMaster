@@ -11,7 +11,7 @@ import org.hibernate.cfg.Configuration;
 import java.sql.Timestamp;
 
 import static enums.EventStatus.Unpublished;
-import static enums.EventType.Opra;
+import static enums.EventType.Opera;
 
 /**
  * Created by Home on 06.04.2017.
@@ -44,7 +44,7 @@ public class Main {
             Timestamp s = new Timestamp(2017,6,12,18,00, 00, 00);
             Timestamp e = new Timestamp(2017,6,12,22,00, 00, 00);
 
-            facade.addEvent("TestEvent", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
+            //facade.addEvent("TestEvent", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
             facade.getEvents();
         } finally {
             session.close();
