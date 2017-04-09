@@ -19,6 +19,7 @@ other.xml
 packages.xml
 web-browsers.xml
 github_settings.xml
+codestyles/
 
 # NFS artifacts
 .nfs*
