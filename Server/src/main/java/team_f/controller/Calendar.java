@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
+import java.util.List;
+import Facade.Facade;
+import database.EventDutyEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +30,7 @@ public class Calendar extends HttpServlet {
             resp.setCharacterEncoding("UTF-8");
 
             JSONArray jsonArray = new JSONArray();
-            JSONObject event;
+            JSONObject jsonObject;
 
             // get the parameters
             String startParameter = req.getParameter("start");
@@ -49,7 +48,26 @@ public class Calendar extends HttpServlet {
 
             if(startDate != null && endDate != null) {
                 // add the data from the database
-                event = new JSONObject();
+
+                Facade facade = new Facade();
+                List<EventDutyEntity> eventList = facade.getEvents(startDate.getMonthValue(), startDate.getYear());
+
+                for(EventDutyEntity event : eventList) {
+                    jsonObject = new JSONObject();
+                    jsonObject.put("id", event.getEventDutyId());
+                    jsonObject.put("start", event.getStarttime());
+                    jsonObject.put("event", event.getEndtime());
+                    jsonObject.put("title", event.getName());
+                    //jsonObject.put("className", "");
+                    //jsonObject.put("color", "");
+                    //jsonObject.put("backgroundColor", "");
+                    //jsonObject.put("borderColor", "");
+                    //jsonObject.put("textColor", "");
+
+                    jsonArray.put(event);
+                }
+
+                /*event = new JSONObject();
                 event.put("start", "2017-04-01");
                 event.put("title", "All Day Event");
                 jsonArray.put(event);
@@ -65,7 +83,7 @@ public class Calendar extends HttpServlet {
                 event.put("id", 500);
                 event.put("start", LocalDateTime.now());
                 event.put("end", ZonedDateTime.now().plusDays(2).format(DateTimeFormatter.ISO_INSTANT));
-                jsonArray.put(event);
+                jsonArray.put(event);*/
             }
 
             PrintWriter writer = resp.getWriter();
