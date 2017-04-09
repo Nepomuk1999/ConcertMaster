@@ -1,106 +1,53 @@
 package team_f.client.gui;
 
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserCore;
+import com.teamdev.jxbrowser.chromium.internal.Environment;
+import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.concurrent.Worker;
-import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import sun.awt.OSInfo;
 import team_f.client.configuration.Configuration;
-import team_f.client.configuration.ConfigurationManager;
-import team_f.client.controls.sidebar.MenuSection;
-import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import team_f.client.helper.Web;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Client extends Application {
     private final static String _version = "1.0.0";
-    private final static String _configName = "config";
-    private final static String _configDelimiter = "\t";
     private Configuration _configuration;
-    private Stage _primaryStage;
-    private File _configFile;
+
+    @Override
+    public void init() throws Exception {
+        // On Mac OS X Chromium engine must be initialized in non-UI thread.
+        if (Environment.isMac()) {
+            BrowserCore.initialize();
+        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Path configDir = Paths.get(System.getProperty("user.home"), ".ConcertMasterClient");
-        // load the config file
-        _configFile = new File(configDir.toString(), _configName);
+        _configuration = AppConfiguration.getConfiguration(this);
 
-        try {
-            configDir.toFile().mkdirs();
-            _configuration = ConfigurationManager.loadConfiguration(_configFile, "\t");
-        } catch (IOException e) {
-            // create new default Configuration
-            _configuration = new Configuration();
-
-            try {
-                ConfigurationManager.saveConfiguration(_configuration, _configDelimiter, _configFile, true);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                System.out.println("configuration could not be saved");
-            }
+        if(_configuration == null) {
+            Common.closeApp(primaryStage, _configuration);
         }
-
-        // check if the webbrowser instead of this application should be started
-        if(_configuration.getOpenInWebbrowser()) {
-            if(openInWebbrowser(new URI(_configuration.getStartURI()))) {
-                closeApp();
-            }
-        }
-
-        _primaryStage = primaryStage;
 
         primaryStage.setTitle(_configuration.getAppName());
-        primaryStage.getIcons().add(getAppIcon());
+        primaryStage.getIcons().add(AppConfiguration.getAppIcon());
 
-        // create webview
-        WebView browser = new WebView();
-        browser.setContextMenuEnabled(false);
-        browser.setPrefSize(_configuration.getWidth(), _configuration.getHeight());
-        WebEngine engine = browser.getEngine();
-        engine.getLoadWorker().stateProperty().addListener(
-                (ov, oldState, newState) -> {
-                    if (newState == Worker.State.FAILED) {
-                        engine.loadContent("<!DOCTYPE html>\n" +
-                                "<html>\n" +
-                                "<head>\n" +
-                                "    <meta charset=\"utf-8\">\n" +
-                                "    <title>Fehler</title>\n" +
-                                "</head>\n" +
-                                "\n" +
-                                "<body>\n" +
-                                "    <h1>Der Dienst ist derzeit leider nicht erreichbar.</h1>\n" +
-                                "<p>Sie können versuchen die Seite neuzuladen.</p>" +
-                                "    <a href=\"" + _configuration.getStartURI() + "\">Nochmals versuchen</a>\n" +
-                                "</body>\n" +
-                                "</html>");
-                    }
-                });
-        engine.load(_configuration.getStartURI());
-
-        // set the webview
+        // load the webbrowser
+        Browser browser = Webbrowser.getBrowser(_configuration.getStartURI());
         BorderPane content = new BorderPane();
-        content.setCenter(browser);
+        content.setCenter(new BrowserView(browser));
 
         // set the menubar
         if(_configuration.getShowMenuBar()) {
@@ -111,14 +58,14 @@ public class Client extends Application {
             MenuItem menuItem;
 
             menuItem = new MenuItem("Startseite");
-            menuItem.setOnAction(actionEvent -> engine.load(_configuration.getStartURI()));
+            menuItem.setOnAction(actionEvent -> browser.loadURL(_configuration.getStartURI()));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
             menuItem = new MenuItem("In Webbrowser öffen");
             menuItem.setOnAction(actionEvent -> {
                 try {
-                    openInWebbrowser(new URI(_configuration.getStartURI()));
+                    Web.openInWebbrowser(new URI(_configuration.getStartURI()));
                 } catch (URISyntaxException e) {
                 }
             });
@@ -126,7 +73,7 @@ public class Client extends Application {
             menuFile.getItems().add(menuItem);
 
             menuItem = new MenuItem("Beenden");
-            menuItem.setOnAction(actionEvent -> closeAppWithWarning(actionEvent));
+            menuItem.setOnAction(actionEvent -> Common.closeAppWithWarning(actionEvent, primaryStage, _configuration));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
@@ -147,63 +94,8 @@ public class Client extends Application {
         }
 
         // set the sidebar
-        Sidebar sidebar = new Sidebar();
-        MenuSection menuSection;
-        MenuSectionItem menuSectionItem;
-        ToggleGroup toggleGroup = new ToggleGroup();
-
-        menuSection = new MenuSection("Home", "/homeM.png", toggleGroup);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Terminplan", "/calendarM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Pläne einsehen");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Terminplanverwaltung");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Dienstverwaltung");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Dienste", "/dutyM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Dienstpläne");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Dienstverwaltung");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Musiker", "/orchestraiconM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Musikerverwaltung");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Musikerliste");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Werke", "/musicfolderM.png", toggleGroup);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Inventar", "/inventaryM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Inventar anzeigen");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Gegenstand hinzufügen");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Benutzer", "/userM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Stimmgruppenverwaltung");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Musikerverwaltung");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Administration", "/settingsM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Stimmgruppenverwaltung");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Musikerverwaltung");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
+        Sidebar sidebar = NavigationBar.getNavigationBar();
         content.setLeft(sidebar);
-
 
         // set window
         Scene scene = new Scene(content);
@@ -221,79 +113,10 @@ public class Client extends Application {
         }
 
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(t -> closeAppWithWarning(t));
+        primaryStage.setOnCloseRequest(t -> Common.closeAppWithWarning(t, primaryStage, _configuration));
 
         primaryStage.show();
     }
-
-    private void closeAppWithWarning(Event event) {
-        boolean close = true;
-
-        if(_configuration.getShowCloseWarning()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Beenden");
-            alert.setHeaderText("Beenden");
-            alert.setContentText("Wollen Sie die Anwendung wirklich schließen?");
-
-            ButtonType result = alert.showAndWait().get();
-
-             if(result == ButtonType.OK) {
-                 close = true;
-             } else {
-                 close = false;
-             }
-        }
-
-        if(close) {
-            closeApp();
-        } else {
-            if(event != null) {
-                event.consume();
-            }
-        }
-    }
-
-    private void closeApp() {
-        // save config
-        if(_primaryStage != null) {
-            _configuration.setWidth((int) _primaryStage.getWidth());
-            _configuration.setHeight((int) _primaryStage.getHeight());
-        }
-
-        try {
-            ConfigurationManager.saveConfiguration(_configuration, _configDelimiter, _configFile, true);
-        } catch (IOException e) {
-        }
-
-        Platform.exit();
-        System.exit(0);
-    }
-
-    private boolean openInWebbrowser(URI uri) {
-        if(OSInfo.getOSType() == OSInfo.OSType.LINUX) {
-            try {
-                new ProcessBuilder("x-www-browser", uri.toURL().toExternalForm()).start();
-                return true;
-            } catch (IOException e) {
-            }
-        } else if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            try {
-                Desktop.getDesktop().browse(uri);
-                return true;
-            } catch (IOException e) {
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    private Image getAppIcon() {
-        Image anotherIcon = new Image(getClass().getResourceAsStream("/logo2M.png"));
-
-        return anotherIcon;
-    }
-
 
     public static void main(String[] args) {
         launch(args);
