@@ -1,7 +1,7 @@
 package enums;
 
 public enum EventType {
-    Opra,
+    Opera,
     Concert,
     Rehearsal,
     Hofkapelle,
