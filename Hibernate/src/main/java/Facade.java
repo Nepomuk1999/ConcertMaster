@@ -34,6 +34,7 @@ public class Facade {
      * @param instrumentation   int         refers to a instrumentation with the primarykey instrumentation
      * @return EventDutyId      int         returns the primary key of the event
      */
+
     public Integer addEvent(String name, String description, Timestamp start, Timestamp end, EventType eventType,
                          EventStatus status, String conductor, String location, double defaultPoints, int instrumentation) {
 
@@ -59,14 +60,13 @@ public class Facade {
         return event.getEventDutyId();
     }
 
-    public void getEvents() {
+    public List<EventDutyEntity> getEvents(int month, int year) {
         Session session = getCurrentSession();
         session.getTransaction().begin();
 
-        List<EventDutyEntity> events = (List<EventDutyEntity>) session.createQuery("from database.EventDutyEntity").list();
+        List<EventDutyEntity> events = (List<EventDutyEntity>) session.createQuery("from database.EventDutyEntity where MONTH(starttime) = " + month + " and YEAR(starttime) = " + year).list();
 
-        for (EventDutyEntity e : events) {
-            System.out.println(e.getName());
-        }
+        return events;
     }
+
 }
