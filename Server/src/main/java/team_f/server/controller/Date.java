@@ -1,4 +1,4 @@
-package team_f.controller;
+package team_f.server.controller;
 
 import org.json.JSONArray;
 

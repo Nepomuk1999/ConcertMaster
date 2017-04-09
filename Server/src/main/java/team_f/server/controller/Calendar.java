@@ -1,4 +1,4 @@
-package team_f.controller;
+package team_f.server.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
