@@ -5,5 +5,6 @@ public enum EventType {
     Concert,
     Rehearsal,
     Hofkapelle,
-    NonMusicalEvent
+    NonMusicalEvent,
+    Tour
 }

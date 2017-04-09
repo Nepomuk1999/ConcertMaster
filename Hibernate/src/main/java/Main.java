@@ -10,10 +10,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
-import static enums.EventStatus.Unpublished;
-import static enums.EventType.Opera;
 
 /**
  * Created by Home on 06.04.2017.
@@ -43,13 +42,15 @@ public class Main {
             System.out.println("Testing to add Entities in Database ...");
             final Metamodel metamodel = session.getSessionFactory().getMetamodel();
 
-            Timestamp s = new Timestamp(2017,3,11,00,00, 00, 00);
-            Timestamp e = new Timestamp(2017,3,12,00,00, 00, 00);
+            //Kalender 0 indiziert --> Maerz somit 2
+            Timestamp s = new Timestamp(2012,2,11,00,00, 00, 00);
+            Timestamp e = new Timestamp(2012,2,12,00,00, 00, 00);
 
-            //facade.addEvent("TestEvent2", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
-            //facade.addEvent("TestEvent2", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
+
+            facade.addEvent("TestEvent4", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
+            facade.addEvent("TestEvent5", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
             System.out.println("TestEvents added...");
-            List<EventDutyEntity> events = facade.getEvents(4,3917);
+            List<EventDutyEntity> events = facade.getEvents(3,2012);
             for(EventDutyEntity event : events) {
                 System.out.println(event.getName());
             }
