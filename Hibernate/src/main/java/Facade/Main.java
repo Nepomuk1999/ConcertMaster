@@ -1,43 +1,18 @@
-
+package Facade;
 
 import database.EventDutyEntity;
 import enums.EventStatus;
 import enums.EventType;
-import org.hibernate.HibernateException;
 import org.hibernate.Metamodel;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Home on 06.04.2017.
- */
 public class Main {
-    private static final SessionFactory ourSessionFactory;
-
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-
-            ourSessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-
-    public static Session getSession() throws HibernateException {
-        return ourSessionFactory.openSession();
-    }
-
     public static void main(final String[] args) throws Exception {
-        final Session session = getSession();
+        final Session session = SessionFactory.getSession();
         Facade facade = new Facade(session);
+
         try {
             System.out.println("Testing to add Entities in Database ...");
             final Metamodel metamodel = session.getSessionFactory().getMetamodel();

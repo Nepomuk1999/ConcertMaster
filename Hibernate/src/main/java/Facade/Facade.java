@@ -1,16 +1,18 @@
+package Facade;
+
 import database.EventDutyEntity;
 import enums.EventStatus;
 import enums.EventType;
 import org.hibernate.Session;
-
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * Created by Christoph on 07.04.2017.
- */
 public class Facade {
     Session _session;
+
+    public Facade() {
+        _session = SessionFactory.getSession();
+    }
 
     public Facade(Session session) {
         _session = session;
@@ -68,7 +70,4 @@ public class Facade {
 
         return events;
     }
-
-
-
 }
