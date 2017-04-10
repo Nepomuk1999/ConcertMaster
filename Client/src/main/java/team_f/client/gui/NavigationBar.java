@@ -11,9 +11,11 @@ public class NavigationBar {
         MenuSection menuSection;
         MenuSectionItem menuSectionItem;
         ToggleGroup toggleGroup = new ToggleGroup();
+        sidebar.setStyle("-fx-background-color:   #e0e0d1");
 
         menuSection = new MenuSection("Home", "/homeM.png", null);
         menuSection.setAnimated(false);
+        menuSection.setCollapsible(false);
         sidebar.add(menuSection);
 
         menuSection = new MenuSection("Terminplan", "/calendarM.png", toggleGroup);
