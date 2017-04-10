@@ -66,7 +66,7 @@ public class Facade {
         Session session = getCurrentSession();
         session.getTransaction().begin();
 
-        List<EventDutyEntity> events = (List<EventDutyEntity>) session.createQuery("from database.EventDutyEntity where MONTH(starttime) = " + month + " and YEAR(starttime) = " + year).list();
+        List<EventDutyEntity> events = (List<EventDutyEntity>) session.createQuery("from EventDutyEntity where MONTH(starttime) = " + month + " and YEAR(starttime) = " + year).list();
 
         return events;
     }
