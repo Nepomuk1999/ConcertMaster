@@ -12,7 +12,8 @@ public class NavigationBar {
         MenuSectionItem menuSectionItem;
         ToggleGroup toggleGroup = new ToggleGroup();
 
-        menuSection = new MenuSection("Home", "/homeM.png", toggleGroup);
+        menuSection = new MenuSection("Home", "/homeM.png", null);
+        menuSection.setAnimated(false);
         sidebar.add(menuSection);
 
         menuSection = new MenuSection("Terminplan", "/calendarM.png", toggleGroup);
