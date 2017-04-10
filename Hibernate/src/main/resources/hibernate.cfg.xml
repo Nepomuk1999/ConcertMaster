@@ -11,7 +11,7 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.username">team2</property>
         <property name="connection.password">8fpE?2j2E6kis2~9</property>
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">validate</property>
 
         <mapping class="team_f.database_wrapper.database.AccountEntity"/>
         <mapping class="team_f.database_wrapper.database.BrassInstrumentationEntity"/>
