@@ -15,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -80,8 +82,11 @@ public class Date extends HttpServlet {
                 req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/date.jsp").include(req, resp);
             } else {
                 Facade facade = new Facade();
-                Timestamp startTime = Timestamp.valueOf(eventDuty.getStartDate() + " " + eventDuty.getStartTime());
-                Timestamp endTime = Timestamp.valueOf(eventDuty.getEndDate() + " " + eventDuty.getEndTime());
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+                LocalDateTime startTime = LocalDateTime.parse(eventDuty.getStartDate() + " " + eventDuty.getStartTime(), formatter);
+                LocalDateTime endTime = LocalDateTime.parse(eventDuty.getEndDate() + " " + eventDuty.getEndTime(), formatter);
+
                 EventType eventType = EventType.valueOf(eventDuty.getEventtype());
                 EventStatus eventStatus = EventStatus.valueOf(eventDuty.getEventstatus());
 

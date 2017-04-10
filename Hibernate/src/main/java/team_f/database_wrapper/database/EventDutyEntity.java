@@ -1,22 +1,19 @@
 package team_f.database_wrapper.database;
+
 import team_f.database_wrapper.enums.EventType;
 import team_f.database_wrapper.enums.EventStatus;
-
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
-@Table(name = "ModelLogic", schema = "sem4_team2", catalog = "")
+@Table(name = "EventDuty", schema = "sem4_team2", catalog = "")
 public class EventDutyEntity {
     private int eventDutyId;
     private String name;
     private String description;
-    private Timestamp starttime;
-    private Timestamp endtime;
+    private LocalDateTime starttime;
+    private LocalDateTime endtime;
     private EventType eventType;
     private EventStatus eventStatus;
     private String conductor;
@@ -33,6 +30,7 @@ public class EventDutyEntity {
     private Collection<RequestEntity> requestsByEventDutyId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "eventDutyID", nullable = false)
     public int getEventDutyId() {
         return eventDutyId;
@@ -64,21 +62,21 @@ public class EventDutyEntity {
 
     @Basic
     @Column(name = "starttime", nullable = false)
-    public Timestamp getStarttime() {
+    public LocalDateTime getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Timestamp starttime) {
+    public void setStarttime(LocalDateTime starttime) {
         this.starttime = starttime;
     }
 
     @Basic
     @Column(name = "endtime", nullable = false)
-    public Timestamp getEndtime() {
+    public LocalDateTime getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(Timestamp endtime) {
+    public void setEndtime(LocalDateTime endtime) {
         this.endtime = endtime;
     }
 

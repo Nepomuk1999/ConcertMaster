@@ -1,11 +1,9 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.PersonRole;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "Person", schema = "sem4_team2", catalog = "")
 public class PersonEntity {
@@ -17,7 +15,7 @@ public class PersonEntity {
     private String gender;
     private String address;
     private String phoneNumber;
-    private Enum personRole;
+    private PersonRole personRole;
     private Integer account;
     private Collection<DutyDispositionEntity> dutyDispositionsByPersonId;
     private Collection<InstrumentEntity> instrumentsByPersonId;
@@ -27,6 +25,7 @@ public class PersonEntity {
     private Collection<RequestEntity> requestsByPersonId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personId", nullable = false)
     public int getPersonId() {
         return personId;
@@ -108,11 +107,12 @@ public class PersonEntity {
 
     @Basic
     @Column(name = "personRole", nullable = false)
-    public Enum getPersonRole() {
+    @Enumerated(EnumType.STRING)
+    public PersonRole getPersonRole() {
         return personRole;
     }
 
-    public void setPersonRole(Enum personRole) {
+    public void setPersonRole(PersonRole personRole) {
         this.personRole = personRole;
     }
 

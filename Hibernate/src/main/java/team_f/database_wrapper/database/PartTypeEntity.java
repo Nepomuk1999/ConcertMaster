@@ -3,9 +3,6 @@ package team_f.database_wrapper.database;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "PartType", schema = "sem4_team2", catalog = "")
 public class PartTypeEntity {
@@ -14,6 +11,7 @@ public class PartTypeEntity {
     private Collection<PartEntity> partsByPartTypeId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "partTypeID", nullable = false)
     public int getPartTypeId() {
         return partTypeId;

@@ -1,21 +1,20 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.AccountRole;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "Account", schema = "sem4_team2", catalog = "")
 public class AccountEntity {
     private int accountId;
     private String username;
     private String password;
-    private Enum accountRole;
+    private AccountRole accountRole;
     private Collection<PersonEntity> peopleByAccountId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "accountID", nullable = false)
     public int getAccountId() {
         return accountId;
@@ -47,11 +46,12 @@ public class AccountEntity {
 
     @Basic
     @Column(name = "accountRole", nullable = false)
-    public Enum getAccountRole() {
+    @Enumerated(EnumType.STRING)
+    public AccountRole getAccountRole() {
         return accountRole;
     }
 
-    public void setAccountRole(Enum accountRole) {
+    public void setAccountRole(AccountRole accountRole) {
         this.accountRole = accountRole;
     }
 

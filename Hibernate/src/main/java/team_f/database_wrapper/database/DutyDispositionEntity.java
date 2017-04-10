@@ -1,10 +1,8 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.DutyDispositionStatus;
 import javax.persistence.*;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "DutyDisposition", schema = "sem4_team2", catalog = "")
 @IdClass(DutyDispositionEntityPK.class)
@@ -13,7 +11,7 @@ public class DutyDispositionEntity {
     private int musician;
     private double points;
     private String description;
-    private Enum dutyDispositionStatus;
+    private DutyDispositionStatus dutyDispositionStatus;
     private EventDutyEntity eventDutyByEventDuty;
     private PersonEntity personByMusician;
 
@@ -59,11 +57,12 @@ public class DutyDispositionEntity {
 
     @Basic
     @Column(name = "dutyDispositionStatus", nullable = false)
-    public Enum getDutyDispositionStatus() {
+    @Enumerated(EnumType.STRING)
+    public DutyDispositionStatus getDutyDispositionStatus() {
         return dutyDispositionStatus;
     }
 
-    public void setDutyDispositionStatus(Enum dutyDispositionStatus) {
+    public void setDutyDispositionStatus(DutyDispositionStatus dutyDispositionStatus) {
         this.dutyDispositionStatus = dutyDispositionStatus;
     }
 

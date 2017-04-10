@@ -4,9 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-/**
- * Created by helmut on 07.04.17.
- */
 public class PersonOrchestraRoleEntityPK implements Serializable {
     private int person;
     private Enum orchestraRole;
