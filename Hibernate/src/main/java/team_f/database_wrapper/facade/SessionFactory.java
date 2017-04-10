@@ -1,4 +1,4 @@
-package team_f.database_wrapper.Facade;
+package team_f.database_wrapper.facade;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

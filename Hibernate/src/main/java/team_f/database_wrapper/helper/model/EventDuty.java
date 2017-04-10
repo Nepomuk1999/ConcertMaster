@@ -1,11 +1,18 @@
-package team_f.database_wrapper.helper.formats;
+package team_f.database_wrapper.helper.model;
 
+import org.json.JSONObject;
 import team_f.database_wrapper.database.EventDutyEntity;
 import team_f.database_wrapper.helper.JSON;
-import team_f.database_wrapper.helper.OutputFormat;
-import org.json.JSONObject;
+import team_f.database_wrapper.helper.ModelLogic;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class EventDuty extends OutputFormat {
+public class EventDuty extends ModelLogic {
+    public static List<Map.Entry<String, String>> validate() {
+        return new ArrayList<>();
+    }
+
     public static JSONObject toJSONObject(EventDutyEntity eventDuty) {
         JSONObject jsonObject = new JSONObject();
 

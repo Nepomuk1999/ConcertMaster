@@ -1,4 +1,4 @@
-package team_f.database_wrapper.Facade;
+package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.EventDutyEntity;
 import team_f.database_wrapper.enums.EventStatus;
@@ -23,7 +23,7 @@ public class Facade {
     }
 
     /**
-     * Function to add a EventDuty to team_f.database_wrapper.database. Returns the EventDutyId after saving it in the team_f.database_wrapper.database
+     * Function to add a ModelLogic to team_f.database_wrapper.database. Returns the EventDutyId after saving it in the team_f.database_wrapper.database
      * @param name              String      name of the event
      * @param description       String      description of the event
      * @param start             Timestamp   startTime of the event, saved as DateTime in team_f.database_wrapper.database

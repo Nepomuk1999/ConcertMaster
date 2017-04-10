@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
-import team_f.database_wrapper.Facade.Facade;
+import team_f.database_wrapper.facade.Facade;
 import team_f.database_wrapper.database.EventDutyEntity;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import javax.ws.rs.core.MediaType;
 
 @WebServlet(urlPatterns = {"/Calendar"})
@@ -50,7 +51,7 @@ public class Calendar extends HttpServlet {
                 // add the data from the team_f.database_wrapper.database
 
                 Facade facade = new Facade();
-                List<EventDutyEntity> eventList = facade.getEvents(startDate.getMonthValue(), startDate.getYear());
+                List<EventDutyEntity> eventList = facade.getEvents(startDate.getMonthValue() +1, startDate.getYear());
 
                 for(EventDutyEntity event : eventList) {
                     jsonObject = new JSONObject();
@@ -69,17 +70,17 @@ public class Calendar extends HttpServlet {
 
                 /*event = new JSONObject();
                 event.put("start", "2017-04-01");
-                event.put("title", "All Day Event");
+                event.put("title", "All Day ModelLogic");
                 jsonArray.put(event);
 
                 event = new JSONObject();
-                event.put("title", "Long Event");
+                event.put("title", "Long ModelLogic");
                 event.put("start", LocalDateTime.now());
                 event.put("end", ZonedDateTime.now().plusDays(2).format(DateTimeFormatter.ISO_INSTANT));
                 jsonArray.put(event);
 
                 event = new JSONObject();
-                event.put("title", "Long Event with id");
+                event.put("title", "Long ModelLogic with id");
                 event.put("id", 500);
                 event.put("start", LocalDateTime.now());
                 event.put("end", ZonedDateTime.now().plusDays(2).format(DateTimeFormatter.ISO_INSTANT));

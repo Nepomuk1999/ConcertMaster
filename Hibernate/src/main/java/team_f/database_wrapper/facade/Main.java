@@ -1,4 +1,4 @@
-package team_f.database_wrapper.Facade;
+package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.EventDutyEntity;
 import team_f.database_wrapper.enums.EventStatus;

@@ -10,7 +10,7 @@ import java.util.Collection;
  * Created by helmut on 07.04.17.
  */
 @Entity
-@Table(name = "EventDuty", schema = "sem4_team2", catalog = "")
+@Table(name = "ModelLogic", schema = "sem4_team2", catalog = "")
 public class EventDutyEntity {
     private int eventDutyId;
     private String name;
