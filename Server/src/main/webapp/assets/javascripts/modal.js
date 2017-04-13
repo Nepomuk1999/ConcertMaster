@@ -23,7 +23,6 @@ function showModal(id, uri, dataForModal) {
     // load the modal from the server
     $.ajax({
         url: uri,
-        contentType: "text/html",
         data: dataForModal.toJSON,
         cache: false,
         beforeSend: function() {
@@ -175,7 +174,6 @@ function _save(modalQualifier, contentQualifier) {
         url: modalForm[0].action,
         method: "post",
         cache: false,
-        contentType: "text/html",
         data: modalForm.serializeArray(),
         beforeSend: function() {
             showLoadAnimation(loadAnimationSelector);
@@ -190,9 +188,9 @@ function _save(modalQualifier, contentQualifier) {
         error: function (xhr, status, error) {
             hideLoadAnimation(loadAnimationSelector);
 
-            if (status == 400) {
+            if (xhr.status == 400) {
                 // replace the content with the new one to show the errors
-                $("#" + contentQualifier).replaceWith(xhr.responseText);
+                $("#" + contentQualifier).innerHTML = (xhr.responseText);
             } else {
                 _showServerError();
             }

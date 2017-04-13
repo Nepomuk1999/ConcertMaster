@@ -9,3 +9,11 @@
 .ui-dialog-titlebar-close {
     display: none;
 }
+
+.ui-dialog-title {
+    position: absolute;
+}
+
+.ui-dialog-titlebar {
+    height: 2em;
+}
