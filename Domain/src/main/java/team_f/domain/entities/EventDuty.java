@@ -5,6 +5,7 @@ import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class EventDuty implements DomainEntity {
     private int eventDutyId;
@@ -179,4 +180,32 @@ public class EventDuty implements DomainEntity {
     public void setRequestsByEventDutyId(Collection<RequestEntity> requestsByEventDutyId) {
         this.requestsByEventDutyId = requestsByEventDutyId;
     }*/
+
+    public ArrayList<String> validate(){
+        ArrayList<String> error = new ArrayList();
+
+        if(name.isEmpty() || description.isEmpty() || conductor.isEmpty() || location.isEmpty() || starttime.equals("") || endtime.equals("") || eventType.equals(null) || eventStatus.equals(null) || rehearsalFor.equals(null) /*|| defaultPoints*/ || instrumentation.equals(null)){
+            error.add("1");   // einer der eingegebenen parameter ist null
+        }
+
+        if(endtime.isBefore(starttime)){
+            error.add("2");   // eingegebene endzeit ist vor startzeit
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if(starttime.isBefore(now)){
+            error.add("3");  // eingegebene starttime ist vor dem aktuellen zeitpunkt, also in der vergangenheit
+        }
+
+        if(defaultPoints < 0){
+            error.add("4");  // punkte können nicht negativ sein
+        }
+
+        if(rehearsalFor < 0 || instrumentation < 0){
+            error.add("5");  // darf nicht negativ sein
+        }
+
+        // falls gewünscht kann natürlich -1 oder so returned werden
+        return error;
+    }
 }
