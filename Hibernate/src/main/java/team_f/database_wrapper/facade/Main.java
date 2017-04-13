@@ -1,18 +1,13 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.EventDutyEntity;
-import team_f.database_wrapper.entities.EventStatus;
-import team_f.database_wrapper.entities.EventType;
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class Main {
     public static void main(final String[] args) throws Exception {
         EntityManager session = SessionFactory.getSession();
 
         Facade facade = new Facade(session);
-
+        /*
         try {
             System.out.println("Testing to add Entities in Database ...");
 
@@ -34,5 +29,6 @@ public class Main {
         }
 
         System.exit(0);
+        */
     }
 }

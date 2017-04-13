@@ -1,4 +1,4 @@
-package team_f.database_wrapper.entities;
+package enums;
 
 public enum EventType {
     Opera,
