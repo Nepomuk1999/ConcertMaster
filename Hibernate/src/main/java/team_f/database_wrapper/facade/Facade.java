@@ -3,22 +3,23 @@ package team_f.database_wrapper.facade;
 import team_f.database_wrapper.database.EventDutyEntity;
 import team_f.database_wrapper.enums.EventStatus;
 import team_f.database_wrapper.enums.EventType;
-import org.hibernate.Session;
-import java.sql.Timestamp;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Facade {
-    Session _session;
+    EntityManager _session;
 
     public Facade() {
         _session = SessionFactory.getSession();
     }
 
-    public Facade(Session session) {
+    public Facade(EntityManager session) {
         _session = session;
     }
 
-    protected Session getCurrentSession(){
+    protected EntityManager getCurrentSession(){
         return _session;
     }
 
@@ -37,10 +38,10 @@ public class Facade {
      * @return EventDutyId      int         returns the primary key of the event
      */
 
-    public Integer addEvent(String name, String description, Timestamp start, Timestamp end, EventType eventType,
-                         EventStatus status, String conductor, String location, double defaultPoints, int instrumentation) {
+    public Integer addEvent(String name, String description, LocalDateTime start, LocalDateTime end, EventType eventType,
+                            EventStatus status, String conductor, String location, double defaultPoints, int instrumentation) {
 
-        Session session = getCurrentSession();
+        EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
         EventDutyEntity event = new EventDutyEntity();
@@ -55,18 +56,26 @@ public class Facade {
         event.setDefaultPoints(defaultPoints);
         event.setInstrumentation(instrumentation);
 
-        session.save(event);
+        session.persist(event);
 
-        session.getTransaction().commit();
+        try {
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
 
         return event.getEventDutyId();
     }
 
     public List<EventDutyEntity> getEvents(int month, int year) {
-        Session session = getCurrentSession();
-        session.getTransaction().begin();
+        EntityManager session = getCurrentSession();
 
-        List<EventDutyEntity> events = (List<EventDutyEntity>) session.createQuery("from EventDutyEntity where MONTH(starttime) = " + month + " and YEAR(starttime) = " + year).list();
+        // prevent SQL injections
+        Query query = session.createQuery("from EventDutyEntity where MONTH(starttime) = :month and YEAR(starttime) = :year");
+        query.setParameter("month", month);
+        query.setParameter("year", year);
+
+        List<EventDutyEntity> events = query.getResultList();
 
         return events;
     }

@@ -1,21 +1,20 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.SectionType;
 import javax.persistence.*;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "SpecialInstrumentation", schema = "sem4_team2", catalog = "")
 public class SpecialInstrumentationEntity {
     private int specialInstrumentationId;
-    private Enum sectionType;
+    private SectionType sectionType;
     private int instrumentationId;
     private String specialInstrument;
     private int specialInstrumentationNumber;
     private InstrumentationEntity instrumentationByInstrumentationId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "specialInstrumentationID", nullable = false)
     public int getSpecialInstrumentationId() {
         return specialInstrumentationId;
@@ -27,11 +26,12 @@ public class SpecialInstrumentationEntity {
 
     @Basic
     @Column(name = "sectionType", nullable = false, precision = 0)
-    public Enum getSectionType() {
+    @Enumerated(EnumType.STRING)
+    public SectionType getSectionType() {
         return sectionType;
     }
 
-    public void setSectionType(Enum sectionType) {
+    public void setSectionType(SectionType sectionType) {
         this.sectionType = sectionType;
     }
 

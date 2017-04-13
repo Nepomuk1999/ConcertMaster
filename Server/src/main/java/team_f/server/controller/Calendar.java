@@ -57,7 +57,7 @@ public class Calendar extends HttpServlet {
                     jsonObject = new JSONObject();
                     jsonObject.put("id", event.getEventDutyId());
                     jsonObject.put("start", event.getStarttime());
-                    jsonObject.put("event", event.getEndtime());
+                    jsonObject.put("end", event.getEndtime());
                     jsonObject.put("title", event.getName());
                     //jsonObject.put("className", "");
                     //jsonObject.put("color", "");
@@ -65,22 +65,22 @@ public class Calendar extends HttpServlet {
                     //jsonObject.put("borderColor", "");
                     //jsonObject.put("textColor", "");
 
-                    jsonArray.put(event);
+                    jsonArray.put(jsonObject);
                 }
 
                 /*event = new JSONObject();
                 event.put("start", "2017-04-01");
-                event.put("title", "All Day ModelLogic");
+                event.put("title", "All Day Event Duty");
                 jsonArray.put(event);
 
                 event = new JSONObject();
-                event.put("title", "Long ModelLogic");
+                event.put("title", "Long Event Duty");
                 event.put("start", LocalDateTime.now());
                 event.put("end", ZonedDateTime.now().plusDays(2).format(DateTimeFormatter.ISO_INSTANT));
                 jsonArray.put(event);
 
                 event = new JSONObject();
-                event.put("title", "Long ModelLogic with id");
+                event.put("title", "Long Event Duty with id");
                 event.put("id", 500);
                 event.put("start", LocalDateTime.now());
                 event.put("end", ZonedDateTime.now().plusDays(2).format(DateTimeFormatter.ISO_INSTANT));

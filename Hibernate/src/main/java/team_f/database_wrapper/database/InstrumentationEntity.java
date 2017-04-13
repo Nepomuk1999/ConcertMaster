@@ -3,9 +3,6 @@ package team_f.database_wrapper.database;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "Instrumentation", schema = "sem4_team2", catalog = "")
 public class InstrumentationEntity {
@@ -24,6 +21,7 @@ public class InstrumentationEntity {
     private Collection<SpecialInstrumentationEntity> specialInstrumentationsByInstrumentationId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "instrumentationID", nullable = false)
     public int getInstrumentationId() {
         return instrumentationId;

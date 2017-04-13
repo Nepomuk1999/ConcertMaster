@@ -1,20 +1,20 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.DutyRosterStatus;
+import team_f.database_wrapper.enums.SectionType;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "SectionDutyRoster", schema = "sem4_team2", catalog = "")
 public class SectionDutyRosterEntity {
     private int sectionDutyRosterId;
-    private Enum dutyRosterStatus;
-    private Enum sectionType;
+    private DutyRosterStatus dutyRosterStatus;
+    private SectionType sectionType;
     private Collection<EventDutySectionDutyRosterEntity> eventDutySectionDutyRostersBySectionDutyRosterId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sectionDutyRosterID", nullable = false)
     public int getSectionDutyRosterId() {
         return sectionDutyRosterId;
@@ -26,21 +26,23 @@ public class SectionDutyRosterEntity {
 
     @Basic
     @Column(name = "dutyRosterStatus", nullable = false)
-    public Enum getDutyRosterStatus() {
+    @Enumerated(EnumType.STRING)
+    public DutyRosterStatus getDutyRosterStatus() {
         return dutyRosterStatus;
     }
 
-    public void setDutyRosterStatus(Enum dutyRosterStatus) {
+    public void setDutyRosterStatus(DutyRosterStatus dutyRosterStatus) {
         this.dutyRosterStatus = dutyRosterStatus;
     }
 
     @Basic
     @Column(name = "sectionType", nullable = false, precision = 0)
-    public Enum getSectionType() {
+    @Enumerated(EnumType.STRING)
+    public SectionType getSectionType() {
         return sectionType;
     }
 
-    public void setSectionType(Enum sectionType) {
+    public void setSectionType(SectionType sectionType) {
         this.sectionType = sectionType;
     }
 

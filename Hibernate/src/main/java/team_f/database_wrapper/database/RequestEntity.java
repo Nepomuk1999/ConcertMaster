@@ -1,17 +1,15 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.RequestType;
 import javax.persistence.*;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "Request", schema = "sem4_team2", catalog = "")
 @IdClass(RequestEntityPK.class)
 public class RequestEntity {
     private int eventDuty;
     private int musician;
-    private Enum requestType;
+    private RequestType requestType;
     private String description;
     private EventDutyEntity eventDutyByEventDuty;
     private PersonEntity personByMusician;
@@ -38,11 +36,12 @@ public class RequestEntity {
 
     @Basic
     @Column(name = "requestType", nullable = false)
-    public Enum getRequestType() {
+    @Enumerated(EnumType.STRING)
+    public RequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(Enum requestType) {
+    public void setRequestType(RequestType requestType) {
         this.requestType = requestType;
     }
 

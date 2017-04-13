@@ -3,9 +3,6 @@ package team_f.database_wrapper.database;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "WoodInstrumentation", schema = "sem4_team2", catalog = "")
 public class WoodInstrumentationEntity {
@@ -17,6 +14,7 @@ public class WoodInstrumentationEntity {
     private Collection<InstrumentationEntity> instrumentationsByWoodInstrumentationId;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "woodInstrumentationID", nullable = false)
     public int getWoodInstrumentationId() {
         return woodInstrumentationId;

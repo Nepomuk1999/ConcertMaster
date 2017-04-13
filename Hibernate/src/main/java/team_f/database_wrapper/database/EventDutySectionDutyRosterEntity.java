@@ -2,9 +2,6 @@ package team_f.database_wrapper.database;
 
 import javax.persistence.*;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "EventDuty_SectionDutyRoster", schema = "sem4_team2", catalog = "")
 @IdClass(EventDutySectionDutyRosterEntityPK.class)

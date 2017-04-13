@@ -2,9 +2,6 @@ package team_f.database_wrapper.database;
 
 import javax.persistence.*;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "Instrument", schema = "sem4_team2", catalog = "")
 public class InstrumentEntity {
@@ -18,6 +15,7 @@ public class InstrumentEntity {
     private PersonEntity personByMusician;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "instrumentID", nullable = false)
     public int getInstrumentId() {
         return instrumentId;

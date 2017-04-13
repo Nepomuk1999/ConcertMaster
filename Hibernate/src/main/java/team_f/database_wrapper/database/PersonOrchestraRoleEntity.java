@@ -1,16 +1,14 @@
 package team_f.database_wrapper.database;
 
+import team_f.database_wrapper.enums.OrchestraRole;
 import javax.persistence.*;
 
-/**
- * Created by helmut on 07.04.17.
- */
 @Entity
 @Table(name = "Person_OrchestraRole", schema = "sem4_team2", catalog = "")
 @IdClass(PersonOrchestraRoleEntityPK.class)
 public class PersonOrchestraRoleEntity {
     private int person;
-    private Enum orchestraRole;
+    private OrchestraRole orchestraRole;
     private PersonEntity personByPerson;
 
     @Id
@@ -25,11 +23,12 @@ public class PersonOrchestraRoleEntity {
 
     @Id
     @Column(name = "orchestraRole", nullable = false)
-    public Enum getOrchestraRole() {
+    @Enumerated(EnumType.STRING)
+    public OrchestraRole getOrchestraRole() {
         return orchestraRole;
     }
 
-    public void setOrchestraRole(Enum orchestraRole) {
+    public void setOrchestraRole(OrchestraRole orchestraRole) {
         this.orchestraRole = orchestraRole;
     }
 
