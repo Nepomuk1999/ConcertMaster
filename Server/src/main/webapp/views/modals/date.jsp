@@ -13,8 +13,9 @@
                     <jsp:attribute name="id">${"startdate"}</jsp:attribute>
                     <jsp:attribute name="placeholder">${"Startdate"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"startdate"}</jsp:attribute>
-                    <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputRequired">${true}</jsp:attribute> HEAD
                     <jsp:attribute name="inputDateFormat">${"dd/MM/yyyy"}</jsp:attribute>
+                    <jsp:attribute name="inputValue">${eventDuty.startDate}</jsp:attribute>
                 </t:DatePicker>
             </div>
 
@@ -26,6 +27,7 @@
                     <jsp:attribute name="inputName">${"enddate"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                     <jsp:attribute name="inputDateFormat">${"dd/MM/yyyy"}</jsp:attribute>
+                    <jsp:attribute name="inputValue">${eventDuty.endDate}</jsp:attribute>
                 </t:DatePicker>
             </div>
         </div>
@@ -39,6 +41,7 @@
                     <jsp:attribute name="inputName">${"starttime"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                     <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
+                    <jsp:attribute name="inputValue">${eventDuty.startTime}</jsp:attribute>
                 </t:ClockPicker>
             </div>
 
@@ -50,6 +53,7 @@
                     <jsp:attribute name="inputName">${"endtime"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                     <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
+                    <jsp:attribute name="inputValue">${eventDuty.endTime}</jsp:attribute>
                 </t:ClockPicker>
             </div>
         </div>
@@ -57,22 +61,22 @@
         <div class="control-group rows">
             <div class="form-group col-xs-8 col-sm-6">
                 <label for="name" class="control-label">Name</label><br>
-                <input id="name" type="text" value="${eventDuty.getName()}" name="name" placeholder="Name" class="form-control" required><br>
+                <input id="name" type="text" value="${eventDuty.name}" name="name" placeholder="Name" class="form-control" required><br>
             </div>
             <div class="form-group col-xs-8 col-sm-6">
                 <label for="location" class="control-label">Location</label><br>
-                <input id="location" type="text" value="${eventDuty.getLocation()}" name="location" placeholder="Location" class="form-control" required><br>
+                <input id="location" type="text" value="${eventDuty.location}" name="location" placeholder="Location" class="form-control" required><br>
             </div>
         </div>
 
         <div class="control-group rows">
             <div class="form-group col-xs-8 col-sm-6">
                 <label for="conductor" class="control-label">Conductor</label><br>
-                <input id="conductor" type="text" value="${eventDuty.getConductor()}" name="conductor" placeholder="Conductor" class="form-control" required><br>
+                <input id="conductor" type="text" value="${eventDuty.conductor}" name="conductor" placeholder="Conductor" class="form-control" required><br>
             </div>
             <div class="form-group col-xs-8 col-sm-6">
                 <label for="standard-points" class="control-label">Standard Points</label><br>
-                <input id="standard-points" type="number" value="${empty eventDuty.getStandardPoints() ? 0 : eventDuty.getStandardPoints()}" name="standard-points" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
+                <input id="standard-points" type="number" value="${empty eventDuty.standardPoints ? 0 : eventDuty.standardPoints}" name="standard-points" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
             </div>
         </div>
 

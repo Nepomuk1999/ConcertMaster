@@ -1,7 +1,7 @@
 package team_f.database_wrapper.database;
 
-import team_f.database_wrapper.enums.DutyRosterStatus;
-import team_f.database_wrapper.enums.SectionType;
+import team_f.database_wrapper.entities.DutyRosterStatus;
+import team_f.database_wrapper.entities.SectionType;
 import javax.persistence.*;
 import java.util.Collection;
 

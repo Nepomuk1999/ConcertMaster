@@ -46,6 +46,10 @@ Client/.idea/workspace.xml
 Client/.idea/tasks.xml
 Client/.idea/dictionaries
 
+Domain/.idea/workspace.xml
+Domain/.idea/tasks.xml
+Domain/.idea/dictionaries
+
 Server/.idea/workspace.xml
 Server/.idea/tasks.xml
 Server/.idea/dictionaries
@@ -58,6 +62,14 @@ Server/.idea/dictionaries
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+
+Domain/.idea/dataSources/
+Domain/.idea/dataSources.ids
+Domain/.idea/dataSources.xml
+Domain/.idea/dataSources.local.xml
+Domain/.idea/sqlDataSources.xml
+Domain/.idea/dynamic.xml
+Domain/.idea/uiDesigner.xml
 
 Client/.idea/dataSources/
 Client/.idea/dataSources.ids
@@ -83,12 +95,16 @@ Server/.idea/webContexts.xml
 Client/.idea/gradle.xml
 Client/.idea/libraries
 
+Domain/.idea/gradle.xml
+Domain/.idea/libraries
+
 Server/.idea/gradle.xml
 Server/.idea/libraries
 
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 Client/.idea/**/mongoSettings.xml
+Domain/.idea/**/mongoSettings.xml
 Server/.idea/**/mongoSettings.xml
 
 ## File-based project format:
@@ -109,6 +125,7 @@ atlassian-ide-plugin.xml
 # Cursive Clojure plugin
 .idea/replstate.xml
 Client/.idea/replstate.xml
+Domain/.idea/replstate.xml
 Server/.idea/replstate.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)

@@ -1,11 +1,13 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.EventDutyEntity;
-import team_f.database_wrapper.enums.EventStatus;
-import team_f.database_wrapper.enums.EventType;
+import team_f.database_wrapper.database.*;
+import team_f.domain.entities.EventDuty;
+import team_f.domain.entities.Instrumentation;
+import team_f.domain.entities.MusicalWork;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Facade {
@@ -25,36 +27,26 @@ public class Facade {
 
     /**
      * Function to add a ModelLogic to team_f.database_wrapper.database. Returns the EventDutyId after saving it in the team_f.database_wrapper.database
-     * @param name              String      name of the event
-     * @param description       String      description of the event
-     * @param start             Timestamp   startTime of the event, saved as DateTime in team_f.database_wrapper.database
-     * @param end               Timestamp   endTime of the event, saved as DateTime in team_f.database_wrapper.database
-     * @param eventType         Enum        type of the event
-     * @param status            Enum        status of the event
-     * @param conductor         String      conductor
-     * @param location          String      location
-     * @param defaultPoints     int         default Points musicians get for this event
-     * @param instrumentation   int         refers to a instrumentation with the primarykey instrumentation
      * @return EventDutyId      int         returns the primary key of the event
      */
 
-    public Integer addEvent(String name, String description, LocalDateTime start, LocalDateTime end, EventType eventType,
-                            EventStatus status, String conductor, String location, double defaultPoints, int instrumentation) {
+    public Integer addEvent(EventDuty event) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        EventDutyEntity event = new EventDutyEntity();
-        event.setName(name);
-        event.setDescription(description);
-        event.setStarttime(start);
-        event.setEndtime(end);
-        event.setEventType(eventType);
-        event.setEventStatus(status);
-        event.setConductor(conductor);
-        event.setLocation(location);
-        event.setDefaultPoints(defaultPoints);
-        event.setInstrumentation(instrumentation);
+        EventDutyEntity eventEntity = new EventDutyEntity();
+
+        eventEntity.setName(event.getName());
+        eventEntity.setDescription(event.getDescription());
+        eventEntity.setStarttime(event.getStarttime());
+        eventEntity.setEndtime(event.getEndtime());
+        eventEntity.setEventType(event.getEventType());
+        eventEntity.setEventStatus(event.getEventStatus());
+        eventEntity.setConductor(event.getConductor());
+        eventEntity.setLocation(event.getLocation());
+        eventEntity.setDefaultPoints(event.getDefaultPoints());
+        eventEntity.setInstrumentation(event.getInstrumentation());
 
         session.persist(event);
 
@@ -64,10 +56,10 @@ public class Facade {
             session.getTransaction().rollback();
         }
 
-        return event.getEventDutyId();
+        return eventEntity.getEventDutyId();
     }
 
-    public List<EventDutyEntity> getEvents(int month, int year) {
+    public List<EventDuty> getEvents(int month, int year) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -75,8 +67,178 @@ public class Facade {
         query.setParameter("month", month);
         query.setParameter("year", year);
 
-        List<EventDutyEntity> events = query.getResultList();
+        List<EventDutyEntity> eventEntities = query.getResultList();
+        List<EventDuty> events = new ArrayList<>();
+
+        for(EventDutyEntity e : eventEntities) {
+            EventDuty temp = new EventDuty();
+            temp.setName(e.getName());
+            temp.setDescription(e.getDescription());
+            temp.setStarttime(e.getStarttime());
+            temp.setEndtime(e.getEndtime());
+            temp.setEventType(e.getEventType());
+            temp.setEventStatus(e.getEventStatus());
+            temp.setConductor(e.getConductor());
+            temp.setLocation(e.getLocation());
+            temp.setDefaultPoints(e.getDefaultPoints());
+            temp.setInstrumentation(e.getInstrumentation());
+
+            events.add(temp);
+        }
 
         return events;
+    }
+
+    public List<Instrumentation> getInstrumentations() {
+        EntityManager session = getCurrentSession();
+
+        // prevent SQL injections
+        Query query = session.createQuery("from InstrumentationEntity");
+
+
+        List<InstrumentationEntity> instrumentationEntities = query.getResultList();
+        List<Instrumentation> instrumentations = new ArrayList<>();
+
+        for (InstrumentationEntity e : instrumentationEntities) {
+            Instrumentation temp = new Instrumentation();
+
+            int si = e.getStringInstrumentation();
+            Query queryString = session.createQuery(String.format("from StringInstrumentationEntity where stringInstrumentationID = %d", si));
+
+            List<StringInstrumentationEntity> stringI = queryString.setMaxResults(1).getResultList();
+            temp.setViolin1(stringI.get(0).getViolin1());
+            temp.setViolin2(stringI.get(0).getViolin2());
+            temp.setViola(stringI.get(0).getViola());
+            temp.setViolincello(stringI.get(0).getViolincello());
+            temp.setDoublebass(stringI.get(0).getDoublebass());
+
+            int bi = e.getStringInstrumentation();
+            Query queryBrass = session.createQuery(String.format("from BrassInstrumentationEntity where brassInstrumentationID = %d", bi));
+            List<BrassInstrumentationEntity> brassI = queryBrass.setMaxResults(1).getResultList();
+            temp.setHorn(brassI.get(0).getHorn());
+            temp.setTrombone(brassI.get(0).getTrombone());
+            temp.setTrumpet(brassI.get(0).getTrumpet());
+            temp.setTube(brassI.get(0).getTube());
+
+            int wi = e.getStringInstrumentation();
+            Query queryWood = session.createQuery(String.format("from WoodInstrumentationEntity where woodInstrumentationID = %d", wi));
+            List<WoodInstrumentationEntity> woodI = queryWood.setMaxResults(1).getResultList();
+            temp.setBassoon(woodI.get(0).getBassoon());
+            temp.setClarinet(woodI.get(0).getClarinet());
+            temp.setFlute(woodI.get(0).getFlute());
+            temp.setOboe(woodI.get(0).getOboe());
+
+            int pi = e.getStringInstrumentation();
+            Query queryPercussion = session.createQuery(String.format("from PercussionInstrumentationEntity where percussionInstrumentationID = %d", pi));
+            List<PercussionInstrumentationEntity> percussionI = queryPercussion.setMaxResults(1).getResultList();
+            temp.setHarp(percussionI.get(0).getHarp());
+            temp.setKettledrum(percussionI.get(0).getKettledrum());
+            temp.setPercussion(percussionI.get(0).getPercussion());
+
+            instrumentations.add(temp);
+        }
+
+        return instrumentations;
+    }
+
+    public Integer addInstrumentation(Instrumentation inst) {
+
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        InstrumentationEntity instrumentation = new InstrumentationEntity();
+        StringInstrumentationEntity stringInstrumentation = new StringInstrumentationEntity();
+        BrassInstrumentationEntity brassInstrumentation = new BrassInstrumentationEntity();
+        WoodInstrumentationEntity woodInstrumentation = new WoodInstrumentationEntity();
+        PercussionInstrumentationEntity percussionInstrumentation = new PercussionInstrumentationEntity();
+
+        stringInstrumentation.setViolin1(inst.getViolin1());
+        stringInstrumentation.setViolin2(inst.getViolin2());
+        stringInstrumentation.setViola(inst.getViola());
+        stringInstrumentation.setViolincello(inst.getViolincello());
+        stringInstrumentation.setDoublebass(inst.getDoublebass());
+
+        session.persist(stringInstrumentation);
+
+        brassInstrumentation.setHorn(inst.getHorn());
+        brassInstrumentation.setTrombone(inst.getTrombone());
+        brassInstrumentation.setTrumpet(inst.getTrumpet());
+        brassInstrumentation.setTube(inst.getTube());
+
+        session.persist(brassInstrumentation);
+
+        woodInstrumentation.setFlute(inst.getFlute());
+        woodInstrumentation.setOboe(inst.getOboe());
+        woodInstrumentation.setClarinet(inst.getClarinet());
+        woodInstrumentation.setBassoon(inst.getBassoon());
+
+        session.persist(woodInstrumentation);
+
+        percussionInstrumentation.setHarp(inst.getHarp());
+        percussionInstrumentation.setKettledrum(inst.getKettledrum());
+        percussionInstrumentation.setPercussion(inst.getPercussion());
+
+        session.persist(percussionInstrumentation);
+
+        instrumentation.setStringInstrumentation(stringInstrumentation.getStringInstrumentationId());
+        instrumentation.setBrassInstrumentation(brassInstrumentation.getBrassInstrumentationId());
+        instrumentation.setWoodInstrumentation(woodInstrumentation.getWoodInstrumentationId());
+        instrumentation.setPercussionInstrumentation(percussionInstrumentation.getPercussionInstrumentationId());
+
+        session.persist(instrumentation);
+
+        try {
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+
+        return instrumentation.getInstrumentationId();
+    }
+
+    public List<MusicalWork> getMusicalWorks(){
+
+        EntityManager session = getCurrentSession();
+
+        // prevent SQL injections
+        Query query = session.createQuery("from MusicalWorkEntity");
+
+
+        List<MusicalWorkEntity> musicalWorkEntities = query.getResultList();
+        List<MusicalWork> musicalworks = new ArrayList<>();
+
+        for (MusicalWorkEntity e : musicalWorkEntities) {
+            MusicalWork temp = new MusicalWork();
+
+            temp.setInstrumentationID(e.getInstrumentationId());
+            temp.setComposer(e.getComposer());
+            temp.setName(e.getName());
+
+            musicalworks.add(temp);
+        }
+
+        return musicalworks;
+    }
+
+    public Integer addMusicalWork(MusicalWork mw){
+
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        MusicalWorkEntity mwEntity = new MusicalWorkEntity();
+
+        mwEntity.setInstrumentationId(mw.getInstrumentationID());
+        mwEntity.setComposer(mw.getComposer());
+        mwEntity.setName(mw.getName());
+
+        session.persist(mw);
+
+        try {
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+
+        return mwEntity.getMusicalWorkId();
     }
 }

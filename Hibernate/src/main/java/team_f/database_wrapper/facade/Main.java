@@ -1,8 +1,8 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.EventDutyEntity;
-import team_f.database_wrapper.enums.EventStatus;
-import team_f.database_wrapper.enums.EventType;
+import team_f.database_wrapper.entities.EventStatus;
+import team_f.database_wrapper.entities.EventType;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,6 +1,6 @@
 package team_f.database_wrapper.database;
 
-import team_f.database_wrapper.enums.DutyDispositionStatus;
+import team_f.database_wrapper.entities.DutyDispositionStatus;
 import javax.persistence.*;
 
 @Entity

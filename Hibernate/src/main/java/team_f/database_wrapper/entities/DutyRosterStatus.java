@@ -1,4 +1,4 @@
-package team_f.database_wrapper.enums;
+package team_f.database_wrapper.entities;
 
 public enum DutyRosterStatus {
     Unpublished,
