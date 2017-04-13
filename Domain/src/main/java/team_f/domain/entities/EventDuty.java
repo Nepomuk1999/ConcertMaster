@@ -1,6 +1,9 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.EventStatus;
+import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
+
 import java.time.LocalDateTime;
 
 public class EventDuty implements DomainEntity {
@@ -9,8 +12,8 @@ public class EventDuty implements DomainEntity {
     private String description;
     private LocalDateTime starttime;
     private LocalDateTime endtime;
-    /*private EventType eventType;
-    private EventStatus eventStatus;*/
+    private EventType eventType;
+    private EventStatus eventStatus;
     private String conductor;
     private String location;
     private Integer rehearsalFor;
@@ -64,22 +67,22 @@ public class EventDuty implements DomainEntity {
         this.endtime = endtime;
     }
 
-    /*public EventType getEventType() {
-        return eventType;
+    public String getEventType() {
+        return eventType.toString();
     }
 
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
+    public void setEventType(String eventType) {
+        this.eventType = EventType.valueOf(eventType);
     }
 
-    public EventStatus getEventStatus() {
-        return eventStatus;
+    public String getEventStatus() {
+        return eventStatus.toString();
     }
 
-    public void setEventStatus(EventStatus eventStatus) {
-        this.eventStatus = eventStatus;
+    public void setEventStatus(String eventStatus) {
+        this.eventStatus = EventStatus.valueOf(eventStatus);
     }
-    */
+
 
     public String getConductor() {
         return conductor;

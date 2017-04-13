@@ -1,6 +1,8 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.*;
+import team_f.database_wrapper.entities.EventStatus;
+import team_f.database_wrapper.entities.EventType;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
@@ -9,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Facade {
     EntityManager _session;
@@ -41,8 +44,8 @@ public class Facade {
         eventEntity.setDescription(event.getDescription());
         eventEntity.setStarttime(event.getStarttime());
         eventEntity.setEndtime(event.getEndtime());
-        eventEntity.setEventType(event.getEventType());
-        eventEntity.setEventStatus(event.getEventStatus());
+        eventEntity.setEventType(EventType.valueOf(event.getEventType()));
+        eventEntity.setEventStatus(EventStatus.valueOf(event.getEventStatus()));
         eventEntity.setConductor(event.getConductor());
         eventEntity.setLocation(event.getLocation());
         eventEntity.setDefaultPoints(event.getDefaultPoints());
@@ -76,8 +79,8 @@ public class Facade {
             temp.setDescription(e.getDescription());
             temp.setStarttime(e.getStarttime());
             temp.setEndtime(e.getEndtime());
-            temp.setEventType(e.getEventType());
-            temp.setEventStatus(e.getEventStatus());
+            temp.setEventType(e.getEventType().toString());
+            temp.setEventStatus(e.getEventStatus().toString());
             temp.setConductor(e.getConductor());
             temp.setLocation(e.getLocation());
             temp.setDefaultPoints(e.getDefaultPoints());
