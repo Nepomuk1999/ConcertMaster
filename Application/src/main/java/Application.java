@@ -1,8 +1,10 @@
 import enums.EventStatus;
 import enums.EventType;
+import team_f.database_wrapper.facade.Facade;
+import team_f.domain.entities.EventDuty;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by Christoph on 13.04.2017.
@@ -20,10 +22,10 @@ public class Application {
 
         event.setName(name);
         event.setDescription(description);
-        event.setStartTime(start);
-        event.setEndTime(end);
-        event.setEventType(eventType);
-        event.setEventStatus(status);
+        event.setStarttime(start);
+        event.setEndtime(end);
+        event.setEventType(eventType.toString());
+        event.setEventStatus(status.toString());
         event.setConductor(conductor);
         event.setLocation(location);
         event.setDefaultPoints(defaultPoints);

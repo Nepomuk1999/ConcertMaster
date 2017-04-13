@@ -50,6 +50,10 @@ Application/.idea/workspace.xml
 Application/.idea/tasks.xml
 Application/.idea/dictionaries
 
+Domain/.idea/workspace.xml
+Domain/.idea/tasks.xml
+Domain/.idea/dictionaries
+
 Server/.idea/workspace.xml
 Server/.idea/tasks.xml
 Server/.idea/dictionaries
@@ -71,14 +75,6 @@ Client/.idea/sqlDataSources.xml
 Client/.idea/dynamic.xml
 Client/.idea/uiDesigner.xml
 
-Application/.idea/dataSources/
-Application/.idea/dataSources.ids
-Application/.idea/dataSources.xml
-Application/.idea/dataSources.local.xml
-Application/.idea/sqlDataSources.xml
-Application/.idea/dynamic.xml
-Application/.idea/uiDesigner.xml
-
 Server/.idea/dataSources/
 Server/.idea/dataSources.ids
 Server/.idea/dataSources.xml
@@ -98,6 +94,9 @@ Client/.idea/libraries
 Application/.idea/gradle.xml
 Application/.idea/libraries
 
+Domain/.idea/gradle.xml
+Domain/.idea/libraries
+
 Server/.idea/gradle.xml
 Server/.idea/libraries
 
@@ -105,6 +104,7 @@ Server/.idea/libraries
 .idea/**/mongoSettings.xml
 Client/.idea/**/mongoSettings.xml
 Application/.idea/**/mongoSettings.xml
+Domain/.idea/**/mongoSettings.xml
 Server/.idea/**/mongoSettings.xml
 
 ## File-based project format:
@@ -126,6 +126,7 @@ atlassian-ide-plugin.xml
 .idea/replstate.xml
 Client/.idea/replstate.xml
 Application/.idea/replstate.xml
+Domain/.idea/replstate.xml
 Server/.idea/replstate.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
