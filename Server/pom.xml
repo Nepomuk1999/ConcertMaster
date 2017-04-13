@@ -56,12 +56,6 @@
             <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>Database Connector</groupId>
-            <artifactId>Database Connector</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>

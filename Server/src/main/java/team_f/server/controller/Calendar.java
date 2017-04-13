@@ -5,13 +5,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import javax.ws.rs.core.MediaType;
 
 @WebServlet(urlPatterns = {"/Calendar"})
 public class Calendar extends HttpServlet {
@@ -47,8 +46,9 @@ public class Calendar extends HttpServlet {
             if(startDate != null && endDate != null) {
                 // add the data from the team_f.database_wrapper.database
 
-                /*Facade facade = new Facade();
-                List<EventDutyEntity> eventList = facade.getEvents(startDate.getMonthValue() +1, startDate.getYear());
+                Application facade = new Application();
+                facade.
+                List<EventDuty> eventList = (startDate.getMonthValue() +1, startDate.getYear());
 
                 for(EventDutyEntity event : eventList) {
                     jsonObject = new JSONObject();
