@@ -1,11 +1,7 @@
 package team_f.domain.entities;
 
-import team_f.database_wrapper.database.*;
-import team_f.database_wrapper.entities.EventStatus;
-import team_f.database_wrapper.entities.EventType;
 import team_f.domain.interfaces.DomainEntity;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 public class EventDuty implements DomainEntity {
     private int eventDutyId;
@@ -13,20 +9,20 @@ public class EventDuty implements DomainEntity {
     private String description;
     private LocalDateTime starttime;
     private LocalDateTime endtime;
-    private EventType eventType;
-    private EventStatus eventStatus;
+    /*private EventType eventType;
+    private EventStatus eventStatus;*/
     private String conductor;
     private String location;
     private Integer rehearsalFor;
     private double defaultPoints;
     private Integer instrumentation;
-    private Collection<DutyDispositionEntity> dutyDispositionsByEventDutyId;
+    /*private Collection<DutyDispositionEntity> dutyDispositionsByEventDutyId;
     private EventDutyEntity eventDutyByRehearsalFor;
     private Collection<EventDutyEntity> eventDutiesByEventDutyId;
     private InstrumentationEntity instrumentationByInstrumentation;
     private Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorksByEventDutyId;
     private Collection<EventDutySectionDutyRosterEntity> eventDutySectionDutyRostersByEventDutyId;
-    private Collection<RequestEntity> requestsByEventDutyId;
+    private Collection<RequestEntity> requestsByEventDutyId;*/
 
     public int getEventDutyId() {
         return eventDutyId;
@@ -68,7 +64,7 @@ public class EventDuty implements DomainEntity {
         this.endtime = endtime;
     }
 
-    public EventType getEventType() {
+    /*public EventType getEventType() {
         return eventType;
     }
 
@@ -83,6 +79,7 @@ public class EventDuty implements DomainEntity {
     public void setEventStatus(EventStatus eventStatus) {
         this.eventStatus = eventStatus;
     }
+    */
 
     public String getConductor() {
         return conductor;
@@ -124,7 +121,7 @@ public class EventDuty implements DomainEntity {
         this.instrumentation = instrumentation;
     }
 
-    public Collection<DutyDispositionEntity> getDutyDispositionsByEventDutyId() {
+    /*public Collection<DutyDispositionEntity> getDutyDispositionsByEventDutyId() {
         return dutyDispositionsByEventDutyId;
     }
 
@@ -178,5 +175,5 @@ public class EventDuty implements DomainEntity {
 
     public void setRequestsByEventDutyId(Collection<RequestEntity> requestsByEventDutyId) {
         this.requestsByEventDutyId = requestsByEventDutyId;
-    }
+    }*/
 }

@@ -1,7 +1,6 @@
 package team_f.domain.logic;
 
 import javafx.util.Pair;
-import team_f.database_wrapper.facade.Facade;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.enums.EventDutyProperty;
 import team_f.domain.enums.TransactionType;
@@ -15,10 +14,7 @@ import static team_f.domain.enums.EventDutyProperty.DESCRIPTION;
 import static team_f.domain.enums.EventDutyProperty.NAME;
 
 public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty> {
-    private Facade _facade;
-
-    protected EventDutyLogic(Facade facade) {
-        _facade = facade;
+    protected EventDutyLogic() {
     }
 
     @Override

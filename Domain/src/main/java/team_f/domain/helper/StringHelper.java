@@ -1,7 +1,5 @@
 package team_f.domain.helper;
 
-import java.util.List;
-
 public class StringHelper {
     public static String check(String text, int min, int max) {
         String result = "";
