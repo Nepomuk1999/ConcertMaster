@@ -1,6 +1,6 @@
 package team_f.database_wrapper.database;
 
-import team_f.database_wrapper.enums.AccountRole;
+import team_f.database_wrapper.entities.AccountRole;
 import javax.persistence.*;
 import java.util.Collection;
 

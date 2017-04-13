@@ -5,7 +5,6 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Server" />
-          <element id="jpa-descriptors" facet="Hibernate/jpa/JPA" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.json:json:20160810" />
@@ -58,46 +57,8 @@
           <element id="library" level="project" name="Maven: org.ow2.asm:asm-util:5.0.4" />
           <element id="library" level="project" name="Maven: com.google.guava:guava:19.0" />
           <element id="archive" name="Database Connector-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="Hibernate" />
+            <element id="module-output" name="Domain" />
           </element>
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:6.0.6" />
-          <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.2.9.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" />
-          <element id="library" level="project" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
-          <element id="library" level="project" name="Maven: antlr:antlr:2.7.7" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.1.Final" />
-          <element id="library" level="project" name="Maven: org.jboss:jandex:2.0.3.Final" />
-          <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.3.0" />
-          <element id="library" level="project" name="Maven: dom4j:dom4j:1.6.1" />
-          <element id="library" level="project" name="Maven: org.hibernate.common:hibernate-commons-annotations:5.0.1.Final" />
-          <element id="library" level="project" name="Maven: javax.activation:activation:1.1.1" />
-          <element id="library" level="project" name="Maven: javax.enterprise:cdi-api:1.2" />
-          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
-          <element id="library" level="project" name="Maven: javax.jws:jsr181-api:1.0-MR1" />
-          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.6" />
-          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.annotation:jboss-annotations-api_1.2_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.batch:jboss-batch-api_1.0_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.el:jboss-el-api_3.0_spec:1.0.7.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.enterprise.concurrent:jboss-concurrency-api_1.0_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.faces:jboss-jsf-api_2.2_spec:2.2.13" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.interceptor:jboss-interceptors-api_1.2_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.json:jboss-json-api_1.0_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.management.j2ee:jboss-j2eemgmt-api_1.1_spec:1.0.1.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec:1.0.5.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.security.jacc:jboss-jacc-api_1.5_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.servlet:jboss-servlet-api_3.1_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.security.auth.message:jboss-jaspi-api_1.1_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.jms:jboss-jms-api_2.0_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_2.0_spec:1.0.1.Beta1" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.websocket:jboss-websocket-api_1.1_spec:1.1.1.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec:1.0.4.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:1.0.3.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:2.0.3.Final" />
-          <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">

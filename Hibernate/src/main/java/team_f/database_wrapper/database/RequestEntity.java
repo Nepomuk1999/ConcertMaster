@@ -1,6 +1,6 @@
 package team_f.database_wrapper.database;
 
-import team_f.database_wrapper.enums.RequestType;
+import team_f.database_wrapper.entities.RequestType;
 import javax.persistence.*;
 
 @Entity

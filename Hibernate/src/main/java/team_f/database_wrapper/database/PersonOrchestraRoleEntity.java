@@ -1,6 +1,6 @@
 package team_f.database_wrapper.database;
 
-import team_f.database_wrapper.enums.OrchestraRole;
+import team_f.database_wrapper.entities.OrchestraRole;
 import javax.persistence.*;
 
 @Entity
