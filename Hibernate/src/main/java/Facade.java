@@ -12,9 +12,7 @@ import java.util.List;
 public class Facade {
     Session _session;
 
-    public Facade(Session session) {
-        _session = session;
-    }
+    public Facade() {}
 
     protected Session getCurrentSession(){
         return _session;
