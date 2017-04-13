@@ -7,11 +7,29 @@ import team_f.domain.interfaces.DomainEntity;
  */
 public class Instrumentation implements DomainEntity {
     private int instrumentationID;
-    private int stringInstrumentation;
-    private int woodInstrumentation;
-    private int brassInstrumentation;
-    private int percussionInstrumentation;
+    //WoodInstrumentation
+    private int flute;
+    private int oboe;
+    private int clarinet;
+    private int bassoon;
 
+    //StringInstrumentation
+    private int violin1;
+    private int violin2;
+    private int viola;
+    private int violincello;
+    private int doublebass;
+
+    //BrassInstrumentation
+    private int horn;
+    private int trumpet;
+    private int trombone;
+    private int tube;
+
+    //PercussionInstrumentation
+    private int kettledrum;
+    private int percussion;
+    private int harp;
 
     public int getInstrumentationID() {
         return instrumentationID;
@@ -21,35 +39,131 @@ public class Instrumentation implements DomainEntity {
         this.instrumentationID = instrumentationID;
     }
 
-    public int getStringInstrumentation() {
-        return stringInstrumentation;
+    public int getFlute() {
+        return flute;
     }
 
-    public void setStringInstrumentation(int stringInstrumentation) {
-        this.stringInstrumentation = stringInstrumentation;
+    public void setFlute(int flute) {
+        this.flute = flute;
     }
 
-    public int getWoodInstrumentation() {
-        return woodInstrumentation;
+    public int getOboe() {
+        return oboe;
     }
 
-    public void setWoodInstrumentation(int woodInstrumentation) {
-        this.woodInstrumentation = woodInstrumentation;
+    public void setOboe(int oboe) {
+        this.oboe = oboe;
     }
 
-    public int getBrassInstrumentation() {
-        return brassInstrumentation;
+    public int getClarinet() {
+        return clarinet;
     }
 
-    public void setBrassInstrumentation(int brassInstrumentation) {
-        this.brassInstrumentation = brassInstrumentation;
+    public void setClarinet(int clarinet) {
+        this.clarinet = clarinet;
     }
 
-    public int getPercussionInstrumentation() {
-        return percussionInstrumentation;
+    public int getBassoon() {
+        return bassoon;
     }
 
-    public void setPercussionInstrumentation(int percussionInstrumentation) {
-        this.percussionInstrumentation = percussionInstrumentation;
+    public void setBassoon(int bassoon) {
+        this.bassoon = bassoon;
+    }
+
+    public int getViolin1() {
+        return violin1;
+    }
+
+    public void setViolin1(int violin1) {
+        this.violin1 = violin1;
+    }
+
+    public int getViolin2() {
+        return violin2;
+    }
+
+    public void setViolin2(int violin2) {
+        this.violin2 = violin2;
+    }
+
+    public int getViola() {
+        return viola;
+    }
+
+    public void setViola(int viola) {
+        this.viola = viola;
+    }
+
+    public int getViolincello() {
+        return violincello;
+    }
+
+    public void setViolincello(int violincello) {
+        this.violincello = violincello;
+    }
+
+    public int getDoublebass() {
+        return doublebass;
+    }
+
+    public void setDoublebass(int doublebass) {
+        this.doublebass = doublebass;
+    }
+
+    public int getHorn() {
+        return horn;
+    }
+
+    public void setHorn(int horn) {
+        this.horn = horn;
+    }
+
+    public int getTrumpet() {
+        return trumpet;
+    }
+
+    public void setTrumpet(int trumpet) {
+        this.trumpet = trumpet;
+    }
+
+    public int getTrombone() {
+        return trombone;
+    }
+
+    public void setTrombone(int trombone) {
+        this.trombone = trombone;
+    }
+
+    public int getTube() {
+        return tube;
+    }
+
+    public void setTube(int tube) {
+        this.tube = tube;
+    }
+
+    public int getKettledrum() {
+        return kettledrum;
+    }
+
+    public void setKettledrum(int kettledrum) {
+        this.kettledrum = kettledrum;
+    }
+
+    public int getPercussion() {
+        return percussion;
+    }
+
+    public void setPercussion(int percussion) {
+        this.percussion = percussion;
+    }
+
+    public int getHarp() {
+        return harp;
+    }
+
+    public void setHarp(int harp) {
+        this.harp = harp;
     }
 }
