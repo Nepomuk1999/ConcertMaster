@@ -13,8 +13,8 @@
                     <jsp:attribute name="id">${"startdate"}</jsp:attribute>
                     <jsp:attribute name="placeholder">${"Startdate"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"startdate"}</jsp:attribute>
-                    <jsp:attribute name="inputRequired">${true}</jsp:attribute> HEAD
-                    <jsp:attribute name="inputDateFormat">${"dd/MM/yyyy"}</jsp:attribute>
+                    <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputDateFormat">${"yyyy/MM/dd"}</jsp:attribute>
                     <jsp:attribute name="inputValue">${eventDuty.startDate}</jsp:attribute>
                 </t:DatePicker>
             </div>
