@@ -3,6 +3,7 @@ package team_f.database_wrapper.facade;
 import team_f.database_wrapper.database.*;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
+import team_f.domain.entities.MusicalWork;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -193,5 +194,51 @@ public class Facade {
         }
 
         return instrumentation.getInstrumentationId();
+    }
+
+    public List<MusicalWork> getMusicalWorks(){
+
+        EntityManager session = getCurrentSession();
+
+        // prevent SQL injections
+        Query query = session.createQuery("from MusicalWorkEntity");
+
+
+        List<MusicalWorkEntity> musicalWorkEntities = query.getResultList();
+        List<MusicalWork> musicalworks = new ArrayList<>();
+
+        for (MusicalWorkEntity e : musicalWorkEntities) {
+            MusicalWork temp = new MusicalWork();
+
+            temp.setInstrumentationID(e.getInstrumentationId());
+            temp.setComposer(e.getComposer());
+            temp.setName(e.getName());
+
+            musicalworks.add(temp);
+        }
+
+        return musicalworks;
+    }
+
+    public Integer addMusicalWork(MusicalWork mw){
+
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        MusicalWorkEntity mwEntity = new MusicalWorkEntity();
+
+        mwEntity.setInstrumentationId(mw.getInstrumentationID());
+        mwEntity.setComposer(mw.getComposer());
+        mwEntity.setName(mw.getName());
+
+        session.persist(mw);
+
+        try {
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+
+        return mwEntity.getMusicalWorkId();
     }
 }

@@ -8,7 +8,7 @@ import team_f.domain.interfaces.DomainEntity;
 public class MusicalWork implements DomainEntity {
     private int musicalWorkID;
     private int instrumentationID;
-    private String text;
+    private String name;
     private String composer;
 
     public int getMusicalWorkID() {
@@ -27,12 +27,12 @@ public class MusicalWork implements DomainEntity {
         this.instrumentationID = instrumentationID;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getComposer() {
