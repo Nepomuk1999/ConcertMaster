@@ -2,6 +2,9 @@ import enums.EventStatus;
 import enums.EventType;
 import team_f.database_wrapper.facade.Facade;
 import team_f.domain.entities.EventDuty;
+import team_f.domain.entities.Instrumentation;
+import team_f.domain.entities.MusicalWork;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,5 +35,13 @@ public class Application {
 
     public List<EventDuty> getEvents(int month, int year) {
         return facade.getEvents(month, year);
+    }
+
+    public List<Instrumentation> getInstrumentations () {
+        return facade.getInstrumentations();
+    }
+
+    public List<MusicalWork> getMusicalWorks () {
+        return facade.getMusicalWorks();
     }
 }
