@@ -14,6 +14,7 @@
                     <jsp:attribute name="placeholder">${"Startdate"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"startdate"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputDateFormat">${"yyyy/MM/dd"}</jsp:attribute>
                     <jsp:attribute name="inputValue">${eventDuty.startDate}</jsp:attribute>
                 </t:DatePicker>
             </div>
@@ -25,6 +26,7 @@
                     <jsp:attribute name="placeholder">${"Enddate"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"enddate"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputDateFormat">${"dd/MM/yyyy"}</jsp:attribute>
                     <jsp:attribute name="inputValue">${eventDuty.endDate}</jsp:attribute>
                 </t:DatePicker>
             </div>
@@ -38,6 +40,7 @@
                     <jsp:attribute name="placeholder">${"Starttime"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"starttime"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
                     <jsp:attribute name="inputValue">${eventDuty.startTime}</jsp:attribute>
                 </t:ClockPicker>
             </div>
@@ -49,6 +52,7 @@
                     <jsp:attribute name="placeholder">${"Endtime"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"endtime"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
                     <jsp:attribute name="inputValue">${eventDuty.endTime}</jsp:attribute>
                 </t:ClockPicker>
             </div>
@@ -107,8 +111,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button id="modal-edit" type="button" class="btn btn-default pull-left">Edit</button>
-        <button id="modal-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="modal-cancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button><!--data-dismiss="modal"-->
+        <button id="modal-edit" type="button" class="btn btn-default">Edit</button>
         <button id="modal-save" type="submit" class="btn btn-info pull-right">Save</button>
     </div>
 </form>
