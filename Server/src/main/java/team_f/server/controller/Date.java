@@ -1,10 +1,6 @@
 package team_f.server.controller;
 
 import org.json.JSONArray;
-import team_f.database_wrapper.facade.Facade;
-import team_f.database_wrapper.entities.EventStatus;
-import team_f.database_wrapper.entities.EventType;
-import team_f.database_wrapper.helper.model.EventDuty;
 import team_f.server.helper.request.EventDutyRequest;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
 
 @WebServlet(urlPatterns = {"/Date"})
 public class Date extends HttpServlet {
@@ -66,7 +58,7 @@ public class Date extends HttpServlet {
 
             EventDutyRequest eventDuty = new EventDutyRequest(req);
 
-            List<Map.Entry<String, String>> problems = EventDuty.validate();
+            /*List<Map.Entry<String, String>> problems = EventDuty.validate();
 
             if(problems.size() > 0) {
                 isCorrect = false;
@@ -93,7 +85,7 @@ public class Date extends HttpServlet {
                                 eventDuty.getLocation(), Double.parseDouble(eventDuty.getStandardPoints()), Integer.parseInt(eventDuty.getInstrumentation()));
 
                 resp.setContentType(MediaType.TEXT_HTML);
-            }
+            }*/
         }
     }
 }

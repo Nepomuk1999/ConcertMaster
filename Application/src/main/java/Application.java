@@ -2,13 +2,9 @@ import enums.EventStatus;
 import enums.EventType;
 import team_f.database_wrapper.facade.Facade;
 import team_f.domain.entities.EventDuty;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Created by Christoph on 13.04.2017.
- */
 public class Application {
 
     public Application (){}

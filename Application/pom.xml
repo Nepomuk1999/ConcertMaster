@@ -33,6 +33,11 @@
             <artifactId>Domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>Database Connector</groupId>
+            <artifactId>Database Connector</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
