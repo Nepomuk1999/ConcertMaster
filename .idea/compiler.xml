@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Application" />
         <module name="Client" />
         <module name="Domain" />
         <module name="Hibernate" />
@@ -13,6 +14,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Application" target="1.8" />
       <module name="Client" target="1.8" />
       <module name="Domain" target="1.8" />
       <module name="Hibernate" target="1.8" />
