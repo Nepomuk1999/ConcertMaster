@@ -13,6 +13,7 @@
                     <jsp:attribute name="id">${"startddate"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"startddate"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputDateFormat">${"yyyy/MM/dd"}</jsp:attribute>
                 </t:DatePicker>
             </div>
 
@@ -22,6 +23,7 @@
                     <jsp:attribute name="id">${"enddate"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"enddate"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputDateFormat">${"yyyy/MM/dd"}</jsp:attribute>
                 </t:DatePicker>
             </div>
         </div>
@@ -33,6 +35,7 @@
                     <jsp:attribute name="id">${"starttime"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"starttime"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
                 </t:ClockPicker>
             </div>
 
@@ -42,6 +45,7 @@
                     <jsp:attribute name="id">${"endtime"}</jsp:attribute>
                     <jsp:attribute name="inputName">${"endtime"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
+                    <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
                 </t:ClockPicker>
             </div>
         </div>
@@ -99,8 +103,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button id="modal-edit" type="button" class="btn btn-default pull-left">Edit</button>
-        <button id="modal-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><!--data-dismiss="modal"-->
+        <button id="modal-cancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button><!--data-dismiss="modal"-->
+        <button id="modal-edit" type="button" class="btn btn-default">Edit</button>
         <button id="modal-save" type="submit" class="btn btn-info pull-right">Save</button>
     </div>
 </form>

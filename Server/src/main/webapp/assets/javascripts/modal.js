@@ -52,7 +52,7 @@ function showModal(id, uri, dataForModal) {
 
             if(modalEdit.length) {
                 modalEdit[0].onclick = function() {
-                    _switchEditable(modalQualifier)
+                    _switchEditable(modalQualifier, true)
                 };
             }
 
@@ -60,13 +60,16 @@ function showModal(id, uri, dataForModal) {
 
              if(modalCancel.length) {
                  modalCancel.on('click', function(e) {
-                     $('#' + modalQualifier).on('hide.bs.modal.prevent', function (e) {
+                     // close immediately
+                     _close(modalQualifier);
+
+                     /*$('#' + modalQualifier).on('hide.bs.modal.prevent', function (e) {
                          e.preventDefault()
                      });
 
                      confirmDialog("cancel", "Cancel", "Unsafed changes will we be rejected. Are you sure?", function() {
-                        _close(modalQualifier)
-                     });
+                        _close(modalQualifier);
+                     });*/
                  });
              }
 
@@ -87,7 +90,7 @@ function showModal(id, uri, dataForModal) {
             };
 
             // set non editable
-            _switchEditable(modalQualifier);
+            _switchEditable(modalQualifier, false);
         },
         error: function (xhr, status, error) {
             _showServerError();
@@ -111,7 +114,7 @@ function _resizeModal(modalQualifier) {
     modalContent.css("height", height * 0.74);
 }
 
-function _switchEditable(modalQualifier) {
+function _switchEditable(modalQualifier, toggleVisibility) {
     var attributeName = "disabled";
     var inputFields = $("#" + modalQualifier).find("input");
 
@@ -124,6 +127,10 @@ function _switchEditable(modalQualifier) {
         }
     }
 
+    if(toggleVisibility) {
+        _switchEditButtonVisibility(modalQualifier);
+    }
+
     _switchSaveButtonVisibility(modalQualifier);
 }
 
@@ -132,6 +139,14 @@ function _switchSaveButtonVisibility(modalQualifier) {
 
     if(modalSave.length) {
         modalSave.toggle();
+    }
+}
+
+function _switchEditButtonVisibility(modalQualifier) {
+    var modalEdit = $("#" + modalQualifier).find("#modal-edit");
+
+    if(modalEdit.length) {
+        modalEdit.toggle();
     }
 }
 
