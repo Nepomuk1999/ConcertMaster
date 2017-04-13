@@ -14,6 +14,7 @@
                     <jsp:attribute name="inputName">${"startddate"}</jsp:attribute>
                     <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                     <jsp:attribute name="inputDateFormat">${"yyyy/MM/dd"}</jsp:attribute>
+                    <jsp:attribute name="inputValue">${}</jsp:attribute>
                 </t:DatePicker>
             </div>
 
