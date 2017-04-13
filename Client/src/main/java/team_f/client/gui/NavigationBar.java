@@ -11,54 +11,55 @@ public class NavigationBar {
         MenuSection menuSection;
         MenuSectionItem menuSectionItem;
         ToggleGroup toggleGroup = new ToggleGroup();
+        sidebar.setStyle("-fx-background-color:   #e0e0d1");
 
-        menuSection = new MenuSection("Home", "/homeM.png", toggleGroup);
+        menuSection = new MenuSection("Home", "/homeM.png", null);
+        menuSection.setAnimated(false);
+        menuSection.setCollapsible(false);
         sidebar.add(menuSection);
 
-        menuSection = new MenuSection("Terminplan", "/calendarM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Pläne einsehen");
+        menuSection = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
+        menuSectionItem = new MenuSectionItem("Show Schedules");
         menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Terminplanverwaltung");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Dienstverwaltung");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Dienste", "/dutyM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Dienstpläne");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Dienstverwaltung");
+        menuSectionItem = new MenuSectionItem("Schedule Management");
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
-        menuSection = new MenuSection("Musiker", "/orchestraiconM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Musikerverwaltung");
+        menuSection = new MenuSection("Services", "/dutyM.png", toggleGroup);
+        menuSectionItem = new MenuSectionItem("Service Schedules");
         menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Musikerliste");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Werke", "/musicfolderM.png", toggleGroup);
-        sidebar.add(menuSection);
-
-        menuSection = new MenuSection("Inventar", "/inventaryM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Inventar anzeigen");
-        menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Gegenstand hinzufügen");
+        menuSectionItem = new MenuSectionItem("Service Management");
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
-        menuSection = new MenuSection("Benutzer", "/userM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Stimmgruppenverwaltung");
+        menuSection = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
+        menuSectionItem = new MenuSectionItem("Musician Management");
         menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Musikerverwaltung");
+        menuSectionItem = new MenuSectionItem("Musician List");
+        menuSection.add(menuSectionItem);
+        sidebar.add(menuSection);
+
+        menuSection = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
+        sidebar.add(menuSection);
+
+        menuSection = new MenuSection("Inventory", "/inventaryM.png", toggleGroup);
+        menuSectionItem = new MenuSectionItem("Show Inventory");
+        menuSection.add(menuSectionItem);
+        menuSectionItem = new MenuSectionItem("Add Item");
+        menuSection.add(menuSectionItem);
+        sidebar.add(menuSection);
+
+        menuSection = new MenuSection("User", "/userM.png", toggleGroup);
+        menuSectionItem = new MenuSectionItem("Section Management");
+        menuSection.add(menuSectionItem);
+        menuSectionItem = new MenuSectionItem("Musician Management");
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
         menuSection = new MenuSection("Administration", "/settingsM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Stimmgruppenverwaltung");
+        menuSectionItem = new MenuSectionItem("Section Management");
         menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Musikerverwaltung");
+        menuSectionItem = new MenuSectionItem("Musician Management");
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 

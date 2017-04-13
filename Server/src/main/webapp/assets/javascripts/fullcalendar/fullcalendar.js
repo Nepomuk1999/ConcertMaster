@@ -4256,7 +4256,7 @@ var Grid = FC.Grid = Class.extend(ListenerMixin, {
 		this.view.calendar.normalizeEventDates(fakeEvent);
 
 		// this extra className will be useful for differentiating real events from mock events in CSS
-		fakeEvent.className = (fakeEvent.className || []).concat('fc-helper');
+		fakeEvent.className = (fakeEvent.className || []).concat('fc-team_f.database_wrapper.helper');
 
 		// if something external is being dragged in, don't render a resizer
 		if (!sourceSeg) {
@@ -4960,10 +4960,10 @@ Grid.mixin({
 						_this.applyDragOpacity(dragHelperEls);
 					}
 
-					mouseFollower.hide(); // if the subclass is already using a mock event "helper", hide our own
+					mouseFollower.hide(); // if the subclass is already using a mock event "team_f.database_wrapper.helper", hide our own
 				}
 				else {
-					mouseFollower.show(); // otherwise, have the helper follow the mouse (no snapping)
+					mouseFollower.show(); // otherwise, have the team_f.database_wrapper.helper follow the mouse (no snapping)
 				}
 
 				if (isOrig) {
@@ -5213,7 +5213,7 @@ Grid.mixin({
 	// Renders a visual indication of an event or external element being dragged.
 	// `dropLocation` contains hypothetical start/end/allDay values the event would have if dropped. end can be null.
 	// `seg` is the internal segment object that is being dragged. If dragging an external element, `seg` is null.
-	// A truthy returned value indicates this method has rendered a helper element.
+	// A truthy returned value indicates this method has rendered a team_f.database_wrapper.helper element.
 	// Must return elements used for any mock events.
 	renderDrag: function(dropLocation, seg) {
 		// subclasses must implement
@@ -6360,7 +6360,7 @@ var DayGrid = FC.DayGrid = Grid.extend(DayTableMixin, {
 
 	rowEls: null, // set of fake row elements
 	cellEls: null, // set of whole-day elements comprising the row's background
-	helperEls: null, // set of cell skeleton elements for rendering the mock event "helper"
+	helperEls: null, // set of cell skeleton elements for rendering the mock event "team_f.database_wrapper.helper"
 
 	rowCoordCache: null,
 	colCoordCache: null,
@@ -6672,7 +6672,7 @@ var DayGrid = FC.DayGrid = Grid.extend(DayTableMixin, {
 			this.renderHighlight(eventSpans[i]);
 		}
 
-		// if a segment from the same calendar but another component is being dragged, render a helper event
+		// if a segment from the same calendar but another component is being dragged, render a team_f.database_wrapper.helper event
 		if (seg && seg.component !== this) {
 			return this.renderEventLocationHelper(eventLocation, seg); // returns mock event elements
 		}
@@ -6714,7 +6714,7 @@ var DayGrid = FC.DayGrid = Grid.extend(DayTableMixin, {
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// Renders a mock "helper" event. `sourceSeg` is the associated internal segment object. It can be null.
+	// Renders a mock "team_f.database_wrapper.helper" event. `sourceSeg` is the associated internal segment object. It can be null.
 	renderHelper: function(event, sourceSeg) {
 		var helperNodes = [];
 		var segs = this.eventToSegs(event);
@@ -6726,7 +6726,7 @@ var DayGrid = FC.DayGrid = Grid.extend(DayTableMixin, {
 		// inject each new event skeleton into each associated row
 		this.rowEls.each(function(row, rowNode) {
 			var rowEl = $(rowNode); // the .fc-row
-			var skeletonEl = $('<div class="fc-helper-skeleton"><table/></div>'); // will be absolutely positioned
+			var skeletonEl = $('<div class="fc-team_f.database_wrapper.helper-skeleton"><table/></div>'); // will be absolutely positioned
 			var skeletonTop;
 
 			// If there is an original segment, match the top position. Otherwise, put it at the row's top level
@@ -6751,7 +6751,7 @@ var DayGrid = FC.DayGrid = Grid.extend(DayTableMixin, {
 	},
 
 
-	// Unrenders any visual indication of a mock helper event
+	// Unrenders any visual indication of a mock team_f.database_wrapper.helper event
 	unrenderHelper: function() {
 		if (this.helperEls) {
 			this.helperEls.remove();
@@ -7891,15 +7891,15 @@ var TimeGrid = FC.TimeGrid = Grid.extend(DayTableMixin, {
 
 
 	// Renders a visual indication of an event being dragged over the specified date(s).
-	// A returned value of `true` signals that a mock "helper" event has been rendered.
+	// A returned value of `true` signals that a mock "team_f.database_wrapper.helper" event has been rendered.
 	renderDrag: function(eventLocation, seg) {
 		var eventSpans;
 		var i;
 
-		if (seg) { // if there is event information for this drag, render a helper event
+		if (seg) { // if there is event information for this drag, render a team_f.database_wrapper.helper event
 
 			// returns mock event elements
-			// signal that a helper has been rendered
+			// signal that a team_f.database_wrapper.helper has been rendered
 			return this.renderEventLocationHelper(eventLocation, seg);
 		}
 		else { // otherwise, just render a highlight
@@ -7939,13 +7939,13 @@ var TimeGrid = FC.TimeGrid = Grid.extend(DayTableMixin, {
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// Renders a mock "helper" event. `sourceSeg` is the original segment object and might be null (an external drag)
+	// Renders a mock "team_f.database_wrapper.helper" event. `sourceSeg` is the original segment object and might be null (an external drag)
 	renderHelper: function(event, sourceSeg) {
 		return this.renderHelperSegs(this.eventToSegs(event), sourceSeg); // returns mock event elements
 	},
 
 
-	// Unrenders any mock helper event
+	// Unrenders any mock team_f.database_wrapper.helper event
 	unrenderHelper: function() {
 		this.unrenderHelperSegs();
 	},
@@ -8016,7 +8016,7 @@ var TimeGrid = FC.TimeGrid = Grid.extend(DayTableMixin, {
 
 	// Renders a visual indication of a selection. Overrides the default, which was to simply render a highlight.
 	renderSelection: function(span) {
-		if (this.view.opt('selectHelper')) { // this setting signals that a mock helper event should be rendered
+		if (this.view.opt('selectHelper')) { // this setting signals that a mock team_f.database_wrapper.helper event should be rendered
 
 			// normally acceps an eventLocation, span has a start/end, which is good enough
 			this.renderEventLocationHelper(span);
@@ -8084,7 +8084,7 @@ TimeGrid.mixin({
 			cellHtml +=
 				'<td>' +
 					'<div class="fc-content-col">' +
-						'<div class="fc-event-container fc-helper-container"></div>' +
+						'<div class="fc-event-container fc-team_f.database_wrapper.helper-container"></div>' +
 						'<div class="fc-event-container"></div>' +
 						'<div class="fc-highlight-container"></div>' +
 						'<div class="fc-bgevent-container"></div>' +
@@ -8102,8 +8102,8 @@ TimeGrid.mixin({
 		);
 
 		this.colContainerEls = skeletonEl.find('.fc-content-col');
-		this.helperContainerEls = skeletonEl.find('.fc-helper-container');
-		this.fgContainerEls = skeletonEl.find('.fc-event-container:not(.fc-helper-container)');
+		this.helperContainerEls = skeletonEl.find('.fc-team_f.database_wrapper.helper-container');
+		this.fgContainerEls = skeletonEl.find('.fc-event-container:not(.fc-team_f.database_wrapper.helper-container)');
 		this.bgContainerEls = skeletonEl.find('.fc-bgevent-container');
 		this.highlightContainerEls = skeletonEl.find('.fc-highlight-container');
 		this.businessContainerEls = skeletonEl.find('.fc-business-container');
@@ -14186,7 +14186,7 @@ var BasicView = FC.BasicView = View.extend({
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// A returned value of `true` signals that a mock "helper" event has been rendered.
+	// A returned value of `true` signals that a mock "team_f.database_wrapper.helper" event has been rendered.
 	renderDrag: function(dropLocation, seg) {
 		return this.dayGrid.renderDrag(dropLocation, seg);
 	},
@@ -14269,7 +14269,7 @@ var basicDayGridMethods = {
 
 
 	// Generates the HTML that goes before every other type of row generated by DayGrid.
-	// Affects helper-skeleton and highlight-skeleton rows.
+	// Affects team_f.database_wrapper.helper-skeleton and highlight-skeleton rows.
 	renderIntroHtml: function() {
 		var view = this.view;
 
@@ -14772,7 +14772,7 @@ var AgendaView = FC.AgendaView = View.extend({
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// A returned value of `true` signals that a mock "helper" event has been rendered.
+	// A returned value of `true` signals that a mock "team_f.database_wrapper.helper" event has been rendered.
 	renderDrag: function(dropLocation, seg) {
 		if (dropLocation.start.hasTime()) {
 			return this.timeGrid.renderDrag(dropLocation, seg);
@@ -14853,7 +14853,7 @@ var agendaTimeGridMethods = {
 
 
 	// Generates the HTML that goes before all other types of cells.
-	// Affects content-skeleton, helper-skeleton, highlight-skeleton for both the time-grid and day-grid.
+	// Affects content-skeleton, team_f.database_wrapper.helper-skeleton, highlight-skeleton for both the time-grid and day-grid.
 	renderIntroHtml: function() {
 		var view = this.view;
 
@@ -14881,7 +14881,7 @@ var agendaDayGridMethods = {
 
 
 	// Generates the HTML that goes before all other types of cells.
-	// Affects content-skeleton, helper-skeleton, highlight-skeleton for both the time-grid and day-grid.
+	// Affects content-skeleton, team_f.database_wrapper.helper-skeleton, highlight-skeleton for both the time-grid and day-grid.
 	renderIntroHtml: function() {
 		var view = this.view;
 

@@ -1,0 +1,49 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <persistence-unit name="sem4_team2" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>team_f.database_wrapper.database.AccountEntity</class>
+        <class>team_f.database_wrapper.database.BrassInstrumentationEntity</class>
+        <class>team_f.database_wrapper.database.DutyDispositionEntity</class>
+        <class>team_f.database_wrapper.database.EventDutyEntity</class>
+        <class>team_f.database_wrapper.database.EventDutyMusicalWorkEntity</class>
+        <class>team_f.database_wrapper.database.EventDutySectionDutyRosterEntity</class>
+        <class>team_f.database_wrapper.database.InstrumentEntity</class>
+        <class>team_f.database_wrapper.database.InstrumentTypeEntity</class>
+        <class>team_f.database_wrapper.database.InstrumentationEntity</class>
+        <class>team_f.database_wrapper.database.MusicalWorkEntity</class>
+        <class>team_f.database_wrapper.database.MusicianPartEntity</class>
+        <class>team_f.database_wrapper.database.PartEntity</class>
+        <class>team_f.database_wrapper.database.PartTypeEntity</class>
+        <class>team_f.database_wrapper.database.PercussionInstrumentationEntity</class>
+        <class>team_f.database_wrapper.database.PersonEntity</class>
+        <class>team_f.database_wrapper.database.PersonOrchestraRoleEntity</class>
+        <class>team_f.database_wrapper.database.RequestEntity</class>
+        <class>team_f.database_wrapper.database.SectionDutyRosterEntity</class>
+        <class>team_f.database_wrapper.database.SpecialInstrumentationEntity</class>
+        <class>team_f.database_wrapper.database.StringInstrumentationEntity</class>
+        <class>team_f.database_wrapper.database.WoodInstrumentationEntity</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <!--<property name="hibernate.hbm2ddl.auto" value="validate" />-->
+            <property name="dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+
+
+            <property name="hibernate.connection.username" value="team2" />
+            <property name="hibernate.connection.password" value="8fpE?2j2E6kis2~9" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://mysql.vlbg.org:3306/sem4_team2" />
+
+            <property name="connection_pool_size" value="5" />
+
+            <!-- only for testing -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE"/>
+            <property name="openjpa.ConnectionFactoryProperties" value="PrintParameters=true" />
+            <property name="hibernate.id.new_generator_mappings" value="false" />
+        </properties>
+    </persistence-unit>
+</persistence>

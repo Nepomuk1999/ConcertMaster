@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Application" />
         <module name="Client" />
+        <module name="Domain" />
         <module name="Hibernate" />
         <module name="Server" />
       </profile>
@@ -15,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="Application" target="1.8" />
       <module name="Client" target="1.8" />
+      <module name="Domain" target="1.8" />
       <module name="Hibernate" target="1.8" />
       <module name="Server" target="1.8" />
     </bytecodeTargetLevel>

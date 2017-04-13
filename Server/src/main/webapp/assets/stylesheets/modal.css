@@ -5,3 +5,14 @@
 .modal-body{
     overflow-y: auto;
 }
+
+.modal-header{
+    background-color: #2694e8;
+}
+
+.modal-title{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 250%;
+    color: snow;
+}
+
