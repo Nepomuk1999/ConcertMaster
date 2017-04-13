@@ -79,6 +79,6 @@
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-analysis:5.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-util:5.0.4" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
-    <orderEntry type="module" module-name="Domain" />
+    <orderEntry type="module" module-name="Hibernate" />
   </component>
 </module>

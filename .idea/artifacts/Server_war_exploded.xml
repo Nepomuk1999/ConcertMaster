@@ -57,7 +57,7 @@
           <element id="library" level="project" name="Maven: org.ow2.asm:asm-util:5.0.4" />
           <element id="library" level="project" name="Maven: com.google.guava:guava:19.0" />
           <element id="archive" name="Database Connector-1.0-SNAPSHOT.jar">
-            <element id="module-output" name="Domain" />
+            <element id="module-output" name="Hibernate" />
           </element>
         </element>
       </element>

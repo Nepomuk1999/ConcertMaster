@@ -3,9 +3,12 @@ package team_f.database_wrapper.facade;
 import team_f.database_wrapper.database.EventDutyEntity;
 import team_f.database_wrapper.entities.EventStatus;
 import team_f.database_wrapper.entities.EventType;
+import team_f.domain.entities.EventDuty;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Facade {
@@ -44,7 +47,7 @@ public class Facade {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        EventDutyEntity event = new EventDutyEntity();
+        EventDuty event = new EventDuty();
         event.setName(name);
         event.setDescription(description);
         event.setStarttime(start);
@@ -67,7 +70,7 @@ public class Facade {
         return event.getEventDutyId();
     }
 
-    public List<EventDutyEntity> getEvents(int month, int year) {
+    public List<EventDuty> getEvents(int month, int year) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -75,7 +78,24 @@ public class Facade {
         query.setParameter("month", month);
         query.setParameter("year", year);
 
-        List<EventDutyEntity> events = query.getResultList();
+        List<EventDutyEntity> eventEntities = query.getResultList();
+        List<EventDuty> events = new ArrayList<>();
+
+        for(EventDutyEntity e : eventEntities) {
+            EventDuty temp = new EventDuty();
+            temp.setName(e.getName());
+            temp.setDescription(e.getDescription());
+            temp.setStarttime(e.getStarttime());
+            temp.setEndtime(e.getEndtime());
+            temp.setEventType(e.getEventType());
+            temp.setEventStatus(e.getEventStatus());
+            temp.setConductor(e.getConductor());
+            temp.setLocation(e.getLocation());
+            temp.setDefaultPoints(e.getDefaultPoints());
+            temp.setInstrumentation(e.getInstrumentation());
+
+            events.add(temp);
+        }
 
         return events;
     }
