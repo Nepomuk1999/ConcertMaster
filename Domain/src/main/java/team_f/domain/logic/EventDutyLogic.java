@@ -78,11 +78,9 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
             switch (property) {
                 case ID:
-                    //Todo: check if not null!
+                    //Todo: check if not null! necessary or not?
 
-                    Integer tmp = (Integer) eventDuty.getEventDutyId();
-
-                    if (!IntegerHelper.isValidId(tmp)) {
+                    if (!IntegerHelper.isValidId(eventDuty.getEventDutyId())) {
                         resultList.add(new Pair<>(ID, "is not in the correct range"));
                     }
                     break;
