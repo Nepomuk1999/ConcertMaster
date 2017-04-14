@@ -68,7 +68,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
     }*/
 
     @Override
-    public List<Pair<EventDutyProperty, String>> validate(EventDutyProperty property, EventDuty object) {
+    public List<Pair<EventDutyProperty, String>> validate(EventDuty eventDuty, EventDutyProperty ... property) {
 
         // use switch case and helpers (other validation methods will be simplified then) as seen above
         return null;

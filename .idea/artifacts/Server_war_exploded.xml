@@ -5,8 +5,6 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Server" />
-          <element id="jpa-descriptors" facet="Hibernate/jpa/JPA" />
-          <element id="module-output" name="ConcertMaster" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.json:json:20160810" />
@@ -106,9 +104,6 @@
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.xml.soap:jboss-saaj-api_1.3_spec:1.0.3.Final" />
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.xml.ws:jboss-jaxws-api_2.2_spec:2.0.3.Final" />
           <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.1" />
-          <element id="library" level="project" name="Maven: org.apache.maven.shared:maven-shared-utils:3.0.0" />
-          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:2.0.1" />
-          <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
