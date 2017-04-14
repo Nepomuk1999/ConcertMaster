@@ -9,7 +9,7 @@ public class IntegerHelper {
         return false;
     }
 
-    public static boolean isPositive(int points) {
+    public static boolean isPositiveDefaultPoint(int points) {
         if(points >= 0) {
             return true;
         }
