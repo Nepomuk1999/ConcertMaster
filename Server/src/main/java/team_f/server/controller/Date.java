@@ -1,6 +1,8 @@
 package team_f.server.controller;
 
+import javafx.util.Pair;
 import org.json.JSONArray;
+import team_f.domain.entities.EventDuty;
 import team_f.server.helper.request.EventDutyRequest;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/Date"})
 public class Date extends HttpServlet {
@@ -58,9 +61,10 @@ public class Date extends HttpServlet {
 
             EventDutyRequest eventDuty = new EventDutyRequest(req);
 
-            /*List<Map.Entry<String, String>> problems = EventDuty.validate();
+            // add a check interface in the application to allow the domain layer to check the data (reference implementation is in the EntityLogic interface in the domain logic module)
+            //List<Pair<String, String>> problems = EventDuty.validate();
 
-            if(problems.size() > 0) {
+            /*if(problems.size() > 0) {
                 isCorrect = false;
 
                 req.setAttribute("problems", problems);

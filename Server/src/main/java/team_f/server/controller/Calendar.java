@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+import team_f.application.Application;
+import team_f.domain.entities.EventDuty;
 import javax.ws.rs.core.MediaType;
 
 @WebServlet(urlPatterns = {"/Calendar"})
@@ -47,10 +49,10 @@ public class Calendar extends HttpServlet {
             if(startDate != null && endDate != null) {
                 // add the data from the team_f.database_wrapper.database
 
-                /*Facade facade = new Facade();
-                List<EventDutyEntity> eventList = facade.getEvents(startDate.getMonthValue() +1, startDate.getYear());
+                Application facade = new Application();
+                List<EventDuty> eventList = facade.getEvents(startDate.getMonthValue() +1, startDate.getYear());
 
-                for(EventDutyEntity event : eventList) {
+                for(EventDuty event : eventList) {
                     jsonObject = new JSONObject();
                     jsonObject.put("id", event.getEventDutyId());
                     jsonObject.put("start", event.getStarttime());
@@ -63,7 +65,7 @@ public class Calendar extends HttpServlet {
                     //jsonObject.put("textColor", "");
 
                     jsonArray.put(jsonObject);
-                }*/
+                }
 
                 /*event = new JSONObject();
                 event.put("start", "2017-04-01");

@@ -17,7 +17,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
     protected EventDutyLogic() {
     }
 
-    @Override
+    /*@Override
     public List<Pair<EventDutyProperty, String>> validate(Pair<EventDutyProperty, Object> ... entries) {
         List<Pair<EventDutyProperty, String>> resultList = new LinkedList<>();
         Object value;
@@ -65,47 +65,12 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
         }
 
         return resultList;
-    }
+    }*/
 
     @Override
-    public List<Pair<EventDutyProperty, String>> validate(EventDuty eventDuty) {
-        List<Pair<EventDutyProperty, String>> resultList = new LinkedList<>();
+    public List<Pair<EventDutyProperty, String>> validate(EventDutyProperty property, EventDuty object) {
 
-        if(eventDuty != null) {
-            /*resultList.addAll(validate(new Pair(EventDutyProperty., user.getUserId()),
-                                       new Pair(EventDutyProperty.FIRST_NAME, user.getFirstName()),
-                                       new Pair(EventDutyProperty.LAST_NAME, user.getLastName()),
-                                       new Pair(EventDutyProperty.EMAIL, user.getEmail()),
-                                       new Pair(EventDutyProperty.PASSWORD, user.getPassword()),
-                                       new Pair(EventDutyProperty.CATEGORIES, user.getCategories())
-                              ));*/
-        }
-
-        return resultList;
-    }
-
-    @Override
-    public List<Pair<EventDutyProperty, String>> update(TransactionType transactionType, EventDuty object) {
-        return new LinkedList<>();
-    }
-
-    @Override
-    public List<Pair<EventDutyProperty, String>> create(TransactionType transactionType, EventDuty object) {
-        return new LinkedList<>();
-    }
-
-    @Override
-    public List<Pair<EventDutyProperty, String>> delete(TransactionType transactionType, int id) {
-        return new LinkedList<>();
-    }
-
-    @Override
-    public List<EventDuty> getList(Pair<EventDutyProperty, Object> ... entries) {
-        return new LinkedList<>();
-    }
-
-    @Override
-    public EventDuty getEntity(Pair<EventDutyProperty, Object> ... entries) {
+        // use switch case and helpers (other validation methods will be simplified then) as seen above
         return null;
     }
 }

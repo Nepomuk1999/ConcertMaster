@@ -57,8 +57,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>Database Connector</groupId>
-            <artifactId>Database Connector</artifactId>
+            <groupId>Application.Layer</groupId>
+            <artifactId>Application-Layer</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

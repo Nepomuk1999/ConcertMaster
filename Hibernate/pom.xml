@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>Database Connector</groupId>
-    <artifactId>Database Connector</artifactId>
+    <groupId>Database.Connector</groupId>
+    <artifactId>Database-Connector</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Database Connector</name>
@@ -51,11 +51,6 @@
             <artifactId>json</artifactId>
             <version>20160810</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>Domain</groupId>
-            <artifactId>Domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
