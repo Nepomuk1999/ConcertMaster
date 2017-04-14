@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
-//TODO: optional: integrate to Homescreen and connect with Database to save Todos etc.....
+//TODO: optional: integrate to HomeScreen(Home/HomeScreen.class) and connect with Database to save Todos etc.....
 public class TodolistHome extends Application {
     @Override public void start(final Stage stage) {
 
