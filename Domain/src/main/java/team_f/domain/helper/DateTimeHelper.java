@@ -10,7 +10,7 @@ public class DateTimeHelper {
             return true;
         }
 
-       return true;
+       return false;
     }
 
     public static boolean compareDates(LocalDateTime starttime, LocalDateTime endtime) {
@@ -18,7 +18,7 @@ public class DateTimeHelper {
             return true;
         }
 
-        return true;
+        return false;
     }
 
 }
