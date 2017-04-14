@@ -66,21 +66,22 @@ public class Facade {
 
         List<EventDutyEntity> eventEntities = query.getResultList();
         List<EventDutyEntity> events = new ArrayList<>();
+        EventDutyEntity event;
 
         for(EventDutyEntity eventDuty : eventEntities) {
-            EventDutyEntity temp = new EventDutyEntity();
-            temp.setName(eventDuty.getName());
-            temp.setDescription(eventDuty.getDescription());
-            temp.setStarttime(eventDuty.getStarttime());
-            temp.setEndtime(eventDuty.getEndtime());
-            temp.setEventType(eventDuty.getEventType());
-            temp.setEventStatus(eventDuty.getEventStatus());
-            temp.setConductor(eventDuty.getConductor());
-            temp.setLocation(eventDuty.getLocation());
-            temp.setDefaultPoints(eventDuty.getDefaultPoints());
-            temp.setInstrumentation(eventDuty.getInstrumentation());
+            event = new EventDutyEntity();
+            event.setName(eventDuty.getName());
+            event.setDescription(eventDuty.getDescription());
+            event.setStarttime(eventDuty.getStarttime());
+            event.setEndtime(eventDuty.getEndtime());
+            event.setEventType(eventDuty.getEventType());
+            event.setEventStatus(eventDuty.getEventStatus());
+            event.setConductor(eventDuty.getConductor());
+            event.setLocation(eventDuty.getLocation());
+            event.setDefaultPoints(eventDuty.getDefaultPoints());
+            event.setInstrumentation(eventDuty.getInstrumentation());
 
-            events.add(temp);
+            events.add(event);
         }
 
         return events;

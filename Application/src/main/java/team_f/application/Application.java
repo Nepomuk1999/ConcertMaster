@@ -59,6 +59,8 @@ public class Application {
             event.setEventType(String.valueOf(eventDuty.getEventType()));
             event.setEventStatus(String.valueOf(eventDuty.getEventStatus()));
             event.setEventStatus(String.valueOf(eventDuty.getEventStatus()));
+
+            eventDuties.add(event);
         }
 
         return eventDuties;
