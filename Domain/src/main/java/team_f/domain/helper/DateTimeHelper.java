@@ -2,9 +2,6 @@ package team_f.domain.helper;
 
 import java.time.LocalDateTime;
 
-/**
- * Created by w7pro on 14.04.2017.
- */
 public class DateTimeHelper {
     public static boolean liesInFuture(LocalDateTime time) {
         LocalDateTime now = LocalDateTime.now();
