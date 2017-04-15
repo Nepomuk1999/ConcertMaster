@@ -4,12 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>Application.Layer</groupId>
-    <artifactId>Application-Layer</artifactId>
+    <groupId>application-layer</groupId>
+    <artifactId>application-layer</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>team_f.application.Application Layer</name>
+    <version>1.0</version>
+    <name>Application Layer</name>
     <url></url>
+    
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>http://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -29,21 +41,15 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>Domain.Layer</groupId>
-            <artifactId>Domain-Layer</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>domain-layer</groupId>
+            <artifactId>domain-layer</artifactId>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>Database.Connector</groupId>
-            <artifactId>Database-Connector</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.0.0</version>
+            <groupId>database-connector</groupId>
+            <artifactId>database-connector</artifactId>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -53,12 +59,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.0.0</version>
@@ -70,7 +77,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>
