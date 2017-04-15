@@ -86,16 +86,23 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case START_TIME:
-                    if (!DateTimeHelper.liesInFuture(eventDuty.getStarttime())) {
-                        resultList.add(new Pair<>(START_TIME, "is bygone"));
+                    if(eventDuty.getStarttime() != null) {
+                        if (!DateTimeHelper.liesInFuture(eventDuty.getStarttime())) {
+                            resultList.add(new Pair<>(START_TIME, "is bygone"));
+                        }
+                    } else {
+                        resultList.add(new Pair<>(START_TIME, "is empty"));
                     }
 
+                    break;
+
+                case END_TIME:
                     if(!DateTimeHelper.liesInFuture(eventDuty.getEndtime())){
                         resultList.add(new Pair<>(END_TIME, "is bygone"));
                     }
-                    //Todo: Both-Start and Endtime, but only one Enum possible
+
                     if(!DateTimeHelper.compareDates(eventDuty.getStarttime(),eventDuty.getEndtime())){
-                        resultList.add(new Pair<>(START_TIME, "Endtime is before Starttime"));
+                        resultList.add(new Pair<>(END_TIME, "is before Starttime"));
                     }
 
                     break;

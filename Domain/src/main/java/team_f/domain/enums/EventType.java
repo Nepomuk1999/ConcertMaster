@@ -1,5 +1,10 @@
 package team_f.domain.enums;
 
 public enum EventType {
-    Opera, Concert, Rehearsal, Hofkapelle, NonMusicalEvent
+    Opera,
+    Concert,
+    Rehearsal,
+    Hofkapelle,
+    NonMusicalEvent,
+    Tour
 }
