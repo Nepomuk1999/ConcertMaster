@@ -1,5 +1,6 @@
 package team_f.server.helper.request;
 
+import team_f.domain.enums.EventDutyProperty;
 import javax.servlet.http.HttpServletRequest;
 
 public class EventDutyRequest {
@@ -12,27 +13,27 @@ public class EventDutyRequest {
     private String _conductor;
     private String _standardPoints;
     private String _eventtype;
-    private String _musicalWork;
+    private String[] _musicalWork;
     private String _rehearsalFor;
     private String _eventstatus;
     private String _description;
-    private String _instrumentation;
+    private String[] _instrumentation;
 
     public EventDutyRequest(HttpServletRequest request) {
-        _startdate = request.getParameter("startdate");
-        _starttime = request.getParameter("starttime");
-        _enddate = request.getParameter("enddate");
-        _endtime = request.getParameter("endtime");
-        _name = request.getParameter("name");
-        _location = request.getParameter("location");
-        _conductor = request.getParameter("conductor");
-        _standardPoints = request.getParameter("standard-points");
-        _eventtype = request.getParameter("eventtype");
-        _musicalWork = request.getParameter("musical-work");
-        _rehearsalFor = request.getParameter("rehearsal-for");
-        _eventstatus = request.getParameter("eventstatus");
-        _description = request.getParameter("description");
-        _instrumentation = request.getParameter("instrumentation");
+        _startdate = request.getParameter(String.valueOf(EventDutyProperty.START_DATE));
+        _starttime = request.getParameter(String.valueOf(EventDutyProperty.START_TIME));
+        _enddate = request.getParameter(String.valueOf(EventDutyProperty.END_DATE));
+        _endtime = request.getParameter(String.valueOf(EventDutyProperty.END_TIME));
+        _name = request.getParameter(String.valueOf(EventDutyProperty.NAME));
+        _location = request.getParameter(String.valueOf(EventDutyProperty.LOCATION));
+        _conductor = request.getParameter(String.valueOf(EventDutyProperty.CONDUCTOR));
+        _standardPoints = request.getParameter(String.valueOf(EventDutyProperty.DEFAULT_POINTS));
+        _eventtype = request.getParameter(String.valueOf(EventDutyProperty.EVENT_TYPE));
+        _musicalWork = request.getParameterValues(String.valueOf(EventDutyProperty.MUSICAL_WORK_LIST));
+        _rehearsalFor = request.getParameter(String.valueOf(EventDutyProperty.REHEARSAL_FOR));
+        _eventstatus = request.getParameter(String.valueOf(EventDutyProperty.EVENT_STATUS));
+        _description = request.getParameter(String.valueOf(EventDutyProperty.DESCRIPTION));
+        _instrumentation = request.getParameterValues(String.valueOf(EventDutyProperty.INSTRUMENTATION));
     }
 
     public String getStartDate() {
@@ -71,7 +72,7 @@ public class EventDutyRequest {
         return _eventtype;
     }
 
-    public String getMusicalWork() {
+    public String[] getMusicalWorkList() {
         return _musicalWork;
     }
 
@@ -87,7 +88,7 @@ public class EventDutyRequest {
         return _description;
     }
 
-    public String getInstrumentation() {
+    public String[] getInstrumentationList() {
         return _instrumentation;
     }
 }

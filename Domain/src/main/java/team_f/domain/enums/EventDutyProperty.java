@@ -8,6 +8,7 @@ public enum EventDutyProperty implements DomainEntityProperty {
     DESCRIPTION,
     START_TIME,
     END_TIME,
+    EVENT_TYPE,
     EVENT_STATUS,
     CONDUCTOR,
     LOCATION,
@@ -17,5 +18,9 @@ public enum EventDutyProperty implements DomainEntityProperty {
     DISPOSITION_LIST,
     MUSICAL_WORK_LIST,
     SECTION_DUTY_ROSTER_LIST,
-    REQUEST_LIST
+    REQUEST_LIST,
+
+    // only used to parse objects from the view
+    START_DATE,
+    END_DATE
 }
