@@ -3,6 +3,7 @@ package team_f.domain.logic;
 import javafx.util.Pair;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.enums.EventDutyProperty;
+import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.TransactionType;
 import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.helper.IntegerHelper;
@@ -20,55 +21,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
     protected EventDutyLogic() {
     }
 
-    /*@Override
-    public List<Pair<EventDutyProperty, String>> validate(Pair<EventDutyProperty, Object> ... entries) {
-        List<Pair<EventDutyProperty, String>> resultList = new LinkedList<>();
-        Object value;
-
-        if(entries != null) {
-            for (Pair<EventDutyProperty, Object> entry : entries) {
-                if (entry != null) {
-                    value = entry.getValue();
-
-                    switch (entry.getKey()) {
-                        case ID:
-                            if (value instanceof Integer) {
-                                Integer tmp = (Integer) value;
-
-                                if (!IntegerHelper.isValidId(tmp)) {
-                                    resultList.add(new Pair<>(EventDutyProperty.ID, "is not in the correct range"));
-                                }
-                            } else {
-                                resultList.add(new Pair<>(EventDutyProperty.ID, "has not the correct type"));
-                            }
-
-                            break;
-                        case NAME:
-                            if (value instanceof String) {
-                                String tmp = (String) value;
-                                resultList.add(new Pair<>(NAME, StringHelper.check(tmp, 3, 15)));
-                            }
-
-                            break;
-                        case DESCRIPTION:
-                            if (value instanceof String) {
-                                String tmp = (String) value;
-                                resultList.add(new Pair<>(DESCRIPTION, StringHelper.check(tmp, 3, 15)));
-                            }
-
-                            break;
-                        // @TODO: implement more
-                        default:
-                            break;
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        return resultList;
-    }*/
 
     @Override
     public List<Pair<EventDutyProperty, String>> validate(EventDuty eventDuty, EventDutyProperty... eventDutyproperty) {
@@ -78,8 +30,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
             switch (property) {
                 case ID:
-                    //Todo: check if not null! necessary or not?
-
                     if (!IntegerHelper.isValidId(eventDuty.getEventDutyId())) {
                         resultList.add(new Pair<>(ID, "is not in the correct range"));
                     }
@@ -93,31 +43,67 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     } else {
                         resultList.add(new Pair<>(START_TIME, "is empty"));
                     }
-
                     break;
 
                 case END_TIME:
-                    if(!DateTimeHelper.liesInFuture(eventDuty.getEndtime())){
-                        resultList.add(new Pair<>(END_TIME, "is bygone"));
+                    if(eventDuty.getEndtime() != null) {
+                        if(!DateTimeHelper.liesInFuture(eventDuty.getEndtime())){
+                            resultList.add(new Pair<>(END_TIME, "is bygone"));
+                        }
+                        if(!DateTimeHelper.compareDates(eventDuty.getStarttime(),eventDuty.getEndtime())){
+                            resultList.add(new Pair<>(END_TIME, "is before Starttime"));
+                        }
+                    }else{
+                        resultList.add(new Pair<>(END_TIME, "is empty"));
                     }
-
-                    if(!DateTimeHelper.compareDates(eventDuty.getStarttime(),eventDuty.getEndtime())){
-                        resultList.add(new Pair<>(END_TIME, "is before Starttime"));
-                    }
-
                     break;
 
                 case DEFAULT_POINTS:
                     if (!IntegerHelper.isPositiveDefaultPoint(eventDuty.getDefaultPoints())) {
-                        resultList.add(new Pair<>(DEFAULT_POINTS, "Only positive Points possible"));
-                    }
-
-
+                            resultList.add(new Pair<>(DEFAULT_POINTS, "Only positive Points possible"));
+                        }
                     break;
+
+                case NAME:
+                    if(eventDuty.getName() == null&&!StringHelper.isNotEmpty(eventDuty.getName())) {
+                        resultList.add(new Pair<>(NAME, "is empty"));
+                    }
+                    break;
+
+                case LOCATION:
+                    if(eventDuty.getLocation() == null&&!StringHelper.isNotEmpty(eventDuty.getLocation())) {
+                        resultList.add(new Pair<>(LOCATION, "is empty"));
+                    }
+                    break;
+
+                case CONDUCTOR:
+                    if(eventDuty.getConductor() == null&&!StringHelper.isNotEmpty(eventDuty.getConductor())) {
+                        resultList.add(new Pair<>(CONDUCTOR, "is empty"));
+                    }
+                    break;
+
+                case EVENT_STATUS:
+                    if(eventDuty.getEventStatus() == null) {
+                        resultList.add(new Pair<>(EVENT_STATUS, "is empty"));
+                    }
+                    else{
+                        if(!(eventDuty.getEventStatus().equals(EventStatus.Cancelled)||
+                                eventDuty.getEventStatus().equals(EventStatus.Published)||
+                                eventDuty.getEventStatus().equals(EventStatus.Unpublished))){
+                            resultList.add(new Pair<>(EVENT_STATUS, "is not valid"));
+                        }
+                        }
+                    break;
+
+
+
+
 
             }}
 
 
             return resultList;
         }
+
+
     }
