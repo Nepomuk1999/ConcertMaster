@@ -1,12 +1,18 @@
 package team_f.client.gui;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import team_f.client.configuration.Configuration;
 import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
+import team_f.client.singletons.BrowserSingleton;
+import team_f.client.singletons.HomeScreenSingleton;
 
 public class NavigationBar {
-    public static Sidebar getNavigationBar() {
+    public static Sidebar getNavigationBar(BorderPane pane, Configuration configuration) {
         Sidebar sidebar = new Sidebar();
         MenuSection menuSection;
         MenuSectionItem menuSectionItem;
@@ -16,10 +22,18 @@ public class NavigationBar {
         menuSection = new MenuSection("Home", "/homeM.png", null);
         menuSection.setAnimated(false);
         menuSection.setCollapsible(false);
+        menuSection.setOnMouseClicked(event -> pane.setCenter(HomeScreenSingleton.getInstance()));
         sidebar.add(menuSection);
 
         menuSection = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Show Schedules");
+        menuSectionItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                BrowserSingleton.getInstance().getBrowser().loadURL("http://localhost:8080/Calendar");
+                pane.setCenter(BrowserSingleton.getInstance());
+            }
+        });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Schedule Management");
         menuSection.add(menuSectionItem);

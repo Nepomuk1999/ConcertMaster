@@ -5,6 +5,8 @@ import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Menu;
@@ -19,6 +21,8 @@ import team_f.client.configuration.Configuration;
 import team_f.client.controls.Home.HomeScreen;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
+import team_f.client.singletons.HomeScreenSingleton;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -35,24 +39,23 @@ public class Client extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         _configuration = AppConfiguration.getConfiguration(this);
 
-        if(_configuration == null) {
+        if (_configuration == null) {
             Common.closeApp(primaryStage, _configuration);
         }
 
         primaryStage.setTitle(_configuration.getAppName());
         primaryStage.getIcons().add(AppConfiguration.getAppIcon());
 
-        // load the webbrowser
-        Browser browser = Webbrowser.getBrowser(_configuration.getStartURI());
         BorderPane content = new BorderPane();
-       // content.setCenter(new BrowserView(browser));
-        content.setCenter(new HomeScreen());
+
+        BorderPane mainContent = new BorderPane();
+        mainContent.setCenter(HomeScreenSingleton.getInstance());
 
         // set the menubar
-        if(_configuration.getShowMenuBar()) {
+        if (_configuration.getShowMenuBar()) {
             MenuBar menuBar = new MenuBar();
 
             Menu menuFile = new Menu("Datei");
@@ -60,7 +63,7 @@ public class Client extends Application {
             MenuItem menuItem;
 
             menuItem = new MenuItem("Startseite");
-            menuItem.setOnAction(actionEvent -> browser.loadURL(_configuration.getStartURI()));
+            menuItem.setOnAction(event -> mainContent.setCenter(HomeScreenSingleton.getInstance()));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
@@ -95,22 +98,24 @@ public class Client extends Application {
             content.setTop(menuBar);
         }
 
+        content.setCenter(mainContent);
+
         // set the sidebar
-        Sidebar sidebar = NavigationBar.getNavigationBar();
+        Sidebar sidebar = NavigationBar.getNavigationBar(mainContent, _configuration);
         content.setLeft(sidebar);
 
         // set window
         Scene scene = new Scene(content);
 
-        if(_configuration.getWidth() < 0 || _configuration.getHeight() < 0) {
+        if (_configuration.getWidth() < 0 || _configuration.getHeight() < 0) {
             primaryStage.setMaximized(true);
         }
 
-        if(_configuration.getWidth() >= 0) {
+        if (_configuration.getWidth() >= 0) {
             primaryStage.setWidth(_configuration.getWidth());
         }
 
-        if(_configuration.getHeight() >= 0) {
+        if (_configuration.getHeight() >= 0) {
             primaryStage.setHeight(_configuration.getHeight());
         }
 
