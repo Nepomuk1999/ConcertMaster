@@ -87,12 +87,18 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         resultList.add(new Pair<>(EVENT_STATUS, "is empty"));
                     }
                     else{
-                        if(!(eventDuty.getEventStatus().equals(EventStatus.Cancelled)||
-                                eventDuty.getEventStatus().equals(EventStatus.Published)||
-                                eventDuty.getEventStatus().equals(EventStatus.Unpublished))){
+                        boolean isValid = false;
+                        for(EventStatus eventStatus : EventStatus.values()) {
+                            if(String.valueOf(eventStatus).equals(eventDuty.getEventStatus())) {
+                                isValid = true;
+                            }
+                        }
+
+                        if(!isValid) {
                             resultList.add(new Pair<>(EVENT_STATUS, "is not valid"));
                         }
-                        }
+                    }
+
                     break;
 
                     /*@TODO: Validation for
