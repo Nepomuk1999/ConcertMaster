@@ -8,4 +8,12 @@ public class IntegerHelper {
 
         return false;
     }
+
+    public static boolean isPositiveDefaultPoint(double points) {
+        if(points >= 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

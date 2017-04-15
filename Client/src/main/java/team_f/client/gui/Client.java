@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
+import team_f.client.controls.Home.HomeScreen;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
 import java.net.URI;
@@ -47,7 +48,8 @@ public class Client extends Application {
         // load the webbrowser
         Browser browser = Webbrowser.getBrowser(_configuration.getStartURI());
         BorderPane content = new BorderPane();
-        content.setCenter(new BrowserView(browser));
+       // content.setCenter(new BrowserView(browser));
+        content.setCenter(new HomeScreen());
 
         // set the menubar
         if(_configuration.getShowMenuBar()) {
