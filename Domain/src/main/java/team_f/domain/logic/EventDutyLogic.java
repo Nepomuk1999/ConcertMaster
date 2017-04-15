@@ -95,6 +95,15 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         }
                     break;
 
+                    /*@TODO: Validation for
+                        REHEARSAL_FOR,
+                        INSTRUMENTATION,
+                        DISPOSITION_LIST,
+                        MUSICAL_WORK_LIST,
+                        SECTION_DUTY_ROSTER_LIST,
+                        REQUEST_LIST
+                        */
+
 
 
 
