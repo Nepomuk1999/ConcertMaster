@@ -9,17 +9,21 @@ function showCalendar(dayClickCallback, eventClickCallback) {
         },
         editable: true,
         eventStartEditable: false,
+        eventDurationEditable: false,
         eventLimit: true, // allow "more" link when too many events
         navLinks: true,
-        viewRender: function( view, element ) {
-            _refreshCalendar(view.start, view.end, view.timezone, view.jsonpCallback);
+        lazyFetching: false,
+        viewRender: function(view, element) {
+            _refreshCalendar(view.start, view.end, view.timezone, view.jsonpCallback, view.events);
         },
         dayClick: dayClickCallback,
         eventClick: eventClickCallback
     });
 }
 
-function _refreshCalendar(start, end, timezone, callback) {
+function _refreshCalendar(start, end, timezone, callback, events) {
+    $('.fc-event').remove();
+
     $.ajax({
         url: "/Calendar",
         contentType: "application/json",
@@ -29,8 +33,17 @@ function _refreshCalendar(start, end, timezone, callback) {
             end: end.toISOString()
         },
         success: function (eventList) {
-            $("#calendar").fullCalendar('removeEvents');
-            $("#calendar").fullCalendar('addEventSource', eventList);
+            var view = $('#calendar').fullCalendar('getView');
+
+            if (view.name == 'month') {
+                $("#calendar").fullCalendar('removeEvents');
+            }
+
+            $('#calendar').fullCalendar('addEventSource', eventList);
+
+            if (view.name == 'month') {
+                $("#calendar").fullCalendar( 'refresh' );
+            }
         }
     });
 }

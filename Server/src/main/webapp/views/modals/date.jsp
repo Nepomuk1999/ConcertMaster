@@ -104,7 +104,7 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_EVENT_TYPE}">
                     <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Eventtype</label><br>
-                    <select class="form-control" name="${EventDutyProperty.EVENT_TYPE}">
+                    <select class="form-control select" name="${EventDutyProperty.EVENT_TYPE}">
                         <option value="">Select Eventtype</option>
                         <c:forEach var="item" items="${EnumHelper.getEventTypeList()}">
                             <option value="${item}" ${item eq eventDuty.eventType ? "selected" : ""}>${item}</option>
@@ -129,7 +129,6 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_MUSICAL_WORK_LIST}">
                     <label for="${EventDutyProperty.MUSICAL_WORK_LIST}" class="control-label">Musical Work</label><br>
-                    <!--<input id="${EventDutyProperty.MUSICAL_WORK_LIST}" type="text" value="${eventDuty.musicalWorkList}" name="${EventDutyProperty.MUSICAL_WORK_LIST}" placeholder="Musical Work" class="form-control" required><br>-->
                     <c:forEach var="item" items="${eventDuty.musicalWorkList}" end="1">
                         <div>${item}</div>
                     </c:forEach>
