@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.enums.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
+import team_f.domain.enums.EventType;
 import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.helper.IntegerHelper;
 import team_f.domain.helper.StringHelper;
@@ -98,7 +99,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                 case EVENT_TYPE:
                     if(eventDuty.getEventType() == null) {
-                        resultList.add(new Pair<>(EVENT_TYPE, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is empty"));
                     }
                     else{
                         boolean isValid = false;
@@ -109,7 +110,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         }
 
                         if(!isValid) {
-                            resultList.add(new Pair<>(EVENT_TYPE, "is not valid"));
+                            resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is not valid"));
                         }
                     }
 

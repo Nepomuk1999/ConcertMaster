@@ -178,6 +178,7 @@ public class Date extends HttpServlet {
                     }
                 }
 
+                req.setAttribute("PROBLEM_START_DATE", "hier ist ein Fehler");
                 req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/date.jsp").forward(req, resp);
             } else {
                 resp.setContentType(MediaType.TEXT_HTML);
