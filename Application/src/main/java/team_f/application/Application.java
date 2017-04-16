@@ -27,7 +27,11 @@ public class Application {
 
     public Application (){}
 
-    Facade facade = new Facade();
+    private Facade facade = new Facade();
+
+    public void closeSession() {
+        facade.closeSession();
+    }
 
     public List<Pair<String, String>> addEvent(EventDuty eventDuty) {
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);

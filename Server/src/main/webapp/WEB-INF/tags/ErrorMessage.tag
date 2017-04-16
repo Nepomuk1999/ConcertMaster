@@ -5,5 +5,14 @@
 <div class="control-group ${empty errorMessage ? "" : "error"}">
     <jsp:doBody />
 
-    <div class="alert alert-danger" role="alert">${errorMessage}</div>
+    <c:choose>
+        <c:when test="${not empty errorMessage}">
+            <!--<div class="alert alert-danger" role="alert">${errorMessage}</div>-->
+            <!--<p class="text-error">${errorMessage}</p>-->
+            <div class="alert alert-danger">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    ${errorMessage}
+            </div>
+        </c:when>
+    </c:choose>
 </div>

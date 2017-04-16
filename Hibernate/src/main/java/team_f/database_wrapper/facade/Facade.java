@@ -1,11 +1,9 @@
 package team_f.database_wrapper.facade;
 
-import javafx.util.Pair;
 import team_f.database_wrapper.database.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -18,6 +16,11 @@ public class Facade {
 
     public Facade(EntityManager session) {
         _session = session;
+    }
+
+    public void closeSession() {
+        _session.close();
+        _session = null;
     }
 
     protected EntityManager getCurrentSession(){

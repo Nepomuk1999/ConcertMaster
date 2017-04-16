@@ -1,5 +1,7 @@
 package team_f.server.controller;
 
+import team_f.application.Application;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,5 +20,11 @@ public class Root extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.TEXT_HTML);
         req.getRequestDispatcher(getServletContext().getContextPath() + "/views/pages/plan_overview.jsp").include(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        Application facade = new Application();
+        facade.closeSession();
     }
 }

@@ -6,7 +6,6 @@ import team_f.application.Application;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
-import team_f.server.helper.Common;
 import team_f.server.helper.DateTimeHelper;
 import team_f.server.helper.request.EventDutyRequest;
 import javax.servlet.ServletException;
@@ -162,8 +161,8 @@ public class Date extends HttpServlet {
             List<Pair<String, String>> errorList = facade.addEvent(eventDuty);
 
             if(errorList.size() > 0) {
-                //resp.setContentType(MediaType.TEXT_HTML);
-                //resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                resp.setContentType(MediaType.TEXT_HTML);
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 req.setAttribute("eventDuty", eventDuty);
 
                 Object attributeContent;
@@ -178,8 +177,7 @@ public class Date extends HttpServlet {
                     }
                 }
 
-                req.setAttribute("PROBLEM_START_DATE", "hier ist ein Fehler");
-                req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/date.jsp").forward(req, resp);
+                req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/date.jsp").include(req, resp);
             } else {
                 resp.setContentType(MediaType.TEXT_HTML);
             }

@@ -4,7 +4,6 @@ import org.hibernate.HibernateException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.TimeZone;
 
 public class SessionFactory {
     private static EntityManagerFactory _entityManagerFactory;
@@ -22,5 +21,11 @@ public class SessionFactory {
         }
 
         return _entityManagerFactory.createEntityManager();
+    }
+
+    public static void close() {
+        if(_entityManagerFactory != null) {
+            _entityManagerFactory.close();
+        }
     }
 }

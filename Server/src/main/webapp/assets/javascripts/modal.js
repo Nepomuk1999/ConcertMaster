@@ -30,7 +30,7 @@ function showModal(id, uri, dataForModal, isEditable) {
             showLoadAnimation(mainLoadAnimationSelector);
         },
         success: function (content) {
-            $("#" + contentQualifier).append(content);
+            $("#" + contentQualifier).html(content);
 
             $("#" + modalQualifier).modal({
                 backdrop: 'static',
@@ -47,53 +47,8 @@ function showModal(id, uri, dataForModal, isEditable) {
                 _resizeModal(modalQualifier);
             });
 
-            // add other listeners
-            var modalEdit = $("#" + modalQualifier).find("#modal-edit");
-
-            if(modalEdit.length) {
-                modalEdit[0].onclick = function() {
-                    _switchEditable(modalQualifier, true)
-                };
-            }
-
-            var modalCancel = $("#" + modalQualifier).find("#modal-cancel");
-
-             if(modalCancel.length) {
-                 modalCancel.on('click', function(e) {
-                     // close immediately
-                     _close(modalQualifier);
-
-                     /*$('#' + modalQualifier).on('hide.bs.modal.prevent', function (e) {
-                         e.preventDefault()
-                     });
-
-                     confirmDialog("cancel", "Cancel", "Unsafed changes will we be rejected. Are you sure?", function() {
-                        _close(modalQualifier);
-                     });*/
-                 });
-             }
-
-            var modalSave = $("#" + modalQualifier).find("#modal-form");
-
-            if(modalSave.length) {
-                modalSave[0].onsubmit = function(ev) {
-                    ev.preventDefault(); // to stop the form from submitting
-
-                    if(_isCorrect(modalQualifier)) {
-                        confirmDialog("save", "Save", "Changes will be saved. Are you sure?", function() {
-                            _save(modalQualifier, contentQualifier)
-                        });
-                    }
-
-                    return false;
-                };
-            };
-
-            if(isEditable) {
-                _switchEditable(modalQualifier, false);
-            } else {
-                _switchEditButtonVisibility(modalQualifier);
-            }
+            _addContentListeners(modalQualifier, contentQualifier);
+            _switchEditable(modalQualifier, isEditable);
         },
         error: function (xhr, status, error) {
             _showServerError();
@@ -117,25 +72,24 @@ function _resizeModal(modalQualifier) {
     modalContent.css("height", height * 0.74);
 }
 
-function _switchEditable(modalQualifier, toggleVisibility) {
+function _switchEditable(modalQualifier, isEditable) {
     var attributeName = "disabled";
     var inputFields = $("#" + modalQualifier).find("input, select");
 
     for(var i = 0; i < inputFields.length; i++) {
-        if(inputFields[i].hasAttribute(attributeName)) {
-            inputFields[i].removeAttribute(attributeName);
-            $("#modal-form")[0].removeAttribute(attributeName);
+        if(isEditable) {
+            if(inputFields[i].hasAttribute(attributeName)) {
+                inputFields[i].removeAttribute(attributeName);
+                $("#modal-form")[0].removeAttribute(attributeName);
+            }
         } else {
             inputFields[i].setAttribute(attributeName, "");
             $("#modal-form")[0].setAttribute(attributeName, "");
         }
     }
 
-    if(toggleVisibility) {
-        _switchEditButtonVisibility(modalQualifier);
-    }
-
-    _switchSaveButtonVisibility(modalQualifier);
+    _switchEditButtonVisibility(modalQualifier, !isEditable)
+    _switchSaveButtonVisibility(modalQualifier, isEditable);
 }
 
 function _switchSaveButtonVisibility(modalQualifier) {
@@ -146,11 +100,27 @@ function _switchSaveButtonVisibility(modalQualifier) {
     }
 }
 
+function _switchSaveButtonVisibility(modalQualifier, isEditable) {
+    var modalSave = $("#" + modalQualifier).find("#modal-save");
+
+    if(modalSave.length) {
+        modalSave.toggle(isEditable);
+    }
+}
+
 function _switchEditButtonVisibility(modalQualifier) {
     var modalEdit = $("#" + modalQualifier).find("#modal-edit");
 
     if(modalEdit.length) {
         modalEdit.toggle();
+    }
+}
+
+function _switchEditButtonVisibility(modalQualifier, isEditable) {
+    var modalEdit = $("#" + modalQualifier).find("#modal-edit");
+
+    if(modalEdit.length) {
+        modalEdit.toggle(isEditable);
     }
 }
 
@@ -195,7 +165,12 @@ function _save(modalQualifier, contentQualifier) {
 
             if (xhr.status == 400) {
                 // replace the content with the new one to show the errors
-                $("#" + contentQualifier).innerHTML = (xhr.responseText);
+                $("#" + contentQualifier).html(xhr.responseText);
+
+                // rebind the event listeners
+                _addContentListeners(modalQualifier, contentQualifier, false);
+
+                _switchEditable(modalQualifier, true);
             } else {
                 _showServerError();
             }
@@ -213,4 +188,48 @@ function _isCorrect(modalQualifier) {
     }
 
     return true;
+}
+
+function _addContentListeners(modalQualifier, contentQualifier) {
+    // add other listeners
+    var modalEdit = $("#" + modalQualifier).find("#modal-edit");
+
+    if(modalEdit.length) {
+        modalEdit[0].onclick = function() {
+            _switchEditable(modalQualifier, true)
+        };
+    }
+
+    var modalCancel = $("#" + modalQualifier).find("#modal-cancel");
+
+    if(modalCancel.length) {
+        modalCancel.on('click', function(e) {
+            // close immediately
+            _close(modalQualifier);
+
+            /*$('#' + modalQualifier).on('hide.bs.modal.prevent', function (e) {
+             e.preventDefault()
+             });
+
+             confirmDialog("cancel", "Cancel", "Unsafed changes will we be rejected. Are you sure?", function() {
+             _close(modalQualifier);
+             });*/
+        });
+    }
+
+    var modalSave = $("#" + modalQualifier).find("#modal-form");
+
+    if(modalSave.length) {
+        modalSave[0].onsubmit = function(ev) {
+            ev.preventDefault(); // to stop the form from submitting
+
+            if(_isCorrect(modalQualifier)) {
+                confirmDialog("save", "Save", "Changes will be saved. Are you sure?", function() {
+                    _save(modalQualifier, contentQualifier)
+                });
+            }
+
+            return false;
+        };
+    };
 }
