@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.enums.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
+import team_f.domain.enums.EventType;
 import team_f.domain.enums.TransactionType;
 import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.helper.IntegerHelper;
@@ -101,8 +102,27 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                     break;
 
+                case EVENT_TYPE:
+                    if(eventDuty.getEventType() == null) {
+                        resultList.add(new Pair<>(EVENT_TYPE, "is empty"));
+                    }
+                    else{
+                        boolean isValid = false;
+                        for(EventType eventType : EventType.values()) {
+                            if(String.valueOf(eventType).equals(eventDuty.getEventType())) {
+                                isValid = true;
+                            }
+                        }
+
+                        if(!isValid) {
+                            resultList.add(new Pair<>(EVENT_TYPE, "is not valid"));
+                        }
+                    }
+
+                    break;
+
+
                     /*@TODO: Validation for
-                        REHEARSAL_FOR,
                         INSTRUMENTATION,
                         DISPOSITION_LIST,
                         MUSICAL_WORK_LIST,
