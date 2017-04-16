@@ -96,11 +96,32 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                     break;
 
+                case EVENT_TYPE:
+                    if(eventDuty.getEventType() == null) {
+                        resultList.add(new Pair<>(EVENT_TYPE, "is empty"));
+                    }
+                    else{
+                        boolean isValid = false;
+                        for(EventType eventType : EventType.values()) {
+                            if(String.valueOf(eventType).equals(eventDuty.getEventType())) {
+                                isValid = true;
+                            }
+                        }
+
+                        if(!isValid) {
+                            resultList.add(new Pair<>(EVENT_TYPE, "is not valid"));
+                        }
+                    }
+
+                    break;
+
+
+
                     /*@TODO: Validation for
-                        REHEARSAL_FOR,
                         INSTRUMENTATION,
-                        DISPOSITION_LIST,
                         MUSICAL_WORK_LIST,
+
+                        DISPOSITION_LIST,
                         SECTION_DUTY_ROSTER_LIST,
                         REQUEST_LIST
                         */
