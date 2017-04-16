@@ -13,5 +13,15 @@ public interface EntityLogic<T extends DomainEntity, E extends DomainEntityPrope
      *                  value: a detailed error message for the user
      *                  is never null
      */
-    public List<Pair<E, String>> validate(T object, E ... properties);
+    public List<Pair<String, String>> validate(T object, E ... properties);
+
+    /**
+     * validates all attributes on the given object
+     * @param object    the object which should be checked
+     * @return          a list of key-value pairs:
+     *                  key: specifies the property
+     *                  value: a detailed error message for the user
+     *                  is never null
+     */
+    public List<Pair<String, String>> validate(T object);
 }

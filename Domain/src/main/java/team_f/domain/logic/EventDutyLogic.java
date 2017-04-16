@@ -4,14 +4,10 @@ import javafx.util.Pair;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.enums.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
-import team_f.domain.enums.TransactionType;
 import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.helper.IntegerHelper;
 import team_f.domain.helper.StringHelper;
 import team_f.domain.interfaces.EntityLogic;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,70 +17,69 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
     protected EventDutyLogic() {
     }
 
-
     @Override
-    public List<Pair<EventDutyProperty, String>> validate(EventDuty eventDuty, EventDutyProperty... eventDutyproperty) {
-        List<Pair<EventDutyProperty, String>> resultList = new LinkedList<>();
+    public List<Pair<String, String>> validate(EventDuty eventDuty, EventDutyProperty... eventDutyproperty) {
+        List<Pair<String, String>> resultList = new LinkedList<>();
 
         for (EventDutyProperty property : eventDutyproperty) {
 
             switch (property) {
                 case ID:
                     if (!IntegerHelper.isValidId(eventDuty.getEventDutyId())) {
-                        resultList.add(new Pair<>(ID, "is not in the correct range"));
+                        resultList.add(new Pair<>(String.valueOf(ID), "is not in the correct range"));
                     }
                     break;
 
-                case START_TIME:
+                case START_DATE:
                     if(eventDuty.getStarttime() != null) {
                         if (!DateTimeHelper.liesInFuture(eventDuty.getStarttime())) {
-                            resultList.add(new Pair<>(START_TIME, "is bygone"));
+                            resultList.add(new Pair<>(String.valueOf(START_DATE), "is bygone"));
                         }
                     } else {
-                        resultList.add(new Pair<>(START_TIME, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(START_DATE), "is empty"));
                     }
                     break;
 
-                case END_TIME:
+                case END_DATE:
                     if(eventDuty.getEndtime() != null) {
                         if(!DateTimeHelper.liesInFuture(eventDuty.getEndtime())){
-                            resultList.add(new Pair<>(END_TIME, "is bygone"));
+                            resultList.add(new Pair<>(String.valueOf(END_DATE), "is bygone"));
                         }
                         if(!DateTimeHelper.compareDates(eventDuty.getStarttime(),eventDuty.getEndtime())){
-                            resultList.add(new Pair<>(END_TIME, "is before Starttime"));
+                            resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Starttime"));
                         }
                     }else{
-                        resultList.add(new Pair<>(END_TIME, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(END_DATE), "is empty"));
                     }
                     break;
 
                 case DEFAULT_POINTS:
                     if (!IntegerHelper.isPositiveDefaultPoint(eventDuty.getDefaultPoints())) {
-                            resultList.add(new Pair<>(DEFAULT_POINTS, "Only positive Points possible"));
+                            resultList.add(new Pair<>(String.valueOf(DEFAULT_POINTS), "Only positive Points possible"));
                         }
                     break;
 
                 case NAME:
                     if(eventDuty.getName() == null&&!StringHelper.isNotEmpty(eventDuty.getName())) {
-                        resultList.add(new Pair<>(NAME, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(NAME), "is empty"));
                     }
                     break;
 
                 case LOCATION:
                     if(eventDuty.getLocation() == null&&!StringHelper.isNotEmpty(eventDuty.getLocation())) {
-                        resultList.add(new Pair<>(LOCATION, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(LOCATION), "is empty"));
                     }
                     break;
 
                 case CONDUCTOR:
                     if(eventDuty.getConductor() == null&&!StringHelper.isNotEmpty(eventDuty.getConductor())) {
-                        resultList.add(new Pair<>(CONDUCTOR, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(CONDUCTOR), "is empty"));
                     }
                     break;
 
                 case EVENT_STATUS:
                     if(eventDuty.getEventStatus() == null) {
-                        resultList.add(new Pair<>(EVENT_STATUS, "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(EVENT_STATUS), "is empty"));
                     }
                     else{
                         boolean isValid = false;
@@ -95,7 +90,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         }
 
                         if(!isValid) {
-                            resultList.add(new Pair<>(EVENT_STATUS, "is not valid"));
+                            resultList.add(new Pair<>(String.valueOf(EVENT_STATUS), "is not valid"));
                         }
                     }
 
@@ -120,5 +115,12 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
             return resultList;
         }
 
+    @Override
+    public List<Pair<String, String>> validate(EventDuty eventDuty) {
+        List<Pair<String, String>> result = new LinkedList<>();
 
+        return validate(eventDuty, EventDutyProperty.values());
     }
+
+
+}

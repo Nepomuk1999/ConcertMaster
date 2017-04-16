@@ -8,7 +8,7 @@
 <%@ attribute name="check" type="java.lang.Boolean" required="false" %>
 <%@ attribute name="label" type="java.lang.String" required="false" %>
 
-<label for="${inputName}" class="control-label">${label}</label><br>
+<label for="${id}" class="control-label">${label}</label><br>
 <input type = "text" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""}>
 
 <script type="text/javascript">

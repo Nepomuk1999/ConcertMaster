@@ -1,4 +1,4 @@
-function showModal(id, uri, dataForModal) {
+function showModal(id, uri, dataForModal, isEditable) {
     var modalQualifier = id + "-modal";
     var contentQualifier = id + "-content";
     var modalWrapper = '<!-- Modal -->' +
@@ -23,7 +23,8 @@ function showModal(id, uri, dataForModal) {
     // load the modal from the server
     $.ajax({
         url: uri,
-        data: dataForModal.toJSON,
+        method: "get",
+        data: dataForModal,
         cache: false,
         beforeSend: function() {
             showLoadAnimation(mainLoadAnimationSelector);
@@ -88,8 +89,11 @@ function showModal(id, uri, dataForModal) {
                 };
             };
 
-            // set non editable
-            _switchEditable(modalQualifier, false);
+            if(isEditable) {
+                _switchEditable(modalQualifier, false);
+            } else {
+                _switchEditButtonVisibility(modalQualifier);
+            }
         },
         error: function (xhr, status, error) {
             _showServerError();
@@ -115,11 +119,12 @@ function _resizeModal(modalQualifier) {
 
 function _switchEditable(modalQualifier, toggleVisibility) {
     var attributeName = "disabled";
-    var inputFields = $("#" + modalQualifier).find("input");
+    var inputFields = $("#" + modalQualifier).find("input, select");
 
     for(var i = 0; i < inputFields.length; i++) {
         if(inputFields[i].hasAttribute(attributeName)) {
-            inputFields[i].removeAttribute(attributeName)
+            inputFields[i].removeAttribute(attributeName);
+            $("#modal-form")[0].removeAttribute(attributeName);
         } else {
             inputFields[i].setAttribute(attributeName, "");
             $("#modal-form")[0].setAttribute(attributeName, "");

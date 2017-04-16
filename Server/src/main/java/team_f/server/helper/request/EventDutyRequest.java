@@ -4,6 +4,7 @@ import team_f.domain.enums.EventDutyProperty;
 import javax.servlet.http.HttpServletRequest;
 
 public class EventDutyRequest {
+    private String _id;
     private String _startdate;
     private String _starttime;
     private String _enddate;
@@ -13,13 +14,15 @@ public class EventDutyRequest {
     private String _conductor;
     private String _standardPoints;
     private String _eventtype;
-    private String[] _musicalWork;
+    private String[] _musicalWorkList;
+    private String[] _alternativeInstrumentationList;
     private String _rehearsalFor;
     private String _eventstatus;
     private String _description;
-    private String[] _instrumentation;
+    private String _instrumentation;
 
     public EventDutyRequest(HttpServletRequest request) {
+        _id = request.getParameter(String.valueOf(EventDutyProperty.ID));
         _startdate = request.getParameter(String.valueOf(EventDutyProperty.START_DATE));
         _starttime = request.getParameter(String.valueOf(EventDutyProperty.START_TIME));
         _enddate = request.getParameter(String.valueOf(EventDutyProperty.END_DATE));
@@ -29,11 +32,16 @@ public class EventDutyRequest {
         _conductor = request.getParameter(String.valueOf(EventDutyProperty.CONDUCTOR));
         _standardPoints = request.getParameter(String.valueOf(EventDutyProperty.DEFAULT_POINTS));
         _eventtype = request.getParameter(String.valueOf(EventDutyProperty.EVENT_TYPE));
-        _musicalWork = request.getParameterValues(String.valueOf(EventDutyProperty.MUSICAL_WORK_LIST));
+        _musicalWorkList = request.getParameterValues(String.valueOf(EventDutyProperty.MUSICAL_WORK_LIST));
+        _alternativeInstrumentationList = request.getParameterValues(String.valueOf(EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST));
         _rehearsalFor = request.getParameter(String.valueOf(EventDutyProperty.REHEARSAL_FOR));
         _eventstatus = request.getParameter(String.valueOf(EventDutyProperty.EVENT_STATUS));
         _description = request.getParameter(String.valueOf(EventDutyProperty.DESCRIPTION));
-        _instrumentation = request.getParameterValues(String.valueOf(EventDutyProperty.INSTRUMENTATION));
+        _instrumentation = request.getParameter(String.valueOf(EventDutyProperty.INSTRUMENTATION));
+    }
+
+    public String getEventDutyId() {
+        return _id;
     }
 
     public String getStartDate() {
@@ -73,7 +81,11 @@ public class EventDutyRequest {
     }
 
     public String[] getMusicalWorkList() {
-        return _musicalWork;
+        return _musicalWorkList;
+    }
+
+    public String[] getAlternativeInstrumentationList() {
+        return _alternativeInstrumentationList;
     }
 
     public String getRehearsalFor() {
@@ -88,7 +100,7 @@ public class EventDutyRequest {
         return _description;
     }
 
-    public String[] getInstrumentationList() {
+    public String getInstrumentation() {
         return _instrumentation;
     }
 }

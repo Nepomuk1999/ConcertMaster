@@ -1,9 +1,11 @@
 package team_f.database_wrapper.facade;
 
+import javafx.util.Pair;
 import team_f.database_wrapper.database.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -44,6 +46,7 @@ public class Facade {
         eventEntity.setLocation(event.getLocation());
         eventEntity.setDefaultPoints(event.getDefaultPoints());
         eventEntity.setInstrumentation(event.getInstrumentation());
+        eventEntity.setRehearsalFor(event.getRehearsalFor());
 
         session.persist(event);
 
@@ -54,6 +57,21 @@ public class Facade {
         }
 
         return eventEntity.getEventDutyId();
+    }
+
+    public EventDutyEntity getEventById(int id) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from EventDutyEntity where eventDutyId = :id");
+        query.setParameter("id", id);
+        query.setMaxResults(1);
+
+        List<EventDutyEntity> eventDutyEntities = query.getResultList();
+
+        if(eventDutyEntities.size() > 0) {
+            return eventDutyEntities.get(0);
+        }
+
+        return null;
     }
 
     public List<EventDutyEntity> getEvents(int month, int year) {
@@ -70,6 +88,7 @@ public class Facade {
 
         for(EventDutyEntity eventDuty : eventEntities) {
             event = new EventDutyEntity();
+            event.setEventDutyId(eventDuty.getEventDutyId());
             event.setName(eventDuty.getName());
             event.setDescription(eventDuty.getDescription());
             event.setStarttime(eventDuty.getStarttime());
@@ -80,6 +99,7 @@ public class Facade {
             event.setLocation(eventDuty.getLocation());
             event.setDefaultPoints(eventDuty.getDefaultPoints());
             event.setInstrumentation(eventDuty.getInstrumentation());
+            event.setRehearsalFor(eventDuty.getRehearsalFor());
 
             events.add(event);
         }
@@ -132,7 +152,6 @@ public class Facade {
     }
 
     public List<MusicalWorkEntity> getMusicalWorks(){
-
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections

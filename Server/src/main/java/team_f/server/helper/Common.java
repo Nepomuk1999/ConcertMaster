@@ -2,7 +2,6 @@ package team_f.server.helper;
 
 import org.json.HTTP;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 
 public class Common {

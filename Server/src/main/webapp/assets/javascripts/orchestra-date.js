@@ -3,9 +3,15 @@ $(document).ready(function() {
 });
 
 function showDayModal(date, jsEvent, view) {
-    showModal("date", "/Date", date);
+    // date contains only a date in the format 2017-04-04T00:00:00.000Z
+    showModal("date", "/Date", date.toJSON, false);
 }
 
 function showEventModal(calEvent, jsEvent, view) {
-    showModal("date", "/Date", calEvent);
+    // contains the full event with an unique id
+    var eventData = {
+        "EventDutyId": calEvent.id
+    };
+
+    showModal("date", "/Date", eventData, true);
 }
