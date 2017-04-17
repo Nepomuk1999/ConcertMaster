@@ -44,7 +44,6 @@ public class Date extends HttpServlet {
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
 
-            Enumeration<String> parameters = req.getParameterNames();
             String eventDutyId = req.getParameter("EventDutyId");
             int eventId;
 
@@ -85,7 +84,6 @@ public class Date extends HttpServlet {
         } else {
             Application facade = new Application();
             EventDutyRequest eventDutyRequest = new EventDutyRequest(req);
-
             EventDuty eventDuty = new EventDuty();
 
             int id;
@@ -125,7 +123,7 @@ public class Date extends HttpServlet {
             eventDuty.setConductor(eventDutyRequest.getConductor());
             eventDuty.setLocation(eventDutyRequest.getLocation());
             eventDuty.setDefaultPoints(Double.parseDouble(eventDutyRequest.getStandardPoints()));
-            eventDuty.setInstrumentation(Integer.parseInt(eventDutyRequest.getInstrumentation()));
+            eventDuty.setInstrumentationId(Integer.parseInt(eventDutyRequest.getInstrumentation()));
 
             Integer musicalWorkId;
             Integer alternativeInstrumentationId;
@@ -134,8 +132,8 @@ public class Date extends HttpServlet {
             String[] musicalWorkList = eventDutyRequest.getMusicalWorkList();
             String[] alternativeInstrumentationList = eventDutyRequest.getAlternativeInstrumentationList();
 
-            if(eventDutyRequest.getMusicalWorkList() != null) {
-                for(int i = 0; i < eventDutyRequest.getMusicalWorkList().length && i < alternativeInstrumentationList.length; i++) {
+            if(musicalWorkList != null && alternativeInstrumentationList != null) {
+                for(int i = 0; i < musicalWorkList.length && i < alternativeInstrumentationList.length; i++) {
                     try {
                         musicalWorkId = Integer.parseInt(musicalWorkList[i]);
                     } catch (NumberFormatException e) {

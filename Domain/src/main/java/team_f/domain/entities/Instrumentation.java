@@ -2,9 +2,6 @@ package team_f.domain.entities;
 
 import team_f.domain.interfaces.DomainEntity;
 
-/**
- * Created by dominik on 13.04.17.
- */
 public class Instrumentation implements DomainEntity {
     private int instrumentationID;
     //WoodInstrumentation

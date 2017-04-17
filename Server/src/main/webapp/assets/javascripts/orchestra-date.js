@@ -1,3 +1,6 @@
+var lastClickedEvent = null;
+var lastClickedEventColor = null;
+
 $(document).ready(function() {
     showCalendar(showDayModal, showEventModal);
 });
@@ -12,6 +15,16 @@ function showEventModal(calEvent, jsEvent, view) {
     var eventData = {
         "EventDutyId": calEvent.id
     };
+
+    if(lastClickedEvent != null) {
+        lastClickedEvent.color = lastClickedEventColor;
+    }
+
+    lastClickedEventColor = calEvent.color;
+    lastClickedEvent = calEvent;
+    calEvent.color = "orange";
+
+    $('#calendar').fullCalendar('updateEvent', calEvent);
 
     showModal("date", "/Date", eventData, false);
 }

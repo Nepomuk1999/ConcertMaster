@@ -168,6 +168,7 @@ public class Facade {
         for (MusicalWorkEntity entity : musicalWorkEntities) {
             musicalWork = new MusicalWorkEntity();
 
+            musicalWork.setMusicalWorkId(entity.getMusicalWorkId());
             musicalWork.setInstrumentationId(entity.getInstrumentationId());
             musicalWork.setComposer(entity.getComposer());
             musicalWork.setName(entity.getName());

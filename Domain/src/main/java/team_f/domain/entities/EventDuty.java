@@ -1,9 +1,6 @@
 package team_f.domain.entities;
 
-import team_f.domain.enums.EventStatus;
-import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
-
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -24,7 +21,7 @@ public class EventDuty implements DomainEntity {
     private String location;
     private Integer rehearsalFor;
     private double defaultPoints;
-    private Integer instrumentation;
+    private Integer instrumentationId;
     private List<MusicalWork> _musicalWorkList = new LinkedList<>();
     private List<Instrumentation> _alternativeInstrumentationList = new LinkedList<>();
 
@@ -152,12 +149,12 @@ public class EventDuty implements DomainEntity {
         this.defaultPoints = defaultPoints;
     }
 
-    public Integer getInstrumentation() {
-        return instrumentation;
+    public Integer getInstrumentationId() {
+        return instrumentationId;
     }
 
-    public void setInstrumentation(Integer instrumentation) {
-        this.instrumentation = instrumentation;
+    public void setInstrumentationId(Integer instrumentationId) {
+        this.instrumentationId = instrumentationId;
     }
 
     public void addMusicalWork(MusicalWork musicalWorkId, Instrumentation alternativeInstrumentationId) {

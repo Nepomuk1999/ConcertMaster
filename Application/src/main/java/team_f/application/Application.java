@@ -1,10 +1,7 @@
 package team_f.application;
 
 import javafx.util.Pair;
-import team_f.database_wrapper.database.EventDutyEntity;
-import team_f.database_wrapper.database.EventDutyMusicalWorkEntity;
-import team_f.database_wrapper.database.InstrumentationEntity;
-import team_f.database_wrapper.database.MusicalWorkEntity;
+import team_f.database_wrapper.database.*;
 import team_f.database_wrapper.entities.EventStatus;
 import team_f.database_wrapper.entities.EventType;
 import team_f.database_wrapper.facade.Facade;
@@ -56,7 +53,7 @@ public class Application {
         event.setConductor(eventDuty.getConductor());
         event.setLocation(eventDuty.getLocation());
         event.setDefaultPoints(eventDuty.getDefaultPoints());
-        event.setInstrumentation(eventDuty.getInstrumentation());
+        event.setInstrumentation(eventDuty.getInstrumentationId());
         event.setRehearsalFor(eventDuty.getRehearsalFor());
 
         // @TODO: musical works have to be save in this stage
@@ -89,6 +86,40 @@ public class Application {
         return eventDuties;
     }
 
+    public List<MusicalWork> getMusicalWorkList() {
+        List<MusicalWorkEntity> musicalWorkEntities = facade.getMusicalWorks();
+        List<MusicalWork> musicalWorks = new ArrayList<>(musicalWorkEntities.size());
+        MusicalWork musicalWork;
+
+        for(MusicalWorkEntity item : musicalWorkEntities) {
+            musicalWork = transformMusicalWorkEntity(item);
+            musicalWorks.add(musicalWork);
+        }
+
+        return musicalWorks;
+    }
+
+    public List<Instrumentation> getInstrumentationList() {
+        List<InstrumentationEntity> instrumentationEntities = facade.getInstrumentations();
+        List<Instrumentation> instrumentations = new ArrayList<>(instrumentationEntities.size());
+        Instrumentation instrumentation;
+
+        for(InstrumentationEntity item : instrumentationEntities) {
+            instrumentation = transformInstrumenationEntity(item);
+            instrumentations.add(instrumentation);
+        }
+
+        return instrumentations;
+    }
+
+    public List<Pair<MusicalWork, Instrumentation>> getMusicalWorkInstrumentationList() {
+        List<Pair<MusicalWork, Instrumentation>> list = new LinkedList<>();
+
+        // @TODO: this method will be useful when we have to map a musicalWork to an alternativeInstrumenation in the view
+
+        return list;
+    }
+
     private EventDuty transformEventDutyEntity(EventDutyEntity eventDutyEntity) {
         EventDuty event = new EventDuty();
         event.setConductor(eventDutyEntity.getConductor());
@@ -99,7 +130,7 @@ public class Application {
         event.setEventDutyId(eventDutyEntity.getEventDutyId());
         event.setRehearsalFor(eventDutyEntity.getRehearsalFor());
         event.setLocation(eventDutyEntity.getLocation());
-        event.setInstrumentation(eventDutyEntity.getInstrumentation());
+        event.setInstrumentationId(eventDutyEntity.getInstrumentation());
         event.setName(eventDutyEntity.getName());
 
         event.setEventType(String.valueOf(eventDutyEntity.getEventType()));
@@ -149,24 +180,34 @@ public class Application {
 
     private Instrumentation transformInstrumenationEntity(InstrumentationEntity instrumentationEntity) {
         Instrumentation instrumentation = new Instrumentation();
-        // @TODO: use Instrumenation Objects instead of ids and check in the validation the id, ...
-        //instrumentation.setBassoon(instrumentationEntity.getBra);
-        //instrumentation.setClarinet();
-        //instrumentation.setDoublebass();
-        //instrumentation.setFlute();
-        //instrumentation.setHarp();
-        //instrumentation.setHorn();
+
         instrumentation.setInstrumentationID(instrumentationEntity.getInstrumentationId());
-        //instrumentation.setKettledrum(instrumentationEntity.get);
-        /*instrumentation.setOboe();
-        instrumentation.setPercussion();
-        instrumentation.setTrombone();
-        instrumentation.setTrumpet();
-        instrumentation.setTube();
-        instrumentation.setViola();
-        instrumentation.setViolin1();
-        instrumentation.setViolin2();
-        instrumentation.setViolincello();*/
+
+        // @TODO: use Instrumenation Objects instead of ids and check in the validation the id, ...
+        BrassInstrumentationEntity brassInstrumentationEntity = instrumentationEntity.getBrassInstrumentationByBrassInstrumentation();
+        PercussionInstrumentationEntity percussionInstrumentationEntity = instrumentationEntity.getPercussionInstrumentationByPercussionInstrumentation();
+        StringInstrumentationEntity stringInstrumentationEntity = instrumentationEntity.getStringInstrumentationByStringInstrumentation();
+        WoodInstrumentationEntity woodInstrumentationEntity = instrumentationEntity.getWoodInstrumentationByWoodInstrumentation();
+
+        instrumentation.setHorn(brassInstrumentationEntity.getHorn());
+        instrumentation.setTrombone(brassInstrumentationEntity.getTrombone());
+        instrumentation.setTrumpet(brassInstrumentationEntity.getTrumpet());
+        instrumentation.setTube(brassInstrumentationEntity.getTube());
+
+        instrumentation.setPercussion(percussionInstrumentationEntity.getPercussion());
+        instrumentation.setKettledrum(percussionInstrumentationEntity.getKettledrum());
+        instrumentation.setHarp(percussionInstrumentationEntity.getHarp());
+
+        instrumentation.setViola(stringInstrumentationEntity.getViola());
+        instrumentation.setViolin1(stringInstrumentationEntity.getViolin1());
+        instrumentation.setViolin2(stringInstrumentationEntity.getViolin2());
+        instrumentation.setViolincello(stringInstrumentationEntity.getViolincello());
+        instrumentation.setDoublebass(stringInstrumentationEntity.getDoublebass());
+
+        instrumentation.setBassoon(woodInstrumentationEntity.getBassoon());
+        instrumentation.setClarinet(woodInstrumentationEntity.getClarinet());
+        instrumentation.setOboe(woodInstrumentationEntity.getOboe());
+        instrumentation.setFlute(woodInstrumentationEntity.getFlute());
 
         return instrumentation;
     }

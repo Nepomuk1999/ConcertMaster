@@ -3,9 +3,12 @@
 <%@ page import="team_f.domain.enums.EventType" %>
 <%@ page import="team_f.domain.enums.EventStatus" %>
 <%@ page import="team_f.domain.entities.EventDuty" %>
+<%@ page import="team_f.application.helper.DomainEntityHelper" %>
+<%@ page import="team_f.domain.entities.MusicalWork" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <form id="modal-form" action="/Date" class="form-group">
     <div class="modal-header">
@@ -129,16 +132,36 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_MUSICAL_WORK_LIST}">
                     <label for="${EventDutyProperty.MUSICAL_WORK_LIST}" class="control-label">Musical Work</label><br>
-                    <c:forEach var="item" items="${eventDuty.musicalWorkList}" end="1">
-                        <div>${item}</div>
-                    </c:forEach>
-                    <!-- add a new window popup -->
+                    <select class="form-control select" name="${EventDutyProperty.MUSICAL_WORK_LIST}">
+                        <option value="">Select Musical Work</option>
+                        <c:forEach var="item" items="${DomainEntityHelper.getMusicalWorkList()}">
+                            <option value="${item.musicalWorkID}"
+                                <%--<c:if test="${fn:length(eventDuty.musicalWorkList) gt 0}">
+                                    ${item.instrumentationID eq eventDuty.musicalWorkList[0].instrumentationID ? "selected" : ""}>
+                                </c:if>--%>
+                                <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
+                                    <c:if test="${musicalWork.musicalWorkID eq item.musicalWorkID}">
+                                        selected
+                                    </c:if>
+                                </c:forEach>
+                            >${item.name} (${item.composer})</option>
+                        </c:forEach>
+                    </select>
+                    <input type="text" name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" value="" class="hidden">
+                    <!-- add a new popup window -->
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_INSTRUMENTATION}">
                     <label for="${EventDutyProperty.INSTRUMENTATION}" class="control-label">Instrumentation</label><br>
-                    <input id="${EventDutyProperty.INSTRUMENTATION}" type="number" value="${empty eventDuty.instrumentation ? 0 : eventDuty.instrumentation}" name="${EventDutyProperty.INSTRUMENTATION}" placeholder="Instrumentation" class="form-control" min="0" required><br>
+                    <%--<texare id="${EventDutyProperty.INSTRUMENTATION}" name="${EventDutyProperty.INSTRUMENTATION}" rows="1">${musicalWork.instrumentationId}</texare>--%>
+                    <%--<input id="${EventDutyProperty.INSTRUMENTATION}" value="${empty eventDuty.instrumentationId ? 0 : eventDuty.instrumentationId}" name="${EventDutyProperty.INSTRUMENTATION}" placeholder="Instrumentation" class="form-control" min="0" required><br>--%>
+                    <select class="form-control select" name="${EventDutyProperty.INSTRUMENTATION}">
+                        <option value="">Select Instrumentation</option>
+                        <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
+                            <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentationId ? "selected" : ""}>Flute: ${item.flute}, Oboe: ${item.oboe}, Clarinet: ${item.clarinet}, Bassoon: ${item.bassoon}, Violin 1: ${item.violin1}, Violin 2: ${item.violin2}, Viola: ${item.viola}, Violincello: ${item.violincello}, Doublebass: ${item.doublebass}, Horn: ${item.horn}, Trumpet: ${item.trumpet}, Trombone: ${item.trombone}, Tube: ${item.tube}, Kettledrum: ${item.kettledrum}, Percussion: ${item.percussion}, Harp: ${item.harp}</option>
+                        </c:forEach>
+                    </select>
                 </t:ErrorMessage>
             </div>
         </div>
