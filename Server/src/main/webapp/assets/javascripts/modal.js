@@ -1,4 +1,4 @@
-function showModal(id, uri, dataForModal, isEditable) {
+function showModal(id, uri, dataForModal, isEditable, onCompleteCallback) {
     var modalQualifier = id + "-modal";
     var contentQualifier = id + "-content";
     var modalWrapper = '<!-- Modal -->' +
@@ -18,7 +18,9 @@ function showModal(id, uri, dataForModal, isEditable) {
         _initializeModal();
     }
 
-    var mainLoadAnimationSelector = "main_content";
+    var mainLoadAnimationSelector = "#main_content";
+
+    showLoadAnimation(mainLoadAnimationSelector);
 
     // load the modal from the server
     $.ajax({
@@ -27,7 +29,7 @@ function showModal(id, uri, dataForModal, isEditable) {
         data: dataForModal,
         cache: false,
         beforeSend: function() {
-            showLoadAnimation(mainLoadAnimationSelector);
+            //showLoadAnimation(mainLoadAnimationSelector);
         },
         success: function (content) {
             $("#" + contentQualifier).html(content);
@@ -38,6 +40,9 @@ function showModal(id, uri, dataForModal, isEditable) {
                 show: true
             });
 
+            // initialize the size of the modal
+            _resizeModal(modalQualifier);
+
             // add window listeners
             $(window).bind("resize", function() {
                 _resizeModal(modalQualifier);
@@ -47,7 +52,7 @@ function showModal(id, uri, dataForModal, isEditable) {
                 _resizeModal(modalQualifier);
             });
 
-            _addContentListeners(modalQualifier, contentQualifier);
+            _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback);
             _switchEditable(modalQualifier, isEditable);
         },
         error: function (xhr, status, error) {
@@ -137,7 +142,7 @@ function _close(modalQualifier) {
     $("#" + modalQualifier).modal('hide')
 }
 
-function _save(modalQualifier, contentQualifier) {
+function _save(modalQualifier, contentQualifier, onCompleteCallback) {
     var modalForm = $("#" + modalQualifier).find("#modal-form");
     var loadAnimationSelector = "#" + contentQualifier + " #modal-form > .modal-body";
 
@@ -159,6 +164,7 @@ function _save(modalQualifier, contentQualifier) {
 
             // close the modal window
             _close(modalQualifier);
+            onCompleteCallback(true);
         },
         error: function (xhr, status, error) {
             hideLoadAnimation(loadAnimationSelector);
@@ -168,12 +174,14 @@ function _save(modalQualifier, contentQualifier) {
                 $("#" + contentQualifier).html(xhr.responseText);
 
                 // rebind the event listeners
-                _addContentListeners(modalQualifier, contentQualifier, false);
+                _addContentListeners(modalQualifier, contentQualifier, false, onCompleteCallback);
 
                 _switchEditable(modalQualifier, true);
             } else {
                 _showServerError();
             }
+
+            onCompleteCallback(false);
         },
         complete: function () {
         }
@@ -190,7 +198,7 @@ function _isCorrect(modalQualifier) {
     return true;
 }
 
-function _addContentListeners(modalQualifier, contentQualifier) {
+function _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback) {
     // add other listeners
     var modalEdit = $("#" + modalQualifier).find("#modal-edit");
 
@@ -225,11 +233,20 @@ function _addContentListeners(modalQualifier, contentQualifier) {
 
             if(_isCorrect(modalQualifier)) {
                 confirmDialog("save", "Save", "Changes will be saved. Are you sure?", function() {
-                    _save(modalQualifier, contentQualifier)
+                    _save(modalQualifier, contentQualifier, onCompleteCallback)
                 });
             }
 
             return false;
         };
-    };
+    }
+
+    var selectPicker = $('.selectpicker');
+
+    if(selectPicker.length) {
+        selectPicker.selectpicker();
+        $("#" + modalQualifier).on('shown', function(){
+            $("#" + modalQualifier).selectpicker('refresh');
+        });
+    }
 }

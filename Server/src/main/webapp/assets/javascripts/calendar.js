@@ -21,6 +21,11 @@ function showCalendar(dayClickCallback, eventClickCallback) {
     });
 }
 
+function refreshCalendar() {
+    var view = $('#calendar').fullCalendar('getView');
+    _refreshCalendar(view.start, view.end, view.timezone, view.jsonpCallback, view.events);
+}
+
 function _refreshCalendar(start, end, timezone, callback, events) {
     $('.fc-event').remove();
 

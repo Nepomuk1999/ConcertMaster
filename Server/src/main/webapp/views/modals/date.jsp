@@ -25,7 +25,7 @@
                         <jsp:attribute name="id">${EventDutyProperty.START_DATE}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.START_DATE}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
-                        <jsp:attribute name="inputDateFormat">${"MM/dd/yyyy"}</jsp:attribute>
+                        <jsp:attribute name="inputDateFormat">${"mm/dd/yyyy"}</jsp:attribute>
                         <jsp:attribute name="inputValue">${eventDuty.getStartDate("MM/dd/yyyy")}</jsp:attribute>
                     </t:DatePicker>
                 </t:ErrorMessage>
@@ -38,7 +38,7 @@
                         <jsp:attribute name="id">${EventDutyProperty.END_DATE}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.END_DATE}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
-                        <jsp:attribute name="inputDateFormat">${"MM/dd/yyyy"}</jsp:attribute>
+                        <jsp:attribute name="inputDateFormat">${"mm/dd/yyyy"}</jsp:attribute>
                         <jsp:attribute name="inputValue">${eventDuty.getEndDate("MM/dd/yyyy")}</jsp:attribute>
                     </t:DatePicker>
                 </t:ErrorMessage>
@@ -107,9 +107,10 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_EVENT_TYPE}">
                     <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Eventtype</label><br>
-                    <select class="form-control select" name="${EventDutyProperty.EVENT_TYPE}">
+                    <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_TYPE}">
                         <option value="">Select Eventtype</option>
                         <c:forEach var="item" items="${EnumHelper.getEventTypeList()}">
+                            <option data-divider="true"></option>
                             <option value="${item}" ${item eq eventDuty.eventType ? "selected" : ""}>${item}</option>
                         </c:forEach>
                     </select>
@@ -118,9 +119,10 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_STATUS}">
                     <label for="${EventDutyProperty.EVENT_STATUS}" class="control-label">Eventstatus</label><br>
-                    <select class="form-control" name="${EventDutyProperty.EVENT_STATUS}">
+                    <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_STATUS}">
                         <option value="">Select Eventstatus</option>
                         <c:forEach var="item" items="${EnumHelper.getEventStatusList()}">
+                            <option data-divider="true"></option>
                             <option value="${item}" ${item eq eventDuty.eventStatus ? "selected" : ""}>${item}</option>
                         </c:forEach>
                     </select>
@@ -132,19 +134,17 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_MUSICAL_WORK_LIST}">
                     <label for="${EventDutyProperty.MUSICAL_WORK_LIST}" class="control-label">Musical Work</label><br>
-                    <select class="form-control select" name="${EventDutyProperty.MUSICAL_WORK_LIST}">
+                    <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.MUSICAL_WORK_LIST}">
                         <option value="">Select Musical Work</option>
                         <c:forEach var="item" items="${DomainEntityHelper.getMusicalWorkList()}">
+                            <option data-divider="true"></option>
                             <option value="${item.musicalWorkID}"
-                                <%--<c:if test="${fn:length(eventDuty.musicalWorkList) gt 0}">
-                                    ${item.instrumentationID eq eventDuty.musicalWorkList[0].instrumentationID ? "selected" : ""}>
-                                </c:if>--%>
                                 <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
                                     <c:if test="${musicalWork.musicalWorkID eq item.musicalWorkID}">
                                         selected
                                     </c:if>
                                 </c:forEach>
-                            >${item.name} (${item.composer})</option>
+                            data-subtext="${item.composer}">${item.name}</option>
                         </c:forEach>
                     </select>
                     <input type="text" name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" value="" class="hidden">
@@ -154,11 +154,10 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_INSTRUMENTATION}">
                     <label for="${EventDutyProperty.INSTRUMENTATION}" class="control-label">Instrumentation</label><br>
-                    <%--<texare id="${EventDutyProperty.INSTRUMENTATION}" name="${EventDutyProperty.INSTRUMENTATION}" rows="1">${musicalWork.instrumentationId}</texare>--%>
-                    <%--<input id="${EventDutyProperty.INSTRUMENTATION}" value="${empty eventDuty.instrumentationId ? 0 : eventDuty.instrumentationId}" name="${EventDutyProperty.INSTRUMENTATION}" placeholder="Instrumentation" class="form-control" min="0" required><br>--%>
-                    <select class="form-control select" name="${EventDutyProperty.INSTRUMENTATION}">
+                    <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.INSTRUMENTATION}">
                         <option value="">Select Instrumentation</option>
                         <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
+                            <option data-divider="true"></option>
                             <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentationId ? "selected" : ""}>Flute: ${item.flute}, Oboe: ${item.oboe}, Clarinet: ${item.clarinet}, Bassoon: ${item.bassoon}, Violin 1: ${item.violin1}, Violin 2: ${item.violin2}, Viola: ${item.viola}, Violincello: ${item.violincello}, Doublebass: ${item.doublebass}, Horn: ${item.horn}, Trumpet: ${item.trumpet}, Trombone: ${item.trombone}, Tube: ${item.tube}, Kettledrum: ${item.kettledrum}, Percussion: ${item.percussion}, Harp: ${item.harp}</option>
                         </c:forEach>
                     </select>

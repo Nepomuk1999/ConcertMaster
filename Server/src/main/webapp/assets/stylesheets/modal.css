@@ -1,5 +1,5 @@
 .modal-dialog{
-    overflow-y: initial !important;
+    overflow-y: initial !important
 }
 
 .modal-body{
@@ -15,4 +15,3 @@
     font-size: 250%;
     color: snow;
 }
-

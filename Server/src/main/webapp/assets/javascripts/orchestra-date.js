@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 function showDayModal(date, jsEvent, view) {
     // date contains only a date in the format 2017-04-04T00:00:00.000Z
-    showModal("date", "/Date", date.toJSON, true);
+    showModal("date", "/Date", {"date": JSON.stringify(date).replace(/"/g, '')}, true, _onComplete);
 }
 
 function showEventModal(calEvent, jsEvent, view) {
@@ -26,5 +26,12 @@ function showEventModal(calEvent, jsEvent, view) {
 
     $('#calendar').fullCalendar('updateEvent', calEvent);
 
-    showModal("date", "/Date", eventData, false);
+    showModal("date", "/Date", eventData, false, function () {
+    });
+}
+
+function _onComplete(isSuccessful) {
+    if(isSuccessful) {
+        refreshCalendar();
+    }
 }

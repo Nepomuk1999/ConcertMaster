@@ -50,39 +50,55 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEndDate(String format) {
-        Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
+        if(endtime != null) {
+            Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
 
-        Format formatter = new SimpleDateFormat(format);
-        String result = formatter.format(date);
+            Format formatter = new SimpleDateFormat(format);
+            String result = formatter.format(date);
 
-        return result;
+            return result;
+        }
+
+        return "";
     }
 
     public String getStartDate(String format) {
-        Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
+        if(starttime != null) {
+            Date date = Date.from(starttime.atZone(ZoneId.systemDefault()).toInstant());
 
-        Format formatter = new SimpleDateFormat(format);
-        String result = formatter.format(date);
+            Format formatter = new SimpleDateFormat(format);
+            String result = formatter.format(date);
 
-        return result;
+            return result;
+        }
+
+        return "";
     }
 
     public String getStartTime(String format) {
-        Date date = Date.from(starttime.atZone(ZoneId.systemDefault()).toInstant());
+        if(starttime != null) {
+            Date date = Date.from(starttime.atZone(ZoneId.systemDefault()).toInstant());
 
-        Format formatter = new SimpleDateFormat(format);
-        String result = formatter.format(date);
+            Format formatter = new SimpleDateFormat(format);
+            String result = formatter.format(date);
 
-        return result;
+            return result;
+        }
+
+        return "";
     }
 
     public String getEndTime(String format) {
-        Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
+        if(endtime != null) {
+            Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
 
-        Format formatter = new SimpleDateFormat(format);
-        String result = formatter.format(date);
+            Format formatter = new SimpleDateFormat(format);
+            String result = formatter.format(date);
 
-        return result;
+            return result;
+        }
+
+        return "";
     }
 
     public LocalDateTime getStarttime() {
@@ -102,7 +118,11 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEventType() {
-        return eventType.toString();
+        if(eventType != null) {
+            return eventType.toString();
+        }
+
+        return "";
     }
 
     public void setEventType(String eventType) {
@@ -110,7 +130,11 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEventStatus() {
-        return eventStatus.toString();
+        if(eventStatus != null) {
+            return eventStatus.toString();
+        }
+
+        return "";
     }
 
     public void setEventStatus(String eventStatus) {

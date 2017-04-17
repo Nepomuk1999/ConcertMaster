@@ -1,0 +1,14 @@
+.bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    display: inline-block;
+    overflow: hidden;
+    text-align: left;
+    white-space: normal;
+    width: auto;
+    word-wrap: break-word;
+}
+
+.dropdown-menu * {
+    white-space: normal;
+    position: relative;
+    z-index: 5000 !important
+}

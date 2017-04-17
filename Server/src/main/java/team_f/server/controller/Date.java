@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-import java.util.Enumeration;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/Date"})
@@ -44,8 +44,12 @@ public class Date extends HttpServlet {
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
 
+            String dateParameter = req.getParameter("date");
+            LocalDateTime date = null;
+
             String eventDutyId = req.getParameter("EventDutyId");
             int eventId;
+            EventDuty eventDuty = null;
 
             try {
                 eventId = Integer.parseInt(eventDutyId);
@@ -55,11 +59,22 @@ public class Date extends HttpServlet {
 
             if(eventId > 0) {
                 Application facade = new Application();
-                EventDuty eventDuty = facade.getEventById(eventId);
+                eventDuty = facade.getEventById(eventId);
+            } else {
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    date = LocalDateTime.parse(dateParameter + " 00:00", formatter);
 
-                if(eventDuty != null) {
-                    req.setAttribute("eventDuty", eventDuty);
+                    eventDuty = new EventDuty();
+                    eventDuty.setStarttime(date);
+                    eventDuty.setEndtime(date);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
+
+            if(eventDuty != null) {
+                req.setAttribute("eventDuty", eventDuty);
             }
 
             req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/date.jsp").include(req, resp);

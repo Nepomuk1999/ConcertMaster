@@ -12,12 +12,10 @@
 <input type = "date" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""}>
 
 <script type="text/javascript">
-    $( "#${id}" ).datepicker();
-    $( "#${id}" ).datepicker("show");
-
-    $('#${id}').clockpicker({
-        placement: 'auto',
-        align: 'left',
-        donetext: 'Done'
+    $( "#${id}" ).datepicker({
+        autoclose: true,
+        <%-- todayHighlight: true,*/
+        dateFormat: '${inputDateFormat}' --%>
     });
+    $( "#${id}" ).datepicker("show");
 </script>

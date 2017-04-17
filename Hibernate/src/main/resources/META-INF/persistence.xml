@@ -28,15 +28,26 @@
         <class>team_f.database_wrapper.database.WoodInstrumentationEntity</class>
 
         <properties>
-            <!--<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />-->
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <!--<property name="hibernate.hbm2ddl.auto" value="validate" />-->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <!-- <property name="hibernate.hbm2ddl.auto" value="validate" /> -->
             <property name="dialect" value="org.hibernate.dialect.MySQL5Dialect" />
 
-
+            <!-- default one -->
+            <!--
             <property name="hibernate.connection.username" value="team2" />
             <property name="hibernate.connection.password" value="8fpE?2j2E6kis2~9" />
-            <property name="hibernate.connection.url" value="jdbc:mysql://mysql.vlbg.org:3306/sem4_team2" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://mysql.vlbg.org:3306/sem4_team2?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+            -->
+
+            <!-- for test purposes -->
+            <!-- requires the fhv vpn connection or a fhv wlan, lan connection -->
+            <property name="hibernate.connection.username" value="hrh5775" />
+            <property name="hibernate.connection.password" value="ofitthep" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://mysql.fhv.at:3306/hrh5775?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+
+            <!-- force to use UTC instead of CEST
+            for issue: The server time zone value 'CEST' is unrecognized or represents more than one time zone -->
+            <property name="hibernate.jdbc.time_zone" value="UTC"/>
 
             <property name="connection_pool_size" value="5" />
 

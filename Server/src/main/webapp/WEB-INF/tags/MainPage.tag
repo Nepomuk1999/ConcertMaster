@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/stylesheets/dialog.css" />
     <script src='${pageContext.request.contextPath}/assets/javascripts/dialog.js'></script>
     <script src='${pageContext.request.contextPath}/assets/javascripts/modal.js'></script>
+    <script src='${pageContext.request.contextPath}/assets/javascripts/bootstrap-select/bootstrap-select.js'></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/stylesheets/boostrap-select.css" />
 <c:choose>
     <c:when test="${includeCalendar}">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/stylesheets/fullcalendar.css" />
