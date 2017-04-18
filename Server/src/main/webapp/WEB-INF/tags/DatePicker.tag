@@ -9,7 +9,7 @@
 <%@ attribute name="label" type="java.lang.String" required="false" %>
 
 <label for="${id}" class="control-label">${label}</label><br>
-<input type = "date" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""}>
+<input type = "text" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""}>
 
 <script type="text/javascript">
     $( "#${id}" ).datepicker({
