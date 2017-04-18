@@ -53,9 +53,9 @@ public class Facade {
 
 
         if (event.getEventDutyId()>0) {
-            session.persist(event);
-        } else {
             session.merge(event);
+        } else {
+            session.persist(event);
         }
 
         try {
