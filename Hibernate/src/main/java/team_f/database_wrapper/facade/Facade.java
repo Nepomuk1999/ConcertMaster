@@ -51,7 +51,12 @@ public class Facade {
         eventEntity.setInstrumentation(event.getInstrumentation());
         eventEntity.setRehearsalFor(event.getRehearsalFor());
 
-        session.persist(event);
+
+        if (event.getEventDutyId()>0) {
+            session.persist(event);
+        } else {
+            session.merge(event);
+        }
 
         try {
             session.getTransaction().commit();
