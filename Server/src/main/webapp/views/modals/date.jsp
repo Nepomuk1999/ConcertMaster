@@ -34,7 +34,7 @@
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_END_DATE}">
                     <t:DatePicker>
-                        <jsp:attribute name="label">${"Startdate"}</jsp:attribute>
+                        <jsp:attribute name="label">${"Enddate"}</jsp:attribute>
                         <jsp:attribute name="id">${EventDutyProperty.END_DATE}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.END_DATE}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
