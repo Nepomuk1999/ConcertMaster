@@ -1,3 +1,5 @@
+var modalBodySelector = "#modal-form > .modal-body";
+
 function showModal(id, uri, dataForModal, isEditable, onCompleteCallback) {
     var modalQualifier = id + "-modal";
     var contentQualifier = id + "-content";
@@ -72,14 +74,14 @@ function _initializeModal() {
 function _resizeModal(modalQualifier) {
     var height = $(window).height();
 
-    var modalContent = $("#" + modalQualifier).find(".modal-body");
+    var modalContent = $("#" + modalQualifier).find(modalBodySelector);
 
     modalContent.css("height", height * 0.74);
 }
 
 function _switchEditable(modalQualifier, isEditable) {
     var attributeName = "disabled";
-    var inputFields = $("#" + modalQualifier).find("input, select");
+    var inputFields = $("#" + modalQualifier + " " + modalBodySelector).find("input, select, button");
 
     for(var i = 0; i < inputFields.length; i++) {
         if(isEditable) {
@@ -144,7 +146,7 @@ function _close(modalQualifier) {
 
 function _save(modalQualifier, contentQualifier, onCompleteCallback) {
     var modalForm = $("#" + modalQualifier).find("#modal-form");
-    var loadAnimationSelector = "#" + contentQualifier + " #modal-form > .modal-body";
+    var loadAnimationSelector = "#" + contentQualifier + " " + modalBodySelector;
 
     if(!_isCorrect(modalQualifier)) {
         return;
