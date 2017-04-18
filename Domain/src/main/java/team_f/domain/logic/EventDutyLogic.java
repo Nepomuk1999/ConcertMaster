@@ -108,6 +108,9 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                                 isValid = true;
                             }
                         }
+                        //TODO: for second Sprint: Validate if Event_type==opera, concert,....
+                        //are all one-day events, except Tournee
+                       // if(eventDuty.getEventType().toString().equals(EventType.Concert))
 
                         if(!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is not valid"));
@@ -115,6 +118,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     }
 
                     break;
+
 
 
 
