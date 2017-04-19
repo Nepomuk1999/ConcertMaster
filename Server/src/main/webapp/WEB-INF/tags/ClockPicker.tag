@@ -16,7 +16,7 @@
 </div>
 <script type="text/javascript">
     $('#${id}').clockpicker({
-        placement: 'auto',
+        placement: 'bottom',
         align: 'left',
         donetext: 'Done'
     });
