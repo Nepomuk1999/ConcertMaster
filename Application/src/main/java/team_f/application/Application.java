@@ -9,12 +9,9 @@ import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
-import team_f.domain.enums.EventDutyProperty;
-import team_f.domain.interfaces.DomainEntityProperty;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -40,6 +37,15 @@ public class Application {
         }
 
         EventDutyEntity event = new EventDutyEntity();
+        List<MusicalWorkEntity> eventMusicalList = new ArrayList<>();
+
+        for (MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
+            MusicalWorkEntity mE = new MusicalWorkEntity();
+            mE.setComposer(musicalWork.getComposer());
+            mE.setInstrumentationId(musicalWork.getInstrumentationID());
+            mE.setName(musicalWork.getName());
+            eventMusicalList.add(mE);
+        }
 
         event.setEventDutyId(eventDuty.getEventDutyId());
         event.setName(eventDuty.getName());
@@ -56,9 +62,11 @@ public class Application {
         event.setInstrumentation(eventDuty.getInstrumentationId());
         event.setRehearsalFor(eventDuty.getRehearsalFor());
 
+
+
         // @TODO: musical works have to be save in this stage
 
-        facade.addEvent(event);
+        facade.addEvent(event, eventMusicalList);
 
         return new LinkedList<>();
     }

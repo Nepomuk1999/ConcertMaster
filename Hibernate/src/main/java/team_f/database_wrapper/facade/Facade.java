@@ -32,7 +32,7 @@ public class Facade {
      * @return EventDutyId      int         returns the primary key of the event
      */
 
-    public Integer addEvent(EventDutyEntity event) {
+    public Integer addEvent(EventDutyEntity event, List<MusicalWorkEntity> musicalWorkList) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -58,7 +58,16 @@ public class Facade {
             session.persist(event);
         }
 
-        try {
+        List<EventDutyMusicalWorkEntity> EMWlist = new ArrayList<>();
+        for (MusicalWorkEntity musicalWorkEntity : musicalWorkList) {
+            EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
+            emwe.setMusicalWork(musicalWorkEntity.getMusicalWorkId());
+            emwe.setEventDuty(event.getEventDutyId());
+            emwe.setAlternativeInstrumentation(musicalWorkEntity.getInstrumentationId());
+            session.persist(emwe);
+        }
+
+            try {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
