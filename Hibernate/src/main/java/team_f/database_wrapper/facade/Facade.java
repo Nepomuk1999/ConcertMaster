@@ -1,6 +1,7 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -122,6 +123,19 @@ public class Facade {
         }
 
         return events;
+    }
+
+    public List<EventDutyMusicalWorkEntity> getMusicalWorksForEvent(int eventId) {
+        EntityManager session = getCurrentSession();
+
+        Query query = session.createQuery("from EventDutyMusicalWorkEntity where eventDuty = :id");
+        query.setParameter("id", eventId);
+
+        List<EventDutyMusicalWorkEntity> elist = new ArrayList<>();
+
+        elist = query.getResultList();
+
+        return elist;
     }
 
     public List<InstrumentationEntity> getInstrumentations() {
