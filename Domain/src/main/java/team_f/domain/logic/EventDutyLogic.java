@@ -104,7 +104,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     else{
                         boolean isValid = false;
                         for(EventType eventType : EventType.values()) {
-                            if(String.valueOf(eventType).equals(eventDuty.getEventType())) {
+                            if(String.valueOf(eventType).equals(String.valueOf(eventDuty.getEventType()))) {
                                 isValid = true;
                             }
                         }

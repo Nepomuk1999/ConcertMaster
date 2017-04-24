@@ -2,16 +2,16 @@ package team_f.application;
 
 import javafx.util.Pair;
 import team_f.database_wrapper.database.*;
-import team_f.database_wrapper.entities.EventStatus;
-import team_f.database_wrapper.entities.EventType;
 import team_f.database_wrapper.facade.Facade;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
+import team_f.domain.enums.EventStatus;
+import team_f.domain.enums.EventType;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -27,15 +27,56 @@ public class Application {
         facade.closeSession();
     }
 
-    public List<Pair<String, String>> addEvent(EventDuty eventDuty) {
+    public Pair<EventDuty, List<Pair<String, String>>> addEvent(int id, String name, String description, String location, LocalDateTime startTime,
+                                                                LocalDateTime endTime, String conductor, String type, int rehearsalForId,
+                                                                Double standardPoints, int instrumentationId, int[] musicalWorkIdList,
+                                                                int[] alternativeInstrumentationIdList) {
+
+        // transform the parameters in an domain object
+        EventDuty eventDuty = new EventDuty();
+        eventDuty.setEventDutyId(id);
+        eventDuty.setName(name);
+        eventDuty.setDescription(description);
+        eventDuty.setLocation(location);
+        eventDuty.setStarttime(startTime);
+        eventDuty.setEndtime(endTime);
+        eventDuty.setConductor(conductor);
+
+        try {
+            eventDuty.setEventType(EventType.valueOf(type));
+        } catch (Exception e) {
+            eventDuty.setEventType(null);
+        }
+
+        eventDuty.setRehearsalFor(rehearsalForId);
+        eventDuty.setDefaultPoints(standardPoints);
+        eventDuty.setInstrumentationId(instrumentationId);
+
+        MusicalWork tmpMusicalWork;
+        Instrumentation tmpInstrumentation;
+
+        if(musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
+            for(int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
+                tmpMusicalWork = new MusicalWork();
+                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
+
+                tmpInstrumentation = new Instrumentation();
+                tmpInstrumentation.setInstrumentationID(alternativeInstrumentationIdList[i]);
+
+                eventDuty.addMusicalWork(tmpMusicalWork, tmpInstrumentation);
+            }
+        }
+
+        // check for errors
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
 
         // return the errorList when the validation is not successful
         if(errorList.size() > 0) {
-            return errorList;
+            return new Pair<>(eventDuty, errorList);
         }
 
+        // create the database entity
         EventDutyEntity event = new EventDutyEntity();
         List<MusicalWorkEntity> eventMusicalList = new ArrayList<>();
 
@@ -53,8 +94,8 @@ public class Application {
         event.setStarttime(eventDuty.getStarttime());
         event.setEndtime(eventDuty.getEndtime());
 
-        event.setEventType(EventType.valueOf(eventDuty.getEventType()));
-        event.setEventStatus(EventStatus.valueOf(eventDuty.getEventStatus()));
+        event.setEventType(team_f.database_wrapper.entities.EventType.valueOf(String.valueOf(eventDuty.getEventType())));
+        event.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(String.valueOf(eventDuty.getEventStatus())));
 
         event.setConductor(eventDuty.getConductor());
         event.setLocation(eventDuty.getLocation());
@@ -63,12 +104,11 @@ public class Application {
         event.setRehearsalFor(eventDuty.getRehearsalFor());
 
 
-
-        // @TODO: musical works have to be save in this stage
+        // @TODO: musical works have to be saved in this stage
 
         facade.addEvent(event, eventMusicalList);
 
-        return new LinkedList<>();
+        return new Pair<>(eventDuty, new LinkedList<>());
     }
 
     public EventDuty getEventById(int id) {
@@ -141,9 +181,8 @@ public class Application {
         event.setInstrumentationId(eventDutyEntity.getInstrumentation());
         event.setName(eventDutyEntity.getName());
 
-        event.setEventType(String.valueOf(eventDutyEntity.getEventType()));
-        event.setEventStatus(String.valueOf(eventDutyEntity.getEventStatus()));
-        event.setEventStatus(String.valueOf(eventDutyEntity.getEventStatus()));
+        event.setEventType(EventType.valueOf(String.valueOf(eventDutyEntity.getEventType())));
+        event.setEventStatus(EventStatus.valueOf(String.valueOf(eventDutyEntity.getEventStatus())));
 
         MusicalWorkEntity musicalWorkEntity;
         MusicalWork musicalWork;
@@ -191,7 +230,7 @@ public class Application {
 
         instrumentation.setInstrumentationID(instrumentationEntity.getInstrumentationId());
 
-        // @TODO: use Instrumenation Objects instead of ids and check in the validation the id, ...
+        // @TODO: use Instrumentation Objects instead of ids and check in the validation the id, ...
         BrassInstrumentationEntity brassInstrumentationEntity = instrumentationEntity.getBrassInstrumentationByBrassInstrumentation();
         PercussionInstrumentationEntity percussionInstrumentationEntity = instrumentationEntity.getPercussionInstrumentationByPercussionInstrumentation();
         StringInstrumentationEntity stringInstrumentationEntity = instrumentationEntity.getStringInstrumentationByStringInstrumentation();

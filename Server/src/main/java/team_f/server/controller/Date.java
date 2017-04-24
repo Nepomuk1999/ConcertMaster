@@ -4,9 +4,6 @@ import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.Application;
 import team_f.domain.entities.EventDuty;
-import team_f.domain.entities.Instrumentation;
-import team_f.domain.entities.MusicalWork;
-import team_f.server.helper.DateTimeHelper;
 import team_f.server.helper.request.EventDutyRequest;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -69,7 +66,6 @@ public class Date extends HttpServlet {
                     eventDuty.setStarttime(date);
                     eventDuty.setEndtime(date);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -99,88 +95,23 @@ public class Date extends HttpServlet {
         } else {
             Application facade = new Application();
             EventDutyRequest eventDutyRequest = new EventDutyRequest(req);
-            EventDuty eventDuty = new EventDuty();
 
-            int id;
+            Pair<EventDuty, List<Pair<String, String>>> result = facade.addEvent(eventDutyRequest.getEventDutyId(), eventDutyRequest.getName(),
+                                                                                 eventDutyRequest.getDescription(), eventDutyRequest.getLocation(),
+                                                                                 eventDutyRequest.getStartTime(), eventDutyRequest.getEndTime(),
+                                                                                 eventDutyRequest.getConductor(), eventDutyRequest.getEventtype(),
+                                                                                 eventDutyRequest.getRehearsalForId(), eventDutyRequest.getStandardPoints(),
+                                                                                 eventDutyRequest.getInstrumentationId(), eventDutyRequest.getMusicalWorkList(),
+                                                                                 eventDutyRequest.getAlternativeInstrumentationList());
 
-            try {
-                id = Integer.parseInt(eventDutyRequest.getEventDutyId());
-            } catch (NumberFormatException e) {
-                id = -1;
-            }
-
-            eventDuty.setEventDutyId(id);
-
-            eventDuty.setName(eventDutyRequest.getName());
-            eventDuty.setDescription(eventDutyRequest.getDescription());
-
-            LocalDateTime tmpDateTime;
-
-            try {
-                tmpDateTime = DateTimeHelper.getLocalDateTime(eventDutyRequest.getStartDate(), eventDutyRequest.getStartTime());
-            } catch (Exception e) {
-                tmpDateTime = null;
-            }
-
-            eventDuty.setStarttime(tmpDateTime);
-
-            try {
-                tmpDateTime = DateTimeHelper.getLocalDateTime(eventDutyRequest.getEndDate(), eventDutyRequest.getEndTime());
-            } catch (Exception e) {
-                tmpDateTime = null;
-            }
-
-            eventDuty.setEndtime(tmpDateTime);
-
-            eventDuty.setEventType(eventDutyRequest.getEventtype());
-            eventDuty.setEventStatus(eventDutyRequest.getEventstatus());
-
-            eventDuty.setConductor(eventDutyRequest.getConductor());
-            eventDuty.setLocation(eventDutyRequest.getLocation());
-            eventDuty.setDefaultPoints(Double.parseDouble(eventDutyRequest.getStandardPoints()));
-            eventDuty.setInstrumentationId(Integer.parseInt(eventDutyRequest.getInstrumentation()));
-
-            Integer musicalWorkId;
-            Integer alternativeInstrumentationId;
-            MusicalWork musicalWork;
-            Instrumentation alternativeInstrumentation;
-            String[] musicalWorkList = eventDutyRequest.getMusicalWorkList();
-            String[] alternativeInstrumentationList = eventDutyRequest.getAlternativeInstrumentationList();
-
-            if(musicalWorkList != null && alternativeInstrumentationList != null) {
-                for(int i = 0; i < musicalWorkList.length && i < alternativeInstrumentationList.length; i++) {
-                    try {
-                        musicalWorkId = Integer.parseInt(musicalWorkList[i]);
-                    } catch (NumberFormatException e) {
-                        musicalWorkId = -1;
-                    }
-
-                    try {
-                        alternativeInstrumentationId = Integer.parseInt(alternativeInstrumentationList[i]);
-                    } catch (NumberFormatException e) {
-                        alternativeInstrumentationId = -1;
-                    }
-
-                    musicalWork = new MusicalWork();
-                    musicalWork.setMusicalWorkID(musicalWorkId);
-
-                    alternativeInstrumentation = new Instrumentation();
-                    alternativeInstrumentation.setInstrumentationID(alternativeInstrumentationId);
-
-                    eventDuty.addMusicalWork(musicalWork, alternativeInstrumentation);
-                }
-            }
-
-            List<Pair<String, String>> errorList = facade.addEvent(eventDuty);
-
-            if(errorList.size() > 0) {
+            if(result.getValue().size() > 0) {
                 resp.setContentType(MediaType.TEXT_HTML);
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                req.setAttribute("eventDuty", eventDuty);
+                req.setAttribute("eventDuty", result.getKey());
 
                 Object attributeContent;
 
-                for(Pair<String, String> item : errorList) {
+                for(Pair<String, String> item : result.getValue()) {
                     attributeContent = req.getAttribute(item.getKey());
 
                     if(attributeContent != null) {

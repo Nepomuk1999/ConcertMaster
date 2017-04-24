@@ -1,63 +1,124 @@
 package team_f.server.helper.request;
 
 import team_f.domain.enums.EventDutyProperty;
+import team_f.server.helper.DateTimeHelper;
 import javax.servlet.http.HttpServletRequest;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class EventDutyRequest {
-    private String _id;
-    private String _startdate;
-    private String _starttime;
-    private String _enddate;
-    private String _endtime;
+    private int _id;
+    private LocalDateTime _startDateTime;
+    private LocalDateTime _endDateTime;
     private String _name;
     private String _location;
     private String _conductor;
-    private String _standardPoints;
+    private Double _standardPoints;
     private String _eventtype;
-    private String[] _musicalWorkList;
-    private String[] _alternativeInstrumentationList;
-    private String _rehearsalFor;
+    private int[] _musicalWorkIdList;
+    private int[] _alternativeInstrumentationIdList;
+    private int _rehearsalForId;
     private String _eventstatus;
     private String _description;
-    private String _instrumentation;
+    private int _instrumentationId;
 
     public EventDutyRequest(HttpServletRequest request) {
-        _id = request.getParameter(String.valueOf(EventDutyProperty.ID));
-        _startdate = request.getParameter(String.valueOf(EventDutyProperty.START_DATE));
-        _starttime = request.getParameter(String.valueOf(EventDutyProperty.START_TIME));
-        _enddate = request.getParameter(String.valueOf(EventDutyProperty.END_DATE));
-        _endtime = request.getParameter(String.valueOf(EventDutyProperty.END_TIME));
+        String tmp, tmp2;
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.ID));
+
+        try {
+            _id = Integer.parseInt(tmp);
+        } catch (NumberFormatException e) {
+            _id = -1;
+        }
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.START_DATE));
+        tmp2 = request.getParameter(String.valueOf(EventDutyProperty.START_TIME));
+
+        try {
+            _startDateTime = DateTimeHelper.getLocalDateTime(tmp, tmp2);
+        } catch (Exception e) {
+            _startDateTime = null;
+        }
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.END_DATE));
+        tmp2 = request.getParameter(String.valueOf(EventDutyProperty.END_TIME));
+
+        try {
+            _endDateTime = DateTimeHelper.getLocalDateTime(tmp, tmp2);
+        } catch (Exception e) {
+            _endDateTime = null;
+        }
+
         _name = request.getParameter(String.valueOf(EventDutyProperty.NAME));
         _location = request.getParameter(String.valueOf(EventDutyProperty.LOCATION));
         _conductor = request.getParameter(String.valueOf(EventDutyProperty.CONDUCTOR));
-        _standardPoints = request.getParameter(String.valueOf(EventDutyProperty.DEFAULT_POINTS));
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.DEFAULT_POINTS));
+
+        try {
+            _standardPoints = Double.parseDouble(tmp);
+        } catch (NumberFormatException e) {
+            _standardPoints = -1.0;
+        }
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.INSTRUMENTATION));
+
+        try {
+            _instrumentationId = Integer.parseInt(tmp);
+        } catch (NumberFormatException e) {
+            _instrumentationId = -1;
+        }
+
+        String[] tempMusicalWorkIdList = request.getParameterValues(String.valueOf(EventDutyProperty.MUSICAL_WORK_LIST));
+        String[] tempAlternativeInstrumentationIdList = request.getParameterValues(String.valueOf(EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST));
+
+        if(tempMusicalWorkIdList != null && tempAlternativeInstrumentationIdList != null) {
+            _musicalWorkIdList = new int[tempMusicalWorkIdList.length];
+            _alternativeInstrumentationIdList = new int[tempAlternativeInstrumentationIdList.length];
+
+            for(int i = 0; i < tempMusicalWorkIdList.length && i < tempAlternativeInstrumentationIdList.length; i++) {
+                try {
+                    _musicalWorkIdList[i] = Integer.parseInt(tempMusicalWorkIdList[i]);
+                } catch (NumberFormatException e) {
+                    _musicalWorkIdList[i] = -1;
+                }
+
+                try {
+                    _alternativeInstrumentationIdList[i] = Integer.parseInt(tempAlternativeInstrumentationIdList[i]);
+                } catch (NumberFormatException e) {
+                    _alternativeInstrumentationIdList[i] = -1;
+                }
+            }
+        }
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.REHEARSAL_FOR));
+
+        try {
+            _rehearsalForId = Integer.parseInt(tmp);
+        } catch (NumberFormatException e) {
+            _rehearsalForId = -1;
+        }
+
         _eventtype = request.getParameter(String.valueOf(EventDutyProperty.EVENT_TYPE));
-        _musicalWorkList = request.getParameterValues(String.valueOf(EventDutyProperty.MUSICAL_WORK_LIST));
-        _alternativeInstrumentationList = request.getParameterValues(String.valueOf(EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST));
-        _rehearsalFor = request.getParameter(String.valueOf(EventDutyProperty.REHEARSAL_FOR));
         _eventstatus = request.getParameter(String.valueOf(EventDutyProperty.EVENT_STATUS));
         _description = request.getParameter(String.valueOf(EventDutyProperty.DESCRIPTION));
-        _instrumentation = request.getParameter(String.valueOf(EventDutyProperty.INSTRUMENTATION));
     }
 
-    public String getEventDutyId() {
+    public int getEventDutyId() {
         return _id;
     }
 
-    public String getStartDate() {
-        return _startdate;
+    public LocalDateTime getStartTime() {
+        return _startDateTime;
     }
 
-    public String getStartTime() {
-        return _starttime;
-    }
-
-    public String getEndDate() {
-        return _enddate;
-    }
-
-    public String getEndTime() {
-        return _endtime;
+    public LocalDateTime getEndTime() {
+        return _endDateTime;
     }
 
     public String getName() {
@@ -72,7 +133,7 @@ public class EventDutyRequest {
         return _conductor;
     }
 
-    public String getStandardPoints() {
+    public Double getStandardPoints() {
         return _standardPoints;
     }
 
@@ -80,16 +141,16 @@ public class EventDutyRequest {
         return _eventtype;
     }
 
-    public String[] getMusicalWorkList() {
-        return _musicalWorkList;
+    public int[] getMusicalWorkList() {
+        return _musicalWorkIdList;
     }
 
-    public String[] getAlternativeInstrumentationList() {
-        return _alternativeInstrumentationList;
+    public int[] getAlternativeInstrumentationList() {
+        return _alternativeInstrumentationIdList;
     }
 
-    public String getRehearsalFor() {
-        return _rehearsalFor;
+    public int getRehearsalForId() {
+        return _rehearsalForId;
     }
 
     public String getEventstatus() {
@@ -100,7 +161,7 @@ public class EventDutyRequest {
         return _description;
     }
 
-    public String getInstrumentation() {
-        return _instrumentation;
+    public int getInstrumentationId() {
+        return _instrumentationId;
     }
 }
