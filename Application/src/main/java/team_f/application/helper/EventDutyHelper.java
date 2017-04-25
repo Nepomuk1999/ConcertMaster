@@ -1,16 +1,24 @@
 package team_f.application.helper;
 
 import javafx.scene.paint.Color;
-import team_f.domain.entities.EventDuty;
+import team_f.domain.enums.EventType;
 
 public class EventDutyHelper {
-    public static Color getColor(EventDuty eventDuty) {
-        if(eventDuty != null) {
-            switch (eventDuty.getEventType()) {
+    public static Color getColor(EventType eventType) {
+        if(eventType != null) {
+            switch (eventType) {
                 case Concert:
-                    break;
-                default:
-                break;
+                    return Color.SADDLEBROWN;
+                case Tour:
+                    return Color.CORNFLOWERBLUE;
+                case Opera:
+                    return Color.DODGERBLUE;
+                case Rehearsal:
+                    return Color.BURLYWOOD;
+                case Hofkapelle:
+                    return Color.ROSYBROWN;
+                case NonMusicalEvent:
+                    return Color.DARKGRAY;
             }
         }
 

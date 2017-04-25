@@ -13,7 +13,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import team_f.application.Application;
+import team_f.application.helper.EventDutyHelper;
 import team_f.domain.entities.EventDuty;
+import team_f.server.helper.CSSHelper;
 
 @WebServlet(urlPatterns = {"/Calendar"})
 public class Calendar extends HttpServlet {
@@ -56,8 +58,8 @@ public class Calendar extends HttpServlet {
                     jsonObject.put("start", event.getStarttime());
                     jsonObject.put("end", event.getEndtime());
                     jsonObject.put("title", event.getName());
+                    jsonObject.put("color", CSSHelper.getColor(EventDutyHelper.getColor(event.getEventType())));
                     //jsonObject.put("className", "");
-                    //jsonObject.put("color", "");
                     //jsonObject.put("backgroundColor", "");
                     //jsonObject.put("borderColor", "");
                     //jsonObject.put("textColor", "");
