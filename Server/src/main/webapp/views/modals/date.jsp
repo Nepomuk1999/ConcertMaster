@@ -116,18 +116,23 @@
                     </select>
                 </t:ErrorMessage>
             </div>
+    <c:choose>
+        <c:when test="${not empty eventDuty.eventStatus}">
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_STATUS}">
                     <label for="${EventDutyProperty.EVENT_STATUS}" class="control-label">Eventstatus</label><br>
-                    <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_STATUS}">
+                    <label id="${EventDutyProperty.EVENT_STATUS}" class="form-control">${eventDuty.eventStatus}</label>
+                    <%--<select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_STATUS}">
                         <option value="">Select Eventstatus</option>
                         <c:forEach var="item" items="${EnumHelper.getEventStatusList()}">
                             <option data-divider="true"></option>
                             <option value="${item}" ${item eq eventDuty.eventStatus ? "selected" : ""}>${item}</option>
                         </c:forEach>
-                    </select>
+                    </select>--%>
                 </t:ErrorMessage>
             </div>
+        </c:when>
+    </c:choose>
         </div>
 
         <div class="control-group rows">
