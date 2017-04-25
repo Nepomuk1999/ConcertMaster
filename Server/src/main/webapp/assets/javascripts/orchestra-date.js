@@ -7,7 +7,12 @@ $(document).ready(function() {
 
 function showDayModal(date, jsEvent, view) {
     // date contains only a date in the format 2017-04-04T00:00:00.000Z
-    showModal("date", "/Date", {"date": JSON.stringify(date).replace(/"/g, '')}, true, _onComplete);
+    showModal("date", "/Date", {"date": JSON.stringify(date).replace(/"/g, '')}, true, function(isSuccessful) {
+        if(isSuccessful) {
+            $('#calendar').fullCalendar('gotoDate', date);
+            _onComplete(isSuccessful);
+        }
+    });
 }
 
 function showEventModal(calEvent, jsEvent, view) {
@@ -26,7 +31,11 @@ function showEventModal(calEvent, jsEvent, view) {
 
     $('#calendar').fullCalendar('updateEvent', calEvent);
 
-    showModal("date", "/CalendarActionChooser", eventData, false, function () {
+    showModal("date", "/CalendarActionChooser", eventData, false, function (isSuccessful) {
+        if(isSuccessful) {
+            $('#calendar').fullCalendar('gotoDate', calEvent);
+            _onComplete(isSuccessful);
+        }
     });
 }
 
