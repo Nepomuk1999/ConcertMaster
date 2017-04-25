@@ -18,7 +18,7 @@
     $('#${id}').clockpicker({
         placement: 'bottom',
         align: 'left',
-        donetext: 'Done'
+        donetext: 'Done',
     });
 
     $('.clockpicker .input-group-addon').on("click", function () {

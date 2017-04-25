@@ -17,5 +17,5 @@
         <%-- todayHighlight: true,*/
         dateFormat: '${inputDateFormat}' --%>
     });
-    $( "#${id}" ).datepicker("show");
+    //$( "#${id}" ).datepicker("show");
 </script>

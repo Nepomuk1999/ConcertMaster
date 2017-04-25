@@ -9,6 +9,7 @@ import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
 import java.time.LocalDateTime;
@@ -27,10 +28,10 @@ public class Application {
         facade.closeSession();
     }
 
-    public Pair<EventDuty, List<Pair<String, String>>> addEvent(int id, String name, String description, String location, LocalDateTime startTime,
-                                                                LocalDateTime endTime, String conductor, EventType type, int rehearsalForId,
-                                                                Double standardPoints, int instrumentationId, int[] musicalWorkIdList,
-                                                                int[] alternativeInstrumentationIdList) {
+    public Pair<DomainEntity, List<Pair<String, String>>> addEvent(int id, String name, String description, String location, LocalDateTime startTime,
+                                                                   LocalDateTime endTime, String conductor, EventType type, int rehearsalForId,
+                                                                   Double standardPoints, int instrumentationId, int[] musicalWorkIdList,
+                                                                   int[] alternativeInstrumentationIdList) {
 
         // transform the parameters in an domain object
         EventDuty eventDuty = new EventDuty();

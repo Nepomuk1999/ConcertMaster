@@ -1,7 +1,6 @@
 package team_f.server.controller;
 
 import team_f.application.Application;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

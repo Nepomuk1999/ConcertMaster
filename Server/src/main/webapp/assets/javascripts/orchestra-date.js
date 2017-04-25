@@ -26,7 +26,7 @@ function showEventModal(calEvent, jsEvent, view) {
 
     $('#calendar').fullCalendar('updateEvent', calEvent);
 
-    showModal("date", "/Date", eventData, false, function () {
+    showModal("date", "/CalendarActionChooser", eventData, false, function () {
     });
 }
 
