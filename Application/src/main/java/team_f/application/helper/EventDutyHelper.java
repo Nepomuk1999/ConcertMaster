@@ -24,4 +24,25 @@ public class EventDutyHelper {
 
         return null;
     }
+
+    public static String getEventTypeText(EventType eventType) {
+        if(eventType != null) {
+            switch (eventType) {
+                case NonMusicalEvent:
+                    return "Non Musical Event";
+                case Hofkapelle:
+                    return "Hofkapelle";
+                case Rehearsal:
+                    return "Rehearsal";
+                case Opera:
+                    return "Opera";
+                case Tour:
+                    return "Tour";
+                case Concert:
+                    return "Concert";
+            }
+        }
+
+        return null;
+    }
 }
