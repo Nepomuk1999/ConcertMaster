@@ -99,7 +99,7 @@ public class Date extends HttpServlet {
             Pair<EventDuty, List<Pair<String, String>>> result = facade.addEvent(eventDutyRequest.getEventDutyId(), eventDutyRequest.getName(),
                                                                                  eventDutyRequest.getDescription(), eventDutyRequest.getLocation(),
                                                                                  eventDutyRequest.getStartTime(), eventDutyRequest.getEndTime(),
-                                                                                 eventDutyRequest.getConductor(), eventDutyRequest.getEventtype(),
+                                                                                 eventDutyRequest.getConductor(), eventDutyRequest.getEventType(),
                                                                                  eventDutyRequest.getRehearsalForId(), eventDutyRequest.getStandardPoints(),
                                                                                  eventDutyRequest.getInstrumentationId(), eventDutyRequest.getMusicalWorkList(),
                                                                                  eventDutyRequest.getAlternativeInstrumentationList());

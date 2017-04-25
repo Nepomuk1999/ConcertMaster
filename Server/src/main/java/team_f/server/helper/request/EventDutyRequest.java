@@ -1,13 +1,11 @@
 package team_f.server.helper.request;
 
 import team_f.domain.enums.EventDutyProperty;
+import team_f.domain.enums.EventStatus;
+import team_f.domain.enums.EventType;
 import team_f.server.helper.DateTimeHelper;
 import javax.servlet.http.HttpServletRequest;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 public class EventDutyRequest {
     private int _id;
@@ -17,11 +15,11 @@ public class EventDutyRequest {
     private String _location;
     private String _conductor;
     private Double _standardPoints;
-    private String _eventtype;
+    private EventType _eventType;
     private int[] _musicalWorkIdList;
     private int[] _alternativeInstrumentationIdList;
     private int _rehearsalForId;
-    private String _eventstatus;
+    private EventStatus _eventStatus;
     private String _description;
     private int _instrumentationId;
 
@@ -104,8 +102,22 @@ public class EventDutyRequest {
             _rehearsalForId = -1;
         }
 
-        _eventtype = request.getParameter(String.valueOf(EventDutyProperty.EVENT_TYPE));
-        _eventstatus = request.getParameter(String.valueOf(EventDutyProperty.EVENT_STATUS));
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.EVENT_TYPE));
+
+        try {
+            _eventType = EventType.valueOf(tmp);
+        } catch (Exception e) {
+            _eventType = null;
+        }
+
+        tmp = request.getParameter(String.valueOf(EventDutyProperty.EVENT_STATUS));
+
+        try {
+            _eventStatus = EventStatus.valueOf(tmp);
+        } catch (Exception e) {
+            _eventStatus = null;
+        }
+
         _description = request.getParameter(String.valueOf(EventDutyProperty.DESCRIPTION));
     }
 
@@ -137,8 +149,8 @@ public class EventDutyRequest {
         return _standardPoints;
     }
 
-    public String getEventtype() {
-        return _eventtype;
+    public EventType getEventType() {
+        return _eventType;
     }
 
     public int[] getMusicalWorkList() {
@@ -153,8 +165,8 @@ public class EventDutyRequest {
         return _rehearsalForId;
     }
 
-    public String getEventstatus() {
-        return _eventstatus;
+    public EventStatus getEventStatus() {
+        return _eventStatus;
     }
 
     public String getDescription() {

@@ -28,7 +28,7 @@ public class Application {
     }
 
     public Pair<EventDuty, List<Pair<String, String>>> addEvent(int id, String name, String description, String location, LocalDateTime startTime,
-                                                                LocalDateTime endTime, String conductor, String type, int rehearsalForId,
+                                                                LocalDateTime endTime, String conductor, EventType type, int rehearsalForId,
                                                                 Double standardPoints, int instrumentationId, int[] musicalWorkIdList,
                                                                 int[] alternativeInstrumentationIdList) {
 
@@ -41,13 +41,7 @@ public class Application {
         eventDuty.setStarttime(startTime);
         eventDuty.setEndtime(endTime);
         eventDuty.setConductor(conductor);
-
-        try {
-            eventDuty.setEventType(EventType.valueOf(type));
-        } catch (Exception e) {
-            eventDuty.setEventType(null);
-        }
-
+        eventDuty.setEventType(type);
         eventDuty.setRehearsalFor(rehearsalForId);
         eventDuty.setDefaultPoints(standardPoints);
         eventDuty.setInstrumentationId(instrumentationId);
