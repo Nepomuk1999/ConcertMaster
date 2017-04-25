@@ -30,7 +30,7 @@ public class Date extends HttpServlet {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
-            CalendarRequest.getAndSetParameters(req);
+            CalendarRequest.getAndSetParameters(req, false);
             setAttributes(req);
 
             req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/event_type.jsp").include(req, resp);
@@ -51,7 +51,7 @@ public class Date extends HttpServlet {
                                                                                     eventDutyRequest.getDescription(), eventDutyRequest.getLocation(),
                                                                                     eventDutyRequest.getStartTime(), eventDutyRequest.getEndTime(),
                                                                                     eventDutyRequest.getConductor(), eventDutyRequest.getEventType(),
-                                                                                    eventDutyRequest.getRehearsalForId(), eventDutyRequest.getStandardPoints(),
+                                                                                    -1, eventDutyRequest.getStandardPoints(),
                                                                                     eventDutyRequest.getInstrumentationId(), eventDutyRequest.getMusicalWorkList(),
                                                                                     eventDutyRequest.getAlternativeInstrumentationList());
 

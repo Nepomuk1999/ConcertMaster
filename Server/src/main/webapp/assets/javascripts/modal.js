@@ -81,21 +81,24 @@ function _resizeModal(modalQualifier) {
 
 function _switchEditable(modalQualifier, isEditable) {
     var attributeName = "disabled";
+    var helperAttributeName = "standard";
     var inputFields = $("#" + modalQualifier + " " + modalBodySelector).find("input, select, button");
 
     for(var i = 0; i < inputFields.length; i++) {
         if(isEditable) {
-            if(inputFields[i].hasAttribute(attributeName)) {
+            if(!$("#modal-form")[0].hasAttribute(attributeName)) {
                 inputFields[i].removeAttribute(attributeName);
-                $("#modal-form")[0].removeAttribute(attributeName);
             }
         } else {
-            inputFields[i].setAttribute(attributeName, "");
-            $("#modal-form")[0].setAttribute(attributeName, "");
+            if($("#modal-form")[0].hasAttribute(attributeName)) {
+                inputFields[i].setAttribute(helperAttributeName, "");
+            } else {
+                inputFields[i].setAttribute(attributeName, "");
+            }
         }
     }
 
-    _switchEditButtonVisibility(modalQualifier, !isEditable)
+    _switchEditButtonVisibility(modalQualifier, !isEditable);
     _switchSaveButtonVisibility(modalQualifier, isEditable);
 }
 
@@ -176,7 +179,7 @@ function _save(modalQualifier, contentQualifier, onCompleteCallback) {
                 $("#" + contentQualifier).html(xhr.responseText);
 
                 // rebind the event listeners
-                _addContentListeners(modalQualifier, contentQualifier, false, onCompleteCallback);
+                _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback);
 
                 _switchEditable(modalQualifier, true);
             } else {

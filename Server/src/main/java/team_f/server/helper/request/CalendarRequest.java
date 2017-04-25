@@ -7,13 +7,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class CalendarRequest {
-    public static void getAndSetParameters(HttpServletRequest request) {
+    public static void getAndSetParameters(HttpServletRequest request, boolean isRehearsal) {
         String dateParameter = request.getParameter("date");
         LocalDateTime date;
 
         String eventDutyId = request.getParameter("EventDutyId");
         int eventId;
-        EventDuty eventDuty = null;
+        EventDuty eventDuty;
 
         try {
             eventId = Integer.parseInt(eventDutyId);
@@ -21,18 +21,25 @@ public class CalendarRequest {
             eventId = -1;
         }
 
-        if(eventId > 0) {
-            Application facade = new Application();
+        Application facade = new Application();
+
+        if(eventId > 0 && !isRehearsal) {
             eventDuty = facade.getEventById(eventId);
         } else {
+            eventDuty = new EventDuty();
+
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 date = LocalDateTime.parse(dateParameter + " 00:00", formatter);
-
-                eventDuty = new EventDuty();
-                eventDuty.setStarttime(date);
-                eventDuty.setEndtime(date);
             } catch (Exception e) {
+                date = LocalDateTime.now();
+            }
+
+            eventDuty.setStartTime(date);
+            eventDuty.setEndTime(date);
+
+            if(eventId > 0 && isRehearsal) {
+                eventDuty.setRehearsalFor(facade.getEventById(eventId));
             }
         }
 

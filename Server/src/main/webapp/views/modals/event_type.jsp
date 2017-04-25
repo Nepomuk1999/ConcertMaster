@@ -13,7 +13,7 @@
 <form id="modal-form" action="${IS_DATE ? "/Date" : ""} ${IS_REHEARSAL_FOR ? "/RehearsalFor" : ""}" class="form-group">
     <div class="modal-header">
         <h4 class="modal-title">
-            <c:if test="${IS_DATE}">Date</c:if>
+            <c:if test="${IS_DATE}">Event</c:if>
             <c:if test="${IS_REHEARSAL_FOR}">Rehearsal</c:if>
         </h4>
     </div>
@@ -24,24 +24,50 @@
             <c:if test="${IS_REHEARSAL_FOR}">
                 <div class="form-group col-xs-8 col-sm-6">
                     <t:ErrorMessage errorMessage="${PROBLEM_REHEARSAL_FOR}">
-                        <label for="${EventDutyProperty.REHEARSAL_FOR}" class="control-label">Rehearsal For</label><br>
-                        <input id="${EventDutyProperty.REHEARSAL_FOR}" type="number" value="${eventDuty.rehearsalFor}" name="${EventDutyProperty.REHEARSAL_FOR}" placeholder="Rehearsal For" class="form-control"><br>
+                        <label for="${EventDutyProperty.REHEARSAL_FOR}" class="control-label">For Event</label><br>
+                        <input type="number" id="${EventDutyProperty.REHEARSAL_FOR}_" class="hidden" name="${EventDutyProperty.REHEARSAL_FOR}" value="${eventDuty.rehearsalFor.eventDutyId}">
+                        <label id="${EventDutyProperty.REHEARSAL_FOR}" class="form-control">${eventDuty.rehearsalFor.name}</label>
+                        <%--<select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.REHEARSAL_FOR}" disabled>
+                            <option value="${eventDuty.rehearsalFor.eventDutyId}" selected disabled>${eventDuty.rehearsalFor.name}</option>
+                        </select>--%>
                     </t:ErrorMessage>
                 </div>
             </c:if>
             <div class="form-group col-xs-8 col-sm-6">
-                <t:ErrorMessage errorMessage="${PROBLEM_EVENT_TYPE}">
-                    <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Eventtype</label><br>
-                    <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_TYPE}">
-                        <option value="">Select Eventtype</option>
-                        <c:forEach var="item" items="${EnumHelper.getEventTypeList()}">
-                            <option data-divider="true"></option>
-                            <option value="${item}" ${item eq eventDuty.eventType ? "selected" : ""}>${item}</option>
-                        </c:forEach>
-                    </select>
-                </t:ErrorMessage>
+                <c:if test="${IS_DATE}">
+                    <t:ErrorMessage errorMessage="${PROBLEM_EVENT_TYPE}">
+                        <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Eventtype</label><br>
+                        <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_TYPE}">
+                            <option value="">Select Eventtype</option>
+                            <c:forEach var="item" items="${EnumHelper.getBasicEventTypeList()}">
+                                <option data-divider="true"></option>
+                                <option value="${item}" ${item eq eventDuty.eventType ? "selected" : ""}>${item}</option>
+                            </c:forEach>
+                        </select>
+                    </t:ErrorMessage>
+                </c:if>
+                <c:if test="${IS_REHEARSAL_FOR}">
+                    <label for="${EventDutyProperty.EVENT_TYPE}_" class="control-label">Eventtype</label><br>
+                    <label id="${EventDutyProperty.EVENT_TYPE}_" class="form-control">${eventDuty.rehearsalFor.eventStatus}</label>
+                </c:if>
             </div>
         </div>
+
+        <c:if test="${IS_REHEARSAL_FOR}">
+            <div class="control-group row">
+                <div class="form-group col-xs-8 col-sm-6">
+                    <label for="${EventDutyProperty.START_TIME}_" class="control-label">Starttime</label><br>
+                    <label id="${EventDutyProperty.START_TIME}_" class="form-control">${eventDuty.rehearsalFor.getStartDate("MM/dd/yyyy")} ${eventDuty.rehearsalFor.getStartTime("HH:mm")}</label>
+                </div>
+
+                <div class="form-group col-xs-8 col-sm-6">
+                    <label for="${EventDutyProperty.END_TIME}_" class="control-label">Endtime</label><br>
+                    <label id="${EventDutyProperty.END_TIME}_" class="form-control">${eventDuty.rehearsalFor.getEndDate("MM/dd/yyyy")} ${eventDuty.rehearsalFor.getEndTime("HH:mm")}</label>
+                </div>
+            </div>
+            <hr />
+        </c:if>
+
         <div class="control-group row">
             <div class="form-group col-xs-8 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_START_DATE}">
@@ -183,7 +209,7 @@
                             <option value="">Select Instrumentation</option>
                             <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
                                 <option data-divider="true"></option>
-                                <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentationId ? "selected" : ""}>Flute: ${item.flute}, Oboe: ${item.oboe}, Clarinet: ${item.clarinet}, Bassoon: ${item.bassoon}, Violin 1: ${item.violin1}, Violin 2: ${item.violin2}, Viola: ${item.viola}, Violincello: ${item.violincello}, Doublebass: ${item.doublebass}, Horn: ${item.horn}, Trumpet: ${item.trumpet}, Trombone: ${item.trombone}, Tube: ${item.tube}, Kettledrum: ${item.kettledrum}, Percussion: ${item.percussion}, Harp: ${item.harp}</option>
+                                <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentation.instrumentationID ? "selected" : ""}>Flute: ${item.flute}, Oboe: ${item.oboe}, Clarinet: ${item.clarinet}, Bassoon: ${item.bassoon}, Violin 1: ${item.violin1}, Violin 2: ${item.violin2}, Viola: ${item.viola}, Violincello: ${item.violincello}, Doublebass: ${item.doublebass}, Horn: ${item.horn}, Trumpet: ${item.trumpet}, Trombone: ${item.trombone}, Tube: ${item.tube}, Kettledrum: ${item.kettledrum}, Percussion: ${item.percussion}, Harp: ${item.harp}</option>
                             </c:forEach>
                         </select>
                     </t:ErrorMessage>

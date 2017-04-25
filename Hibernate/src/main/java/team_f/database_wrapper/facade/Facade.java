@@ -147,6 +147,21 @@ public class Facade {
         return instrumentations;
     }
 
+    public InstrumentationEntity getInstrumentationById(int id) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from InstrumentationEntity where instrumentationId = :id");
+        query.setParameter("id", id);
+        query.setMaxResults(1);
+
+        List<InstrumentationEntity> instrumentationEntities = query.getResultList();
+
+        if(instrumentationEntities.size() > 0) {
+            return instrumentationEntities.get(0);
+        }
+
+        return null;
+    }
+
     public Integer addInstrumentation(InstrumentationEntity inst) {
 
         EntityManager session = getCurrentSession();

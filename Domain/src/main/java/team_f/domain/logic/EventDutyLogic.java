@@ -32,8 +32,8 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case START_DATE:
-                    if(eventDuty.getStarttime() != null) {
-                        if (!DateTimeHelper.liesInFuture(eventDuty.getStarttime())) {
+                    if(eventDuty.getStartTime() != null) {
+                        if (!DateTimeHelper.liesInFuture(eventDuty.getStartTime())) {
                             resultList.add(new Pair<>(String.valueOf(START_DATE), "is bygone"));
                         }
                     } else {
@@ -42,11 +42,11 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case END_DATE:
-                    if(eventDuty.getEndtime() != null) {
-                        if(!DateTimeHelper.liesInFuture(eventDuty.getEndtime())){
+                    if(eventDuty.getEndTime() != null) {
+                        if(!DateTimeHelper.liesInFuture(eventDuty.getEndTime())){
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is bygone"));
                         }
-                        if(!DateTimeHelper.compareDates(eventDuty.getStarttime(),eventDuty.getEndtime())){
+                        if(!DateTimeHelper.compareDates(eventDuty.getStartTime(),eventDuty.getEndTime())){
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Starttime"));
                         }
                     }else{

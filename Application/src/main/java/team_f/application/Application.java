@@ -39,13 +39,27 @@ public class Application {
         eventDuty.setName(name);
         eventDuty.setDescription(description);
         eventDuty.setLocation(location);
-        eventDuty.setStarttime(startTime);
-        eventDuty.setEndtime(endTime);
+        eventDuty.setStartTime(startTime);
+        eventDuty.setEndTime(endTime);
         eventDuty.setConductor(conductor);
         eventDuty.setEventType(type);
-        eventDuty.setRehearsalFor(rehearsalForId);
+
+        // load the data from the DB
+        if(rehearsalForId > 0) {
+            EventDuty rehearsalFor = transformEventDutyEntity(facade.getEventById(rehearsalForId));
+            eventDuty.setRehearsalFor(rehearsalFor);
+        }
+
+        if(instrumentationId > 0) {
+            Instrumentation instrumentation = transformInstrumentationEntity(facade.getInstrumentationById(instrumentationId));
+            eventDuty.setInstrumentation(instrumentation);
+        }
+
         eventDuty.setDefaultPoints(standardPoints);
-        eventDuty.setInstrumentationId(instrumentationId);
+
+        Instrumentation instrumentation = new Instrumentation();
+        instrumentation.setInstrumentationID(instrumentationId);
+        eventDuty.setInstrumentation(instrumentation);
 
         MusicalWork tmpMusicalWork;
         Instrumentation tmpInstrumentation;
@@ -86,8 +100,8 @@ public class Application {
         event.setEventDutyId(eventDuty.getEventDutyId());
         event.setName(eventDuty.getName());
         event.setDescription(eventDuty.getDescription());
-        event.setStarttime(eventDuty.getStarttime());
-        event.setEndtime(eventDuty.getEndtime());
+        event.setStarttime(eventDuty.getStartTime());
+        event.setEndtime(eventDuty.getEndTime());
 
         event.setEventType(team_f.database_wrapper.entities.EventType.valueOf(String.valueOf(eventDuty.getEventType())));
         event.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(String.valueOf(eventDuty.getEventStatus())));
@@ -95,8 +109,8 @@ public class Application {
         event.setConductor(eventDuty.getConductor());
         event.setLocation(eventDuty.getLocation());
         event.setDefaultPoints(eventDuty.getDefaultPoints());
-        event.setInstrumentation(eventDuty.getInstrumentationId());
-        event.setRehearsalFor(eventDuty.getRehearsalFor());
+        event.setInstrumentation(eventDuty.getInstrumentation().getInstrumentationID());
+        event.setRehearsalFor(eventDuty.getRehearsalFor().getEventDutyId());
 
 
         // @TODO: musical works have to be saved in this stage
@@ -148,7 +162,7 @@ public class Application {
         Instrumentation instrumentation;
 
         for(InstrumentationEntity item : instrumentationEntities) {
-            instrumentation = transformInstrumenationEntity(item);
+            instrumentation = transformInstrumentationEntity(item);
             instrumentations.add(instrumentation);
         }
 
@@ -164,46 +178,66 @@ public class Application {
     }
 
     private EventDuty transformEventDutyEntity(EventDutyEntity eventDutyEntity) {
-        EventDuty event = new EventDuty();
-        event.setConductor(eventDutyEntity.getConductor());
-        event.setDefaultPoints(eventDutyEntity.getDefaultPoints());
-        event.setDescription(eventDutyEntity.getDescription());
-        event.setEndtime(eventDutyEntity.getEndtime());
-        event.setStarttime(eventDutyEntity.getStarttime());
-        event.setEventDutyId(eventDutyEntity.getEventDutyId());
-        event.setRehearsalFor(eventDutyEntity.getRehearsalFor());
-        event.setLocation(eventDutyEntity.getLocation());
-        event.setInstrumentationId(eventDutyEntity.getInstrumentation());
-        event.setName(eventDutyEntity.getName());
-
-        event.setEventType(EventType.valueOf(String.valueOf(eventDutyEntity.getEventType())));
-        event.setEventStatus(EventStatus.valueOf(String.valueOf(eventDutyEntity.getEventStatus())));
-
-        MusicalWorkEntity musicalWorkEntity;
-        MusicalWork musicalWork;
-        InstrumentationEntity instrumentationEntity;
+        EventDuty event = null;
+        Integer tmp;
         Instrumentation instrumentation;
 
-        Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorkEntityList = eventDutyEntity.getEventDutyMusicalWorksByEventDutyId(); //=  facade.getMusicalWorksByEventId(int eventId);
+        if(eventDutyEntity != null) {
+            event = new EventDuty();
+            event.setConductor(eventDutyEntity.getConductor());
+            event.setDefaultPoints(eventDutyEntity.getDefaultPoints());
+            event.setDescription(eventDutyEntity.getDescription());
+            event.setEndTime(eventDutyEntity.getEndtime());
+            event.setStartTime(eventDutyEntity.getStarttime());
+            event.setEventDutyId(eventDutyEntity.getEventDutyId());
 
-        if(eventDutyMusicalWorkEntityList != null) {
-            for (EventDutyMusicalWorkEntity item : eventDutyEntity.getEventDutyMusicalWorksByEventDutyId()) {
-                musicalWorkEntity = item.getMusicalWorkByMusicalWork();
-                instrumentationEntity = item.getInstrumentationByAlternativeInstrumentation();
+            // load the data from the DB
+            tmp = eventDutyEntity.getRehearsalFor();
 
-                musicalWork = null;
+            if(tmp != null) {
+                EventDuty rehearsalFor = transformEventDutyEntity(facade.getEventById(tmp));
+                event.setRehearsalFor(rehearsalFor);
+            }
 
-                if (musicalWorkEntity != null) {
-                    musicalWork = transformMusicalWorkEntity(musicalWorkEntity);
+            event.setLocation(eventDutyEntity.getLocation());
+
+            // load the data from the DB
+            tmp = eventDutyEntity.getInstrumentation();
+
+            if(tmp != null) {
+                instrumentation = transformInstrumentationEntity(facade.getInstrumentationById(tmp));
+                event.setInstrumentation(instrumentation);
+            }
+
+            event.setName(eventDutyEntity.getName());
+
+            event.setEventType(EventType.valueOf(String.valueOf(eventDutyEntity.getEventType())));
+            event.setEventStatus(EventStatus.valueOf(String.valueOf(eventDutyEntity.getEventStatus())));
+
+            MusicalWorkEntity musicalWorkEntity;
+            MusicalWork musicalWork;
+            InstrumentationEntity instrumentationEntity;
+            Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorkEntityList = eventDutyEntity.getEventDutyMusicalWorksByEventDutyId();
+
+            if (eventDutyMusicalWorkEntityList != null) {
+                for (EventDutyMusicalWorkEntity item : eventDutyEntity.getEventDutyMusicalWorksByEventDutyId()) {
+                    musicalWorkEntity = item.getMusicalWorkByMusicalWork();
+                    instrumentationEntity = item.getInstrumentationByAlternativeInstrumentation();
+
+                    musicalWork = null;
+
+                    if (musicalWorkEntity != null) {
+                        musicalWork = transformMusicalWorkEntity(musicalWorkEntity);
+                    }
+
+                    instrumentation = null;
+
+                    if (instrumentationEntity != null) {
+                        instrumentation = transformInstrumentationEntity(instrumentationEntity);
+                    }
+
+                    event.addMusicalWork(musicalWork, instrumentation);
                 }
-
-                instrumentation = null;
-
-                if (instrumentationEntity != null) {
-                    instrumentation = transformInstrumenationEntity(instrumentationEntity);
-                }
-
-                event.addMusicalWork(musicalWork, instrumentation);
             }
         }
 
@@ -211,45 +245,53 @@ public class Application {
     }
 
     private MusicalWork transformMusicalWorkEntity(MusicalWorkEntity musicalWorkEntity) {
-        MusicalWork musicalWork = new MusicalWork();
-        musicalWork.setComposer(musicalWorkEntity.getComposer());
-        musicalWork.setInstrumentationID(musicalWorkEntity.getInstrumentationId());
-        musicalWork.setMusicalWorkID(musicalWorkEntity.getMusicalWorkId());
-        musicalWork.setName(musicalWorkEntity.getName());
+        MusicalWork musicalWork = null;
+
+        if(musicalWorkEntity != null) {
+            musicalWork = new MusicalWork();
+            musicalWork.setComposer(musicalWorkEntity.getComposer());
+            musicalWork.setInstrumentationID(musicalWorkEntity.getInstrumentationId());
+            musicalWork.setMusicalWorkID(musicalWorkEntity.getMusicalWorkId());
+            musicalWork.setName(musicalWorkEntity.getName());
+        }
 
         return musicalWork;
     }
 
-    private Instrumentation transformInstrumenationEntity(InstrumentationEntity instrumentationEntity) {
-        Instrumentation instrumentation = new Instrumentation();
+    private Instrumentation transformInstrumentationEntity(InstrumentationEntity instrumentationEntity) {
+        Instrumentation instrumentation = null;
 
-        instrumentation.setInstrumentationID(instrumentationEntity.getInstrumentationId());
+        if(instrumentationEntity != null) {
+            instrumentation = new Instrumentation();
 
-        // @TODO: use Instrumentation Objects instead of ids and check in the validation the id, ...
-        BrassInstrumentationEntity brassInstrumentationEntity = instrumentationEntity.getBrassInstrumentationByBrassInstrumentation();
-        PercussionInstrumentationEntity percussionInstrumentationEntity = instrumentationEntity.getPercussionInstrumentationByPercussionInstrumentation();
-        StringInstrumentationEntity stringInstrumentationEntity = instrumentationEntity.getStringInstrumentationByStringInstrumentation();
-        WoodInstrumentationEntity woodInstrumentationEntity = instrumentationEntity.getWoodInstrumentationByWoodInstrumentation();
+            instrumentation.setInstrumentationID(instrumentationEntity.getInstrumentationId());
 
-        instrumentation.setHorn(brassInstrumentationEntity.getHorn());
-        instrumentation.setTrombone(brassInstrumentationEntity.getTrombone());
-        instrumentation.setTrumpet(brassInstrumentationEntity.getTrumpet());
-        instrumentation.setTube(brassInstrumentationEntity.getTube());
+            // @TODO: use Instrumentation Objects instead of ids and check in the validation the id, ...
+            BrassInstrumentationEntity brassInstrumentationEntity = instrumentationEntity.getBrassInstrumentationByBrassInstrumentation();
+            PercussionInstrumentationEntity percussionInstrumentationEntity = instrumentationEntity.getPercussionInstrumentationByPercussionInstrumentation();
+            StringInstrumentationEntity stringInstrumentationEntity = instrumentationEntity.getStringInstrumentationByStringInstrumentation();
+            WoodInstrumentationEntity woodInstrumentationEntity = instrumentationEntity.getWoodInstrumentationByWoodInstrumentation();
 
-        instrumentation.setPercussion(percussionInstrumentationEntity.getPercussion());
-        instrumentation.setKettledrum(percussionInstrumentationEntity.getKettledrum());
-        instrumentation.setHarp(percussionInstrumentationEntity.getHarp());
+            instrumentation.setHorn(brassInstrumentationEntity.getHorn());
+            instrumentation.setTrombone(brassInstrumentationEntity.getTrombone());
+            instrumentation.setTrumpet(brassInstrumentationEntity.getTrumpet());
+            instrumentation.setTube(brassInstrumentationEntity.getTube());
 
-        instrumentation.setViola(stringInstrumentationEntity.getViola());
-        instrumentation.setViolin1(stringInstrumentationEntity.getViolin1());
-        instrumentation.setViolin2(stringInstrumentationEntity.getViolin2());
-        instrumentation.setViolincello(stringInstrumentationEntity.getViolincello());
-        instrumentation.setDoublebass(stringInstrumentationEntity.getDoublebass());
+            instrumentation.setPercussion(percussionInstrumentationEntity.getPercussion());
+            instrumentation.setKettledrum(percussionInstrumentationEntity.getKettledrum());
+            instrumentation.setHarp(percussionInstrumentationEntity.getHarp());
 
-        instrumentation.setBassoon(woodInstrumentationEntity.getBassoon());
-        instrumentation.setClarinet(woodInstrumentationEntity.getClarinet());
-        instrumentation.setOboe(woodInstrumentationEntity.getOboe());
-        instrumentation.setFlute(woodInstrumentationEntity.getFlute());
+            instrumentation.setViola(stringInstrumentationEntity.getViola());
+            instrumentation.setViolin1(stringInstrumentationEntity.getViolin1());
+            instrumentation.setViolin2(stringInstrumentationEntity.getViolin2());
+            instrumentation.setViolincello(stringInstrumentationEntity.getViolincello());
+            instrumentation.setDoublebass(stringInstrumentationEntity.getDoublebass());
+
+            instrumentation.setBassoon(woodInstrumentationEntity.getBassoon());
+            instrumentation.setClarinet(woodInstrumentationEntity.getClarinet());
+            instrumentation.setOboe(woodInstrumentationEntity.getOboe());
+            instrumentation.setFlute(woodInstrumentationEntity.getFlute());
+        }
 
         return instrumentation;
     }
