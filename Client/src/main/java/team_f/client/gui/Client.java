@@ -1,12 +1,8 @@
 package team_f.client.gui;
 
-import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
-import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Menu;
@@ -18,11 +14,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
-import team_f.client.controls.Home.HomeScreen;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
 import team_f.client.singletons.HomeScreenSingleton;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -36,6 +30,9 @@ public class Client extends Application {
         if (Environment.isMac()) {
             BrowserCore.initialize();
         }
+
+        // load the webbrowser instance at the startup to avoid unnecessary lags for the user
+        Webbrowser.getBrowser("/");
     }
 
     @Override
