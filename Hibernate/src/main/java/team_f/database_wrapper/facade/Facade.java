@@ -1,6 +1,8 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.*;
+import team_f.domain.entities.EventDuty;
+import team_f.domain.entities.MusicalWork;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -33,7 +35,7 @@ public class Facade {
      * @return EventDutyId      int         returns the primary key of the event
      */
 
-    public Integer addEvent(EventDutyEntity event, List<MusicalWorkEntity> musicalWorkList) {
+    public Integer addEvent(EventDuty event, List<MusicalWork> musicalWorkList) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -42,16 +44,15 @@ public class Facade {
 
         eventEntity.setName(event.getName());
         eventEntity.setDescription(event.getDescription());
-        eventEntity.setStarttime(event.getStarttime());
-        eventEntity.setEndtime(event.getEndtime());
-        eventEntity.setEventType(event.getEventType());
-        eventEntity.setEventStatus(event.getEventStatus());
+        eventEntity.setStarttime(event.getStartTime());
+        eventEntity.setEndtime(event.getEndTime());
+        eventEntity.setEventType(team_f.database_wrapper.entities.EventType.valueOf(event.getEventType().toString()));
+        eventEntity.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(event.getEventStatus().toString()));
         eventEntity.setConductor(event.getConductor());
         eventEntity.setLocation(event.getLocation());
         eventEntity.setDefaultPoints(event.getDefaultPoints());
-        eventEntity.setInstrumentation(event.getInstrumentation());
-        eventEntity.setRehearsalFor(event.getRehearsalFor());
-
+        eventEntity.setInstrumentation(event.getInstrumentation().getInstrumentationID());
+        eventEntity.setRehearsalFor(event.getRehearsalFor().getEventDutyId());
 
         if (event.getEventDutyId()>0) {
             session.merge(event);
@@ -60,11 +61,11 @@ public class Facade {
         }
 
         List<EventDutyMusicalWorkEntity> EMWlist = new ArrayList<>();
-        for (MusicalWorkEntity musicalWorkEntity : musicalWorkList) {
+        for (MusicalWork musicalWork : musicalWorkList) {
             EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
-            emwe.setMusicalWork(musicalWorkEntity.getMusicalWorkId());
+            emwe.setMusicalWork(musicalWork.getMusicalWorkID());
             emwe.setEventDuty(event.getEventDutyId());
-            emwe.setAlternativeInstrumentation(musicalWorkEntity.getInstrumentationId());
+            emwe.setAlternativeInstrumentation(musicalWork.getInstrumentationID());
             session.persist(emwe);
         }
 

@@ -85,8 +85,6 @@ public class Application {
             return new Pair<>(eventDuty, errorList);
         }
 
-        // create the database entity
-        EventDutyEntity event = new EventDutyEntity();
         List<MusicalWorkEntity> eventMusicalList = new ArrayList<>();
 
         for (MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
@@ -97,25 +95,9 @@ public class Application {
             eventMusicalList.add(mE);
         }
 
-        event.setEventDutyId(eventDuty.getEventDutyId());
-        event.setName(eventDuty.getName());
-        event.setDescription(eventDuty.getDescription());
-        event.setStarttime(eventDuty.getStartTime());
-        event.setEndtime(eventDuty.getEndTime());
-
-        event.setEventType(team_f.database_wrapper.entities.EventType.valueOf(String.valueOf(eventDuty.getEventType())));
-        event.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(String.valueOf(eventDuty.getEventStatus())));
-
-        event.setConductor(eventDuty.getConductor());
-        event.setLocation(eventDuty.getLocation());
-        event.setDefaultPoints(eventDuty.getDefaultPoints());
-        event.setInstrumentation(eventDuty.getInstrumentation().getInstrumentationID());
-        event.setRehearsalFor(eventDuty.getRehearsalFor().getEventDutyId());
-
-
         // @TODO: musical works have to be saved in this stage
 
-        facade.addEvent(event, eventMusicalList);
+        facade.addEvent(eventDuty, eventMusicalList);
 
         return new Pair<>(eventDuty, new LinkedList<>());
     }
