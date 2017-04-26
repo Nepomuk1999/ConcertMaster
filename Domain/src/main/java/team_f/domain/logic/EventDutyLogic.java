@@ -49,6 +49,14 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         if(!DateTimeHelper.compareDates(eventDuty.getStartTime(),eventDuty.getEndTime())){
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Starttime"));
                         }
+                        if(eventDuty.getEventType().toString().equals(EventType.Concert.toString()) || eventDuty.getEventType().toString().equals(EventType.Hofkapelle.toString())
+                                || eventDuty.getEventType().toString().equals(EventType.NonMusicalEvent.toString()) || eventDuty.getEventType().toString().equals(EventType.Rehearsal.toString())
+                                || eventDuty.getEventType().toString().equals(EventType.Opera.toString())){
+
+                            if(!eventDuty.getEndDate("dd/MM/yyyy").equals(eventDuty.getStartDate("dd/MM/yyyy"))){
+                                resultList.add(new Pair<>(String.valueOf(END_DATE), "this type of event cannot be longer than one day"));
+                            }
+                        }
                     } else {
                         //TODO: if empty then default value 3h
                         resultList.add(new Pair<>(String.valueOf(END_DATE), "is empty"));
@@ -109,7 +117,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         }
                         //TODO: for second Sprint: Validate if Event_type==opera, concert,....
                         //are all one-day events, except Tournee
-                        // if(eventDuty.getEventType().toString().equals(EventType.Concert))
+                        //has benn implemented in case END_DATE
 
                         if (!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is not valid"));
