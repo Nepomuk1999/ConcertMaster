@@ -32,7 +32,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case START_DATE:
-                    if(eventDuty.getStarttime() != null) {
+                    if (eventDuty.getStarttime() != null) {
                         if (!DateTimeHelper.liesInFuture(eventDuty.getStarttime())) {
                             resultList.add(new Pair<>(String.valueOf(START_DATE), "is bygone"));
                         }
@@ -42,55 +42,55 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case END_DATE:
-                    if(eventDuty.getEndtime() != null) {
-                        if(!DateTimeHelper.liesInFuture(eventDuty.getEndtime())){
+                    if (eventDuty.getEndtime() != null) {
+                        if (!DateTimeHelper.liesInFuture(eventDuty.getEndtime())) {
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is bygone"));
                         }
-                        if(!DateTimeHelper.compareDates(eventDuty.getStarttime(),eventDuty.getEndtime())){
+                        if (!DateTimeHelper.compareDates(eventDuty.getStarttime(), eventDuty.getEndtime())) {
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Starttime"));
                         }
-                    }else{
+                    } else {
+                        //TODO: if empty then default value 3h
                         resultList.add(new Pair<>(String.valueOf(END_DATE), "is empty"));
                     }
                     break;
 
                 case DEFAULT_POINTS:
                     if (!IntegerHelper.isPositiveDefaultPoint(eventDuty.getDefaultPoints())) {
-                            resultList.add(new Pair<>(String.valueOf(DEFAULT_POINTS), "Only positive Points possible"));
-                        }
+                        resultList.add(new Pair<>(String.valueOf(DEFAULT_POINTS), "Only positive Points possible"));
+                    }
                     break;
 
                 case NAME:
-                    if(eventDuty.getName() == null&&!StringHelper.isNotEmpty(eventDuty.getName())) {
+                    if (eventDuty.getName() == null && !StringHelper.isNotEmpty(eventDuty.getName())) {
                         resultList.add(new Pair<>(String.valueOf(NAME), "is empty"));
                     }
                     break;
 
                 case LOCATION:
-                    if(eventDuty.getLocation() == null&&!StringHelper.isNotEmpty(eventDuty.getLocation())) {
+                    if (eventDuty.getLocation() == null && !StringHelper.isNotEmpty(eventDuty.getLocation())) {
                         resultList.add(new Pair<>(String.valueOf(LOCATION), "is empty"));
                     }
                     break;
 
                 case CONDUCTOR:
-                    if(eventDuty.getConductor() == null&&!StringHelper.isNotEmpty(eventDuty.getConductor())) {
+                    if (eventDuty.getConductor() == null && !StringHelper.isNotEmpty(eventDuty.getConductor())) {
                         resultList.add(new Pair<>(String.valueOf(CONDUCTOR), "is empty"));
                     }
                     break;
 
                 case EVENT_STATUS:
-                    if(eventDuty.getEventStatus() == null) {
+                    if (eventDuty.getEventStatus() == null) {
                         resultList.add(new Pair<>(String.valueOf(EVENT_STATUS), "is empty"));
-                    }
-                    else{
+                    } else {
                         boolean isValid = false;
-                        for(EventStatus eventStatus : EventStatus.values()) {
-                            if(String.valueOf(eventStatus).equals(eventDuty.getEventStatus())) {
+                        for (EventStatus eventStatus : EventStatus.values()) {
+                            if (String.valueOf(eventStatus).equals(eventDuty.getEventStatus())) {
                                 isValid = true;
                             }
                         }
 
-                        if(!isValid) {
+                        if (!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_STATUS), "is not valid"));
                         }
                     }
@@ -98,26 +98,38 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case EVENT_TYPE:
-                    if(eventDuty.getEventType() == null) {
+                    if (eventDuty.getEventType() == null) {
                         resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is empty"));
-                    }
-                    else{
+                    } else {
                         boolean isValid = false;
-                        for(EventType eventType : EventType.values()) {
-                            if(String.valueOf(eventType).equals(String.valueOf(eventDuty.getEventType()))) {
+                        for (EventType eventType : EventType.values()) {
+                            if (String.valueOf(eventType).equals(String.valueOf(eventDuty.getEventType()))) {
                                 isValid = true;
                             }
                         }
                         //TODO: for second Sprint: Validate if Event_type==opera, concert,....
                         //are all one-day events, except Tournee
-                       // if(eventDuty.getEventType().toString().equals(EventType.Concert))
+                        // if(eventDuty.getEventType().toString().equals(EventType.Concert))
 
-                        if(!isValid) {
+                        if (!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is not valid"));
                         }
-                    }
 
+                    }
                     break;
+
+                case REHEARSAL_FOR:
+                  //TODO:Check reheasal Date and Eventdate
+                    }
+                break;
+
+
+
+
+
+
+
+    }
 
 
 
@@ -132,14 +144,9 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         */
 
 
-
-
-
-            }}
-
-
             return resultList;
         }
+
 
     @Override
     public List<Pair<String, String>> validate(EventDuty eventDuty) {

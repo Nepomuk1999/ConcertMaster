@@ -10,15 +10,15 @@ public class EventDutyHelper {
                 case Concert:
                     return Color.SADDLEBROWN;
                 case Tour:
-                    return Color.CORNFLOWERBLUE;
+                    return Color.DARKSALMON;
                 case Opera:
                     return Color.DODGERBLUE;
                 case Rehearsal:
-                    return Color.BURLYWOOD;
+                    return Color.DARKSLATEBLUE;
                 case Hofkapelle:
-                    return Color.ROSYBROWN;
+                    return Color.DARKMAGENTA;
                 case NonMusicalEvent:
-                    return Color.DARKGRAY;
+                    return Color.DARKCYAN;
             }
         }
 
@@ -40,6 +40,27 @@ public class EventDutyHelper {
                     return "Tour";
                 case Concert:
                     return "Concert";
+            }
+        }
+
+        return null;
+    }
+
+    public static String getEventTypeCode(EventType eventType) {
+        if(eventType != null) {
+            switch (eventType) {
+                case NonMusicalEvent:
+                    return "NM";
+                case Hofkapelle:
+                    return "HK";
+                case Rehearsal:
+                    return "RH";
+                case Opera:
+                    return "OP";
+                case Tour:
+                    return "T";
+                case Concert:
+                    return "CO";
             }
         }
 
