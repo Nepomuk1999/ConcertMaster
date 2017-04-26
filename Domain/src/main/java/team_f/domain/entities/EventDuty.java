@@ -3,6 +3,8 @@ package team_f.domain.entities;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
+
+import java.awt.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -15,15 +17,15 @@ public class EventDuty implements DomainEntity {
     private int eventDutyId;
     private String name;
     private String description;
-    private LocalDateTime starttime;
-    private LocalDateTime endtime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private EventType eventType;
     private EventStatus eventStatus;
     private String conductor;
     private String location;
-    private Integer rehearsalFor;
+    private EventDuty rehearsalFor;
     private double defaultPoints;
-    private Integer instrumentationId;
+    private Instrumentation instrumentation;
     private List<MusicalWork> _musicalWorkList = new LinkedList<>();
     private List<Instrumentation> _alternativeInstrumentationList = new LinkedList<>();
 
@@ -52,8 +54,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEndDate(String format) {
-        if(endtime != null) {
-            Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
+        if(endTime != null) {
+            Date date = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -65,8 +67,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getStartDate(String format) {
-        if(starttime != null) {
-            Date date = Date.from(starttime.atZone(ZoneId.systemDefault()).toInstant());
+        if(startTime != null) {
+            Date date = Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -78,8 +80,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getStartTime(String format) {
-        if(starttime != null) {
-            Date date = Date.from(starttime.atZone(ZoneId.systemDefault()).toInstant());
+        if(startTime != null) {
+            Date date = Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -91,8 +93,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEndTime(String format) {
-        if(endtime != null) {
-            Date date = Date.from(endtime.atZone(ZoneId.systemDefault()).toInstant());
+        if(endTime != null) {
+            Date date = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -103,20 +105,20 @@ public class EventDuty implements DomainEntity {
         return "";
     }
 
-    public LocalDateTime getStarttime() {
-        return starttime;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setStarttime(LocalDateTime starttime) {
-        this.starttime = starttime;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
-    public LocalDateTime getEndtime() {
-        return endtime;
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(LocalDateTime endtime) {
-        this.endtime = endtime;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public EventType getEventType() {
@@ -151,11 +153,11 @@ public class EventDuty implements DomainEntity {
         this.location = location;
     }
 
-    public Integer getRehearsalFor() {
+    public EventDuty getRehearsalFor() {
         return rehearsalFor;
     }
 
-    public void setRehearsalFor(Integer rehearsalFor) {
+    public void setRehearsalFor(EventDuty rehearsalFor) {
         this.rehearsalFor = rehearsalFor;
     }
 
@@ -167,17 +169,17 @@ public class EventDuty implements DomainEntity {
         this.defaultPoints = defaultPoints;
     }
 
-    public Integer getInstrumentationId() {
-        return instrumentationId;
+    public Instrumentation getInstrumentation() {
+        return instrumentation;
     }
 
-    public void setInstrumentationId(Integer instrumentationId) {
-        this.instrumentationId = instrumentationId;
+    public void setInstrumentation(Instrumentation instrumentation) {
+        this.instrumentation = instrumentation;
     }
 
-    public void addMusicalWork(MusicalWork musicalWorkId, Instrumentation alternativeInstrumentationId) {
-        _musicalWorkList.add(musicalWorkId);
-        _alternativeInstrumentationList.add(alternativeInstrumentationId);
+    public void addMusicalWork(MusicalWork musicalWork, Instrumentation alternativeInstrumentation) {
+        _musicalWorkList.add(musicalWork);
+        _alternativeInstrumentationList.add(alternativeInstrumentation);
     }
 
     public List<MusicalWork> getMusicalWorkList() {

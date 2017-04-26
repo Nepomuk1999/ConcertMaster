@@ -9,12 +9,12 @@
 <div class="modal-body container-fluid">
     <div class="control-group row">
         <div class="form-group col-xs-3 col-sm-12">
-            <button id="calendar-action-chooser-date" type="button" class="btn btn-warning btn-block" data-dismiss="modal">Date</button>
+            <button id="calendar-action-chooser-date" type="button" class="btn btn-warning btn-block" data-dismiss="modal">Show Event</button>
         </div>
     </div>
     <div class="control-group row">
         <div class="form-group col-xs-3 col-sm-12">
-            <button id="calendar-action-chooser-plan" type="button" class="btn btn-info btn-block" data-dismiss="modal">Rehearsal</button>
+            <button id="calendar-action-chooser-plan" type="button" class="btn btn-info btn-block" data-dismiss="modal">Add Rehearsal</button>
         </div>
     </div>
 </div>

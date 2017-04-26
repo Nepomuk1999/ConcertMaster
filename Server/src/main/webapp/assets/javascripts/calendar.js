@@ -47,7 +47,7 @@ function _refreshCalendar(start, end, timezone, callback, events) {
             $('#calendar').fullCalendar('addEventSource', eventList);
 
             if (view.name == 'month') {
-                $("#calendar").fullCalendar( 'refresh' );
+                $("#calendar").fullCalendar('refresh');
             }
         }
     });
