@@ -277,5 +277,9 @@ public class Application {
 
         return instrumentation;
     }
+
+    //TODO: Get list of Event for one day
+    public void getDateEventList(){
+    }
 }
 

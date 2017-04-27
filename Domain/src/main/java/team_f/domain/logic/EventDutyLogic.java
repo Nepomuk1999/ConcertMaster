@@ -115,9 +115,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                                 isValid = true;
                             }
                         }
-                        //TODO: for second Sprint: Validate if Event_type==opera, concert,....
-                        //are all one-day events, except Tournee
-                        //has benn implemented in case END_DATE
 
                         if (!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is not valid"));
@@ -138,6 +135,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                             resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be after Event"));
 
                         }
+                       //TODO:Get Events for this day and validate if already one Reheasal exists at same time for the same Event
 
                     }
 
