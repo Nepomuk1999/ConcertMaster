@@ -4,7 +4,6 @@ import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
 
-import java.awt.*;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -184,6 +183,10 @@ public class EventDuty implements DomainEntity {
 
     public List<MusicalWork> getMusicalWorkList() {
         return _musicalWorkList;
+    }
+
+    public void setMusicalWOrkList(List e) {
+        this._musicalWorkList = e;
     }
 
     public List<Instrumentation> getAlternativeInstrumentationList() {
