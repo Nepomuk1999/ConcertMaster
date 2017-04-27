@@ -166,7 +166,7 @@ public class Instrumentation implements DomainEntity {
     }
 
     public String getWoodInstrumentationText() {
-        return "Wood: " + TextHelper.getSeparatedText('/', flute, oboe, clarinet, bassoon);
+        return "Wood: " + TextHelper.getSeparatedText('/', getFlute(), getOboe(), getClarinet(), getBassoon());
     }
 
     public String getStringInstrumentationText() {
