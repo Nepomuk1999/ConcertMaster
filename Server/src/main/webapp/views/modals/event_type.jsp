@@ -209,7 +209,7 @@
                             <option value="">Select Instrumentation</option>
                             <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
                                 <option data-divider="true"></option>
-                                <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentation.instrumentationID ? "selected" : ""}>Flute: ${item.flute}, Oboe: ${item.oboe}, Clarinet: ${item.clarinet}, Bassoon: ${item.bassoon}, Violin 1: ${item.violin1}, Violin 2: ${item.violin2}, Viola: ${item.viola}, Violincello: ${item.violincello}, Doublebass: ${item.doublebass}, Horn: ${item.horn}, Trumpet: ${item.trumpet}, Trombone: ${item.trombone}, Tube: ${item.tube}, Kettledrum: ${item.kettledrum}, Percussion: ${item.percussion}, Harp: ${item.harp}</option>
+                                <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentation.instrumentationID ? "selected" : ""}>${item.instrumentationText}</option>
                             </c:forEach>
                         </select>
                     </t:ErrorMessage>
@@ -218,7 +218,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button id="modal-cancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button><!--data-dismiss="modal"-->
+        <button id="modal-cancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
         <button id="modal-edit" type="button" class="btn btn-default">Edit</button>
         <button id="modal-save" type="submit" class="btn btn-info pull-right">Save</button>
     </div>
