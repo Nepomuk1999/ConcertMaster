@@ -21,5 +21,14 @@ public class DateTimeHelper {
         return false;
     }
 
+    public static boolean compareRehearsalDate(LocalDateTime starttimeEvent,LocalDateTime endtimeRehearsal) {
+        if((!endtimeRehearsal.isAfter(starttimeEvent))){
+            return true;
+        }
+
+        return false;
+    }
+
+
 }
 

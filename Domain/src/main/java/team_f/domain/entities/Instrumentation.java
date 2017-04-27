@@ -1,5 +1,6 @@
 package team_f.domain.entities;
 
+import team_f.domain.helper.TextHelper;
 import team_f.domain.interfaces.DomainEntity;
 
 public class Instrumentation implements DomainEntity {
@@ -162,5 +163,34 @@ public class Instrumentation implements DomainEntity {
 
     public void setHarp(int harp) {
         this.harp = harp;
+    }
+
+    public String getWoodInstrumentationText() {
+        return "Wood: " + TextHelper.getSeparatedText('/', flute, oboe, clarinet, bassoon);
+    }
+
+    public String getStringInstrumentationText() {
+        return "String: " + TextHelper.getSeparatedText('/', getViolin1(), getViolin2(), getViola(), getViolincello(), getDoublebass());
+    }
+
+    public String getBrassInstrumentiaton() {
+        return "Brass: " + TextHelper.getSeparatedText('/', getHorn(), getTrumpet(), getTrombone(), getTube());
+    }
+
+    public String getPercussionInstrumentation() {
+        return "Percussion: " + TextHelper.getSeparatedText('/', getKettledrum(), getPercussion(), getHarp());
+    }
+
+    public String getInstrumentationText() {
+        StringBuilder text = new StringBuilder();
+        text.append(getWoodInstrumentationText());
+        text.append('\n');
+        text.append(getStringInstrumentationText());
+        text.append('\n');
+        text.append(getBrassInstrumentiaton());
+        text.append('\n');
+        text.append(getPercussionInstrumentation());
+
+        return text.toString();
     }
 }

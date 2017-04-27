@@ -1,5 +1,5 @@
 .bootstrap-select.btn-group .dropdown-toggle .filter-option {
-    display: inline-block;
+    display: block;
     position: inherit;
     overflow-y: auto;
     text-align: left;
