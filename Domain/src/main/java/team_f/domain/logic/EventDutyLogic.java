@@ -127,7 +127,16 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case REHEARSAL_FOR:
-                  //TODO:Check reheasal Date and Eventdate
+                    if (eventDuty.getRehearsalFor() == null||IntegerHelper.isValidId(eventDuty.getRehearsalFor().getEventDutyId())) {
+                        resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "is not valid"));
+                    }else{
+                        if(eventDuty.getRehearsalFor().getRehearsalFor()!=null){
+                            resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be assigned to type Rehearsal"));
+
+                        }
+
+                    }
+
                     }
                 break;
 
