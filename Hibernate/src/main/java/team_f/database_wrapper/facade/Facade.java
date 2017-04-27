@@ -86,6 +86,7 @@ public class Facade {
 
         List<EventDutyEntity> eventDutyEntities = query.getResultList();
 
+        EventDuty event = new EventDuty();
         if(eventDutyEntities.size() > 0) {
             return eventDutyEntities.get(0);
         }
