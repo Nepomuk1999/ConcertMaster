@@ -85,37 +85,19 @@ public class Application {
             return new Pair<>(eventDuty, errorList);
         }
 
-        // create the database entity
-        EventDutyEntity event = new EventDutyEntity();
-        List<MusicalWorkEntity> eventMusicalList = new ArrayList<>();
+        List<MusicalWork> eventMusicalList = new ArrayList<>();
 
         for (MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
-            MusicalWorkEntity mE = new MusicalWorkEntity();
+            MusicalWork mE = new MusicalWork();
             mE.setComposer(musicalWork.getComposer());
-            mE.setInstrumentationId(musicalWork.getInstrumentationID());
+            mE.setInstrumentationID(musicalWork.getInstrumentationID());
             mE.setName(musicalWork.getName());
             eventMusicalList.add(mE);
         }
 
-        event.setEventDutyId(eventDuty.getEventDutyId());
-        event.setName(eventDuty.getName());
-        event.setDescription(eventDuty.getDescription());
-        event.setStarttime(eventDuty.getStartTime());
-        event.setEndtime(eventDuty.getEndTime());
+        // @TODO: Musicalwork Instrumentation save to correct musicalWork from Event
 
-        event.setEventType(team_f.database_wrapper.entities.EventType.valueOf(String.valueOf(eventDuty.getEventType())));
-        event.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(String.valueOf(eventDuty.getEventStatus())));
-
-        event.setConductor(eventDuty.getConductor());
-        event.setLocation(eventDuty.getLocation());
-        event.setDefaultPoints(eventDuty.getDefaultPoints());
-        event.setInstrumentation(eventDuty.getInstrumentation().getInstrumentationID());
-        event.setRehearsalFor(eventDuty.getRehearsalFor().getEventDutyId());
-
-
-        // @TODO: musical works have to be saved in this stage
-
-        facade.addEvent(event, eventMusicalList);
+        facade.addEvent(eventDuty, eventMusicalList);
 
         return new Pair<>(eventDuty, new LinkedList<>());
     }
@@ -294,6 +276,10 @@ public class Application {
         }
 
         return instrumentation;
+    }
+
+    //TODO: Get list of Event for one day
+    public void getDateEventList(){
     }
 }
 

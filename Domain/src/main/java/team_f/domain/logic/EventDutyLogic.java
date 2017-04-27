@@ -49,48 +49,56 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         if(!DateTimeHelper.compareDates(eventDuty.getStartTime(),eventDuty.getEndTime())){
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Starttime"));
                         }
-                    }else{
+                        if(eventDuty.getEventType().toString().equals(EventType.Concert.toString()) || eventDuty.getEventType().toString().equals(EventType.Hofkapelle.toString())
+                                || eventDuty.getEventType().toString().equals(EventType.NonMusicalEvent.toString()) || eventDuty.getEventType().toString().equals(EventType.Rehearsal.toString())
+                                || eventDuty.getEventType().toString().equals(EventType.Opera.toString())){
+
+                            if(!eventDuty.getEndDate("dd/MM/yyyy").equals(eventDuty.getStartDate("dd/MM/yyyy"))){
+                                resultList.add(new Pair<>(String.valueOf(END_DATE), "this type of event cannot be longer than one day"));
+                            }
+                        }
+                    } else {
+                        //TODO: if empty then default value 3h
                         resultList.add(new Pair<>(String.valueOf(END_DATE), "is empty"));
                     }
                     break;
 
                 case DEFAULT_POINTS:
                     if (!IntegerHelper.isPositiveDefaultPoint(eventDuty.getDefaultPoints())) {
-                            resultList.add(new Pair<>(String.valueOf(DEFAULT_POINTS), "Only positive Points possible"));
-                        }
+                        resultList.add(new Pair<>(String.valueOf(DEFAULT_POINTS), "Only positive Points possible"));
+                    }
                     break;
 
                 case NAME:
-                    if(eventDuty.getName() == null&&!StringHelper.isNotEmpty(eventDuty.getName())) {
+                    if (eventDuty.getName() == null && !StringHelper.isNotEmpty(eventDuty.getName())) {
                         resultList.add(new Pair<>(String.valueOf(NAME), "is empty"));
                     }
                     break;
 
                 case LOCATION:
-                    if(eventDuty.getLocation() == null&&!StringHelper.isNotEmpty(eventDuty.getLocation())) {
+                    if (eventDuty.getLocation() == null && !StringHelper.isNotEmpty(eventDuty.getLocation())) {
                         resultList.add(new Pair<>(String.valueOf(LOCATION), "is empty"));
                     }
                     break;
 
                 case CONDUCTOR:
-                    if(eventDuty.getConductor() == null&&!StringHelper.isNotEmpty(eventDuty.getConductor())) {
+                    if (eventDuty.getConductor() == null && !StringHelper.isNotEmpty(eventDuty.getConductor())) {
                         resultList.add(new Pair<>(String.valueOf(CONDUCTOR), "is empty"));
                     }
                     break;
 
                 case EVENT_STATUS:
-                    if(eventDuty.getEventStatus() == null) {
+                    if (eventDuty.getEventStatus() == null) {
                         resultList.add(new Pair<>(String.valueOf(EVENT_STATUS), "is empty"));
-                    }
-                    else{
+                    } else {
                         boolean isValid = false;
-                        for(EventStatus eventStatus : EventStatus.values()) {
-                            if(String.valueOf(eventStatus).equals(eventDuty.getEventStatus())) {
+                        for (EventStatus eventStatus : EventStatus.values()) {
+                            if (String.valueOf(eventStatus).equals(eventDuty.getEventStatus())) {
                                 isValid = true;
                             }
                         }
 
-                        if(!isValid) {
+                        if (!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_STATUS), "is not valid"));
                         }
                     }
@@ -98,26 +106,49 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case EVENT_TYPE:
-                    if(eventDuty.getEventType() == null) {
+                    if (eventDuty.getEventType() == null) {
                         resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is empty"));
-                    }
-                    else{
+                    } else {
                         boolean isValid = false;
-                        for(EventType eventType : EventType.values()) {
-                            if(String.valueOf(eventType).equals(String.valueOf(eventDuty.getEventType()))) {
+                        for (EventType eventType : EventType.values()) {
+                            if (String.valueOf(eventType).equals(String.valueOf(eventDuty.getEventType()))) {
                                 isValid = true;
                             }
                         }
-                        //TODO: for second Sprint: Validate if Event_type==opera, concert,....
-                        //are all one-day events, except Tournee
-                       // if(eventDuty.getEventType().toString().equals(EventType.Concert))
 
-                        if(!isValid) {
+                        if (!isValid) {
                             resultList.add(new Pair<>(String.valueOf(EVENT_TYPE), "is not valid"));
                         }
+
+                    }
+                    break;
+
+                case REHEARSAL_FOR:
+                    if (eventDuty.getRehearsalFor() == null||IntegerHelper.isValidId(eventDuty.getRehearsalFor().getEventDutyId())) {
+                        resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "is not valid"));
+                    }else{
+                        if(eventDuty.getRehearsalFor().getRehearsalFor()!=null){
+                            resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be assigned to type Rehearsal"));
+
+                        }
+                        if(DateTimeHelper.compareRehearsalDate(eventDuty.getRehearsalFor().getStartTime(), eventDuty.getEndTime())){
+                            resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be after Event"));
+
+                        }
+                       //TODO:Get Events for this day and validate if already one Reheasal exists at same time for the same Event
+
                     }
 
-                    break;
+                    }
+                break;
+
+
+
+
+
+
+
+    }
 
 
 
@@ -132,14 +163,9 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         */
 
 
-
-
-
-            }}
-
-
             return resultList;
         }
+
 
     @Override
     public List<Pair<String, String>> validate(EventDuty eventDuty) {

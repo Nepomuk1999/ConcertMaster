@@ -54,7 +54,7 @@ public class Calendar extends HttpServlet {
                     jsonObject.put("id", event.getEventDutyId());
                     jsonObject.put("start", event.getStartTime());
                     jsonObject.put("end", event.getEndTime());
-                    jsonObject.put("title", event.getName() + "\t(" + EventDutyHelper.getEventTypeText(event.getEventType()) + ")");
+                    jsonObject.put("title","(" + EventDutyHelper.getEventTypeCode(event.getEventType()) + ")" +"\t"+event.getName());
                     jsonObject.put("color", CSSHelper.getColor(EventDutyHelper.getColor(event.getEventType())));
                     //jsonObject.put("className", "");
                     //jsonObject.put("backgroundColor", "");
