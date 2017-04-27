@@ -45,7 +45,11 @@ public class Facade {
 
         EventDutyEntity eventEntity = convertToEventDutyEntity(event);
 
-        session.merge(eventEntity);
+        if (eventEntity.getEventDutyId()>0) {
+            session.merge(eventEntity);
+        } else {
+            session.persist(eventEntity);
+        }
 
         if (!(eventEntity.getEventType().equals(EventType.NonMusicalEvent))) {
 
@@ -55,7 +59,7 @@ public class Facade {
 
             for (MusicalWork musicalWork : event.getMusicalWorkList()) {
                 EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
-                emwe.setEventDuty(event.getEventDutyId());
+                emwe.setEventDuty(eventEntity.getEventDutyId());
                 emwe.setMusicalWork(musicalWork.getMusicalWorkID());
                 emwe.setAlternativeInstrumentation(musicalWork.getInstrumentationID());
                 session.merge(emwe);
