@@ -1,5 +1,13 @@
 package team_f.server.controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import team_f.application.Application;
+import team_f.application.helper.EventDutyHelper;
+import team_f.domain.entities.EventDuty;
+import team_f.server.helper.CSSHelper;
+import team_f.server.helper.response.CommonResponse;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,13 +17,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import team_f.application.Application;
-import team_f.application.helper.EventDutyHelper;
-import team_f.domain.entities.EventDuty;
-import team_f.server.helper.CSSHelper;
-import team_f.server.helper.response.CommonResponse;
 
 @WebServlet(urlPatterns = {"/Calendar"})
 public class Calendar extends HttpServlet {
@@ -47,7 +48,7 @@ public class Calendar extends HttpServlet {
 
             if(startDate != null && endDate != null) {
                 Application facade = new Application();
-                List<EventDuty> eventList = facade.getEvents(startDate.getMonthValue() +1, startDate.getYear());
+                List<EventDuty> eventList = facade.getEventsByMonth(startDate.getMonthValue() +1, startDate.getYear());
 
                 for(EventDuty event : eventList) {
                     jsonObject = new JSONObject();

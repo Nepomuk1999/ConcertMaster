@@ -1,6 +1,7 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.EventDutyEntity;
+import team_f.domain.entities.EventDuty;
+
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,9 +23,9 @@ public class Main {
             facade.addEvent("New Event5", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
 */
             System.out.println("TestEvents added...");
-            List<EventDutyEntity> events = facade.getEvents(4, 2017);
+            List<EventDuty> events = facade.getEventsByMonth(4, 2017);
 
-            for(EventDutyEntity event : events) {
+            for(EventDuty event : events) {
                 System.out.println(event.getName());
             }
         } finally {
