@@ -33,8 +33,11 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                 case START_DATE:
                     if(eventDuty.getStartTime() != null) {
-                        if (!DateTimeHelper.liesInFuture(eventDuty.getStartTime())) {
+                        if (!DateTimeHelper.takesPlaceInFuture(eventDuty.getStartTime())) {
                             resultList.add(new Pair<>(String.valueOf(START_DATE), "is bygone"));
+                        }
+                        if(!DateTimeHelper.periodExpired(eventDuty.getStartTime(),3)){
+                            resultList.add(new Pair<>(String.valueOf(START_DATE), "must take place at least 2 months in future "));
                         }
                     } else {
                         resultList.add(new Pair<>(String.valueOf(START_DATE), "is empty"));
@@ -43,7 +46,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                 case END_DATE:
                     if(eventDuty.getEndTime() != null) {
-                        if(!DateTimeHelper.liesInFuture(eventDuty.getEndTime())){
+                        if(!DateTimeHelper.takesPlaceInFuture(eventDuty.getEndTime())){
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is bygone"));
                         }
                         if(!DateTimeHelper.compareDates(eventDuty.getStartTime(),eventDuty.getEndTime())){
