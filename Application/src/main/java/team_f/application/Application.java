@@ -85,17 +85,17 @@ public class Application {
             return new Pair<>(eventDuty, errorList);
         }
 
-        List<MusicalWorkEntity> eventMusicalList = new ArrayList<>();
+        List<MusicalWork> eventMusicalList = new ArrayList<>();
 
         for (MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
-            MusicalWorkEntity mE = new MusicalWorkEntity();
+            MusicalWork mE = new MusicalWork();
             mE.setComposer(musicalWork.getComposer());
-            mE.setInstrumentationId(musicalWork.getInstrumentationID());
+            mE.setInstrumentationID(musicalWork.getInstrumentationID());
             mE.setName(musicalWork.getName());
             eventMusicalList.add(mE);
         }
 
-        // @TODO: musical works have to be saved in this stage
+        // @TODO: Musicalwork Instrumentation save to correct musicalWork from Event
 
         facade.addEvent(eventDuty, eventMusicalList);
 
