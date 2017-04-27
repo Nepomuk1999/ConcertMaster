@@ -134,6 +134,10 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                             resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be assigned to type Rehearsal"));
 
                         }
+                        if(DateTimeHelper.compareRehearsalDate(eventDuty.getRehearsalFor().getStartTime(), eventDuty.getEndTime())){
+                            resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be after Event"));
+
+                        }
 
                     }
 
