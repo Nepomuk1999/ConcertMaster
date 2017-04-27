@@ -38,36 +38,26 @@ public class Facade {
      * Function to add a ModelLogic. Returns the EventDutyId after saving it in database
      * @return EventDutyId      int         returns the primary key of the event
      */
-    public Integer addEvent(EventDuty event, List<MusicalWork> musicalWorkList) {
+    public Integer addEvent(EventDuty event) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
         EventDutyEntity eventEntity = convertToEventDutyEntity(event);
 
-
-
+        session.merge(eventEntity);
 
         if (!(eventEntity.getEventType().equals(EventType.NonMusicalEvent))) {
 
             Collection<EventDutyMusicalWorkEntity> coll = new ArrayList<>();
 
-            for (MusicalWork musicalWork : musicalWorkList) {
+            for (MusicalWork musicalWork : event.getMusicalWorkList()) {
                 EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
-                emwe.setMusicalWork(musicalWork.getMusicalWorkID());
                 emwe.setEventDuty(event.getEventDutyId());
-                session.persist(emwe);
-                coll.add(emwe);
+                emwe.setMusicalWork(musicalWork.getMusicalWorkID());
+                emwe.setAlternativeInstrumentation(musicalWork.getInstrumentationID());
+                session.merge(emwe);
             }
-
-            eventEntity.setEventDutyMusicalWorksByEventDutyId(coll);
-
-        }
-
-        if (event.getEventDutyId()>0) {
-            session.merge(eventEntity);
-        } else {
-            session.persist(eventEntity);
         }
 
         try {
@@ -187,9 +177,6 @@ public class Facade {
         eventDutyEntity.setConductor(event.getConductor());
         eventDutyEntity.setLocation(event.getLocation());
         eventDutyEntity.setDefaultPoints(event.getDefaultPoints());
-        if (event.getInstrumentation() != null) {
-            eventDutyEntity.setInstrumentation(event.getInstrumentation().getInstrumentationID());
-        }
         if (event.getRehearsalFor() != null) {
             eventDutyEntity.setRehearsalFor(event.getRehearsalFor().getEventDutyId());
         }

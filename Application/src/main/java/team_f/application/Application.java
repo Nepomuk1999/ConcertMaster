@@ -68,10 +68,11 @@ public class Application {
         if(musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
             for(int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
                 tmpMusicalWork = new MusicalWork();
-                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
+                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);          // @TODO CHANGE BACK TO VALUES
+                tmpMusicalWork.setInstrumentationID(1);
 
                 tmpInstrumentation = new Instrumentation();
-                tmpInstrumentation.setInstrumentationID(alternativeInstrumentationIdList[i]);
+                tmpInstrumentation.setInstrumentationID(1);
 
                 eventDuty.addMusicalWork(tmpMusicalWork, tmpInstrumentation);
             }
@@ -98,7 +99,7 @@ public class Application {
 
         // @TODO: Musicalwork Instrumentation save to correct musicalWork from Event
 
-        facade.addEvent(eventDuty, eventMusicalList);
+        facade.addEvent(eventDuty);
 
         return new Pair<>(eventDuty, new LinkedList<>());
     }
