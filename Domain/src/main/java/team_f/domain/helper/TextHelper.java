@@ -16,4 +16,19 @@ public class TextHelper {
 
         return builder.toString();
     }
+    public static String getTextFromString(char separator, String ... instruments) {
+        StringBuilder builder = new StringBuilder();
+
+        if(instruments != null) {
+            for(int i = 0; i < instruments.length; i++) {
+                builder.append(instruments[i]);
+
+                if(i +1 < instruments.length) {
+                    builder.append(separator);
+                }
+            }
+        }
+
+        return builder.toString();
+    }
 }
