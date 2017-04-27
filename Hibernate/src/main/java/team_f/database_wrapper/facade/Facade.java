@@ -2,6 +2,7 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.*;
 import team_f.domain.entities.EventDuty;
+import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
@@ -9,6 +10,7 @@ import team_f.domain.enums.EventType;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -36,44 +38,35 @@ public class Facade {
      * Function to add a ModelLogic. Returns the EventDutyId after saving it in database
      * @return EventDutyId      int         returns the primary key of the event
      */
-
-    public Integer addEvent(EventDuty event, List<MusicalWork> musicalWorkList) {
+    public Integer addEvent(EventDuty event) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        EventDutyEntity eventEntity = new EventDutyEntity();
+        EventDutyEntity eventEntity = convertToEventDutyEntity(event);
 
-        eventEntity.setName(event.getName());
-        eventEntity.setDescription(event.getDescription());
-        eventEntity.setStarttime(event.getStartTime());
-        eventEntity.setEndtime(event.getEndTime());
-        eventEntity.setEventType(team_f.database_wrapper.entities.EventType.valueOf(event.getEventType().toString()));
-        eventEntity.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(event.getEventStatus().toString()));
-        eventEntity.setConductor(event.getConductor());
-        eventEntity.setLocation(event.getLocation());
-        eventEntity.setDefaultPoints(event.getDefaultPoints());
-        eventEntity.setInstrumentation(event.getInstrumentation().getInstrumentationID());
-        if (!(event.getRehearsalFor() == null)) {
-            eventEntity.setRehearsalFor(event.getRehearsalFor().getEventDutyId());
-        }
-
-        if (event.getEventDutyId()>0) {
-            session.merge(event);
+        if (eventEntity.getEventDutyId()>0) {
+            session.merge(eventEntity);
         } else {
-            session.persist(event);
+            session.persist(eventEntity);
         }
 
-        List<EventDutyMusicalWorkEntity> EMWlist = new ArrayList<>();
-        for (MusicalWork musicalWork : musicalWorkList) {
-            EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
-            emwe.setMusicalWork(musicalWork.getMusicalWorkID());
-            emwe.setEventDuty(event.getEventDutyId());
-            emwe.setAlternativeInstrumentation(musicalWork.getInstrumentationID());
-            session.persist(emwe);
+        if (!(eventEntity.getEventType().equals(EventType.NonMusicalEvent))) {
+
+            Collection<EventDutyMusicalWorkEntity> coll = new ArrayList<>();
+
+            // Works now
+
+            for (MusicalWork musicalWork : event.getMusicalWorkList()) {
+                EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
+                emwe.setEventDuty(eventEntity.getEventDutyId());
+                emwe.setMusicalWork(musicalWork.getMusicalWorkID());
+                emwe.setAlternativeInstrumentation(musicalWork.getInstrumentationID());
+                session.merge(emwe);
+            }
         }
 
-            try {
+        try {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -82,42 +75,40 @@ public class Facade {
         return eventEntity.getEventDutyId();
     }
 
-    public EventDutyEntity getEventById(int id) {
+    public EventDuty getEventById(int id) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from EventDutyEntity where eventDutyId = :id");
         query.setParameter("id", id);
         query.setMaxResults(1);
 
         List<EventDutyEntity> eventDutyEntities = query.getResultList();
-
         EventDuty event = new EventDuty();
+
         if(eventDutyEntities.size() > 0) {
             EventDutyEntity e = eventDutyEntities.get(0);
-            event = convertEventDutyEntityNoRehearsal(e);
+            event = convertToEventDutyNoRehearsal(e);
 
-            Query queryRehearsal = session.createQuery("from EventDutyEntity where eventDutyId = :id");
-            query.setParameter("id", e.getRehearsalFor());
-            query.setMaxResults(1);
-
-            EventDutyEntity rehearsalFor = new EventDutyEntity();
+            Query queryRehearsal = session.createQuery("from EventDutyEntity where eventDutyId = :rid");
+            queryRehearsal.setParameter("rid", e.getRehearsalFor());
+            queryRehearsal.setMaxResults(1);
 
             List<EventDutyEntity> rehearsalEntities = queryRehearsal.getResultList();
 
-            EventDuty rehearsal = new EventDuty();
+            EventDuty rehearsal;
             if (rehearsalEntities.size() > 0) {
+                EventDutyEntity rehearsalFor;
                 rehearsalFor = rehearsalEntities.get(0);
-                rehearsal = convertEventDutyEntityNoRehearsal(rehearsalFor);
+                rehearsal = convertToEventDutyNoRehearsal(rehearsalFor);
+                event.setRehearsalFor(rehearsal);
             }
 
-            event.setRehearsalFor(rehearsal);
-            event.setMusicalWOrkList(getMusicalWorksForEvent(e.getEventDutyId()));
-
+            event.setMusicalWorkList(getMusicalWorksForEvent(e.getEventDutyId()));
         }
 
-        return null;
+        return event;
     }
 
-    public List<EventDutyEntity> getEvents(int month, int year) {
+    public List<EventDuty> getEventsByMonth(int month, int year) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -126,23 +117,11 @@ public class Facade {
         query.setParameter("year", year);
 
         List<EventDutyEntity> eventEntities = query.getResultList();
-        List<EventDutyEntity> events = new ArrayList<>();
-        EventDutyEntity event;
+        List<EventDuty> events = new ArrayList<>();
 
-        for(EventDutyEntity eventDuty : eventEntities) {
-            event = new EventDutyEntity();
-            event.setEventDutyId(eventDuty.getEventDutyId());
-            event.setName(eventDuty.getName());
-            event.setDescription(eventDuty.getDescription());
-            event.setStarttime(eventDuty.getStarttime());
-            event.setEndtime(eventDuty.getEndtime());
-            event.setEventType(eventDuty.getEventType());
-            event.setEventStatus(eventDuty.getEventStatus());
-            event.setConductor(eventDuty.getConductor());
-            event.setLocation(eventDuty.getLocation());
-            event.setDefaultPoints(eventDuty.getDefaultPoints());
-            event.setInstrumentation(eventDuty.getInstrumentation());
-            event.setRehearsalFor(eventDuty.getRehearsalFor());
+        for(EventDutyEntity eventDutyEntity : eventEntities) {
+            EventDuty event;
+            event = convertToEventDutyNoRehearsal(eventDutyEntity);
 
             events.add(event);
         }
@@ -150,33 +129,91 @@ public class Facade {
         return events;
     }
 
-    public EventDuty convertEventDutyEntityNoRehearsal (EventDutyEntity e) {
+    public List<EventDuty> getEventsByDay(int day, int month, int year) {
+        EntityManager session = getCurrentSession();
+
+        // prevent SQL injections
+        Query query = session.createQuery("from EventDutyEntity where DAY(starttime) = :day and MONTH(starttime) = :month and YEAR(starttime) = :year");
+        query.setParameter("day", day);
+        query.setParameter("month", month);
+        query.setParameter("year", year);
+
+        List<EventDutyEntity> eventEntities = query.getResultList();
+        List<EventDuty> events = new ArrayList<>();
+
+        for(EventDutyEntity eventDutyEntity : eventEntities) {
+            EventDuty event;
+            event = convertToEventDutyNoRehearsal(eventDutyEntity);
+
+            events.add(event);
+        }
+
+        return events;
+    }
+
+    public EventDuty convertToEventDutyNoRehearsal(EventDutyEntity e) {
         EventDuty event = new EventDuty();
 
         event.setEventDutyId(e.getEventDutyId());
         event.setName(e.getName());
         event.setLocation(e.getLocation());
         event.setConductor(e.getConductor());
+        event.setStartTime(e.getStarttime());
+        event.setDescription(e.getDescription());
+        event.setEndTime(e.getEndtime());
         event.setEventStatus(EventStatus.valueOf(e.getEventStatus().toString()));
         event.setEventType(EventType.valueOf(e.getEventType().toString()));
-        event.setDefaultPoints(e.getDefaultPoints());
+        event.setDefaultPoints(e.getDefaultPoints());;
 
-        event.setMusicalWOrkList(getMusicalWorksForEvent(e.getEventDutyId()));
+        event.setMusicalWorkList(getMusicalWorksForEvent(e.getEventDutyId()));
 
         return event;
     }
 
-    public List<EventDutyMusicalWorkEntity> getMusicalWorksForEvent(int eventId) {
+    public EventDutyEntity convertToEventDutyEntity(EventDuty event) {
+        EventDutyEntity eventDutyEntity = new EventDutyEntity();
+
+        eventDutyEntity.setEventDutyId(event.getEventDutyId());
+        eventDutyEntity.setName(event.getName());
+        eventDutyEntity.setDescription(event.getDescription());
+        eventDutyEntity.setStarttime(event.getStartTime());
+        eventDutyEntity.setEndtime(event.getEndTime());
+        eventDutyEntity.setEventType(team_f.database_wrapper.entities.EventType.valueOf(event.getEventType().toString()));
+        eventDutyEntity.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(event.getEventStatus().toString()));
+        eventDutyEntity.setConductor(event.getConductor());
+        eventDutyEntity.setLocation(event.getLocation());
+        eventDutyEntity.setDefaultPoints(event.getDefaultPoints());
+        if (event.getRehearsalFor() != null) {
+            eventDutyEntity.setRehearsalFor(event.getRehearsalFor().getEventDutyId());
+        }
+
+        return eventDutyEntity;
+    }
+
+    public List<MusicalWork> getMusicalWorksForEvent(int eventId) {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from EventDutyMusicalWorkEntity where eventDuty = :id");
         query.setParameter("id", eventId);
 
-        List<EventDutyMusicalWorkEntity> elist = new ArrayList<>();
+        List<MusicalWork> mwList = new ArrayList<>();
 
-        elist = query.getResultList();
+        List<EventDutyMusicalWorkEntity> eList = query.getResultList();
 
-        return elist;
+        for (EventDutyMusicalWorkEntity edmwe :eList) {
+
+            Query musicalQuery = session.createQuery("from MusicalWorkEntity where musicalWorkId = :id");
+            musicalQuery.setParameter("id", edmwe.getMusicalWork());
+
+
+            List<MusicalWorkEntity> mweList = musicalQuery.getResultList();
+
+            for (MusicalWorkEntity mwe : mweList) {
+                mwList.add(convertToMusicalWork(mwe));
+            }
+        }
+
+        return mwList;
     }
 
     public List<InstrumentationEntity> getInstrumentations() {
@@ -188,21 +225,12 @@ public class Facade {
         return instrumentations;
     }
 
-    public InstrumentationEntity getInstrumentationById(int id) {
-        EntityManager session = getCurrentSession();
-        Query query = session.createQuery("from InstrumentationEntity where instrumentationId = :id");
-        query.setParameter("id", id);
-        query.setMaxResults(1);
-
-        List<InstrumentationEntity> instrumentationEntities = query.getResultList();
-
-        if(instrumentationEntities.size() > 0) {
-            return instrumentationEntities.get(0);
-        }
-
-        return null;
+    public Instrumentation getInstrumentationById(int id) {
+        return convertToInstrumentation(id);
     }
 
+
+    /*
     public Integer addInstrumentation(InstrumentationEntity inst) {
 
         EntityManager session = getCurrentSession();
@@ -238,43 +266,167 @@ public class Facade {
         return instrumentation.getInstrumentationId();
     }
 
-    public List<MusicalWorkEntity> getMusicalWorks(){
+    */
+
+    public List<MusicalWork> getMusicalWorks(){
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
         Query query = session.createQuery("from MusicalWorkEntity");
 
-
         List<MusicalWorkEntity> musicalWorkEntities = query.getResultList();
-        List<MusicalWorkEntity> musicalworks = new ArrayList<>();
-        MusicalWorkEntity musicalWork;
+        List<MusicalWork> musicalWorks = new ArrayList<>();
 
         for (MusicalWorkEntity entity : musicalWorkEntities) {
-            musicalWork = new MusicalWorkEntity();
+            MusicalWork musicalWork = new MusicalWork();
 
-            musicalWork.setMusicalWorkId(entity.getMusicalWorkId());
-            musicalWork.setInstrumentationId(entity.getInstrumentationId());
-            musicalWork.setComposer(entity.getComposer());
-            musicalWork.setName(entity.getName());
+            musicalWork = convertToMusicalWork(entity);
 
-            musicalworks.add(musicalWork);
+            musicalWorks.add(musicalWork);
         }
 
-        return musicalworks;
+        return musicalWorks;
     }
 
-    public Integer addMusicalWork(MusicalWorkEntity musicalWork){
+    public Instrumentation convertToInstrumentation (int instrumentationID) {
+
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from InstrumentationEntity where instrumentationId = :id");
+        query.setParameter("id", instrumentationID);
+        query.setMaxResults(1);
+
+        List<InstrumentationEntity> ieList = query.getResultList();
+
+        InstrumentationEntity ie = new InstrumentationEntity();
+
+        if(ieList.size() > 0) {
+            ie = ieList.get(0);
+        }
+
+        Instrumentation i = new Instrumentation();
+
+        BrassInstrumentationEntity bie = getBrassInstrumentationEntity(ie.getBrassInstrumentation());
+        WoodInstrumentationEntity wie = getWoodInstrumentationEntity(ie.getWoodInstrumentation());
+        StringInstrumentationEntity sie = getStringInstrumentationEntity(ie.getStringInstrumentation());
+        PercussionInstrumentationEntity pie = getPercussionInstrumentationEntity(ie.getPercussionInstrumentation());
+
+        i.setFlute(wie.getFlute());
+        i.setOboe(wie.getOboe());
+        i.setBassoon(wie.getBassoon());
+        i.setClarinet(wie.getClarinet());
+
+        i.setTube(bie.getTube());
+        i.setHorn(bie.getHorn());
+        i.setTrombone(bie.getTrombone());
+        i.setTrumpet(bie.getTrumpet());
+
+        i.setViolin1(sie.getViolin1());
+        i.setViolin2(sie.getViolin2());
+        i.setViola(sie.getViola());
+        i.setViolincello(sie.getViolincello());
+        i.setDoublebass(sie.getDoublebass());
+
+        i.setKettledrum(pie.getKettledrum());
+        i.setHarp(pie.getHarp());
+        i.setPercussion(pie.getPercussion());
+
+        return i;
+    }
+
+    public BrassInstrumentationEntity getBrassInstrumentationEntity (int brassInstrumentationID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from BrassInstrumentationEntity where brassInstrumentationId = :id");
+        query.setParameter("id", brassInstrumentationID);
+        query.setMaxResults(1);
+
+        List<BrassInstrumentationEntity> bie = query.getResultList();
+
+        BrassInstrumentationEntity e = new BrassInstrumentationEntity();
+
+        if(bie.size() > 0) {
+            e = bie.get(0);
+        }
+
+        return e;
+    }
+
+    public WoodInstrumentationEntity getWoodInstrumentationEntity (int woodInstrumentationID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from WoodInstrumentationEntity where woodInstrumentationId = :id");
+        query.setParameter("id", woodInstrumentationID);
+        query.setMaxResults(1);
+
+        List<WoodInstrumentationEntity> wie = query.getResultList();
+
+        WoodInstrumentationEntity e = new WoodInstrumentationEntity();
+
+        if(wie.size() > 0) {
+            e = wie.get(0);
+        }
+
+        return e;
+    }
+
+    public StringInstrumentationEntity getStringInstrumentationEntity (int stringInstrumentationID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from StringInstrumentationEntity where stringInstrumentationId = :id");
+        query.setParameter("id", stringInstrumentationID);
+        query.setMaxResults(1);
+
+        List<StringInstrumentationEntity> sie = query.getResultList();
+
+        StringInstrumentationEntity e = new StringInstrumentationEntity();
+
+        if(sie.size() > 0) {
+            e = sie.get(0);
+        }
+
+        return e;
+    }
+
+    public PercussionInstrumentationEntity getPercussionInstrumentationEntity (int percussionInstrumentationID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from PercussionInstrumentationEntity where percussionInstrumentationId = :id");
+        query.setParameter("id", percussionInstrumentationID);
+        query.setMaxResults(1);
+
+        List<PercussionInstrumentationEntity> pie = query.getResultList();
+
+        PercussionInstrumentationEntity e = new PercussionInstrumentationEntity();
+
+        if(pie.size() > 0) {
+            e = pie.get(0);
+        }
+
+        return e;
+    }
+
+    public SpecialInstrumentationEntity getSpecialInstrumentationEntity (int specialInstrumentationID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from SpecialInstrumentationEntity where specialInstrumentationId = :id");
+        query.setParameter("id", specialInstrumentationID);
+        query.setMaxResults(1);
+
+        List<SpecialInstrumentationEntity> spie = query.getResultList();
+
+        SpecialInstrumentationEntity e = new SpecialInstrumentationEntity();
+
+        if(spie.size() > 0) {
+            e = spie.get(0);
+        }
+
+        return e;
+    }
+
+
+    public Integer addMusicalWork(MusicalWork musicalWork){
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        MusicalWorkEntity mwEntity = new MusicalWorkEntity();
+        MusicalWorkEntity mwEntity = convertToMusicalWorkEntity(musicalWork);
 
-        mwEntity.setInstrumentationId(musicalWork.getInstrumentationId());
-        mwEntity.setComposer(musicalWork.getComposer());
-        mwEntity.setName(musicalWork.getName());
-
-        session.persist(musicalWork);
+        session.persist(mwEntity);
 
         try {
             session.getTransaction().commit();
@@ -283,5 +435,25 @@ public class Facade {
         }
 
         return mwEntity.getMusicalWorkId();
+    }
+
+    public MusicalWork convertToMusicalWork (MusicalWorkEntity mwe) {
+        MusicalWork musicalWork = new MusicalWork();
+        musicalWork.setMusicalWorkID(mwe.getMusicalWorkId());
+        musicalWork.setInstrumentationID(mwe.getInstrumentationId());
+        musicalWork.setComposer(mwe.getComposer());
+        musicalWork.setName(mwe.getName());
+
+        return musicalWork;
+    }
+
+    public MusicalWorkEntity convertToMusicalWorkEntity (MusicalWork mw) {
+        MusicalWorkEntity mwe = new MusicalWorkEntity();
+
+        mwe.setInstrumentationId(mw.getInstrumentationID());
+        mwe.setComposer(mw.getComposer());
+        mwe.setName(mw.getName());
+
+        return mwe;
     }
 }

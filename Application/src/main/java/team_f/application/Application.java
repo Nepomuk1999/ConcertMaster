@@ -1,7 +1,7 @@
 package team_f.application;
 
 import javafx.util.Pair;
-import team_f.database_wrapper.database.*;
+import team_f.database_wrapper.database.InstrumentationEntity;
 import team_f.database_wrapper.facade.Facade;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
@@ -12,9 +12,9 @@ import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,15 +43,16 @@ public class Application {
         eventDuty.setEndTime(endTime);
         eventDuty.setConductor(conductor);
         eventDuty.setEventType(type);
+        eventDuty.setEventStatus(EventStatus.Unpublished);
 
         // load the data from the DB
-        if(rehearsalForId > 0) {
-            EventDuty rehearsalFor = transformEventDutyEntity(facade.getEventById(rehearsalForId));
+        if(rehearsalForId >= 0) {
+            EventDuty rehearsalFor = facade.getEventById(rehearsalForId);
             eventDuty.setRehearsalFor(rehearsalFor);
         }
 
         if(instrumentationId > 0) {
-            Instrumentation instrumentation = transformInstrumentationEntity(facade.getInstrumentationById(instrumentationId));
+            Instrumentation instrumentation = facade.getInstrumentationById(instrumentationId);
             eventDuty.setInstrumentation(instrumentation);
         }
 
@@ -67,10 +68,11 @@ public class Application {
         if(musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
             for(int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
                 tmpMusicalWork = new MusicalWork();
-                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
+                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);          // @TODO CHANGE BACK TO VALUES
+                tmpMusicalWork.setInstrumentationID(1);
 
                 tmpInstrumentation = new Instrumentation();
-                tmpInstrumentation.setInstrumentationID(alternativeInstrumentationIdList[i]);
+                tmpInstrumentation.setInstrumentationID(1);
 
                 eventDuty.addMusicalWork(tmpMusicalWork, tmpInstrumentation);
             }
@@ -97,42 +99,31 @@ public class Application {
 
         // @TODO: Musicalwork Instrumentation save to correct musicalWork from Event
 
-        facade.addEvent(eventDuty, eventMusicalList);
+        facade.addEvent(eventDuty);
 
         return new Pair<>(eventDuty, new LinkedList<>());
     }
 
     public EventDuty getEventById(int id) {
-        EventDutyEntity entity = facade.getEventById(id);
+        EventDuty entity = facade.getEventById(id);
 
         if(entity != null) {
-            return transformEventDutyEntity(entity);
+            return entity;
         }
 
         return null;
     }
 
-    public List<EventDuty> getEvents(int month, int year) {
-        List<EventDutyEntity> entities = facade.getEvents(month, year);
-        List<EventDuty> eventDuties = new ArrayList<>(entities.size());
-        EventDuty event;
-
-        for(EventDutyEntity eventDuty : entities) {
-            event = transformEventDutyEntity(eventDuty);
-            eventDuties.add(event);
-        }
-
-        return eventDuties;
+    public List<EventDuty> getEventsByMonth(int month, int year) {
+        return facade.getEventsByMonth(month, year);
     }
 
     public List<MusicalWork> getMusicalWorkList() {
-        List<MusicalWorkEntity> musicalWorkEntities = facade.getMusicalWorks();
-        List<MusicalWork> musicalWorks = new ArrayList<>(musicalWorkEntities.size());
-        MusicalWork musicalWork;
+        List<MusicalWork> musicalWork = facade.getMusicalWorks();
+        List<MusicalWork> musicalWorks = new ArrayList<>(musicalWork.size());
 
-        for(MusicalWorkEntity item : musicalWorkEntities) {
-            musicalWork = transformMusicalWorkEntity(item);
-            musicalWorks.add(musicalWork);
+        for(MusicalWork item : musicalWork) {
+            musicalWorks.add(item);
         }
 
         return musicalWorks;
@@ -144,7 +135,7 @@ public class Application {
         Instrumentation instrumentation;
 
         for(InstrumentationEntity item : instrumentationEntities) {
-            instrumentation = transformInstrumentationEntity(item);
+            instrumentation = facade.convertToInstrumentation(item.getInstrumentationId());
             instrumentations.add(instrumentation);
         }
 
@@ -159,6 +150,7 @@ public class Application {
         return list;
     }
 
+    /*
     private EventDuty transformEventDutyEntity(EventDutyEntity eventDutyEntity) {
         EventDuty event = null;
         Integer tmp;
@@ -225,7 +217,9 @@ public class Application {
 
         return event;
     }
+    */
 
+    /*
     private MusicalWork transformMusicalWorkEntity(MusicalWorkEntity musicalWorkEntity) {
         MusicalWork musicalWork = null;
 
@@ -239,7 +233,9 @@ public class Application {
 
         return musicalWork;
     }
+    */
 
+    /*
     private Instrumentation transformInstrumentationEntity(InstrumentationEntity instrumentationEntity) {
         Instrumentation instrumentation = null;
 
@@ -277,6 +273,7 @@ public class Application {
 
         return instrumentation;
     }
+    */
 
     //TODO: Get list of Event for one day
     public void getDateEventList(){

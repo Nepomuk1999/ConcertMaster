@@ -185,7 +185,7 @@ public class EventDuty implements DomainEntity {
         return _musicalWorkList;
     }
 
-    public void setMusicalWOrkList(List e) {
+    public void setMusicalWorkList(List e) {
         this._musicalWorkList = e;
     }
 
