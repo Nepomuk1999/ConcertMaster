@@ -51,6 +51,8 @@ public class Facade {
 
             Collection<EventDutyMusicalWorkEntity> coll = new ArrayList<>();
 
+            // Works now
+
             for (MusicalWork musicalWork : event.getMusicalWorkList()) {
                 EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
                 emwe.setEventDuty(event.getEventDutyId());
