@@ -1,8 +1,7 @@
 package team_f.application.helper;
 
-import team_f.application.Application;
+import team_f.application.EventApplication;
 import team_f.domain.entities.EventDuty;
-import team_f.domain.entities.MusicalWork;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class CheckEventDateHelper {
     public static Boolean checkEvents (EventDuty eventDuty) {
-        Application facade = new Application();
+        EventApplication facade = new EventApplication();
         List<EventDuty> eventDuties = facade.getDateEventList(eventDuty.getStartTime());
         List<EventDuty> rehearsals = new ArrayList<>();
         for(EventDuty event : eventDuties){

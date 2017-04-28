@@ -80,7 +80,7 @@ public class EventApplication {
         // check for errors
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
-        errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
+        //errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
 
         // return the errorList when the validation is not successful
         if(errorList.size() > 0) {
