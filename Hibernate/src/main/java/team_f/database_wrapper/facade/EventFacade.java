@@ -183,7 +183,9 @@ public class EventFacade {
         event.setEventStatus(EventStatus.valueOf(e.getEventStatus().toString()));
         event.setEventType(EventType.valueOf(e.getEventType().toString()));
         event.setDefaultPoints(e.getDefaultPoints());
-        event.setRehearsalFor(getEventById(e.getRehearsalFor()));
+        if (e.getRehearsalFor() != null) {
+            event.setRehearsalFor(getEventById(e.getRehearsalFor()));
+        }
 
         event.setMusicalWorkList(getMusicalWorksForEvent(e.getEventDutyId()));
 
@@ -357,9 +359,12 @@ public class EventFacade {
         i.setHarp(pie.getHarp());
         i.setPercussion(pie.getPercussion());
 
-        for (SpecialInstrumentationEntity spei : speiList) {
-            i.addToSpecial(spei.getSpecialInstrument(), spei.getSpecialInstrumentationNumber(), spei.getSectionType().toString());
-        }
+        /*
+        if (speiList != null) {
+            for (SpecialInstrumentationEntity spei : speiList) {
+                i.addToSpecial(spei.getSpecialInstrument(), spei.getSpecialInstrumentationNumber(), spei.getSectionType().toString());
+            }
+        }*/
 
         return i;
     }
