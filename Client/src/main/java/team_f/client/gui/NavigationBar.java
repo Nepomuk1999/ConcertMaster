@@ -6,6 +6,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import team_f.client.configuration.Configuration;
 import team_f.client.controls.Home.HomeScreen;
+import team_f.client.controls.Legende.LegendTable;
 import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
@@ -35,7 +36,7 @@ public class NavigationBar {
         });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Schedule Explanation");
-        menuSectionItem.setOnMouseClicked(event -> LegendSingleton.getInstance());
+        menuSectionItem.setOnMouseClicked(event -> new LegendTable());
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
