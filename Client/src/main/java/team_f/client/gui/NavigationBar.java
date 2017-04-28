@@ -13,6 +13,7 @@ import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.singletons.BrowserSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
 import team_f.client.singletons.LegendSingleton;
+import team_f.client.singletons.MusiciansTableSingleton;
 
 public class NavigationBar {
     public static Sidebar getNavigationBar(BorderPane pane, Configuration configuration) {
@@ -49,6 +50,7 @@ public class NavigationBar {
 
         menuSection = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician Management");
+        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MusiciansTableSingleton.getInstance()));
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician List");
         menuSection.add(menuSectionItem);
@@ -64,7 +66,7 @@ public class NavigationBar {
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
-        menuSection = new MenuSection("User", "/userM.png", toggleGroup);
+        menuSection = new MenuSection("UserScreen", "/userM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Section Management");
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
