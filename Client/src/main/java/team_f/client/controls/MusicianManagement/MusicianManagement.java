@@ -110,8 +110,8 @@ public class MusicianManagement extends BorderPane
                 alert.setTitle("Values Missing");
                 alert.setHeaderText("Please fill in all the information in the form.");
                 alert.setContentText("You can not save the Person. Please fill in missing data!");
-
                 alert.showAndWait();
+
             }else{
                 addPerson();
             }
@@ -153,15 +153,22 @@ public class MusicianManagement extends BorderPane
 
 	public void deletePerson()
 	{
+
 		TableViewSelectionModel<PersonTestData> tsm = table.getSelectionModel();
 
 		// Check, if any rows are selected
 		if (tsm.isEmpty())
 		{
-			System.out.println("Select a row to delete.");
+			System.out.println("Select a row to delete!");
 			return;
 		}
 
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle("Delete");
+		alert.setHeaderText("The following Person will be deleted");
+		alert.setContentText(tsm.getSelectedItem().getFirstName()+" "+tsm.getSelectedItem().getLastName());
+
+		alert.showAndWait();
 		// Get all selected row indices in an array
 		ObservableList<Integer> list = tsm.getSelectedIndices();
 
@@ -176,6 +183,7 @@ public class MusicianManagement extends BorderPane
 			table.getItems().remove(selectedIndices[i].intValue());
 		}
 	}
+
 	public void validate(ArrayList<TextField> fields){
 		for(TextField textField:fields){
 			if(textField.getText().isEmpty()){
