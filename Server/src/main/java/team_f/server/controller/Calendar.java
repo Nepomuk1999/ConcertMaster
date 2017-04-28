@@ -2,7 +2,7 @@ package team_f.server.controller;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import team_f.application.Application;
+import team_f.application.EventApplication;
 import team_f.application.helper.EventDutyHelper;
 import team_f.domain.entities.EventDuty;
 import team_f.server.helper.CSSHelper;
@@ -47,7 +47,7 @@ public class Calendar extends HttpServlet {
             }
 
             if(startDate != null && endDate != null) {
-                Application facade = new Application();
+                EventApplication facade = new EventApplication();
                 List<EventDuty> eventList = facade.getEventsByMonth(startDate.getMonthValue() +1, startDate.getYear());
 
                 for(EventDuty event : eventList) {

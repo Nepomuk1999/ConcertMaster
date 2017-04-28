@@ -67,7 +67,7 @@ public class EventDutyMusicalWorkEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "eventDuty", referencedColumnName = "eventDutyID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "eventDuty", referencedColumnName = "eventDutyID", nullable = false)
     public EventDutyEntity getEventDutyByEventDuty() {
         return eventDutyByEventDuty;
     }
@@ -77,7 +77,7 @@ public class EventDutyMusicalWorkEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "musicalWork", referencedColumnName = "musicalWorkID", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "musicalWork", referencedColumnName = "musicalWorkID", nullable = false)
     public MusicalWorkEntity getMusicalWorkByMusicalWork() {
         return musicalWorkByMusicalWork;
     }
@@ -87,7 +87,7 @@ public class EventDutyMusicalWorkEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "alternativeInstrumentation", referencedColumnName = "instrumentationID", insertable = false, updatable = false)
+    @JoinColumn(name = "alternativeInstrumentation", referencedColumnName = "instrumentationID")
     public InstrumentationEntity getInstrumentationByAlternativeInstrumentation() {
         return instrumentationByAlternativeInstrumentation;
     }

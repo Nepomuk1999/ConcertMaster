@@ -1,6 +1,6 @@
 package team_f.server.helper.request;
 
-import team_f.application.Application;
+import team_f.application.EventApplication;
 import team_f.domain.entities.EventDuty;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ public class CalendarRequest {
             eventId = -1;
         }
 
-        Application facade = new Application();
+        EventApplication facade = new EventApplication();
 
         if(eventId > 0 && !isRehearsal) {
             eventDuty = facade.getEventById(eventId);

@@ -2,7 +2,7 @@ package team_f.application;
 
 import javafx.util.Pair;
 import team_f.database_wrapper.database.InstrumentationEntity;
-import team_f.database_wrapper.facade.Facade;
+import team_f.database_wrapper.facade.EventFacade;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Application {
+public class EventApplication {
 
-    public Application (){}
+    public EventApplication(){}
 
-    private Facade facade = new Facade();
+    private EventFacade eventFacade = new EventFacade();
 
     public void closeSession() {
-        facade.closeSession();
+        eventFacade.closeSession();
     }
 
     public Pair<DomainEntity, List<Pair<String, String>>> addEvent(int id, String name, String description, String location, LocalDateTime startTime,
@@ -47,12 +47,12 @@ public class Application {
 
         // load the data from the DB
         if(rehearsalForId >= 0) {
-            EventDuty rehearsalFor = facade.getEventById(rehearsalForId);
+            EventDuty rehearsalFor = eventFacade.getEventById(rehearsalForId);
             eventDuty.setRehearsalFor(rehearsalFor);
         }
 
         if(instrumentationId > 0) {
-            Instrumentation instrumentation = facade.getInstrumentationById(instrumentationId);
+            Instrumentation instrumentation = eventFacade.getInstrumentationById(instrumentationId);
             eventDuty.setInstrumentation(instrumentation);
         }
 
@@ -99,13 +99,13 @@ public class Application {
 
         // @TODO: Musicalwork Instrumentation save to correct musicalWork from Event
 
-        facade.addEvent(eventDuty);
+        eventFacade.addEvent(eventDuty);
 
         return new Pair<>(eventDuty, new LinkedList<>());
     }
 
     public EventDuty getEventById(int id) {
-        EventDuty entity = facade.getEventById(id);
+        EventDuty entity = eventFacade.getEventById(id);
 
         if(entity != null) {
             return entity;
@@ -115,11 +115,11 @@ public class Application {
     }
 
     public List<EventDuty> getEventsByMonth(int month, int year) {
-        return facade.getEventsByMonth(month, year);
+        return eventFacade.getEventsByMonth(month, year);
     }
 
     public List<MusicalWork> getMusicalWorkList() {
-        List<MusicalWork> musicalWork = facade.getMusicalWorks();
+        List<MusicalWork> musicalWork = eventFacade.getMusicalWorks();
         List<MusicalWork> musicalWorks = new ArrayList<>(musicalWork.size());
 
         for(MusicalWork item : musicalWork) {
@@ -130,12 +130,12 @@ public class Application {
     }
 
     public List<Instrumentation> getInstrumentationList() {
-        List<InstrumentationEntity> instrumentationEntities = facade.getInstrumentations();
+        List<InstrumentationEntity> instrumentationEntities = eventFacade.getInstrumentations();
         List<Instrumentation> instrumentations = new ArrayList<>(instrumentationEntities.size());
         Instrumentation instrumentation;
 
         for(InstrumentationEntity item : instrumentationEntities) {
-            instrumentation = facade.convertToInstrumentation(item.getInstrumentationId());
+            instrumentation = eventFacade.convertToInstrumentation(item.getInstrumentationId());
             instrumentations.add(instrumentation);
         }
 
@@ -169,7 +169,7 @@ public class Application {
             tmp = eventDutyEntity.getRehearsalFor();
 
             if(tmp != null) {
-                EventDuty rehearsalFor = transformEventDutyEntity(facade.getEventById(tmp));
+                EventDuty rehearsalFor = transformEventDutyEntity(eventFacade.getEventById(tmp));
                 event.setRehearsalFor(rehearsalFor);
             }
 
@@ -179,7 +179,7 @@ public class Application {
             tmp = eventDutyEntity.getInstrumentation();
 
             if(tmp != null) {
-                instrumentation = transformInstrumentationEntity(facade.getInstrumentationById(tmp));
+                instrumentation = transformInstrumentationEntity(eventFacade.getInstrumentationById(tmp));
                 event.setInstrumentation(instrumentation);
             }
 

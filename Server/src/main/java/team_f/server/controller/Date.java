@@ -2,7 +2,7 @@ package team_f.server.controller;
 
 import javafx.util.Pair;
 import org.json.JSONArray;
-import team_f.application.Application;
+import team_f.application.EventApplication;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.server.helper.request.CalendarRequest;
 import team_f.server.helper.request.EventDutyRequest;
@@ -44,7 +44,7 @@ public class Date extends HttpServlet {
         if(MediaType.APPLICATION_JSON.equals(contentType)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
-            Application facade = new Application();
+            EventApplication facade = new EventApplication();
             EventDutyRequest eventDutyRequest = new EventDutyRequest(req);
 
             Pair<DomainEntity, List<Pair<String, String>>> result = facade.addEvent(eventDutyRequest.getEventDutyId(), eventDutyRequest.getName(),

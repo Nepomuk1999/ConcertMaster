@@ -14,14 +14,14 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class Facade {
+public class EventFacade {
     EntityManager _session;
 
-    public Facade() {
+    public EventFacade() {
         _session = SessionFactory.getSession();
     }
 
-    public Facade(EntityManager session) {
+    public EventFacade(EntityManager session) {
         _session = session;
     }
 
