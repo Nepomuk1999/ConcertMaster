@@ -356,7 +356,7 @@ public class EventFacade {
         i.setPercussion(pie.getPercussion());
 
         for (SpecialInstrumentationEntity spei : speiList) {
-            // @TODO ADD SPECIAL INSTRUMENTATION
+            i.addToSpecial(spei.getSpecialInstrument(), spei.getSpecialInstrumentationNumber(), spei.getSectionType().toString());
         }
 
         return i;

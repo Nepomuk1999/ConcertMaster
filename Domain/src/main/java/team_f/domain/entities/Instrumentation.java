@@ -3,6 +3,8 @@ package team_f.domain.entities;
 import team_f.domain.helper.TextHelper;
 import team_f.domain.interfaces.DomainEntity;
 
+import java.util.List;
+
 public class Instrumentation implements DomainEntity {
     private int instrumentationID;
     //WoodInstrumentation
@@ -28,6 +30,8 @@ public class Instrumentation implements DomainEntity {
     private int kettledrum;
     private int percussion;
     private int harp;
+
+    private List<SpecialInstrumentation> special;
 
     public int getInstrumentationID() {
         return instrumentationID;
@@ -192,5 +196,9 @@ public class Instrumentation implements DomainEntity {
         text.append(getPercussionInstrumentation());
 
         return text.toString();
+    }
+
+    public void addToSpecial(String instrument, int instrumentCount, String section) {
+        special.add(new SpecialInstrumentation(instrument, instrumentCount, section));
     }
 }
