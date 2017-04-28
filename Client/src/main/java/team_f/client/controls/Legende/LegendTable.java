@@ -18,7 +18,7 @@ import javafx.util.Callback;
 
 
 // demonstrates highlighting rows in a tableview based upon the data values in the rows.
-public class LegendTable extends Stage {
+public class LegendTable {
     private TableView<LegendEntries> table ;
 
     public LegendTable() {
