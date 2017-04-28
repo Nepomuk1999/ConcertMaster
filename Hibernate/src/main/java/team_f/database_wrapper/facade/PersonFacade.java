@@ -1,6 +1,7 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.database.MusicianPartEntity;
+import team_f.database_wrapper.database.PartEntity;
 import team_f.database_wrapper.database.PersonEntity;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.PersonRole;
@@ -39,7 +40,7 @@ public class PersonFacade {
             Person person = new Person();
 
             person = convertToPerson(entity);
-            person.setInstruments(getInstrumentationsbyPersonID(person.getPersonId()));
+            person.setInstruments(getInstrumentsbyPersonID(person.getPersonId()));
 
             musicians.add(person);
         }
@@ -63,22 +64,32 @@ public class PersonFacade {
         return person;
     }
 
-    private List<String> getInstrumentationsbyPersonID(int id){
+    private List<String> getInstrumentsbyPersonID(int id){
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
-        Query query = session.createQuery("from MusicianPartEntity where musician = :id");
-        query.setParameter("id", id);
+        Query musicianPartQuery = session.createQuery("from MusicianPartEntity where musician = :id");
+        musicianPartQuery.setParameter("id", id);
 
-        List<MusicianPartEntity> musicianPartEntities = query.getResultList();
+        List<MusicianPartEntity> musicianPartEntities = musicianPartQuery.getResultList();
         List<String> parts = new ArrayList<>();
+
+
 
         for(MusicianPartEntity musicianpartEntity : musicianPartEntities) {
             String part;
 
-            part =
+            Query partQuery = session.createQuery("from PartEntity where partId = :id");
+            partQuery.setParameter("id", musicianpartEntity.getPart());
 
-            parts.add(part);
+            List<PartEntity> partEntities = partQuery.getResultList();
+
+            Query partTypeQuery = session.createQuery("from PartTypeEntity where partTypeId = :id");
+            partTypeQuery.setParameter("id", musicianpartEntity.getPart());
+
+            if(!(partEntities.isEmpty())) {
+                parts.add(partEntities.get(1).getPartType());
+            }
         }
 
         return parts;
