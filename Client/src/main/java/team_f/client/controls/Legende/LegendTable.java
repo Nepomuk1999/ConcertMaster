@@ -23,7 +23,6 @@ public class LegendTable {
 
     public LegendTable() {
         table = new TableView(LegendEntries.data);
-        TableView<LegendEntries> table = new TableView(LegendEntries.data);
         table.getColumns().addAll(makeStringColumn("Eventtype", "eventtype", 100), makeStringColumn("Code", "code", 50), makeStringColumn("Color", "color", 200));
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPrefHeight(100);
