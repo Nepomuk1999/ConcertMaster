@@ -304,6 +304,7 @@ public class Facade {
         }
 
         Instrumentation i = new Instrumentation();
+        i.setInstrumentationID(ie.getInstrumentationId());
 
         BrassInstrumentationEntity bie = getBrassInstrumentationEntity(ie.getBrassInstrumentation());
         WoodInstrumentationEntity wie = getWoodInstrumentationEntity(ie.getWoodInstrumentation());

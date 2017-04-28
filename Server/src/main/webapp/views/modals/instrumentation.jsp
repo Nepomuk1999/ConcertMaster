@@ -16,13 +16,13 @@
     </div>
     <div class="modal-body container-fluid">
         <%--<div class="control-group row">
-            <div class="form-group col-xs-8 col-sm-6">
+            <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_CONDUCTOR}">
                     <label for="${EventDutyProperty.CONDUCTOR}" class="control-label">Conductor</label><br>
                     <input id="${EventDutyProperty.CONDUCTOR}" type="text" value="${eventDuty.conductor}" name="${EventDutyProperty.CONDUCTOR}" placeholder="Conductor" class="form-control" required><br>
                 </t:ErrorMessage>
             </div>
-            <div class="form-group col-xs-8 col-sm-6">
+            <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_DEFAULT_POINTS}">
                     <label for="${EventDutyProperty.DEFAULT_POINTS}" class="control-label">Standard Points</label><br>
                     <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="${empty eventDuty.defaultPoints ? 0 : eventDuty.defaultPoints}" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
