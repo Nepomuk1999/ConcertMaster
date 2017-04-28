@@ -77,7 +77,7 @@ public class EventDutyRequest {
 
         if(tempMusicalWorkIdList != null && tempAlternativeInstrumentationIdList != null) {
             _musicalWorkIdList = new int[tempMusicalWorkIdList.length];
-            _alternativeInstrumentationIdList = new int[tempAlternativeInstrumentationIdList.length];
+            _alternativeInstrumentationIdList = new int[tempMusicalWorkIdList.length];
 
             for(int i = 0; i < tempMusicalWorkIdList.length && i < tempAlternativeInstrumentationIdList.length; i++) {
                 try {

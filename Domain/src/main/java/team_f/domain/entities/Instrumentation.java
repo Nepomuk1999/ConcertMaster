@@ -171,7 +171,7 @@ public class Instrumentation implements DomainEntity {
     }
 
     public String getWoodInstrumentationText() {
-        return "Wood: " + TextHelper.getSeparatedText('/', flute, oboe, clarinet, bassoon);
+        return "Wood: " + TextHelper.getSeparatedText('/', getFlute(), getOboe(), getClarinet(), getBassoon());
     }
 
     public String getStringInstrumentationText() {
@@ -185,6 +185,11 @@ public class Instrumentation implements DomainEntity {
     public String getPercussionInstrumentation() {
         return "Percussion: " + TextHelper.getSeparatedText('/', getKettledrum(), getPercussion(), getHarp());
     }
+    //TODO: specialinstrumentation
+    public String getSpecialInstrumentation() {
+        return "Special: " + TextHelper.getTextFromString('+', "test", "test","test");
+    }
+
 
     public String getInstrumentationText() {
         StringBuilder text = new StringBuilder();
@@ -195,6 +200,9 @@ public class Instrumentation implements DomainEntity {
         text.append(getBrassInstrumentiaton());
         text.append('\n');
         text.append(getPercussionInstrumentation());
+        text.append('\n');
+        text.append(getSpecialInstrumentation());
+
 
         return text.toString();
     }

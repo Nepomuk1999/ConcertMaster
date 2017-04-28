@@ -329,6 +329,7 @@ public class EventFacade {
 
     public Instrumentation convertToInstrumentation (InstrumentationEntity ie) {
         Instrumentation i = new Instrumentation();
+        i.setInstrumentationID(ie.getInstrumentationId());
 
         BrassInstrumentationEntity bie = getBrassInstrumentationEntity(ie.getBrassInstrumentation());
         WoodInstrumentationEntity wie = getWoodInstrumentationEntity(ie.getWoodInstrumentation());
