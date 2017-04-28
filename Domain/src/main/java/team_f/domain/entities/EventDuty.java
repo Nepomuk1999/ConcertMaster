@@ -24,9 +24,9 @@ public class EventDuty implements DomainEntity {
     private String location;
     private EventDuty rehearsalFor;
     private double defaultPoints;
-    private Instrumentation instrumentation;
+    private Instrumentation maxInstrumetation;
     private List<MusicalWork> _musicalWorkList = new LinkedList<>();
-    private List<Instrumentation> _alternativeInstrumentationList = new LinkedList<>();
+    private List<Instrumentation> _instrumentationList = new LinkedList<>();
 
     public int getEventDutyId() {
         return eventDutyId;
@@ -169,16 +169,16 @@ public class EventDuty implements DomainEntity {
     }
 
     public Instrumentation getInstrumentation() {
-        return instrumentation;
+        return  maxInstrumetation;
     }
 
     public void setInstrumentation(Instrumentation instrumentation) {
-        this.instrumentation = instrumentation;
+        this.maxInstrumetation = instrumentation;
     }
 
     public void addMusicalWork(MusicalWork musicalWork, Instrumentation alternativeInstrumentation) {
         _musicalWorkList.add(musicalWork);
-        _alternativeInstrumentationList.add(alternativeInstrumentation);
+        _instrumentationList.add(alternativeInstrumentation);
     }
 
     public List<MusicalWork> getMusicalWorkList() {
@@ -190,6 +190,73 @@ public class EventDuty implements DomainEntity {
     }
 
     public List<Instrumentation> getAlternativeInstrumentationList() {
-        return _alternativeInstrumentationList;
+        return _instrumentationList;
+    }
+
+    public void calculateMaxInstrumentation () {
+        int maxFlute = 0;
+        int maxOboe = 0;
+        int maxClarinet = 0;
+        int maxBassoon = 0;
+
+        int maxViolin1 = 0;
+        int maxViolin2 = 0;
+        int maxViola = 0;
+        int maxViolincello = 0;
+        int maxDoublebass = 0;
+
+        int maxHorn = 0;
+        int maxTrumpet = 0;
+        int maxTrombone = 0;
+        int maxTube = 0;
+
+        int maxKettledrum = 0;
+        int maxPercussion = 0;
+        int maxHarp = 0;
+
+        for (int i = 0; i < this._musicalWorkList.size(); i++) {
+            Instrumentation instrumentation = _instrumentationList.get(i);
+
+            if (maxFlute < instrumentation.getFlute()) { maxFlute = instrumentation.getFlute(); }
+            if (maxOboe < instrumentation.getOboe()) { maxOboe = instrumentation.getOboe(); }
+            if (maxClarinet < instrumentation.getClarinet()) { maxClarinet = instrumentation.getClarinet(); }
+            if (maxBassoon < instrumentation.getBassoon()) { maxBassoon = instrumentation.getBassoon(); }
+            if (maxViolin1 < instrumentation.getViolin1()) { maxViolin1 = instrumentation.getViolin1(); }
+            if (maxViolin2 < instrumentation.getViolin2()) { maxViolin2 = instrumentation.getViolin2(); }
+            if (maxViola < instrumentation.getViola()) { maxViola = instrumentation.getViola(); }
+            if (maxViolincello < instrumentation.getViolincello()) { maxViolincello = instrumentation.getViolincello(); }
+            if (maxDoublebass < instrumentation.getDoublebass()) { maxDoublebass = instrumentation.getDoublebass(); }
+            if (maxHorn < instrumentation.getHorn()) { maxHorn = instrumentation.getHorn(); }
+            if (maxTrumpet < instrumentation.getTrumpet()) { maxTrumpet = instrumentation.getTrumpet(); }
+            if (maxTrombone < instrumentation.getTrombone()) { maxTrombone = instrumentation.getTrombone(); }
+            if (maxTube < instrumentation.getTube()) { maxTube = instrumentation.getTube(); }
+            if (maxKettledrum < instrumentation.getKettledrum()) { maxKettledrum = instrumentation.getKettledrum(); }
+            if (maxPercussion < instrumentation.getPercussion()) { maxPercussion = instrumentation.getPercussion(); }
+            if (maxHarp < instrumentation.getHarp()) { maxHarp = instrumentation.getHarp(); }
+        }
+
+        Instrumentation maxInstrumentation = new Instrumentation();
+
+        maxInstrumentation.setFlute(maxFlute);
+        maxInstrumentation.setOboe(maxOboe);
+        maxInstrumentation.setClarinet(maxClarinet);
+        maxInstrumentation.setBassoon(maxBassoon);
+
+        maxInstrumentation.setViolin1(maxViolin1);
+        maxInstrumentation.setViolin2(maxViolin2);
+        maxInstrumentation.setViola(maxViola);
+        maxInstrumentation.setViolincello(maxViolincello);
+        maxInstrumentation.setDoublebass(maxDoublebass);
+
+        maxInstrumentation.setHorn(maxHorn);
+        maxInstrumentation.setTrumpet(maxTrumpet);
+        maxInstrumentation.setTrombone(maxTrombone);
+        maxInstrumentation.setTube(maxTube);
+
+        maxInstrumentation.setKettledrum(maxKettledrum);
+        maxInstrumentation.setPercussion(maxPercussion);
+        maxInstrumentation.setHarp(maxHarp);
+
+        this.maxInstrumetation = maxInstrumentation;
     }
 }
