@@ -138,7 +138,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                             resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be after Event"));
 
                         }
-                       //TODO:Get Events for this day and validate if already one Reheasal exists at same time for the same Event
 
                     }
 
