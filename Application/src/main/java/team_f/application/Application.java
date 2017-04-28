@@ -276,7 +276,16 @@ public class Application {
     */
 
     //TODO: Get list of Event for one day
-    public void getDateEventList(){
+    public List<EventDuty> getDateEventList(LocalDateTime localDateTime){
+        List<EventDuty> eventDuties = facade.getEventsByDay(localDateTime.getDayOfMonth(), localDateTime.getMonthValue(), localDateTime.getYear());
+        List<EventDuty> eventDutyList = new ArrayList<>(eventDuties.size());
+
+        for(EventDuty item : eventDuties) {
+            eventDutyList.add(item);
+        }
+
+        return eventDutyList;
     }
+
 }
 
