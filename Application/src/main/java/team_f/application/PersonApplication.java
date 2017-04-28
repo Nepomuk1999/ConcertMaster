@@ -3,7 +3,6 @@ package team_f.application;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Person;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,14 +18,7 @@ public class PersonApplication {
     }
 
     public List<Person> getAllMusicians(){
-        List<Person> musician = personFacade.getAllMusicians();
-        List<Person> musicians = new ArrayList<>(musician.size());
-
-        for(Person person : musician) {
-            musicians.add(person);
-        }
-
-        return musicians;
+        return personFacade.getAllMusicians();
     }
 
 }
