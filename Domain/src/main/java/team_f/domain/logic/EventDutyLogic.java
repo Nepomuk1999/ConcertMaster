@@ -9,6 +9,7 @@ import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.helper.IntegerHelper;
 import team_f.domain.helper.StringHelper;
 import team_f.domain.interfaces.EntityLogic;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -173,6 +174,4 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
         return validate(eventDuty, EventDutyProperty.values());
     }
-
-
 }

@@ -189,7 +189,7 @@ public class EventDuty implements DomainEntity {
         this._musicalWorkList = e;
     }
 
-    public List<Instrumentation> getAlternativeInstrumentationList() {
+    public List<Instrumentation> getInstrumentationList() {
         return _instrumentationList;
     }
 
