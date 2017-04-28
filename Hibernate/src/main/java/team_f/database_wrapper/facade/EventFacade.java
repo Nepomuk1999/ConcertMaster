@@ -9,6 +9,7 @@ import team_f.domain.enums.EventType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -120,8 +121,7 @@ public class EventFacade {
         List<EventDuty> events = new ArrayList<>();
 
         for(EventDutyEntity eventDutyEntity : eventEntities) {
-            EventDuty event;
-            event = convertToEventDutyNoRehearsal(eventDutyEntity);
+            EventDuty event = convertToEventDutyNoRehearsal(eventDutyEntity);
 
             events.add(event);
         }
@@ -144,6 +144,25 @@ public class EventFacade {
         for(EventDutyEntity eventDutyEntity : eventEntities) {
             EventDuty event;
             event = convertToEventDutyNoRehearsal(eventDutyEntity);
+
+            events.add(event);
+        }
+
+        return events;
+    }
+
+    public List<EventDuty> getEventsByTimeFrame(LocalDateTime start, LocalDateTime end) {
+        EntityManager session = getCurrentSession();
+
+        Query query = session.createQuery("from EventDutyEntity where not (starttime > :end) OR (:start > endtime)");
+        query.setParameter("end", end);
+        query.setParameter("start", start);
+
+        List<EventDutyEntity> eventEntities = query.getResultList();
+        List<EventDuty> events = new ArrayList<>();
+
+        for (EventDutyEntity eventDutyEntity : eventEntities) {
+            EventDuty event = convertToEventDutyNoRehearsal(eventDutyEntity);
 
             events.add(event);
         }
@@ -216,19 +235,38 @@ public class EventFacade {
         return mwList;
     }
 
-    public List<InstrumentationEntity> getInstrumentations() {
+    public Instrumentation getInstrumentationByID(int id) {
+        EntityManager session = getCurrentSession();
+
+        Query query = session.createQuery("from InstrumentationEntity where id = :id");
+        query.setParameter("id", id);
+        query.setMaxResults(1);
+
+        List<InstrumentationEntity> instrumentations = query.getResultList();
+        InstrumentationEntity instrumentationEntity = new InstrumentationEntity();
+        Instrumentation instrumentation = new Instrumentation();
+
+        if(instrumentations.size() > 0) {
+            instrumentationEntity = instrumentations.get(0);
+            instrumentation = convertToInstrumentation(instrumentationEntity);
+        }
+
+        return instrumentation;
+    }
+
+    public List<Instrumentation> getInstrumentations() {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from InstrumentationEntity");
-        List<InstrumentationEntity> instrumentations= query.getResultList();
+        List<InstrumentationEntity> instrumentationEntities = query.getResultList();
+        List<Instrumentation> instrumentations = new ArrayList<>();
+
+        for (InstrumentationEntity ie: instrumentationEntities) {
+            instrumentations.add(convertToInstrumentation(ie));
+        }
 
         return instrumentations;
     }
-
-    public Instrumentation getInstrumentationById(int id) {
-        return convertToInstrumentation(id);
-    }
-
 
     /*
     public Integer addInstrumentation(InstrumentationEntity inst) {
@@ -288,27 +326,14 @@ public class EventFacade {
         return musicalWorks;
     }
 
-    public Instrumentation convertToInstrumentation (int instrumentationID) {
-
-        EntityManager session = getCurrentSession();
-        Query query = session.createQuery("from InstrumentationEntity where instrumentationId = :id");
-        query.setParameter("id", instrumentationID);
-        query.setMaxResults(1);
-
-        List<InstrumentationEntity> ieList = query.getResultList();
-
-        InstrumentationEntity ie = new InstrumentationEntity();
-
-        if(ieList.size() > 0) {
-            ie = ieList.get(0);
-        }
-
+    public Instrumentation convertToInstrumentation (InstrumentationEntity ie) {
         Instrumentation i = new Instrumentation();
 
         BrassInstrumentationEntity bie = getBrassInstrumentationEntity(ie.getBrassInstrumentation());
         WoodInstrumentationEntity wie = getWoodInstrumentationEntity(ie.getWoodInstrumentation());
         StringInstrumentationEntity sie = getStringInstrumentationEntity(ie.getStringInstrumentation());
         PercussionInstrumentationEntity pie = getPercussionInstrumentationEntity(ie.getPercussionInstrumentation());
+        List<SpecialInstrumentationEntity> speiList = getSpecialInstrumentationEntities(ie.getInstrumentationId());
 
         i.setFlute(wie.getFlute());
         i.setOboe(wie.getOboe());
@@ -330,10 +355,14 @@ public class EventFacade {
         i.setHarp(pie.getHarp());
         i.setPercussion(pie.getPercussion());
 
+        for (SpecialInstrumentationEntity spei : speiList) {
+            // @TODO ADD SPECIAL INSTRUMENTATION
+        }
+
         return i;
     }
 
-    public BrassInstrumentationEntity getBrassInstrumentationEntity (int brassInstrumentationID) {
+    private BrassInstrumentationEntity getBrassInstrumentationEntity (int brassInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from BrassInstrumentationEntity where brassInstrumentationId = :id");
         query.setParameter("id", brassInstrumentationID);
@@ -350,7 +379,7 @@ public class EventFacade {
         return e;
     }
 
-    public WoodInstrumentationEntity getWoodInstrumentationEntity (int woodInstrumentationID) {
+    private WoodInstrumentationEntity getWoodInstrumentationEntity (int woodInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from WoodInstrumentationEntity where woodInstrumentationId = :id");
         query.setParameter("id", woodInstrumentationID);
@@ -367,7 +396,7 @@ public class EventFacade {
         return e;
     }
 
-    public StringInstrumentationEntity getStringInstrumentationEntity (int stringInstrumentationID) {
+    private StringInstrumentationEntity getStringInstrumentationEntity (int stringInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from StringInstrumentationEntity where stringInstrumentationId = :id");
         query.setParameter("id", stringInstrumentationID);
@@ -384,7 +413,7 @@ public class EventFacade {
         return e;
     }
 
-    public PercussionInstrumentationEntity getPercussionInstrumentationEntity (int percussionInstrumentationID) {
+    private PercussionInstrumentationEntity getPercussionInstrumentationEntity (int percussionInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from PercussionInstrumentationEntity where percussionInstrumentationId = :id");
         query.setParameter("id", percussionInstrumentationID);
@@ -401,21 +430,14 @@ public class EventFacade {
         return e;
     }
 
-    public SpecialInstrumentationEntity getSpecialInstrumentationEntity (int specialInstrumentationID) {
+    private List<SpecialInstrumentationEntity> getSpecialInstrumentationEntities(int instrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from SpecialInstrumentationEntity where specialInstrumentationId = :id");
-        query.setParameter("id", specialInstrumentationID);
-        query.setMaxResults(1);
+        query.setParameter("id", instrumentationID);
 
-        List<SpecialInstrumentationEntity> spie = query.getResultList();
+        List<SpecialInstrumentationEntity> spei = query.getResultList();
 
-        SpecialInstrumentationEntity e = new SpecialInstrumentationEntity();
-
-        if(spie.size() > 0) {
-            e = spie.get(0);
-        }
-
-        return e;
+        return spei;
     }
 
 

@@ -1,7 +1,6 @@
 package team_f.application;
 
 import javafx.util.Pair;
-import team_f.database_wrapper.database.InstrumentationEntity;
 import team_f.database_wrapper.facade.EventFacade;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
@@ -52,7 +51,7 @@ public class EventApplication {
         }
 
         if(instrumentationId > 0) {
-            Instrumentation instrumentation = eventFacade.getInstrumentationById(instrumentationId);
+            Instrumentation instrumentation = eventFacade.getInstrumentationByID(instrumentationId);
             eventDuty.setInstrumentation(instrumentation);
         }
 
@@ -130,16 +129,7 @@ public class EventApplication {
     }
 
     public List<Instrumentation> getInstrumentationList() {
-        List<InstrumentationEntity> instrumentationEntities = eventFacade.getInstrumentations();
-        List<Instrumentation> instrumentations = new ArrayList<>(instrumentationEntities.size());
-        Instrumentation instrumentation;
-
-        for(InstrumentationEntity item : instrumentationEntities) {
-            instrumentation = eventFacade.convertToInstrumentation(item.getInstrumentationId());
-            instrumentations.add(instrumentation);
-        }
-
-        return instrumentations;
+        return eventFacade.getInstrumentations();
     }
 
     public List<Pair<MusicalWork, Instrumentation>> getMusicalWorkInstrumentationList() {
