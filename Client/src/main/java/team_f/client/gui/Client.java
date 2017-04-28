@@ -55,16 +55,16 @@ public class Client extends Application {
         if (_configuration.getShowMenuBar()) {
             MenuBar menuBar = new MenuBar();
 
-            Menu menuFile = new Menu("Datei");
+            Menu menuFile = new Menu("File");
 
             MenuItem menuItem;
 
-            menuItem = new MenuItem("Startseite");
+            menuItem = new MenuItem("Home");
             menuItem.setOnAction(event -> mainContent.setCenter(HomeScreenSingleton.getInstance()));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
-            menuItem = new MenuItem("In Webbrowser öffen");
+            menuItem = new MenuItem("Open in Browser");
             menuItem.setOnAction(actionEvent -> {
                 try {
                     Web.openInWebbrowser(new URI(_configuration.getStartURI()));
@@ -74,12 +74,12 @@ public class Client extends Application {
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
-            menuItem = new MenuItem("Beenden");
+            menuItem = new MenuItem("Exit");
             menuItem.setOnAction(actionEvent -> Common.closeAppWithWarning(actionEvent, primaryStage, _configuration));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
-            Menu menuHelp = new Menu("Hilfe");
+            Menu menuHelp = new Menu("Help");
 
             menuItem = new MenuItem("Info");
             menuItem.setOnAction(actionEvent -> {

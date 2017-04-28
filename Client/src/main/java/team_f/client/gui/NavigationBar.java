@@ -34,7 +34,7 @@ public class NavigationBar {
             pane.setCenter(BrowserSingleton.getInstance());
         });
         menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Schedule Legend");
+        menuSectionItem = new MenuSectionItem("Schedule Explanation");
         menuSectionItem.setOnMouseClicked(event -> pane.setCenter(LegendSingleton.getInstance()));
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
