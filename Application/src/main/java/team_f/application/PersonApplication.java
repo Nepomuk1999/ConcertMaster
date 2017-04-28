@@ -20,5 +20,4 @@ public class PersonApplication {
     public List<Person> getAllMusicians(){
         return personFacade.getAllMusicians();
     }
-
 }
