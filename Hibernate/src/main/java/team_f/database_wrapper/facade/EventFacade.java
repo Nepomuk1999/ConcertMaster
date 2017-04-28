@@ -87,7 +87,7 @@ public class EventFacade {
 
         if(eventDutyEntities.size() > 0) {
             EventDutyEntity e = eventDutyEntities.get(0);
-            event = convertToEventDutyNoRehearsal(e);
+            event = convertToEventDuty(e);
 
             Query queryRehearsal = session.createQuery("from EventDutyEntity where eventDutyId = :rid");
             queryRehearsal.setParameter("rid", e.getRehearsalFor());
@@ -99,7 +99,7 @@ public class EventFacade {
             if (rehearsalEntities.size() > 0) {
                 EventDutyEntity rehearsalFor;
                 rehearsalFor = rehearsalEntities.get(0);
-                rehearsal = convertToEventDutyNoRehearsal(rehearsalFor);
+                rehearsal = convertToEventDuty(rehearsalFor);
                 event.setRehearsalFor(rehearsal);
             }
 
@@ -121,7 +121,7 @@ public class EventFacade {
         List<EventDuty> events = new ArrayList<>();
 
         for(EventDutyEntity eventDutyEntity : eventEntities) {
-            EventDuty event = convertToEventDutyNoRehearsal(eventDutyEntity);
+            EventDuty event = convertToEventDuty(eventDutyEntity);
 
             events.add(event);
         }
@@ -143,7 +143,7 @@ public class EventFacade {
 
         for(EventDutyEntity eventDutyEntity : eventEntities) {
             EventDuty event;
-            event = convertToEventDutyNoRehearsal(eventDutyEntity);
+            event = convertToEventDuty(eventDutyEntity);
 
             events.add(event);
         }
@@ -162,7 +162,7 @@ public class EventFacade {
         List<EventDuty> events = new ArrayList<>();
 
         for (EventDutyEntity eventDutyEntity : eventEntities) {
-            EventDuty event = convertToEventDutyNoRehearsal(eventDutyEntity);
+            EventDuty event = convertToEventDuty(eventDutyEntity);
 
             events.add(event);
         }
@@ -170,7 +170,7 @@ public class EventFacade {
         return events;
     }
 
-    public EventDuty convertToEventDutyNoRehearsal(EventDutyEntity e) {
+    public EventDuty convertToEventDuty(EventDutyEntity e) {
         EventDuty event = new EventDuty();
 
         event.setEventDutyId(e.getEventDutyId());
@@ -182,7 +182,8 @@ public class EventFacade {
         event.setEndTime(e.getEndtime());
         event.setEventStatus(EventStatus.valueOf(e.getEventStatus().toString()));
         event.setEventType(EventType.valueOf(e.getEventType().toString()));
-        event.setDefaultPoints(e.getDefaultPoints());;
+        event.setDefaultPoints(e.getDefaultPoints());
+        event.setRehearsalFor(getEventById(e.getRehearsalFor()));
 
         event.setMusicalWorkList(getMusicalWorksForEvent(e.getEventDutyId()));
 

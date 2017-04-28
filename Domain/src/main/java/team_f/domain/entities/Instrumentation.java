@@ -1,5 +1,6 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.InstrumentType;
 import team_f.domain.helper.TextHelper;
 import team_f.domain.interfaces.DomainEntity;
 
@@ -200,5 +201,66 @@ public class Instrumentation implements DomainEntity {
 
     public void addToSpecial(String instrument, int instrumentCount, String section) {
         special.add(new SpecialInstrumentation(instrument, instrumentCount, section));
+    }
+
+    public void addToInstrumentations(Instrumentation instrumentation) {
+        this.setFlute(this.getFlute() + instrumentation.getFlute());
+        this.setOboe(this.getOboe() + instrumentation.getOboe());
+        this.setClarinet(this.getClarinet() + instrumentation.getClarinet());
+        this.setBassoon(this.getBassoon() + instrumentation.getBassoon());
+
+        this.setViolin1(this.getViolin1() + instrumentation.getViolin1());
+        this.setViolin2(this.getViolin2() + instrumentation.getViolin2());
+        this.setViola(this.getViola() + instrumentation.getViola());
+        this.setViolincello(this.getViolincello() + instrumentation.getViolincello());
+        this.setDoublebass(this.getDoublebass() + instrumentation.getDoublebass());
+
+        this.setHorn(this.getHorn() + instrumentation.getHorn());
+        this.setTrumpet(this.getTrumpet() + instrumentation.getTrumpet());
+        this.setTrombone(this.getTrombone() + instrumentation.getTrombone());
+        this.setTube(this.getTube() + instrumentation.getTube());
+
+        this.setKettledrum(this.getKettledrum() + instrumentation.getKettledrum());
+        this.setPercussion(this.getPercussion() + instrumentation.getPercussion());
+        this.setHarp(this.getHarp() + instrumentation.getHarp());
+    }
+
+    public int getByInstrumentType(InstrumentType instrumentType) {
+        switch (instrumentType) {
+            case FLUTE:
+                return this.getFlute();
+            case OBOE:
+                return this.getOboe();
+            case CLARINET:
+                return this.getClarinet();
+            case BASSOON:
+                return this.getBassoon();
+            case VIOLIN1:
+                return this.getViolin1();
+            case VIOLIN2:
+                return this.getViolin2();
+            case VIOLA:
+                return this.getViola();
+            case VIOLINCELLO:
+                return this.getViolincello();
+            case DOUBLEBASS:
+                return this.getDoublebass();
+            case HORN:
+                return this.getHorn();
+            case TRUMPET:
+                return this.getTrumpet();
+            case TROMBONE:
+                return this.getTrombone();
+            case TUBE:
+                return this.getTube();
+            case KETTLEDRUM:
+                return this.getKettledrum();
+            case PERCUSSION:
+                return this.getPercussion();
+            case HARP:
+                return this.getHarp();
+        }
+
+        return -1;
     }
 }

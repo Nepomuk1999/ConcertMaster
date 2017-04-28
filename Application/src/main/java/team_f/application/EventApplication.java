@@ -6,10 +6,7 @@ import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.entities.Person;
-import team_f.domain.enums.EntityType;
-import team_f.domain.enums.EventStatus;
-import team_f.domain.enums.EventType;
-import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.*;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
@@ -70,8 +67,8 @@ public class EventApplication {
         if(musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
             for(int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
                 tmpMusicalWork = new MusicalWork();
-                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);          // @TODO CHANGE BACK TO VALUES
-                tmpMusicalWork.setInstrumentationID(1);
+                tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
+                tmpMusicalWork.setInstrumentationID(1);                 // @TODO CHANGE BACK TO VALUES
 
                 tmpInstrumentation = new Instrumentation();
                 tmpInstrumentation.setInstrumentationID(1);
@@ -83,6 +80,7 @@ public class EventApplication {
         // check for errors
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
+        errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
 
         // return the errorList when the validation is not successful
         if(errorList.size() > 0) {
@@ -121,14 +119,7 @@ public class EventApplication {
     }
 
     public List<MusicalWork> getMusicalWorkList() {
-        List<MusicalWork> musicalWork = eventFacade.getMusicalWorks();
-        List<MusicalWork> musicalWorks = new ArrayList<>(musicalWork.size());
-
-        for(MusicalWork item : musicalWork) {
-            musicalWorks.add(item);
-        }
-
-        return musicalWorks;
+        return eventFacade.getMusicalWorks();
     }
 
     public List<Instrumentation> getInstrumentationList() {
@@ -143,23 +134,45 @@ public class EventApplication {
         return list;
     }
 
-    //TODO: Get list of Event for one day
-    public void getDateEventList(){
+    public List<EventDuty> getDateEventList(LocalDateTime dateTime){
+        return eventFacade.getEventsByDay(dateTime.getDayOfMonth(), dateTime.getMonthValue(), dateTime.getYear());
     }
 
-    public List<Pair<String, String>> evaluateMusicianCountForEvent (LocalDateTime start, LocalDateTime end) {
+    public List<Pair<String, String>> evaluateMusicianCountForEvent (EventDuty eventDuty) {
         List<Pair<String, String>> errorList = new LinkedList<>();
         List<EventDuty> eventList = new LinkedList<>();
 
-        eventList = eventFacade.getEventsByTimeFrame(start, end);
+        eventList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
 
         List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrument(personApplication.getAllMusicians());
+        Instrumentation totalInstrumentation = eventDuty.getInstrumentation();
 
         for (InstrumentType instrumentType : InstrumentType.values()) {
-            // @TODO CHECK INSTRUMENTATION OF EVENT / SUM OF MUCICIANCOUNT FOR TIMEFRAME
+            for (EventDuty event: eventList) {
+                event.calculateMaxInstrumentation();
+                totalInstrumentation.addToInstrumentations(event.getMaxInstrumetation());
+            }
+
+            Pair<InstrumentType, List<Person>> pairList = getMusicianListByInstrumentType(instrumentType, list);
+
+            if (totalInstrumentation.getByInstrumentType(instrumentType) > pairList.getValue().size()) {
+                errorList.add(new Pair<>(String.valueOf(EventDutyProperty.START_DATE), "not enough musicians for section " + instrumentType + " at the given timeframe"));
+            }
         }
 
         return errorList;
+    }
+
+    public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType (InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
+        Pair<InstrumentType, List<Person>> pair = null;
+
+        for (Pair<InstrumentType, List<Person>> exPair : list) {
+            if (exPair.getKey().equals(instrumentType)) {
+                pair = exPair;
+            }
+        }
+
+        return pair;
     }
 }
 
