@@ -174,5 +174,26 @@ public class EventApplication {
 
         return pair;
     }
+
+    public List<Pair<String, String>>  getEvenetsByFrame (EventDuty eventDuty) {
+        List<EventDuty> eventDutyList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
+        List<EventDuty> rehearsalList=new ArrayList<>();
+        List<Pair<String, String>> errorList = new LinkedList<>();
+
+        for(EventDuty event : eventDutyList ){
+            if(event.getRehearsalFor()!=null){
+                rehearsalList.add(event);
+            }
+        }
+        if(rehearsalList.size()>0) {
+            for (EventDuty rehearsal : rehearsalList){
+                if(eventDuty.getRehearsalFor().getEventDutyId()==rehearsal.getEventDutyId()){
+                    errorList.add(new Pair<>(String.valueOf(EventDutyProperty.REHEARSAL_FOR), "you have already a rehearsal for this event"));
+                }
+            }
+
+        }
+    return errorList;
+    }
 }
 
