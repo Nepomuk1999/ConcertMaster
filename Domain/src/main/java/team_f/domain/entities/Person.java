@@ -2,6 +2,8 @@ package team_f.domain.entities;
 
 import team_f.domain.enums.PersonRole;
 
+import java.util.List;
+
 /**
  * Created by Christoph on 26.04.2017.
  */
@@ -16,6 +18,7 @@ public class Person {
     private String address;
     private String phoneNumber;
     private PersonRole personRole;
+    private List<String> instruments;
 
     public int getPersonId() {
         return personId;
@@ -87,5 +90,17 @@ public class Person {
 
     public void setPersonRole(PersonRole personRole) {
         this.personRole = personRole;
+    }
+
+    public List<String> getInstruments() {
+        return instruments;
+    }
+
+    public void setInstruments(List<String> instruments) {
+        this.instruments = instruments;
+    }
+
+    public void setInstrument(String instrument) {
+        instruments.add(instrument);
     }
 }
