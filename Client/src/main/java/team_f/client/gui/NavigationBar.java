@@ -35,7 +35,7 @@ public class NavigationBar {
         });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Schedule Explanation");
-        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(LegendSingleton.getInstance()));
+        menuSectionItem.setOnMouseClicked(event -> LegendSingleton.getInstance());
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
