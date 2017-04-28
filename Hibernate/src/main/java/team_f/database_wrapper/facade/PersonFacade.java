@@ -27,6 +27,10 @@ public class PersonFacade {
         return _session;
     }
 
+    /**
+     * Function to get all Musicians. Returns a List of Persons
+     * @return musicians      List<Person>         returns a list of persons
+     */
     public List<Person> getAllMusicians() {
 
         EntityManager session = getCurrentSession();
