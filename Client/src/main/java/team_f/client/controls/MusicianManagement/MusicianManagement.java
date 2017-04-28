@@ -52,14 +52,7 @@ public class MusicianManagement extends BorderPane
 
 		// Create the Delete Button and add Event-Handler
 		Button deleteButton = new Button("Delete Selected Rows");
-		deleteButton.setOnAction(new EventHandler<ActionEvent>()
-		{
-            @Override public void handle(ActionEvent e)
-            {
-                deletePerson();
-            }
-        });
-
+		deleteButton.setOnAction(e -> deletePerson());
 
 		VBox root = new VBox();
 		root.getChildren().addAll(newDataPane, deleteButton, table);
@@ -81,12 +74,12 @@ public class MusicianManagement extends BorderPane
 		pane.setVgap(5);
 
 		pane.addRow(0, new Label("First Name:"), firstNameField);
-		pane.addRow(1, new Label("Last Name:"), lastNameField);
-		pane.addRow(2, new Label("Street:"), streetField);
-		pane.addRow(3, new Label("Zip Code:"), zipCodeField);
-		pane.addRow(4, new Label("City:"), cityField);
-		pane.addRow(5, new Label("Section:"), sectionField);
-		pane.addRow(5, new Label("Instruments:"), instrumentField);
+		pane.addRow(0, new Label("Last Name:"), lastNameField);
+		pane.addRow(1, new Label("Street:"), streetField);
+		pane.addRow(1, new Label("Zip Code:"), zipCodeField);
+		pane.addRow(1, new Label("City:"), cityField);
+		pane.addRow(2, new Label("Section:"), sectionField);
+		pane.addRow(2, new Label("Instruments:"), instrumentField);
 
 		ArrayList<TextField> fields=new ArrayList<>();
 		fields.add(firstNameField);
@@ -98,28 +91,34 @@ public class MusicianManagement extends BorderPane
 		fields.add(instrumentField);
 
 		Button addButton = new Button("Add");
-		addButton.setOnAction(new EventHandler<ActionEvent>()
-		{
-            @Override public void handle(ActionEvent e)
-            {
-            	if(firstNameField.getText().isEmpty()||lastNameField.getText().isEmpty()||streetField.getText().isEmpty()
-						||zipCodeField.getText().isEmpty()||cityField.getText().isEmpty()||sectionField.getText().isEmpty()
-						||instrumentField.getText().isEmpty()){
-            		validate(fields);
+		Button resetButton=new Button("Reset");
 
-            		Alert alert = new Alert(Alert.AlertType.WARNING);
-					alert.setTitle("Values Missing");
-					alert.setHeaderText("Please fill in all the information in the form.");
-					alert.setContentText("You can not save the Person. Please fill in missing data!");
+		resetButton.setOnAction(e -> {
+           for(TextField field : fields){
+           	field.setText(null);
+           	field.setStyle(null);
+		   }
+        });
 
-					alert.showAndWait();
-				}else{
-					addPerson();
-				}
+		addButton.setOnAction(e -> {
+            if(firstNameField.getText().isEmpty()||lastNameField.getText().isEmpty()||streetField.getText().isEmpty()
+                    ||zipCodeField.getText().isEmpty()||cityField.getText().isEmpty()||sectionField.getText().isEmpty()
+                    ||instrumentField.getText().isEmpty()){
+                validate(fields);
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Values Missing");
+                alert.setHeaderText("Please fill in all the information in the form.");
+                alert.setContentText("You can not save the Person. Please fill in missing data!");
+
+                alert.showAndWait();
+            }else{
+                addPerson();
             }
         });
 
-		pane.add(addButton, 2, 0);
+		pane.add(addButton, 6, 2);
+		pane.add(resetButton, 7, 2);
 
 		return pane;
 	}
