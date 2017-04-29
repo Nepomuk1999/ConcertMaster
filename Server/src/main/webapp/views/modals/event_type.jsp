@@ -196,7 +196,7 @@
                                 <div class="row add-list-item-keep">
                                     <div class="col-xs-5 col-sm-5 add-list-item-keep">
                                         <label class="control-label">Musical Work</label><br>
-                                        <select class="selectpicker add-list-item-check add-list-item-keep" data-live-search="true" add-list-item-name="${EventDutyProperty.MUSICAL_WORK_LIST}">
+                                        <select class="selectpicker add-list-item-check add-list-item-keep musical-work-select" data-live-search="true" add-list-item-name="${EventDutyProperty.MUSICAL_WORK_LIST}">
                                             <option class="add-list-item-keep" value="">Select Musical Work</option>
                                             <c:forEach var="item" items="${DomainEntityHelper.getMusicalWorkList()}">
                                                 <option class="add-list-item-keep" data-divider="true"></option>
@@ -206,15 +206,15 @@
                                                                 selected
                                                             </c:if>
                                                         </c:forEach>
-                                                        data-subtext="${item.composer}">${item.name}</option>
+                                                        data-subtext="${item.composer}" instrumentation-id="${item.instrumentationID}">${item.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <!-- add a new popup window -->
+                                        <!-- @TODO: add a new popup window to edit the instrumentations -->
                                     </div>
 
                                     <div class="col-xs-6 col-sm-6 add-list-item-keep">
                                         <label class="control-label">Instrumentation</label><br>
-                                        <select class="selectpicker add-list-item-check add-list-item-keep" data-live-search="true" add-list-item-name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}">
+                                        <select class="selectpicker add-list-item-check add-list-item-keep instrumentation-select" data-live-search="true" add-list-item-name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" disabled>
                                             <option class="add-list-item-keep" value="">Select Instrumentation</option>
                                             <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
                                                 <option class="add-list-item-keep" data-divider="true"></option>
@@ -224,7 +224,7 @@
                                     </div>
 
                                     <div class="col-xs-1 col-sm-1 add-list-item-keep">
-                                        <label class="add-list-item-keep"></label>
+                                        <label></label>
                                         <button type="button" class="btn btn-default input-group-addon add-list-item add-list-item-keep"></button>
                                     </div>
                                 </div>
@@ -259,7 +259,18 @@
 </form>
 
 <script type="text/javascript">
-    $( document ).ready(function() {
+    $(document).ready(function() {
         addRemoveList(false);
+    });
+
+    $('.musical-work-select').on('change', function(event){
+        var selectedItem = $(this).find("option:selected");
+        var selected = selectedItem.val();
+        var row = $(this).closest('.row');
+        var instrumentation = $(row).find('select.instrumentation-select');
+        var musicalWork = $(row).find('.musical-work-select select option[value="' + selected + '"]');
+        instrumentation.val(musicalWork.attr('instrumentation-id'));
+        $(instrumentation).selectpicker('refresh');
+        (instrumentation).attr('disabled', '');
     });
 </script>
