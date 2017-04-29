@@ -294,6 +294,13 @@
 
             $('.add-list-item').trigger("click");
         }
+
+        // set the selectpickers to an empty value
+        musicalWork.val("");
+        musicalWork.trigger("change");
+
+        instrumentation.val("");
+        instrumentation.trigger("change");
     });
 
     $('.musical-work-select').on('change', function(event){
