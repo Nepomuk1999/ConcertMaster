@@ -11,7 +11,7 @@ var removeListItemContent = 'remove-list-item-content';
 var addListItemName = 'add-list-item-name';
 var addListItemCheck = 'add-list-item-check';
 
-function addRemoveList(isListEditable) {
+function addRemoveList(isListEditable, excludeFromSearch) {
     var list = $('.' + addListItem);
 
     list.addClass(addRemoveGlyhpicon);
@@ -19,12 +19,12 @@ function addRemoveList(isListEditable) {
 
     for(var i = 0; i < list.length; i++) {
         list[i].onclick = function(event) {
-            _addListItem(event, isListEditable);
+            _addListItem(event, isListEditable, excludeFromSearch);
         };
     }
 }
 
-function _addListItem(event, isListEditable) {
+function _addListItem(event, isListEditable, excludeFromSearch) {
     var main = $(event.target).parents('.' + addRemoveListMain);
 
     if(main.length > 0) {
@@ -32,7 +32,7 @@ function _addListItem(event, isListEditable) {
         var target = main.find('.' + addListItemTarget);
 
         if(content.length > 0 && target.length > 0) {
-            if(_check(content, target)) {
+            if(_check(content, target, excludeFromSearch)) {
                 var nodeCopy = content.clone();
 
                 // remove the events on the select picker
@@ -95,22 +95,38 @@ function _removeListItem(event) {
     node.detach();
 }
 
-function _check(content, target) {
-    var contentCheckList = content.find('.' + addListItemCheck);
+function _check(content, target, excludeFromSearch) {
+    // do not search for selects
+    var contentCheckList = content.find('.' + addListItemCheck).not(excludeFromSearch);
     var targetList = target.find('.' + removeListItemContent);
     var targetCheckList;
 
-    /*outer: for(var i = 0; i < targetList.length; i++) {
-        targetCheckList = targetList.find('.' + addListItemCheck);
+    // check if empty
+    for(var n = 0; n < contentCheckList.length; n++) {
+        if(contentCheckList[n].value === '') {
+            return false;
+        }
+    }
+
+    var correctCount;
+    var tmp1;
+    var tmp2;
+
+    outer: for(var i = 0; i < targetList.length; i++) {
+        correctCount = 0;
+        targetCheckList = targetList.find('.' + addListItemCheck).not(excludeFromSearch);
 
         for(var n = 0; n < contentCheckList.length && n < targetCheckList.length; n++) {
-            if(targetList[i].text() !== contentCheckList[n].text()) {
+            tmp1 = $(targetCheckList[n]).val();
+            tmp2 = $(contentCheckList[n]).val();
+
+            if(tmp1 !== tmp2) {
                 continue outer;
             }
         }
 
         return false;
-    }*/
+    }
 
     return true;
 }

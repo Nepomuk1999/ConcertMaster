@@ -260,7 +260,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        addRemoveList(false);
+        addRemoveList(false, 'btn, div');
     });
 
     $('.musical-work-select').on('change', function(event){
