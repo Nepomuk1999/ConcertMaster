@@ -25,12 +25,12 @@
 <script type="text/javascript">
     $( document ).ready(function() {
         $('#calendar-action-chooser-plan').click(function () {
-            showModal("rehearsal-for", "/RehearsalFor", ${eventData}, false, function () {
+            showModal("rehearsal-for", "/RehearsalFor", ${eventData}, false, isFurtherEditable(JSON.parse('${eventData}')['start']), function () {
             });
         });
 
         $('#calendar-action-chooser-date').click(function () {
-            showModal("date", "/Date", ${eventData}, false, function () {
+            showModal("date", "/Date", ${eventData}, false, isFurtherEditable(JSON.parse('${eventData}')['start']), function () {
             });
         });
     });

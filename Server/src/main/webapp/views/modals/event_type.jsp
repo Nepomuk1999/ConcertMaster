@@ -282,10 +282,11 @@
             </c:forEach>
         ];
 
+        var instrumentation = _getInstrumentation($('.add-list-item'));
+        var musicalWork = _getMusicalWork($('.add-list-item'));
+
         // set the predefined musical works and instrumentations
         for(var i = 0; i < predefinedInstrumentationIdList.length && i < predefinedMusicalIdList.length; i++) {
-            var instrumentation = _getInstrumentation($('.add-list-item'));
-            var musicalWork = _getMusicalWork($('.add-list-item'));
             musicalWork.val(predefinedMusicalIdList[i]);
             musicalWork.trigger("change");
 

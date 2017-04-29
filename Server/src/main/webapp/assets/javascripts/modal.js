@@ -1,6 +1,6 @@
 var modalBodySelector = "#modal-form > .modal-body";
 
-function showModal(id, uri, dataForModal, isEditable, onCompleteCallback) {
+function showModal(id, uri, dataForModal, isEditable, isFurtherEditable, onCompleteCallback) {
     var modalQualifier = id + "-modal";
     var contentQualifier = id + "-content";
     var modalWrapper = '<!-- Modal -->' +
@@ -54,8 +54,8 @@ function showModal(id, uri, dataForModal, isEditable, onCompleteCallback) {
                 _resizeModal(modalQualifier);
             });
 
-            _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback);
-            _switchEditable(modalQualifier, isEditable);
+            _addContentListeners(modalQualifier, contentQualifier, isFurtherEditable, onCompleteCallback);
+            _switchEditable(modalQualifier, isEditable, isFurtherEditable);
         },
         error: function (xhr, status, error) {
             _showServerError();
@@ -79,13 +79,14 @@ function _resizeModal(modalQualifier) {
     modalContent.css("height", height * 0.74);
 }
 
-function _switchEditable(modalQualifier, isEditable) {
+function _switchEditable(modalQualifier, isEditable, isFurtherEditable) {
     var attributeName = "disabled";
     var helperAttributeName = "standard";
+
     var inputFields = $("#" + modalQualifier + " " + modalBodySelector).find("input, select, button");
 
     for(var i = 0; i < inputFields.length; i++) {
-        if(isEditable) {
+        if(isEditable && isFurtherEditable) {
             if(!$("#modal-form")[0].hasAttribute(attributeName)) {
                 inputFields[i].removeAttribute(attributeName);
             }
@@ -98,8 +99,13 @@ function _switchEditable(modalQualifier, isEditable) {
         }
     }
 
-    _switchEditButtonVisibility(modalQualifier, !isEditable);
-    _switchSaveButtonVisibility(modalQualifier, isEditable);
+    if(isFurtherEditable) {
+        _switchEditButtonVisibility(modalQualifier, !isEditable);
+        _switchSaveButtonVisibility(modalQualifier, isEditable);
+    } else {
+        _switchEditButtonVisibility(modalQualifier, false);
+        _switchSaveButtonVisibility(modalQualifier, false);
+    }
 }
 
 function _switchSaveButtonVisibility(modalQualifier) {
@@ -147,7 +153,7 @@ function _close(modalQualifier) {
     $("#" + modalQualifier).modal('hide')
 }
 
-function _save(modalQualifier, contentQualifier, onCompleteCallback) {
+function _save(modalQualifier, contentQualifier, isFurtherEditable, onCompleteCallback) {
     var modalForm = $("#" + modalQualifier).find("#modal-form");
     var loadAnimationSelector = "#" + contentQualifier + " " + modalBodySelector;
 
@@ -179,9 +185,9 @@ function _save(modalQualifier, contentQualifier, onCompleteCallback) {
                 $("#" + contentQualifier).html(xhr.responseText);
 
                 // rebind the event listeners
-                _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback);
+                _addContentListeners(modalQualifier, contentQualifier, isFurtherEditable, onCompleteCallback);
 
-                _switchEditable(modalQualifier, true);
+                _switchEditable(modalQualifier, true, isFurtherEditable);
             } else {
                 _showServerError();
             }
@@ -203,13 +209,13 @@ function _isCorrect(modalQualifier) {
     return true;
 }
 
-function _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback) {
+function _addContentListeners(modalQualifier, contentQualifier, onCompleteCallback, isFurtherEditable) {
     // add other listeners
     var modalEdit = $("#" + modalQualifier).find("#modal-edit");
 
     if(modalEdit.length) {
         modalEdit[0].onclick = function() {
-            _switchEditable(modalQualifier, true)
+            _switchEditable(modalQualifier, true, isFurtherEditable);
         };
     }
 
@@ -238,7 +244,7 @@ function _addContentListeners(modalQualifier, contentQualifier, onCompleteCallba
 
             if(_isCorrect(modalQualifier)) {
                 confirmDialog("save", "Save", "Changes will be saved. Are you sure?", function() {
-                    _save(modalQualifier, contentQualifier, onCompleteCallback)
+                    _save(modalQualifier, contentQualifier, isFurtherEditable, onCompleteCallback)
                 });
             }
 
