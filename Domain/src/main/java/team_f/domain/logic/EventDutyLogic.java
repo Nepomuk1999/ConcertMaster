@@ -146,35 +146,24 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                     }
                     break;
-                case ALTERNATIVE_INSTRUMENTATION_LIST:
-                    Set<Instrumentation> instrumentationSet = new HashSet<>(eventDuty.getInstrumentationList().size());
-                    for (Instrumentation o : eventDuty.getInstrumentationList()) {
-                        if (instrumentationSet.isEmpty()) {
-                            instrumentationSet.add(o);
-                        } else {
-                            if (instrumentationSet.add(o)) {}
-                        }
-                    }
-                    LinkedList<Instrumentation> InstrumentationLinkedList = new LinkedList<>();
-                    InstrumentationLinkedList.addAll(instrumentationSet);
-
-                    eventDuty.setInstrumentationList(InstrumentationLinkedList);
-
-                    break;
-
                 case MUSICAL_WORK_LIST:
-                    Set<MusicalWork> musicalWorkSet = new HashSet<>(eventDuty.getMusicalWorkList().size());
-                    for (MusicalWork o : eventDuty.getMusicalWorkList()) {
-                        if (musicalWorkSet.isEmpty()) {
-                            musicalWorkSet.add(o);
-                        } else {
-                            if (musicalWorkSet.add(o)) {}
-                        }
-                    }
-                    LinkedList<MusicalWork> musicalWorkLinkedList = new LinkedList<>();
-                    musicalWorkLinkedList.addAll(musicalWorkSet);
 
-                    eventDuty.setMusicalWorkList(musicalWorkLinkedList);
+                    Set<Pair<MusicalWork, Instrumentation>> set = new HashSet<>(eventDuty.getMusicalWorkList().size());
+                    List<Instrumentation> iList = new LinkedList<>();
+                    List<MusicalWork> wList = new LinkedList<>();
+
+                    for(int i = 0; i < eventDuty.getMusicalWorkList().size(); i++) {
+                        Pair<MusicalWork, Instrumentation> pair = new Pair<>(eventDuty.getMusicalWorkList().get(i), eventDuty.getInstrumentationList().get(i));
+                        set.add(pair);
+                    }
+
+                    for(Pair pair : set) {
+                        iList.add((Instrumentation) pair.getValue());
+                        wList.add((MusicalWork) pair.getKey());
+                    }
+
+                    eventDuty.setMusicalWorkList(wList);
+                    eventDuty.setInstrumentationList(iList);
 
                     break;
                 }
