@@ -6,10 +6,11 @@
 <%@ attribute name="inputRequired" type="java.lang.Boolean" required="false" %>
 <%@ attribute name="inputClockFormat" type="java.lang.String" required="true" %>
 <%@ attribute name="label" type="java.lang.String" required="false" %>
+<%@ attribute name="inputClass" type="java.lang.String" required="false" %>
 
 <label for="${id}" class="control-label">${label}</label><br>
 <div id="${id}" class="input-group clockpicker">
-    <input id="${id}-input" type="text" value="${inputValue}" name="${inputName}" class="form-control" placeholder="${inputClockFormat}" ${inputRequired ? "required" : ""}>
+    <input id="${id}-input" type="text" value="${inputValue}" name="${inputName}" class="form-control" placeholder="${inputClockFormat}" ${inputRequired ? "required" : ""} class="${inputClass}">
     <span class="input-group-addon">
         <span class="glyphicon glyphicon-time"></span>
     </span>
