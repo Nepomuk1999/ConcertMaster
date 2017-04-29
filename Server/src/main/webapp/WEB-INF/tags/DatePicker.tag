@@ -7,9 +7,10 @@
 <%@ attribute name="inputRequired" type="java.lang.Boolean" required="false" %>
 <%@ attribute name="check" type="java.lang.Boolean" required="false" %>
 <%@ attribute name="label" type="java.lang.String" required="false" %>
+<%@ attribute name="inputClass" type="java.lang.String" required="false" %>
 
 <label for="${id}" class="control-label">${label}</label><br>
-<input type = "text" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""}>
+<input type="text" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""} class="${inputClass}">
 
 <script type="text/javascript">
     $( "#${id}" ).datepicker({

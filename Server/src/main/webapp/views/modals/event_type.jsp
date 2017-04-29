@@ -78,6 +78,7 @@
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                         <jsp:attribute name="inputDateFormat">${"mm/dd/yyyy"}</jsp:attribute>
                         <jsp:attribute name="inputValue">${eventDuty.getStartDate("MM/dd/yyyy")}</jsp:attribute>
+                        <jsp:attribute name="inputClass">${"ValidateStartDate"}</jsp:attribute>
                     </t:DatePicker>
                 </t:ErrorMessage>
             </div>
@@ -91,6 +92,7 @@
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                         <jsp:attribute name="inputDateFormat">${"mm/dd/yyyy"}</jsp:attribute>
                         <jsp:attribute name="inputValue">${eventDuty.getEndDate("MM/dd/yyyy")}</jsp:attribute>
+                        <jsp:attribute name="inputClass">${"ValidateEndDate"}</jsp:attribute>
                     </t:DatePicker>
                 </t:ErrorMessage>
             </div>
@@ -106,6 +108,7 @@
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                         <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
                         <jsp:attribute name="inputValue">${eventDuty.getStartTime("HH:mm")}</jsp:attribute>
+                        <jsp:attribute name="inputClass">${"ValidateStartTime"}</jsp:attribute>
                     </t:ClockPicker>
                 </t:ErrorMessage>
             </div>
@@ -119,6 +122,7 @@
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
                         <jsp:attribute name="inputClockFormat">${"HH:mm"}</jsp:attribute>
                         <jsp:attribute name="inputValue">${eventDuty.getEndTime("HH:mm")}</jsp:attribute>
+                        <jsp:attribute name="inputClass">${"ValidateEndTime"}</jsp:attribute>
                     </t:ClockPicker>
                 </t:ErrorMessage>
             </div>
@@ -128,13 +132,13 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_NAME}">
                     <label for="${EventDutyProperty.NAME}" class="control-label">Name</label><br>
-                    <input id="${EventDutyProperty.NAME}" type="text" value="${eventDuty.name}" name="${EventDutyProperty.NAME}" placeholder="Name" class="form-control" required><br>
+                    <input id="${EventDutyProperty.NAME}" type="text" value="${eventDuty.name}" name="${EventDutyProperty.NAME}" placeholder="Name" class="form-control ValidateEmpty" required><br>
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_LOCATION}">
                     <label for="${EventDutyProperty.LOCATION}" class="control-label">Location</label><br>
-                    <input id="${EventDutyProperty.LOCATION}" type="text" value="${eventDuty.location}" name="${EventDutyProperty.LOCATION}" placeholder="Location" class="form-control" required><br>
+                    <input id="${EventDutyProperty.LOCATION}" type="text" value="${eventDuty.location}" name="${EventDutyProperty.LOCATION}" placeholder="Location" class="form-control ValidateEmpty" required><br>
                 </t:ErrorMessage>
             </div>
         </div>
@@ -143,13 +147,13 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_CONDUCTOR}">
                     <label for="${EventDutyProperty.CONDUCTOR}" class="control-label">Conductor</label><br>
-                    <input id="${EventDutyProperty.CONDUCTOR}" type="text" value="${eventDuty.conductor}" name="${EventDutyProperty.CONDUCTOR}" placeholder="Conductor" class="form-control" required><br>
+                    <input id="${EventDutyProperty.CONDUCTOR}" type="text" value="${eventDuty.conductor}" name="${EventDutyProperty.CONDUCTOR}" placeholder="Conductor" class="form-control ValidateEmpty" required><br>
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_DEFAULT_POINTS}">
                     <label for="${EventDutyProperty.DEFAULT_POINTS}" class="control-label">Standard Points</label><br>
-                    <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="${empty eventDuty.defaultPoints ? 0 : eventDuty.defaultPoints}" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
+                    <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="${empty eventDuty.defaultPoints ? 0 : eventDuty.defaultPoints}" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control ValidateGreaterZero" min="0" required><br>
                 </t:ErrorMessage>
             </div>
         </div>
@@ -158,7 +162,7 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_DESCRIPTION}">
                     <label for="${EventDutyProperty.DESCRIPTION}" class="control-label">Description</label><br>
-                    <input id="${EventDutyProperty.DESCRIPTION}" type="text" value="${eventDuty.description}" name="${EventDutyProperty.DESCRIPTION}" placeholder="Description" class="form-control"><br>
+                    <input id="${EventDutyProperty.DESCRIPTION}" type="text" value="${eventDuty.description}" name="${EventDutyProperty.DESCRIPTION}" placeholder="Description" class="form-control ValidateEmpty"><br>
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-12 col-sm-6">
@@ -189,40 +193,39 @@
                         </div>
                         <div class="panel-body">
                             <div class="input-group add-list-item-content">
-                                <div class="row">
-                                    <div class="col-xs-5 col-sm-5">
-                                        <label for="${EventDutyProperty.MUSICAL_WORK_LIST}" class="control-label">Musical Work</label><br>
-                                        <select class="selectpicker add-list-item-check" data-live-search="true" name="${EventDutyProperty.MUSICAL_WORK_LIST}">
-                                            <option value="">Select Musical Work</option>
+                                <div class="row add-list-item-keep">
+                                    <div class="col-xs-5 col-sm-5 add-list-item-keep">
+                                        <label class="control-label">Musical Work</label><br>
+                                        <select class="selectpicker add-list-item-check add-list-item-keep musical-work-select" data-live-search="true" add-list-item-name="${EventDutyProperty.MUSICAL_WORK_LIST}">
+                                            <option class="add-list-item-keep" value="">Select Musical Work</option>
                                             <c:forEach var="item" items="${DomainEntityHelper.getMusicalWorkList()}">
-                                                <option data-divider="true"></option>
-                                                <option value="${item.musicalWorkID}"
+                                                <option class="add-list-item-keep" data-divider="true"></option>
+                                                <option class="add-list-item-keep" value="${item.musicalWorkID}"
                                                         <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
                                                             <c:if test="${musicalWork.musicalWorkID eq item.musicalWorkID}">
                                                                 selected
                                                             </c:if>
                                                         </c:forEach>
-                                                        data-subtext="${item.composer}">${item.name}</option>
+                                                        data-subtext="${item.composer}" instrumentation-id="${item.instrumentationID}">${item.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <input type="text" name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" value="" class="hidden">
-                                        <!-- add a new popup window -->
+                                        <!-- @TODO: add a new popup window to edit the instrumentations -->
                                     </div>
 
-                                    <div class="col-xs-6 col-sm-6">
-                                        <label for="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" class="control-label">Instrumentation</label><br>
-                                        <select class="selectpicker add-list-item-check" data-live-search="true" name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}">
-                                            <option value="">Select Instrumentation</option>
+                                    <div class="col-xs-6 col-sm-6 add-list-item-keep">
+                                        <label class="control-label">Instrumentation</label><br>
+                                        <select class="selectpicker add-list-item-check add-list-item-keep instrumentation-select" data-live-search="true" add-list-item-name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" disabled>
+                                            <option class="add-list-item-keep" value="">Select Instrumentation</option>
                                             <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
-                                                <option data-divider="true"></option>
-                                                <option value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentation.instrumentationID ? "selected" : ""}>${item.instrumentationText}</option>
+                                                <option class="add-list-item-keep" data-divider="true"></option>
+                                                <option class="add-list-item-keep" value="${item.instrumentationID}" ${item.instrumentationID eq eventDuty.instrumentation.instrumentationID ? "selected" : ""}>${item.instrumentationText}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
 
-                                    <div class="col-xs-1 col-sm-1">
+                                    <div class="col-xs-1 col-sm-1 add-list-item-keep">
                                         <label></label>
-                                        <button type="button" class="btn btn-default input-group-addon add-list-item"></button>
+                                        <button type="button" class="btn btn-default input-group-addon add-list-item add-list-item-keep"></button>
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +259,18 @@
 </form>
 
 <script type="text/javascript">
-    $( document ).ready(function() {
-        addRemoveList(false);
+    $(document).ready(function() {
+        addRemoveList(false, 'btn, div');
+    });
+
+    $('.musical-work-select').on('change', function(event){
+        var selectedItem = $(this).find("option:selected");
+        var selected = selectedItem.val();
+        var row = $(this).closest('.row');
+        var instrumentation = $(row).find('select.instrumentation-select');
+        var musicalWork = $(row).find('.musical-work-select select option[value="' + selected + '"]');
+        instrumentation.val(musicalWork.attr('instrumentation-id'));
+        $(instrumentation).selectpicker('refresh');
+        (instrumentation).attr('disabled', '');
     });
 </script>
