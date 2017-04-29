@@ -193,6 +193,10 @@ public class EventDuty implements DomainEntity {
         return _instrumentationList;
     }
 
+    public void setInstrumentationList(List<Instrumentation> l) {
+        this._instrumentationList = l;
+    }
+
     public Instrumentation getMaxInstrumetation() {
         return maxInstrumetation;
     }
