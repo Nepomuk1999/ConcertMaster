@@ -194,7 +194,7 @@
                         <div class="panel-body">
                             <div class="input-group add-list-item-content">
                                 <div class="row add-list-item-keep">
-                                    <div class="col-xs-5 col-sm-5 add-list-item-keep">
+                                    <div class="col-xs-5 col-sm-5 form-group add-list-item-keep">
                                         <label class="control-label">Musical Work</label><br>
                                         <select class="selectpicker add-list-item-check add-list-item-keep musical-work-select" data-live-search="true" add-list-item-name="${EventDutyProperty.MUSICAL_WORK_LIST}">
                                             <option class="add-list-item-keep" value="">Select Musical Work</option>
@@ -212,7 +212,7 @@
                                         <!-- @TODO: add a new popup window to edit the instrumentations -->
                                     </div>
 
-                                    <div class="col-xs-6 col-sm-6 add-list-item-keep">
+                                    <div class="col-xs-5 col-sm-5 form-group add-list-item-keep">
                                         <label class="control-label">Instrumentation</label><br>
                                         <select class="selectpicker add-list-item-check add-list-item-keep instrumentation-select" data-live-search="true" add-list-item-name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}">
                                             <option class="add-list-item-keep" value="">Select Instrumentation</option>
@@ -223,9 +223,9 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-xs-1 col-sm-1 add-list-item-keep">
+                                    <div class="col-xs-1 col-sm-1 form-group add-list-item-keep">
                                         <label></label>
-                                        <button type="button" class="btn btn-default input-group-addon add-list-item add-list-item-keep"></button>
+                                        <button type="button" class="btn btn-default add-list-item add-list-item-keep"></button>
                                     </div>
                                 </div>
                             </div>
