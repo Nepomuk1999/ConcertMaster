@@ -67,23 +67,21 @@ function _addListItem(event, isListEditable, excludeFromSearch) {
 
                     target.prepend(nodeCopy);
 
-                    $(document).ready(function() {
-                        var tmpSelectParent = $('.' + addRemoveTmpSelect);
-                        tmpSelectParent.removeClass(addRemoveTmpSelect);
-                        tmpSelectParent.addClass('selectpicker');
-                        tmpSelectParent.removeData();
+                    var tmpSelectParent = $('.' + addRemoveTmpSelect);
+                    tmpSelectParent.removeClass(addRemoveTmpSelect);
+                    tmpSelectParent.addClass('selectpicker');
+                    tmpSelectParent.removeData();
 
-                        // add new values to the half cloned elements
-                        var newSelectPickers = tmpSelectParent.selectpicker();
-                        var inputSelectPickers = $(content).find('.selectpicker');
+                    // add new values to the half cloned elements
+                    var newSelectPickers = tmpSelectParent.selectpicker();
+                    var inputSelectPickers = $(content).find('.selectpicker');
 
-                        for(var i = 0; i < newSelectPickers.length && i < inputSelectPickers.length; i++) {
-                            newSelectPickers[i].value = inputSelectPickers[i].value;
-                            $(newSelectPickers[i]).selectpicker('refresh');
-                        }
+                    for(var i = 0; i < newSelectPickers.length && i < inputSelectPickers.length; i++) {
+                        newSelectPickers[i].value = inputSelectPickers[i].value;
+                        $(newSelectPickers[i]).selectpicker('refresh');
+                    }
 
-                        _enable(isListEditable, nodeCopy);
-                    });
+                    _enable(isListEditable, nodeCopy);
                 }
             }
         }

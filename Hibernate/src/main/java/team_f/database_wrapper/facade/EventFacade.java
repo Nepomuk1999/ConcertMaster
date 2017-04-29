@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -46,28 +47,60 @@ public class EventFacade {
 
         EventDutyEntity eventEntity = convertToEventDutyEntity(event);
 
-        if (eventEntity.getEventDutyId()>0) {
+        if (eventEntity.getEventDutyId() > 0) {
             session.merge(eventEntity);
         } else {
             session.persist(eventEntity);
+            session.flush();
         }
 
         if (!(eventEntity.getEventType().equals(EventType.NonMusicalEvent))) {
 
-            Collection<EventDutyMusicalWorkEntity> coll = new ArrayList<>();
+            Collection<EventDutyMusicalWorkEntity> emweList = new LinkedList<>();
+            EventDutyMusicalWorkEntity emwe;
+            EventDuty intermediateEntities = getEventById(eventEntity.getEventDutyId());
+            List<MusicalWork> intermediateMusicalWorkEntities = getMusicalWorksForEvent(eventEntity.getEventDutyId());
 
-            // Works now
+            loop: for (MusicalWork musicalWork : event.getMusicalWorkList()) {
+                // @TODO: this loop and the following if are only to avoid duplicated primary keys for musicalwork and eventIds
+                // @TODO: a possible workaround could be to remove the intermediate table objects which will be updated
+                // @TODO: Hibernate does not really like manyToMany relationships
+                for(MusicalWork intermeWork : intermediateMusicalWorkEntities) {
+                    if(intermeWork.getMusicalWorkID() == musicalWork.getMusicalWorkID()) {
+                        continue loop;
+                    }
 
-            for (MusicalWork musicalWork : event.getMusicalWorkList()) {
-                EventDutyMusicalWorkEntity emwe = new EventDutyMusicalWorkEntity();
+                    break;
+                }
+
+                emwe = new EventDutyMusicalWorkEntity();
                 emwe.setEventDuty(eventEntity.getEventDutyId());
                 emwe.setMusicalWork(musicalWork.getMusicalWorkID());
-                emwe.setAlternativeInstrumentation(musicalWork.getInstrumentationID());
-                session.merge(emwe);
+                emwe.setAlternativeInstrumentation(musicalWork.getAlternativeInstrumentationId());
+
+                session.persist(emwe);
+                /*
+                if(session.contains(emwe)) {
+                    session.merge(emwe);
+                } else {
+                    session.persist(emwe);
+                }*/
+
+                emweList.add(emwe);
+            }
+
+            eventEntity.setEventDutyMusicalWorksByEventDutyId(emweList);
+
+            if (eventEntity.getEventDutyId() > 0) {
+                session.merge(eventEntity);
+            } else {
+                session.persist(eventEntity);
+                session.flush();
             }
         }
 
         try {
+            session.flush();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -321,6 +354,7 @@ public class EventFacade {
         session.persist(instrumentation);
 
         try {
+            session.flush();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -330,6 +364,26 @@ public class EventFacade {
     }
 
     */
+
+    public MusicalWork getMusicalWorkById(int id){
+        EntityManager session = getCurrentSession();
+
+        // prevent SQL injections
+        Query query = session.createQuery("from MusicalWorkEntity where :id");
+        query.setParameter("id", id);
+        query.setMaxResults(1);
+
+        List<MusicalWorkEntity> instrumentations = query.getResultList();
+        MusicalWorkEntity musicalWorkEntity;
+        MusicalWork musicalWork = new MusicalWork();
+
+        if(instrumentations.size() > 0) {
+            musicalWorkEntity = instrumentations.get(0);
+            musicalWork = convertToMusicalWork(musicalWorkEntity);
+        }
+
+        return musicalWork;
+    }
 
     public List<MusicalWork> getMusicalWorks(){
         EntityManager session = getCurrentSession();
@@ -341,9 +395,7 @@ public class EventFacade {
         List<MusicalWork> musicalWorks = new ArrayList<>();
 
         for (MusicalWorkEntity entity : musicalWorkEntities) {
-            MusicalWork musicalWork = new MusicalWork();
-
-            musicalWork = convertToMusicalWork(entity);
+            MusicalWork musicalWork = convertToMusicalWork(entity);
 
             musicalWorks.add(musicalWork);
         }
@@ -480,6 +532,7 @@ public class EventFacade {
         session.persist(mwEntity);
 
         try {
+            session.flush();
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();

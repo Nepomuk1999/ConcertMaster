@@ -62,18 +62,16 @@ public class EventApplication {
         eventDuty.setInstrumentation(instrumentation);
 
         MusicalWork tmpMusicalWork;
-        Instrumentation tmpInstrumentation;
 
         if(musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
             for(int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
                 tmpMusicalWork = new MusicalWork();
                 tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
-                tmpMusicalWork.setInstrumentationID(1);                 // @TODO CHANGE BACK TO VALUES
 
-                tmpInstrumentation = new Instrumentation();
-                tmpInstrumentation.setInstrumentationID(1);
+                // set the alternative instrumentation even when it's the same as in the musical work
+                tmpMusicalWork.setAlternativeInstrumentationId(alternativeInstrumentationIdList[i]);
 
-                eventDuty.addMusicalWork(tmpMusicalWork, tmpInstrumentation);
+                eventDuty.addMusicalWork(tmpMusicalWork, null);
             }
         }
 
@@ -94,12 +92,11 @@ public class EventApplication {
             mE.setComposer(musicalWork.getComposer());
             // do not overwrite the predefined instrumentationId: use the intermediate table instead
             //mE.setInstrumentationID(musicalWork.getInstrumentationID());
-            mE.setAlternativeInstrumentationId(musicalWork.getInstrumentationID());
+            mE.setAlternativeInstrumentationId(musicalWork.getAlternativeInstrumentationId());
+
             mE.setName(musicalWork.getName());
             eventMusicalList.add(mE);
         }
-
-        // @TODO: Musicalwork Instrumentation save to correct musicalWork from Event
 
         eventFacade.addEvent(eventDuty);
 

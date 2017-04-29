@@ -55,7 +55,7 @@
             <property name="hibernate.show_sql" value="true" />
             <property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE"/>
             <property name="openjpa.ConnectionFactoryProperties" value="PrintParameters=true" />
-            <property name="hibernate.id.new_generator_mappings" value="false" />
+            <property name="hibernate.id.new_generator_mappings" value="true" />
         </properties>
     </persistence-unit>
 </persistence>

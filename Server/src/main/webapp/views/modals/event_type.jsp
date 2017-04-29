@@ -262,12 +262,38 @@
     $(document).ready(function() {
         addRemoveList(false, 'btn, div');
 
-        // set the predefined musical works and instrumentations
-        $('.musical-work-select').value = 1;
-        $('.musical-work-select').change();
+        var predefinedInstrumentationIdList = [
+        <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
+            <c:choose>
+                <c:when test="${not empty musicalWork.alternativeInstrumentationId}">
+                    ${musicalWork.alternativeInstrumentationId}
+                </c:when>
+                <c:otherwise>
+                    ${musicalWork.instrumentationID}
+                </c:otherwise>
+            </c:choose>
+            ${","}
+        </c:forEach>
+        ];
 
-        var button = _getRow($('.musical-work-select')).find('.add-list-item');
-        $(button).click();
+        var predefinedMusicalIdList = [
+            <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
+                ${musicalWork.musicalWorkID} ${","}
+            </c:forEach>
+        ];
+
+        // set the predefined musical works and instrumentations
+        for(var i = 0; i < predefinedInstrumentationIdList.length && i < predefinedMusicalIdList.length; i++) {
+            var instrumentation = _getInstrumentation($('.add-list-item'));
+            var musicalWork = _getMusicalWork($('.add-list-item'));
+            musicalWork.val(predefinedMusicalIdList[i]);
+            musicalWork.trigger("change");
+
+            instrumentation.val(predefinedInstrumentationIdList[i]);
+            instrumentation.trigger("change");
+
+            $('.add-list-item').trigger("click");
+        }
     });
 
     $('.musical-work-select').on('change', function(event){
@@ -276,7 +302,7 @@
         var instrumentation = _getInstrumentation($(event.target));
         var musicalWork = $(_getMusicalWork($(event.target))).find('option[value="' + selected + '"]');
         $(instrumentation).val(musicalWork.attr('instrumentation-id'));
-        $(instrumentation).change();
+        $(instrumentation).trigger("change");
     });
 
     function _getInstrumentation(currentElement) {

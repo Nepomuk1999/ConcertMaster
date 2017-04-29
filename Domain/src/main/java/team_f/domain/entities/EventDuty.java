@@ -176,9 +176,9 @@ public class EventDuty implements DomainEntity {
         this.maxInstrumetation = instrumentation;
     }
 
-    public void addMusicalWork(MusicalWork musicalWork, Instrumentation alternativeInstrumentation) {
+    public void addMusicalWork(MusicalWork musicalWork, Instrumentation instrumentation) {
         _musicalWorkList.add(musicalWork);
-        _instrumentationList.add(alternativeInstrumentation);
+        _instrumentationList.add(instrumentation);
     }
 
     public List<MusicalWork> getMusicalWorkList() {
