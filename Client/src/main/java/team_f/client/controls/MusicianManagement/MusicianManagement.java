@@ -1,8 +1,6 @@
 package team_f.client.controls.MusicianManagement;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.layout.BorderPane;
@@ -18,8 +16,9 @@ public class MusicianManagement extends BorderPane {
     private final TextField firstNameField;
     private final TextField lastNameField;
     private final TextField streetField;
-    private final TextField zipCodeField;
-    private final TextField cityField;
+    private final TextField emailField;
+    private final TextField phoneField;
+    private final TextField roleField;
     private final TextField sectionField;
     private final TextField instrumentField;
     private TableView<PersonTestData> table;
@@ -29,8 +28,9 @@ public class MusicianManagement extends BorderPane {
         firstNameField = new TextField();
         lastNameField = new TextField();
         streetField = new TextField();
-        zipCodeField = new TextField();
-        cityField = new TextField();
+        emailField = new TextField();
+        phoneField = new TextField();
+        roleField=new TextField();
         sectionField = new TextField();
         instrumentField = new TextField();
 
@@ -38,12 +38,12 @@ public class MusicianManagement extends BorderPane {
         table.setEditable(false);
 
         TableViewSelectionModel<PersonTestData> tsm = table.getSelectionModel();
-        tsm.setSelectionMode(SelectionMode.MULTIPLE);
+        tsm.setSelectionMode(SelectionMode.SINGLE);
 
 
         table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
                 MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getCityColumn(), MusicianTableHelper.getSectionColumn(), MusicianTableHelper.getInstrumentColumn());
+                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(), MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(), MusicianTableHelper.getInstrumentColumn());
 
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -75,8 +75,9 @@ public class MusicianManagement extends BorderPane {
         pane.addRow(0, new Label("First Name:"), firstNameField);
         pane.addRow(0, new Label("Last Name:"), lastNameField);
         pane.addRow(1, new Label("Street:"), streetField);
-        pane.addRow(1, new Label("Zip Code:"), zipCodeField);
-        pane.addRow(1, new Label("City:"), cityField);
+        pane.addRow(1, new Label("Email:"), emailField);
+        pane.addRow(1, new Label("Phonenumber:"), phoneField);
+        pane.addRow(2, new Label("Role:"), roleField);
         pane.addRow(2, new Label("Section:"), sectionField);
         pane.addRow(2, new Label("Instruments:"), instrumentField);
 
@@ -84,8 +85,9 @@ public class MusicianManagement extends BorderPane {
         fields.add(firstNameField);
         fields.add(lastNameField);
         fields.add(streetField);
-        fields.add(zipCodeField);
-        fields.add(cityField);
+        fields.add(emailField);
+        fields.add(phoneField);
+        fields.add(roleField);
         fields.add(sectionField);
         fields.add(instrumentField);
 
@@ -101,8 +103,8 @@ public class MusicianManagement extends BorderPane {
 
         addButton.setOnAction(e -> {
             if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || streetField.getText().isEmpty()
-                    || zipCodeField.getText().isEmpty() || cityField.getText().isEmpty() || sectionField.getText().isEmpty()
-                    || instrumentField.getText().isEmpty()) {
+                    || emailField.getText().isEmpty() || phoneField.getText().isEmpty() || roleField.getText().isEmpty() ||
+                    sectionField.getText().isEmpty() || instrumentField.getText().isEmpty()) {
                 validate(fields);
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -134,15 +136,16 @@ public class MusicianManagement extends BorderPane {
 
 
         PersonTestData person = new PersonTestData(currentId + 1, firstNameField.getText(), lastNameField.getText(), streetField.getText(),
-                zipCodeField.getText(), cityField.getText(), sectionField.getText(), instrumentField.getText());
+                emailField.getText(), phoneField.getText(), roleField.getText(), sectionField.getText(), instrumentField.getText());
 
         table.getItems().add(person);
 
         firstNameField.setText(null);
         lastNameField.setText(null);
         streetField.setText(null);
-        zipCodeField.setText(null);
-        cityField.setText(null);
+        emailField.setText(null);
+        phoneField.setText(null);
+        roleField.setText(null);
         sectionField.setText(null);
         instrumentField.setText(null);
     }
