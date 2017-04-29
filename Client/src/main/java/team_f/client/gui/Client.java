@@ -14,9 +14,12 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
+import team_f.client.controls.Home.TodolistHome;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
 import team_f.client.singletons.HomeScreenSingleton;
+import team_f.client.singletons.TodoListSingleton;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -91,7 +94,16 @@ public class Client extends Application {
             });
             menuHelp.getItems().add(menuItem);
 
-            menuBar.getMenus().addAll(menuFile, menuHelp);
+            Menu menuTodo = new Menu("My TodoList");
+            menuItem = new MenuItem("Show TodoList");
+            menuItem.setOnAction(actionEvent -> {
+               new TodolistHome();
+
+            });
+            menuTodo.getItems().add(menuItem);
+
+
+            menuBar.getMenus().addAll(menuFile, menuHelp, menuTodo);
             content.setTop(menuBar);
         }
 
