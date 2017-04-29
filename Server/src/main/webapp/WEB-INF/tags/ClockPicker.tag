@@ -20,11 +20,16 @@
         placement: 'bottom',
         align: 'left',
         donetext: 'Done',
+        autoclose: true
     });
 
-    $('.clockpicker .input-group-addon').on("click", function () {
+    $('#${id}').on("click", function () {
         if($("#${id}-input")[0].hasAttribute("disabled")) {
             $('#${id}').clockpicker('hide');
         }
+    });
+
+    $('#${id}').focusout(function(){
+        $('#${id}').clockpicker('hide');
     });
 </script>
