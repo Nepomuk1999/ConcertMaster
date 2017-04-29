@@ -209,6 +209,22 @@ public class EventFacade {
             eventDutyEntity.setRehearsalFor(event.getRehearsalFor().getEventDutyId());
         }
 
+        // There are only a few musical works associated with an event. Therefore get the full list instead of asking the DB every time and modify the entities when needed.
+        Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorkEntities = eventDutyEntity.getEventDutyMusicalWorksByEventDutyId();
+        List<MusicalWork> musicalWorks = event.getMusicalWorkList();
+
+        if(eventDutyMusicalWorkEntities != null) {
+            for (MusicalWork musicalWork : musicalWorks) {
+                for(EventDutyMusicalWorkEntity item : eventDutyMusicalWorkEntities) {
+                    if(item.getMusicalWork() == musicalWork.getMusicalWorkID() && item.getEventDuty() == event.getEventDutyId()) {
+                        item.setAlternativeInstrumentation(musicalWork.getAlternativeInstrumentationId());
+                    }
+                }
+            }
+
+            eventDutyEntity.setEventDutyMusicalWorksByEventDutyId(eventDutyMusicalWorkEntities);
+        }
+
         return eventDutyEntity;
     }
 
@@ -221,6 +237,7 @@ public class EventFacade {
         List<MusicalWork> mwList = new ArrayList<>();
 
         List<EventDutyMusicalWorkEntity> eList = query.getResultList();
+        MusicalWork musicalWork;
 
         for (EventDutyMusicalWorkEntity edmwe :eList) {
 
@@ -231,7 +248,12 @@ public class EventFacade {
             List<MusicalWorkEntity> mweList = musicalQuery.getResultList();
 
             for (MusicalWorkEntity mwe : mweList) {
-                mwList.add(convertToMusicalWork(mwe));
+                musicalWork = convertToMusicalWork(mwe);
+
+                // set the alternative instrumentation on this object to avoid unnecessary lookups in the DB
+                musicalWork.setAlternativeInstrumentationId(edmwe.getAlternativeInstrumentation());
+
+                mwList.add(musicalWork);
             }
         }
 

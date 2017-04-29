@@ -214,7 +214,7 @@
 
                                     <div class="col-xs-6 col-sm-6 add-list-item-keep">
                                         <label class="control-label">Instrumentation</label><br>
-                                        <select class="selectpicker add-list-item-check add-list-item-keep instrumentation-select" data-live-search="true" add-list-item-name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}" disabled>
+                                        <select class="selectpicker add-list-item-check add-list-item-keep instrumentation-select" data-live-search="true" add-list-item-name="${EventDutyProperty.ALTERNATIVE_INSTRUMENTATION_LIST}">
                                             <option class="add-list-item-keep" value="">Select Instrumentation</option>
                                             <c:forEach var="item" items="${DomainEntityHelper.getInstrumentationList()}">
                                                 <option class="add-list-item-keep" data-divider="true"></option>
@@ -261,16 +261,35 @@
 <script type="text/javascript">
     $(document).ready(function() {
         addRemoveList(false, 'btn, div');
+
+        // set the predefined musical works and instrumentations
+        $('.musical-work-select').value = 1;
+        $('.musical-work-select').change();
+
+        var button = _getRow($('.musical-work-select')).find('.add-list-item');
+        $(button).click();
     });
 
     $('.musical-work-select').on('change', function(event){
-        var selectedItem = $(this).find("option:selected");
+        var selectedItem = $(event.target).find("option:selected");
         var selected = selectedItem.val();
-        var row = $(this).closest('.row');
-        var instrumentation = $(row).find('select.instrumentation-select');
-        var musicalWork = $(row).find('.musical-work-select select option[value="' + selected + '"]');
-        instrumentation.val(musicalWork.attr('instrumentation-id'));
-        $(instrumentation).selectpicker('refresh');
-        (instrumentation).attr('disabled', '');
+        var instrumentation = _getInstrumentation($(event.target));
+        var musicalWork = $(_getMusicalWork($(event.target))).find('option[value="' + selected + '"]');
+        $(instrumentation).val(musicalWork.attr('instrumentation-id'));
+        $(instrumentation).change();
     });
+
+    function _getInstrumentation(currentElement) {
+        var row = _getRow(currentElement);
+        return $(row).find('select.instrumentation-select');
+    }
+
+    function _getMusicalWork(currentElement) {
+        var row = _getRow(currentElement);
+        return $(row).find('.musical-work-select select');
+    }
+
+    function _getRow(currentElement) {
+        return $(currentElement).closest('.row');
+    }
 </script>

@@ -92,7 +92,9 @@ public class EventApplication {
         for (MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
             MusicalWork mE = new MusicalWork();
             mE.setComposer(musicalWork.getComposer());
-            mE.setInstrumentationID(musicalWork.getInstrumentationID());
+            // do not overwrite the predefined instrumentationId: use the intermediate table instead
+            //mE.setInstrumentationID(musicalWork.getInstrumentationID());
+            mE.setAlternativeInstrumentationId(musicalWork.getInstrumentationID());
             mE.setName(musicalWork.getName());
             eventMusicalList.add(mE);
         }
