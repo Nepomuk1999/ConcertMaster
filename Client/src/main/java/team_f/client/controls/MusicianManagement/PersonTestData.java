@@ -7,20 +7,22 @@ public class PersonTestData
 	private String firstName;
 	private String lastName;
 	private String street;
-	private String zipCode;
-	private String city;
+	private String email;
+	private String phonenumber;
+	private String role;
 	private String instrument;
 	private String section;
 	
-	public PersonTestData(Integer id, String firstName, String lastName, String street, String zipCode, String city, String section, String instrument)
+	public PersonTestData(Integer id, String firstName, String lastName, String street, String email, String phonenumber, String role,  String section, String instrument)
 	{
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.street = street;
-		this.zipCode = zipCode;
-		this.city = city;
+		this.email = email;
+		this.phonenumber = phonenumber;
+		this.role=role;
 		this.section=section;
 		this.instrument = instrument;
 	}
@@ -57,20 +59,20 @@ public class PersonTestData
 		this.street = street;
 	}
 
-	public String getZipCode() {
-		return zipCode;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getCity() {
-		return city;
+	public String getPhonenumber() {
+		return phonenumber;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 
 	public String getInstrument() {
@@ -87,5 +89,13 @@ public class PersonTestData
 
 	public void setSection(String section) {
 		this.section = section;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

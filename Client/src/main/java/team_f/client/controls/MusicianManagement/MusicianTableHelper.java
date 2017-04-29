@@ -10,12 +10,12 @@ public class MusicianTableHelper
 	// Returns an observable list of persons
 	public static ObservableList<PersonTestData> getPersonList()
 	{
-		PersonTestData p1 = new PersonTestData(1,"Hans","Müller","Street 2","6850","Dornbirn","1. Section", "Violine");
-		PersonTestData p2 = new PersonTestData(2,"Karl","Mayer","Street 3","6850","Dornbirn","3. Section","Violine ");
-		PersonTestData p3 = new PersonTestData(3,"David","Grabherr","Street 5","6850","Dornbirn","6. Section","Violine");
-		PersonTestData p4 = new PersonTestData(4,"Lisa","Miller","Street 86","6850","Dornbirn","2. Section","Violine");
-		PersonTestData p5 = new PersonTestData(5,"Martha","Feuerstein","Street 375","6850","Dornbirn","8. Section","Violine");
-		PersonTestData p6 = new PersonTestData(6,"Stefan","Würth","Street 3","6850","Dornbirn","7. Section","Violine");
+		PersonTestData p1 = new PersonTestData(1,"Hans","Müller","Street 2","example@gmail.com","06651111111","Musician","1. Section", "Violine");
+		PersonTestData p2 = new PersonTestData(2,"Karl","Mayer","Street 3","example@gmail.com","06651111111","Substitut","3. Section","Violine ");
+		PersonTestData p3 = new PersonTestData(3,"David","Grabherr","Street 5","example@gmail.com","06651111111","External Musician","6. Section","Violine");
+		PersonTestData p4 = new PersonTestData(4,"Lisa","Miller","Street 86","example@gmail.com","06651111111","Orchestra Facility Manager","2. Section","Violine");
+		PersonTestData p5 = new PersonTestData(5,"Martha","Feuerstein","Street 375","example@gmail.com","06651111111","Music Librarian","8. Section","Violine");
+		PersonTestData p6 = new PersonTestData(6,"Stefan","Würth","Street 3","example@gmail.com","06651111111","Manager","7. Section","Violine");
 
 		return FXCollections.<PersonTestData>observableArrayList(p1, p2, p3, p4, p5, p6);
 	}
@@ -59,22 +59,30 @@ public class MusicianTableHelper
 	// Returns ZipCode TableColumn
 	public static TableColumn<PersonTestData, String> getZipCodeColumn()
 	{
-		TableColumn<PersonTestData, String> zipCodeCol = new TableColumn<>("Zip Code");
-		PropertyValueFactory<PersonTestData, String> zipCodeCellValueFactory = new PropertyValueFactory<>("zipCode");
+		TableColumn<PersonTestData, String> zipCodeCol = new TableColumn<>("Email");
+		PropertyValueFactory<PersonTestData, String> zipCodeCellValueFactory = new PropertyValueFactory<>("email");
 		zipCodeCol.setCellValueFactory(zipCodeCellValueFactory);
 		return zipCodeCol;
 	}
 
 	// Returns City TableColumn
-	public static TableColumn<PersonTestData, String> getCityColumn()
+	public static TableColumn<PersonTestData, String> getPhonenumberColumn()
 	{
-		TableColumn<PersonTestData, String> cityCol = new TableColumn<>("City");
-		PropertyValueFactory<PersonTestData, String> cityCellValueFactory = new PropertyValueFactory<>("city");
+		TableColumn<PersonTestData, String> cityCol = new TableColumn<>("Phonenumber");
+		PropertyValueFactory<PersonTestData, String> cityCellValueFactory = new PropertyValueFactory<>("phonenumber");
+		cityCol.setCellValueFactory(cityCellValueFactory);
+		return cityCol;
+	}
+	// Returns Phone TableColumn
+	public static TableColumn<PersonTestData, String> getRoleColumn()
+	{
+		TableColumn<PersonTestData, String> cityCol = new TableColumn<>("Role");
+		PropertyValueFactory<PersonTestData, String> cityCellValueFactory = new PropertyValueFactory<>("role");
 		cityCol.setCellValueFactory(cityCellValueFactory);
 		return cityCol;
 	}
 
-	// Returns Country TableColumn
+	// Returns Section TableColumn
 	public static TableColumn<PersonTestData, String> getSectionColumn()
 	{
 		TableColumn<PersonTestData, String> countryCol = new TableColumn<>("Section");
