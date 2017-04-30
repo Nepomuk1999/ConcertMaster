@@ -19,6 +19,7 @@ public class MonthPublisher extends BorderPane {
     private ObservableList<Integer> _year;
     private int _selectedYear;
     private Month _selectedMonth;
+    VBox _root;
 
 
     public MonthPublisher() {
@@ -100,10 +101,10 @@ public class MonthPublisher extends BorderPane {
         pane.add(unpublishButton, 31,22);
 
 
-        VBox root = new VBox();
-        root.getChildren().addAll(pane);
-        root.setSpacing(5);
-        root.setStyle("-fx-padding: 10;" +
+        _root=new VBox();
+        _root.getChildren().addAll(pane);
+        _root.setSpacing(5);
+        _root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 80;" +
@@ -114,7 +115,7 @@ public class MonthPublisher extends BorderPane {
         setTop(imageView);
         setAlignment(imageView, Pos.CENTER);
 
-        setCenter(root);
+        setCenter(_root);
     }
 
     private void publish() {
@@ -126,26 +127,32 @@ public class MonthPublisher extends BorderPane {
         ButtonType buttonTypeOne = new ButtonType("Publish");
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
 
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+        ProgressIndicator pi = new ProgressBar();
 
+        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+        setCenter(pi);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeCancel) {
             alert.close();
             return;
         } else {
+            setCenter(pi);
             EventApplication event=new EventApplication();
+            int success=event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
             //Todo: send value to Eventapplication to publish events, is this correct? GUI-->Application
-            if(event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear)==1){
+            if(success==1){
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully published selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
+                setCenter(_root);
 
             }else{
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
                 alert.setHeaderText("An Error occured while publishing selected Month. Please try it againg later!");
-                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);}
+                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);
+                setCenter(_root);}
         }
         alert.showAndWait();
         }
@@ -159,27 +166,33 @@ public class MonthPublisher extends BorderPane {
         ButtonType buttonTypeOne = new ButtonType("Unpublish");
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
 
+        ProgressIndicator pi=new ProgressBar();
+
         alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
 
+        setCenter(pi);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeCancel) {
             alert.close();
             return;
         } else {
             EventApplication event=new EventApplication();
+            int success=event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
             //Todo: send value to Eventapplication to unpublish events, is this correct? GUI-->Application
-            if(event.unpublishEventsByMonth(_selectedMonth.getValue(),_selectedYear)==1){
+            if(success==1){
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully unpublished selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
+                setCenter(_root);
 
             }else{
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
                 alert.setHeaderText("An Error occured while unpublishing selected Month. Please try it againg later!");
-                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);}
-
+                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);
+                setCenter(_root);
+            }
         }
         alert.showAndWait();
             }
