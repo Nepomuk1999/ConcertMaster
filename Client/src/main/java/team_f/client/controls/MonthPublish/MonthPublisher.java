@@ -21,7 +21,8 @@ public class MonthPublisher extends BorderPane {
     private ObservableList<Integer> _year;
     private int _selectedYear;
     private Month _selectedMonth;
-    VBox _root;
+    private VBox _root;
+    private TableView<Events> _table;
 
 
     public MonthPublisher() {
@@ -59,16 +60,27 @@ public class MonthPublisher extends BorderPane {
         comboBoxMonth.getSelectionModel().selectFirst();
         _selectedMonth = new Month(comboBoxMonth.getSelectionModel().getSelectedItem().getMonth(), comboBoxMonth.getSelectionModel().getSelectedItem().getValue());
 
+
         comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 _selectedYear = arg2.intValue();
             }
         });
 
+
+        _table = new TableView<>(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(),_selectedYear));
+        _table.setEditable(false);
+        _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(),MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
+                MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
+                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn());
+        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
         comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 _selectedMonth.setMonth(arg2.getMonth());
                 _selectedMonth.setValue(arg2.getValue());
+                _table.setItems(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(),_selectedYear));
             }
         });
 
@@ -94,14 +106,14 @@ public class MonthPublisher extends BorderPane {
         pane.setHgap(10);
         pane.setVgap(5);
 
-        pane.add(labelYear, 30,16);
-        pane.add(comboBoxYear, 31,16);
-        pane.add(labelMonth, 30,18);
-        pane.add(comboBoxMonth, 31,18);
-        pane.add(labelPublishButton, 30,20);
-        pane.add(publishButton, 31,20);
-        pane.add(labelUnpblishButton, 30,22);
-        pane.add(unpublishButton, 31,22);
+        pane.add(labelYear, 30,5);
+        pane.add(comboBoxYear, 31,5);
+        pane.add(labelMonth, 30,7);
+        pane.add(comboBoxMonth, 31,7);
+        pane.add(labelPublishButton, 30,9);
+        pane.add(publishButton, 31,9);
+        pane.add(labelUnpblishButton, 30,11);
+        pane.add(unpublishButton, 31,11);
 
 
          _root=new VBox();
@@ -113,7 +125,7 @@ public class MonthPublisher extends BorderPane {
         Label headerTitle = new Label("Publish/Unpublish Shedule");
         headerTitle.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 36));
         header.getChildren().add(headerTitle);
-        setStyle("-fx-border-color: cornflowerblue; -fx-border-radius: 10; -fx-border-insets: 80;");
+        setStyle("-fx-border-color: cornflowerblue; -fx-border-radius: 10; -fx-border-insets: 0;");
         header.setStyle("-fx-background-color: derive(cornflowerblue, 70%); -fx-background-radius: 10 10 0 0; ");
         bottom.setStyle("-fx-background-color: derive(cornflowerblue, 70%); -fx-background-radius: 0 0 10 10; ");
         setTop(header);
@@ -122,6 +134,16 @@ public class MonthPublisher extends BorderPane {
         bottom.getChildren().add(bottomTitle);
         setBottom(bottom);
 
+        VBox tableBox = new VBox();
+        tableBox.getChildren().addAll(_table);
+        tableBox.setSpacing(5);
+        tableBox.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: blue;");
+        setBottom(tableBox);
         setCenter(_root);
     }
 
