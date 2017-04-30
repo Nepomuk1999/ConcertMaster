@@ -15,13 +15,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static team_f.domain.enums.EventDutyProperty.ID;
 import static team_f.domain.enums.EventDutyProperty.START_DATE;
 
 public class EventApplication {
 
-    public EventApplication(){}
+    public EventApplication() {
+    }
 
     private EventFacade eventFacade = new EventFacade();
     private PersonApplication personApplication = new PersonApplication();
@@ -48,12 +50,12 @@ public class EventApplication {
         eventDuty.setEventStatus(EventStatus.Unpublished);
 
         // load the data from the DB
-        if(rehearsalForId >= 0) {
+        if (rehearsalForId >= 0) {
             EventDuty rehearsalFor = eventFacade.getEventById(rehearsalForId);
             eventDuty.setRehearsalFor(rehearsalFor);
         }
 
-        if(instrumentationId > 0) {
+        if (instrumentationId > 0) {
             Instrumentation instrumentation = eventFacade.getInstrumentationByID(instrumentationId);
             eventDuty.setInstrumentation(instrumentation);
         }
@@ -66,8 +68,8 @@ public class EventApplication {
 
         MusicalWork tmpMusicalWork;
 
-        if(musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
-            for(int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
+        if (musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
+            for (int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
                 tmpMusicalWork = new MusicalWork();
                 tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
 
@@ -82,14 +84,14 @@ public class EventApplication {
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
 
-        if(!DateTimeHelper.takesPlaceInFuture(eventDuty.getStartTime())) {
+        if (!DateTimeHelper.takesPlaceInFuture(eventDuty.getStartTime())) {
             errorList.add(new Pair<>(String.valueOf(START_DATE), "cannot be modified"));
         }
 
         //errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
 
         // return the errorList when the validation is not successful
-        if(errorList.size() > 0) {
+        if (errorList.size() > 0) {
             return new Pair<>(eventDuty, errorList);
         }
 
@@ -114,7 +116,7 @@ public class EventApplication {
     public EventDuty getEventById(int id) {
         EventDuty entity = eventFacade.getEventById(id);
 
-        if(entity != null) {
+        if (entity != null) {
             return entity;
         }
 
@@ -141,11 +143,11 @@ public class EventApplication {
         return list;
     }
 
-    public List<EventDuty> getDateEventList(LocalDateTime dateTime){
+    public List<EventDuty> getDateEventList(LocalDateTime dateTime) {
         return eventFacade.getEventsByDay(dateTime.getDayOfMonth(), dateTime.getMonthValue(), dateTime.getYear());
     }
 
-    public List<Pair<String, String>> evaluateMusicianCountForEvent (EventDuty eventDuty) {
+    public List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
         List<Pair<String, String>> errorList = new LinkedList<>();
         List<EventDuty> eventList = new LinkedList<>();
 
@@ -155,7 +157,7 @@ public class EventApplication {
         Instrumentation totalInstrumentation = eventDuty.getInstrumentation();
 
         for (InstrumentType instrumentType : InstrumentType.values()) {
-            for (EventDuty event: eventList) {
+            for (EventDuty event : eventList) {
                 event.calculateMaxInstrumentation();
                 totalInstrumentation.addToInstrumentations(event.getMaxInstrumetation());
             }
@@ -170,7 +172,7 @@ public class EventApplication {
         return errorList;
     }
 
-    public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType (InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
+    public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
         Pair<InstrumentType, List<Person>> pair = null;
 
         for (Pair<InstrumentType, List<Person>> exPair : list) {
@@ -182,25 +184,56 @@ public class EventApplication {
         return pair;
     }
 
-    public List<Pair<String, String>>  getEvenetsByFrame (EventDuty eventDuty) {
+    public List<Pair<String, String>> getEvenetsByFrame(EventDuty eventDuty) {
         List<EventDuty> eventDutyList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
-        List<EventDuty> rehearsalList=new ArrayList<>();
+        List<EventDuty> rehearsalList = new ArrayList<>();
         List<Pair<String, String>> errorList = new LinkedList<>();
 
-        for(EventDuty event : eventDutyList ){
-            if(event.getRehearsalFor()!=null){
+        for (EventDuty event : eventDutyList) {
+            if (event.getRehearsalFor() != null) {
                 rehearsalList.add(event);
             }
         }
-        if(rehearsalList.size()>0) {
-            for (EventDuty rehearsal : rehearsalList){
-                if(eventDuty.getRehearsalFor().getEventDutyId()==rehearsal.getEventDutyId()){
+        if (rehearsalList.size() > 0) {
+            for (EventDuty rehearsal : rehearsalList) {
+                if (eventDuty.getRehearsalFor().getEventDutyId() == rehearsal.getEventDutyId()) {
                     errorList.add(new Pair<>(String.valueOf(EventDutyProperty.REHEARSAL_FOR), "you have already a rehearsal for this event"));
                 }
             }
 
         }
-    return errorList;
+        return errorList;
+    }
+
+    public int publishEventsByMonth(int month, int year) {
+        try {
+            List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+
+            for (EventDuty event : events) {
+                event.setEventStatus(EventStatus.Published);
+                eventFacade.addEvent(event);
+            }
+        }catch (Exception exp){
+            exp.printStackTrace();
+            return -1;
+        }
+
+        return 1;
+    }
+
+    public int unpublishEventsByMonth(int month, int year) {
+        try {
+            List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+
+            for (EventDuty event : events) {
+                event.setEventStatus(EventStatus.Unpublished);
+                eventFacade.addEvent(event);
+            }
+        }catch (Exception exp){
+            exp.printStackTrace();
+            return -1;
+        }
+        return 1;
+
     }
 }
-

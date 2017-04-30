@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
 import team_f.client.controls.Home.TodolistHome;
+import team_f.client.controls.Legende.LegendTable;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
 import team_f.client.singletons.HomeScreenSingleton;
@@ -102,8 +103,15 @@ public class Client extends Application {
             });
             menuTodo.getItems().add(menuItem);
 
+            Menu menuLegend = new Menu("Help");
+            menuItem = new MenuItem("Show Schedule Explanation");
+            menuItem.setOnAction(actionEvent -> {
+                new LegendTable();
 
-            menuBar.getMenus().addAll(menuFile, menuHelp, menuTodo);
+            });
+            menuLegend.getItems().add(menuItem);
+
+            menuBar.getMenus().addAll(menuFile, menuHelp, menuTodo, menuLegend);
             content.setTop(menuBar);
         }
 
