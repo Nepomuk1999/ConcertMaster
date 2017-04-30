@@ -177,7 +177,7 @@ public class MonthPublisher extends BorderPane {
             return;
         } else {
             EventApplication event=new EventApplication();
-            int success=event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
+            int success=event.unpublishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
             //Todo: send value to Eventapplication to unpublish events, is this correct? GUI-->Application
             if(success==1){
                 alert = new Alert(Alert.AlertType.INFORMATION);
