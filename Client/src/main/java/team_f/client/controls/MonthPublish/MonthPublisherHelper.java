@@ -15,14 +15,14 @@ import java.util.List;
 
 public class MonthPublisherHelper
 {
+    private static EventApplication event=new EventApplication();
 
     public static ObservableList<Events> getEventsList(int month, int year)
     {
         ObservableList<Events> list = FXCollections.observableArrayList();
-        EventApplication event=new EventApplication();
         List<EventDuty> eventlist=event.getEventsByMonth(month,year);
         for (EventDuty eventDuty:eventlist){
-            list.add(new Events(eventDuty.getEventDutyId(),eventDuty.getName(),eventDuty.getStartDate("MM/DD/YYYY"),eventDuty.getEndDate("MM/DD/YYYY"),eventDuty.getConductor(),eventDuty.getLocation(),String.valueOf(eventDuty.getDefaultPoints()),eventDuty.getDescription(),eventDuty.getEventType().toString()));
+            list.add(new Events(eventDuty.getEventDutyId(),eventDuty.getName(),eventDuty.getStartDate("dd/MM/yyyy"),eventDuty.getEndDate("dd/MM/yyyy"),eventDuty.getConductor(),eventDuty.getLocation(),String.valueOf(eventDuty.getDefaultPoints()),eventDuty.getDescription(),eventDuty.getEventType().toString()));
         }
 
 
