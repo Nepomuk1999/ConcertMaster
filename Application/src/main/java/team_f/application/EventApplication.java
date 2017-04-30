@@ -194,5 +194,14 @@ public class EventApplication {
         }
     return errorList;
     }
+
+    public void publishEventsByMonth (int month, int year) {
+        List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+
+        for (EventDuty event: events) {
+            event.setEventStatus(EventStatus.Published);
+            eventFacade.addEvent(event);
+        }
+    }
 }
 

@@ -152,14 +152,14 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     List<Instrumentation> iList = new LinkedList<>();
                     List<MusicalWork> wList = new LinkedList<>();
 
-                    for(int i = 0; i < eventDuty.getMusicalWorkList().size(); i++) {
+                    for(int i = 0; i < eventDuty.getMusicalWorkList().size() && i < eventDuty.getInstrumentationList().size(); i++) {
                         Pair<MusicalWork, Instrumentation> pair = new Pair<>(eventDuty.getMusicalWorkList().get(i), eventDuty.getInstrumentationList().get(i));
                         set.add(pair);
                     }
 
                     for(Pair pair : set) {
-                        iList.add((Instrumentation) pair.getValue());
                         wList.add((MusicalWork) pair.getKey());
+                        iList.add((Instrumentation) pair.getValue());
                     }
 
                     eventDuty.setMusicalWorkList(wList);
