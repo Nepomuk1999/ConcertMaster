@@ -7,14 +7,17 @@ import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
+import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static team_f.domain.enums.EventDutyProperty.ID;
+import static team_f.domain.enums.EventDutyProperty.START_DATE;
 
 public class EventApplication {
 
@@ -32,7 +35,7 @@ public class EventApplication {
                                                                    Double standardPoints, int instrumentationId, int[] musicalWorkIdList,
                                                                    int[] alternativeInstrumentationIdList) {
 
-        // transform the parameters in an domain object
+        // transform the parameters in a domain object
         EventDuty eventDuty = new EventDuty();
         eventDuty.setEventDutyId(id);
         eventDuty.setName(name);
@@ -78,6 +81,11 @@ public class EventApplication {
         // check for errors
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
+
+        if(!DateTimeHelper.takesPlaceInFuture(eventDuty.getStartTime())) {
+            errorList.add(new Pair<>(String.valueOf(START_DATE), "cannot be modified"));
+        }
+
         //errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
 
         // return the errorList when the validation is not successful
