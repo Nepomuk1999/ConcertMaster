@@ -1,9 +1,7 @@
 package team_f.client.controls.MonthPublish;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -19,9 +17,8 @@ import java.util.Optional;
 public class MonthPublisher extends BorderPane {
     private final ObservableList<Month> _data;
     private ObservableList<Integer> _year;
-    private Integer _selectedYear;
+    private int _selectedYear;
     private Month _selectedMonth;
-
 
     public MonthPublisher() {
 
@@ -42,7 +39,7 @@ public class MonthPublisher extends BorderPane {
         _year = FXCollections.observableArrayList();
         LocalDateTime current = LocalDateTime.now();
         for (int i = -1; i < 6; i++) {
-            _year.add(current.getYear() + Integer.valueOf(i));
+            _year.add(current.getYear() + i);
         }
 
         ComboBox<Integer> comboBoxYear = new ComboBox<>(_year);
@@ -60,22 +57,17 @@ public class MonthPublisher extends BorderPane {
         comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 _selectedYear = arg2.intValue();
-
-                System.out.println("Selected Year: " + arg2.intValue());
             }
         });
+
         comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 _selectedMonth.setMonth(arg2.getMonth());
                 _selectedMonth.setValue(arg2.getValue());
-
-                System.out.println("Selected Month: " + arg2.getMonth() + " " + arg2.getValue());
             }
         });
 
-        ImageView imageView = new ImageView(
-                new Image("publish.png")
-        );
+
         Button publishButton = new Button("Publish Month");
         Label labelPublishButton=new Label("Click here to publish Month!");
         labelPublishButton.setStyle("-fx-font: 14 arial;");
@@ -92,7 +84,7 @@ public class MonthPublisher extends BorderPane {
 
 
         GridPane pane=new GridPane();
-        imageView = new ImageView(
+        ImageView imageView = new ImageView(
                 new Image("Logo2.jpg")
         );
         pane.setHgap(10);
@@ -166,17 +158,9 @@ public class MonthPublisher extends BorderPane {
         }
     }
 
-
-
-
     public static class Month {
         private String month;
         private int value;
-
-        @Override
-        public String toString() {
-            return month.toString();
-        }
 
         public Month(String month, int value) {
             this.month = month;
