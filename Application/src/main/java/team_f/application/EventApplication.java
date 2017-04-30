@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static team_f.domain.enums.EventDutyProperty.ID;
 import static team_f.domain.enums.EventDutyProperty.START_DATE;
@@ -205,21 +206,32 @@ public class EventApplication {
     }
 
     public int publishEventsByMonth(int month, int year) {
-        List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+        try {
+            List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 
-        for (EventDuty event : events) {
-            event.setEventStatus(EventStatus.Published);
-            eventFacade.addEvent(event);
+            for (EventDuty event : events) {
+                event.setEventStatus(EventStatus.Published);
+                eventFacade.addEvent(event);
+            }
+        }catch (Exception exp){
+            exp.printStackTrace();
+            return -1;
         }
+
         return 1;
     }
 
     public int unpublishEventsByMonth(int month, int year) {
-        List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+        try {
+            List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 
-        for (EventDuty event : events) {
-            event.setEventStatus(EventStatus.Unpublished);
-            eventFacade.addEvent(event);
+            for (EventDuty event : events) {
+                event.setEventStatus(EventStatus.Unpublished);
+                eventFacade.addEvent(event);
+            }
+        }catch (Exception exp){
+            exp.printStackTrace();
+            return -1;
         }
         return 1;
 

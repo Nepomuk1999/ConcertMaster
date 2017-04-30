@@ -2,6 +2,7 @@ package team_f.client.controls.MonthPublish;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -83,7 +84,6 @@ public class MonthPublisher extends BorderPane {
             unpublish();
         });
 
-
         GridPane pane=new GridPane();
         ImageView imageView = new ImageView(
                 new Image("Logo2.jpg")
@@ -127,16 +127,22 @@ public class MonthPublisher extends BorderPane {
         ButtonType buttonTypeOne = new ButtonType("Publish");
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
 
-        ProgressIndicator pi = new ProgressBar();
+        ProgressIndicator pi = new ProgressIndicator();
+        VBox box = new VBox(pi);
+        box.setAlignment(Pos.CENTER);
+        _root.setDisable(true);
+        _root.getChildren().add(box);
 
         alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-        setCenter(pi);
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeCancel) {
             alert.close();
+            _root.setDisable(false);
+            _root.getChildren().remove(box);
             return;
         } else {
-            setCenter(pi);
+
             EventApplication event=new EventApplication();
             int success=event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
             //Todo: send value to Eventapplication to publish events, is this correct? GUI-->Application
@@ -145,17 +151,19 @@ public class MonthPublisher extends BorderPane {
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully published selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-                setCenter(_root);
+                _root.setDisable(false);
+                _root.getChildren().remove(box);
 
             }else{
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
-                alert.setHeaderText("An Error occured while publishing selected Month. Please try it againg later!");
-                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);
-                setCenter(_root);}
+                alert.setHeaderText("An Error occured while publishing selected Month. Please try it again later or contact your System-Administrator!");
+                alert.setContentText("ERROR during publishing: "+_selectedMonth.getMonth() + " " + _selectedYear);
+                _root.setDisable(false);
+                _root.getChildren().remove(box);
         }
         alert.showAndWait();
-        }
+        }}
 
     private void unpublish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -165,15 +173,19 @@ public class MonthPublisher extends BorderPane {
 
         ButtonType buttonTypeOne = new ButtonType("Unpublish");
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
-
-        ProgressIndicator pi=new ProgressBar();
-
         alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
 
-        setCenter(pi);
+        ProgressIndicator pi = new ProgressIndicator();
+        VBox box = new VBox(pi);
+        box.setAlignment(Pos.CENTER);
+        _root.setDisable(true);
+        _root.getChildren().add(box);
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeCancel) {
             alert.close();
+            _root.setDisable(false);
+            _root.getChildren().remove(box);
             return;
         } else {
             EventApplication event=new EventApplication();
@@ -184,14 +196,16 @@ public class MonthPublisher extends BorderPane {
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully unpublished selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-                setCenter(_root);
+                _root.setDisable(false);
+                _root.getChildren().remove(box);
 
             }else{
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
-                alert.setHeaderText("An Error occured while unpublishing selected Month. Please try it againg later!");
-                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);
-                setCenter(_root);
+                alert.setHeaderText("An Error occured while unpublishing selected Month.  Please try it again later or contact your System-Administrator!");
+                alert.setContentText("ERROR during unpublishing: "+": "+_selectedMonth.getMonth() + " " + _selectedYear);
+                _root.setDisable(false);
+                _root.getChildren().remove(box);
             }
         }
         alert.showAndWait();
