@@ -9,9 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import team_f.application.EventApplication;
 
 
@@ -45,12 +49,14 @@ public class MonthPublisher extends BorderPane {
         }
 
         ComboBox<Integer> comboBoxYear = new ComboBox<>(_year);
+        comboBoxYear.setStyle("-fx-font: 14 arial;");
         Label labelYear = new Label("Select a Year!");
         labelYear.setStyle("-fx-font: 14 arial;");
         comboBoxYear.getSelectionModel().select(1);
         _selectedYear = comboBoxYear.getSelectionModel().getSelectedItem().intValue();
 
         ComboBox<Month> comboBoxMonth = new ComboBox<>(_data);
+        comboBoxMonth.setStyle("-fx-font: 14 arial;");
         Label labelMonth = new Label("Select a Month to publish or unpublish!");
         labelMonth.setStyle("-fx-font: 14 arial;");
         comboBoxMonth.getSelectionModel().selectFirst();
@@ -71,6 +77,7 @@ public class MonthPublisher extends BorderPane {
 
 
         Button publishButton = new Button("Publish Month");
+        publishButton.setStyle("-fx-font: 14 arial;");
         Label labelPublishButton=new Label("Click here to publish Month!");
         labelPublishButton.setStyle("-fx-font: 14 arial;");
         publishButton.setOnAction(event -> {
@@ -78,6 +85,7 @@ public class MonthPublisher extends BorderPane {
         });
 
         Button unpublishButton = new Button("Unpublish Month");
+        unpublishButton.setStyle("-fx-font: 14 arial;");
         Label labelUnpblishButton=new Label("Click here to unpublish Month!");
         labelUnpblishButton.setStyle("-fx-font: 14 arial;");
         unpublishButton.setOnAction(event -> {
@@ -85,9 +93,7 @@ public class MonthPublisher extends BorderPane {
         });
 
         GridPane pane=new GridPane();
-        ImageView imageView = new ImageView(
-                new Image("Logo2.jpg")
-        );
+
         pane.setHgap(10);
         pane.setVgap(5);
 
@@ -101,19 +107,23 @@ public class MonthPublisher extends BorderPane {
         pane.add(unpublishButton, 31,22);
 
 
-        _root=new VBox();
-        _root.getChildren().addAll(pane);
-        _root.setSpacing(5);
-        _root.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 80;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
+         _root=new VBox();
+         _root.getChildren().addAll(pane);
 
 
-        setTop(imageView);
-        setAlignment(imageView, Pos.CENTER);
+        StackPane header = new StackPane();
+        StackPane bottom = new StackPane();
+        Label headerTitle = new Label("Publish/Unpublish Shedule");
+        headerTitle.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 36));
+        header.getChildren().add(headerTitle);
+        setStyle("-fx-border-color: cornflowerblue; -fx-border-radius: 10; -fx-border-insets: 80;");
+        header.setStyle("-fx-background-color: derive(cornflowerblue, 70%); -fx-background-radius: 10 10 0 0; ");
+        bottom.setStyle("-fx-background-color: derive(cornflowerblue, 70%); -fx-background-radius: 0 0 10 10; ");
+        setTop(header);
+        Label bottomTitle = new Label("");
+        bottomTitle.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 36));
+        bottom.getChildren().add(bottomTitle);
+        setBottom(bottom);
 
         setCenter(_root);
     }
@@ -128,6 +138,7 @@ public class MonthPublisher extends BorderPane {
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
 
         ProgressIndicator pi = new ProgressIndicator();
+
         VBox box = new VBox(pi);
         box.setAlignment(Pos.CENTER);
         _root.setDisable(true);
