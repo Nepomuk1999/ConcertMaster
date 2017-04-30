@@ -37,7 +37,7 @@
                 <c:if test="${IS_DATE}">
                     <t:ErrorMessage errorMessage="${PROBLEM_EVENT_TYPE}">
                         <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Eventtype</label><br>
-                        <select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.EVENT_TYPE}">
+                        <select id="${EventDutyProperty.EVENT_TYPE}" class="selectpicker form-control ${EventDutyProperty.EVENT_TYPE}" data-live-search="true" name="${EventDutyProperty.EVENT_TYPE}">
                             <option value="">Select Eventtype</option>
                             <c:forEach var="item" items="${EnumHelper.getBasicEventTypeList()}">
                                 <option data-divider="true"></option>
@@ -83,7 +83,7 @@
                 </t:ErrorMessage>
             </div>
 
-            <div class="form-group col-xs-12 col-sm-6">
+            <div class="form-group col-xs-12 col-sm-6 ${EventDutyProperty.END_DATE}">
                 <t:ErrorMessage errorMessage="${PROBLEM_END_DATE}">
                     <t:DatePicker>
                         <jsp:attribute name="label">${"Enddate"}</jsp:attribute>
@@ -185,7 +185,7 @@
         </div>
 
         <c:if test="${IS_DATE}">
-            <div class="control-group row">
+            <div class="control-group row musical-work-instrumentation-list">
                 <div class="form-group col-xs-12 col-sm-12">
                     <div class="panel panel-primary add-remove-list-main">
                         <div class="panel-heading panel-heading-sm">
@@ -236,7 +236,7 @@
                 </div>
             </div>
 
-            <div class="control-group row">
+            <div class="control-group row musical-work-instrumentation-list">
                 <div class="form-group col-xs-12 col-sm-12">
                     <div class="col-xs-5 col-sm-5">
                         <t:ErrorMessage errorMessage="${PROBLEM_MUSICAL_WORK_LIST}">
@@ -260,7 +260,36 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        addRemoveList(false, 'btn, div');
+        $('#${EventDutyProperty.EVENT_TYPE}').on('change', function(event) {
+            var selectedItem = $(event.target).find("option:selected").val();
+
+            if(selectedItem === '${EventType.Opera}') {
+                $('#${EventDutyProperty.END_DATE}').val($('#${EventDutyProperty.START_DATE}').val())
+                $('.${EventDutyProperty.END_DATE}').toggle(false);
+            } else {
+                $('.${EventDutyProperty.END_DATE}').toggle(true);
+            }
+
+            if(selectedItem === '${EventType.NonMusicalEvent}') {
+                addRemoveList(false, 'btn, div', 0);
+                removeAddRemoveList();
+                $('.musical-work-instrumentation-list').toggle(false);
+            } else {
+                addRemoveList(false, 'btn, div', Number.MAX_VALUE);
+                $('.musical-work-instrumentation-list').toggle(true);
+            }
+        });
+
+        $('#${EventDutyProperty.EVENT_TYPE}').trigger("change");
+
+        $('.musical-work-select').on('change', function(event){
+            var selectedItem = $(event.target).find("option:selected");
+            var selected = selectedItem.val();
+            var instrumentation = _getInstrumentation($(event.target));
+            var musicalWork = $(_getMusicalWork($(event.target))).find('option[value="' + selected + '"]');
+            $(instrumentation).val(musicalWork.attr('instrumentation-id'));
+            $(instrumentation).trigger("change");
+        });
 
         var predefinedInstrumentationIdList = [
         <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
