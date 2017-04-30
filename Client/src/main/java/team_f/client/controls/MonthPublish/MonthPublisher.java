@@ -41,14 +41,14 @@ public class MonthPublisher extends BorderPane {
 
         _year = FXCollections.observableArrayList();
         LocalDateTime current = LocalDateTime.now();
-        for (int i = 0; i < 6; i++) {
+        for (int i = -1; i < 6; i++) {
             _year.add(current.getYear() + Integer.valueOf(i));
         }
 
         ComboBox<Integer> comboBoxYear = new ComboBox<>(_year);
         Label labelYear = new Label("Select a Year!");
         labelYear.setStyle("-fx-font: 14 arial;");
-        comboBoxYear.getSelectionModel().selectFirst();
+        comboBoxYear.getSelectionModel().select(1);
         _selectedYear = comboBoxYear.getSelectionModel().getSelectedItem().intValue();
 
         ComboBox<Month> comboBoxMonth = new ComboBox<>(_data);
@@ -141,7 +141,7 @@ public class MonthPublisher extends BorderPane {
             alert.close();
             return;
         } else {
-            //Todo: send value to applicationlayer to publish events
+            //Todo: send value to Eventapplication to publish events
             System.out.println(_selectedMonth.getValue() + " " + _selectedYear);
         }
     }
@@ -161,7 +161,7 @@ public class MonthPublisher extends BorderPane {
             alert.close();
             return;
         } else {
-            //Todo: send value to applicationlayer to unpublish events
+            //Todo: send value to Eventapplication to unpublish events
             System.out.println(_selectedMonth.getValue() + " " + _selectedYear);
         }
     }
