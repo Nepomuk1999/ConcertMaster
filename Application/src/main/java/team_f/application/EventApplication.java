@@ -204,22 +204,24 @@ public class EventApplication {
         return errorList;
     }
 
-    public void publishEventsByMonth(int month, int year) {
+    public int publishEventsByMonth(int month, int year) {
         List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 
         for (EventDuty event : events) {
             event.setEventStatus(EventStatus.Published);
             eventFacade.addEvent(event);
         }
+        return 1;
     }
 
-    public void unpublishEventsByMonth(int month, int year) {
+    public int unpublishEventsByMonth(int month, int year) {
         List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 
         for (EventDuty event : events) {
             event.setEventStatus(EventStatus.Unpublished);
             eventFacade.addEvent(event);
         }
+        return 1;
 
     }
 }

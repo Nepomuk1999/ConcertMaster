@@ -19,10 +19,9 @@ public class MonthPublisher extends BorderPane {
     private ObservableList<Integer> _year;
     private int _selectedYear;
     private Month _selectedMonth;
-    private EventApplication event;
+
 
     public MonthPublisher() {
-        event=new EventApplication();
         _data = FXCollections.observableArrayList(
                 new Month("January", 1),
                 new Month("February", 2),
@@ -134,10 +133,23 @@ public class MonthPublisher extends BorderPane {
             alert.close();
             return;
         } else {
+            EventApplication event=new EventApplication();
             //Todo: send value to Eventapplication to publish events, is this correct? GUI-->Application
-            event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
+            if(event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear)==1){
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succes");
+                alert.setHeaderText("Succesfully published selected Month");
+                alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
+
+            }else{
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Failure");
+                alert.setHeaderText("An Error occured while publishing selected Month. Please try it againg later!");
+                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);}
         }
-    }
+        alert.showAndWait();
+        }
+
     private void unpublish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Unpublish  Month");
@@ -154,11 +166,26 @@ public class MonthPublisher extends BorderPane {
             alert.close();
             return;
         } else {
+            EventApplication event=new EventApplication();
             //Todo: send value to Eventapplication to unpublish events, is this correct? GUI-->Application
-            event.unpublishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
+            if(event.unpublishEventsByMonth(_selectedMonth.getValue(),_selectedYear)==1){
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Succes");
+                alert.setHeaderText("Succesfully unpublished selected Month");
+                alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
+
+            }else{
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Failure");
+                alert.setHeaderText("An Error occured while unpublishing selected Month. Please try it againg later!");
+                alert.setContentText("ERROR"+": "+_selectedMonth.getMonth() + " " + _selectedYear);}
 
         }
-    }
+        alert.showAndWait();
+            }
+
+
+
 
     public static class Month {
         private String month;
