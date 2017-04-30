@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MonthPublisherHelper
 {
-    // Returns an observable list of persons
+
     public static ObservableList<Events> getEventsList(int month, int year)
     {
         ObservableList<Events> list = FXCollections.observableArrayList();
@@ -29,7 +29,7 @@ public class MonthPublisherHelper
         return  list;
     }
 
-    // Returns PersonTestData Id TableColumn
+
     public static TableColumn<Events, Integer> getIdColumn()
     {
         TableColumn<Events, Integer> idCol = new TableColumn<>("Id");
@@ -38,7 +38,7 @@ public class MonthPublisherHelper
         return idCol;
     }
 
-    // Returns First Name TableColumn
+
     public static TableColumn<Events, String> getNameColumn()
     {
         TableColumn<Events, String> firstNameCol = new TableColumn<>("Name");
@@ -47,7 +47,7 @@ public class MonthPublisherHelper
         return firstNameCol;
     }
 
-    // Returns Last Name TableColumn
+
     public static TableColumn<Events, String> getStartdateColumn()
     {
         TableColumn<Events, String> lastNameCol = new TableColumn<>("Startdate");
@@ -56,7 +56,7 @@ public class MonthPublisherHelper
         return lastNameCol;
     }
 
-    // Returns Street TableColumn
+
     public static TableColumn<Events, String> getEnddateColumn()
     {
         TableColumn<Events, String> streetCol = new TableColumn<>("Enddate");
@@ -65,7 +65,7 @@ public class MonthPublisherHelper
         return streetCol;
     }
 
-    // Returns ZipCode TableColumn
+
     public static TableColumn<Events, String> getConductorColumn()
     {
         TableColumn<Events, String> zipCodeCol = new TableColumn<>("Conductor");
@@ -74,7 +74,7 @@ public class MonthPublisherHelper
         return zipCodeCol;
     }
 
-    // Returns City TableColumn
+
     public static TableColumn<Events, String> getLocationColumn()
     {
         TableColumn<Events, String> cityCol = new TableColumn<>("Location");
@@ -82,7 +82,7 @@ public class MonthPublisherHelper
         cityCol.setCellValueFactory(cityCellValueFactory);
         return cityCol;
     }
-    // Returns Phone TableColumn
+
     public static TableColumn<Events, String> getPointsColumn()
     {
         TableColumn<Events, String> cityCol = new TableColumn<>("Points");
@@ -91,7 +91,7 @@ public class MonthPublisherHelper
         return cityCol;
     }
 
-    // Returns Section TableColumn
+
     public static TableColumn<Events, String> getDescriptionColumn()
     {
         TableColumn<Events, String> countryCol = new TableColumn<>("Description");
