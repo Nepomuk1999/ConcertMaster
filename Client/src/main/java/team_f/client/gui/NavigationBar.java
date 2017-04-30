@@ -10,10 +10,7 @@ import team_f.client.controls.Legende.LegendTable;
 import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
-import team_f.client.singletons.BrowserSingleton;
-import team_f.client.singletons.HomeScreenSingleton;
-import team_f.client.singletons.LegendSingleton;
-import team_f.client.singletons.MusiciansTableSingleton;
+import team_f.client.singletons.*;
 
 public class NavigationBar {
     public static Sidebar getNavigationBar(BorderPane pane, Configuration configuration) {
@@ -37,7 +34,8 @@ public class NavigationBar {
         });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Schedule Explanation");
-        menuSectionItem.setOnMouseClicked(event -> new LegendTable());
+      //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
+        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MonthPublisherSingleton.getInstance()));
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
