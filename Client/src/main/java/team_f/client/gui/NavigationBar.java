@@ -33,9 +33,7 @@ public class NavigationBar {
             pane.setCenter(BrowserSingleton.getInstance());
         });
         menuSection.add(menuSectionItem);
-        //Todo: Not able to add a third Button, CLient error!
-        menuSectionItem = new MenuSectionItem("Schedule Explanation");
-        //Todo: deactivated for testing Monthpublisher
+        menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
       //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
         menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MonthPublisherSingleton.getInstance()));
         menuSection.add(menuSectionItem);

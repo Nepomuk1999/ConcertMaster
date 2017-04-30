@@ -9,9 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
+import team_f.application.EventApplication;
 
 
 public class MonthPublisher extends BorderPane {
@@ -19,9 +19,10 @@ public class MonthPublisher extends BorderPane {
     private ObservableList<Integer> _year;
     private int _selectedYear;
     private Month _selectedMonth;
+    private EventApplication event;
 
     public MonthPublisher() {
-
+        event=new EventApplication();
         _data = FXCollections.observableArrayList(
                 new Month("January", 1),
                 new Month("February", 2),
@@ -133,8 +134,8 @@ public class MonthPublisher extends BorderPane {
             alert.close();
             return;
         } else {
-            //Todo: send value to Eventapplication to publish events
-            System.out.println(_selectedMonth.getValue() + " " + _selectedYear);
+            //Todo: send value to Eventapplication to publish events, is this correct? GUI-->Application
+            event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
         }
     }
     private void unpublish() {
@@ -153,8 +154,9 @@ public class MonthPublisher extends BorderPane {
             alert.close();
             return;
         } else {
-            //Todo: send value to Eventapplication to unpublish events
-            System.out.println(_selectedMonth.getValue() + " " + _selectedYear);
+            //Todo: send value to Eventapplication to unpublish events, is this correct? GUI-->Application
+            event.unpublishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
+
         }
     }
 
@@ -162,9 +164,17 @@ public class MonthPublisher extends BorderPane {
         private String month;
         private int value;
 
+
         public Month(String month, int value) {
             this.month = month;
             this.value = value;
+        }
+
+
+        @Override
+        public String toString()
+        {
+            return month.toString();
         }
 
         public String getMonth() {
