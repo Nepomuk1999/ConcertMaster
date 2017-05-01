@@ -1,8 +1,6 @@
 package team_f.client.singletons;
 
-import javafx.scene.layout.BorderPane;
 import team_f.client.controls.Home.TodolistHome;
-import team_f.client.controls.MusicianManagement.MusicianManagement;
 
 /**
  * Created by w7pro on 29.04.2017.

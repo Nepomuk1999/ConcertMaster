@@ -14,12 +14,24 @@ The git commands are in the bottom right corner of Intellij.
 
 Or use a [Git](https://git-scm.com/downloads) client and a preffered IDE.
 
-## Maven
-**InteliJ has a bug!**
-1. **Do not "auto import" the maven dependencies - it's done automatically**
-2. **Instead right click on the pom.xml in the root directory and select "reimport" in the Maven submenu!**
+## Build
+### execute the following commands in the main directory of the cloned git repository
+**Maven has to be installed!**
+cd Domain
+mvn clean install
+cd ../Hibernate
+mvn clean install
+cd ../Application
+mvn clean install
+cd ../JSONConnector
+mvn clean install
+cd ../Server
+mvn clean install
+cd ../Client
+mvn clean install
 
-**Otherwise the \*.iml files will be flooded with unnecessary entries**
+## Maven
+install [Maven](https://git-scm.com/downloads) for the automated build process
 
 ## Project structure
 * Server

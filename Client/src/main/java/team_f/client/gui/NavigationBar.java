@@ -12,6 +12,9 @@ import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.singletons.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class NavigationBar {
     public static Sidebar getNavigationBar(BorderPane pane, Configuration configuration) {
         Sidebar sidebar = new Sidebar();
@@ -35,7 +38,12 @@ public class NavigationBar {
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
       //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
-        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MonthPublisherSingleton.getInstance()));
+        menuSectionItem.setOnMouseClicked(event -> {
+            try {
+                pane.setCenter(MonthPublisherSingleton.getInstance(new URL(configuration.getStartURI())));
+            } catch (MalformedURLException e) {
+            }
+        });
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 

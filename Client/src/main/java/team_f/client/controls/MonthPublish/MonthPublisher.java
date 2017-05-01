@@ -8,13 +8,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Optional;
-
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import team_f.application.EventApplication;
-
+import team_f.client.helper.RequestResponseHelper;
+import team_f.jsonconnector.entities.ErrorList;
+import team_f.jsonconnector.entities.Publish;
+import team_f.jsonconnector.enums.PublishType;
 
 public class MonthPublisher extends BorderPane {
     private final ObservableList<Month> _data;
@@ -23,9 +26,11 @@ public class MonthPublisher extends BorderPane {
     private Month _selectedMonth;
     private VBox _root;
     private TableView<Events> _table;
+    private URL _baseURL;
+    private String _uri = "/Publish";
 
-
-    public MonthPublisher() {
+    public MonthPublisher(URL baseURL) {
+        _baseURL = baseURL;
         _data = FXCollections.observableArrayList(
                 new Month("January", 1),
                 new Month("February", 2),
@@ -172,11 +177,22 @@ public class MonthPublisher extends BorderPane {
             _root.getChildren().remove(box);
             return;
         } else {
+            Publish publish = new Publish();
+            publish.setPublishType(PublishType.PUBLISH);
+            publish.setMonth(_selectedMonth.getValue());
+            publish.setYear(_selectedYear);
 
-            EventApplication event=new EventApplication();
-            int success=event.publishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
-            //Todo: send value to Eventapplication to publish events, is this correct? GUI-->Application
-            if(success==1){
+            ErrorList requestPublish = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getFullURL(), publish, ErrorList.class);
+
+            boolean isSuccessful;
+
+            if(requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
+                isSuccessful = true;
+            } else {
+                isSuccessful = false;
+            }
+
+            if(isSuccessful){
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully published selected Month");
@@ -187,7 +203,7 @@ public class MonthPublisher extends BorderPane {
             }else{
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
-                alert.setHeaderText("An Error occured while publishing selected Month. Please try it again later or contact your System-Administrator!");
+                alert.setHeaderText("An ErrorList occured while publishing selected Month. Please try it again later or contact your System-Administrator!");
                 alert.setContentText("ERROR during publishing: "+_selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
@@ -218,10 +234,22 @@ public class MonthPublisher extends BorderPane {
             _root.getChildren().remove(box);
             return;
         } else {
-            EventApplication event=new EventApplication();
-            int success=event.unpublishEventsByMonth(_selectedMonth.getValue(),_selectedYear);
-            //Todo: send value to Eventapplication to unpublish events, is this correct? GUI-->Application
-            if(success==1){
+            Publish publish = new Publish();
+            publish.setPublishType(PublishType.UNPUBLISH);
+            publish.setMonth(_selectedMonth.getValue());
+            publish.setYear(_selectedYear);
+
+            ErrorList requestPublish = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getFullURL(), publish, ErrorList.class);
+
+            boolean isSuccessful;
+
+            if(requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
+                isSuccessful = true;
+            } else {
+                isSuccessful = false;
+            }
+
+            if(isSuccessful){
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully unpublished selected Month");
@@ -232,17 +260,23 @@ public class MonthPublisher extends BorderPane {
             }else{
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
-                alert.setHeaderText("An Error occured while unpublishing selected Month.  Please try it again later or contact your System-Administrator!");
+                alert.setHeaderText("An ErrorList occured while unpublishing selected Month.  Please try it again later or contact your System-Administrator!");
                 alert.setContentText("ERROR during unpublishing: "+": "+_selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
             }
         }
         alert.showAndWait();
-            }
+    }
 
+    private URL getFullURL() {
+        try {
+            return new URL(_baseURL, _uri);
+        } catch (MalformedURLException e) {
+        }
 
-
+        return null;
+    }
 
     public static class Month {
         private String month;
@@ -277,7 +311,6 @@ public class MonthPublisher extends BorderPane {
             this.value = value;
         }
     }
-
 }
 
 

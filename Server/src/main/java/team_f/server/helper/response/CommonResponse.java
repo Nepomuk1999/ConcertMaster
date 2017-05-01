@@ -3,7 +3,6 @@ package team_f.server.helper.response;
 import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.domain.interfaces.DomainEntity;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
@@ -12,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class CommonResponse {
-    public static boolean writeJSONObject(HttpServletResponse response, JSONArray jsonArray) {
+    public static boolean writeJSONObject(HttpServletResponse response, JSONArray jsonObject) {
         boolean result = false;
 
         response.setContentType(MediaType.APPLICATION_JSON);
@@ -22,7 +21,7 @@ public class CommonResponse {
 
         try {
             writer = response.getWriter();
-            writer.write(jsonArray.toString());
+            writer.write(jsonObject.toString());
             writer.flush();
             result = true;
         } catch (IOException e) {

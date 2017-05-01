@@ -5,7 +5,6 @@ import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 
 public class BrowserSingleton {
     private static BrowserView _browserview;
-    private static Browser _browser;
 
     private BrowserSingleton() {
     }
