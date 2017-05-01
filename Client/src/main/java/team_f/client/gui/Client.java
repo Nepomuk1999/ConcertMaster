@@ -84,7 +84,13 @@ public class Client extends Application {
             menuFile.getItems().add(menuItem);
 
             Menu menuHelp = new Menu("Help");
+            menuItem = new MenuItem("Show Schedule Explanation");
+            menuItem.setOnAction(actionEvent -> {
+                new LegendTable();
 
+            });
+
+            menuHelp.getItems().add(menuItem);
             menuItem = new MenuItem("Info");
             menuItem.setOnAction(actionEvent -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -93,6 +99,7 @@ public class Client extends Application {
                 alert.setContentText("Version: " + _version);
                 alert.show();
             });
+
             menuHelp.getItems().add(menuItem);
 
             Menu menuTodo = new Menu("My TodoList");
@@ -103,15 +110,8 @@ public class Client extends Application {
             });
             menuTodo.getItems().add(menuItem);
 
-            Menu menuLegend = new Menu("Help");
-            menuItem = new MenuItem("Show Schedule Explanation");
-            menuItem.setOnAction(actionEvent -> {
-                new LegendTable();
 
-            });
-            menuLegend.getItems().add(menuItem);
-
-            menuBar.getMenus().addAll(menuFile, menuHelp, menuTodo, menuLegend);
+            menuBar.getMenus().addAll(menuFile, menuHelp, menuTodo);
             content.setTop(menuBar);
         }
 
