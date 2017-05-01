@@ -5,6 +5,7 @@ import team_f.database_wrapper.database.PartEntity;
 import team_f.database_wrapper.database.PartTypeEntity;
 import team_f.database_wrapper.database.PersonEntity;
 import team_f.domain.entities.Person;
+import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
 
 import javax.persistence.EntityManager;
@@ -51,12 +52,28 @@ public class PersonFacade {
             Person person = new Person();
 
             person = convertToPerson(entity);
-            person.setInstruments(getPlayedInstrumentsByPersonId(person.getPersonId()));
+
+            for (String s : getPlayedInstrumentsByPersonId(person.getPersonId())) {
+                if(contains(s)) {
+                    person.addInstrument(InstrumentType.valueOf(s.toUpperCase().replaceAll("\\s+", "")));
+                }
+            }
 
             musicians.add(person);
         }
 
         return musicians;
+    }
+
+    public static boolean contains(String test) {
+
+        for (InstrumentType c : InstrumentType.values()) {
+            if (c.name().equals(test)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Person convertToPerson(PersonEntity pe) {

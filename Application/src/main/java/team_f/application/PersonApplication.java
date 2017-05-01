@@ -27,10 +27,10 @@ public class PersonApplication {
 
         for (InstrumentType instrumentType : InstrumentType.values()) {
             List<Person> instrumentList = new LinkedList<>();
-            Pair pair = new Pair<>(instrumentType, instrumentList);
+            Pair<InstrumentType, List<Person>> pair = new Pair<>(instrumentType, instrumentList);
 
             for (Person person : persons) {
-                for (String instrument : person.getInstruments())
+                for (InstrumentType instrument : person.getInstruments())
                     if (instrumentType.equals(instrument)) {
                         instrumentList.add(person);
                     }

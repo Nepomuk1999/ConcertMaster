@@ -189,7 +189,7 @@ public class EventFacade {
     public List<EventDuty> getEventsByTimeFrame(LocalDateTime start, LocalDateTime end) {
         EntityManager session = getCurrentSession();
 
-        Query query = session.createQuery("from EventDutyEntity where not (starttime > :end) OR (:start > endtime)");
+        Query query = session.createQuery("from EventDutyEntity where not (:end > starttime) OR (:start < endtime)");
         query.setParameter("end", end);
         query.setParameter("start", start);
 
@@ -222,7 +222,9 @@ public class EventFacade {
             event.setRehearsalFor(getEventById(e.getRehearsalFor()));
         }
 
-        event.setMusicalWorkList(getMusicalWorksForEvent(e.getEventDutyId()));
+        for (MusicalWork musicalWork: getMusicalWorksForEvent(e.getEventDutyId())) {
+            event.addMusicalWork(musicalWork, getInstrumentationByID(musicalWork.getAlternativeInstrumentationId()));
+        }
 
         return event;
     }
