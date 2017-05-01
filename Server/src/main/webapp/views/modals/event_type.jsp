@@ -263,7 +263,7 @@
         $('#${EventDutyProperty.EVENT_TYPE}').on('change', function(event) {
             var selectedItem = $(event.target).find("option:selected").val();
 
-            if(selectedItem === '${EventType.Opera}') {
+            if(selectedItem !== '${EventType.Tour}') {
                 $('#${EventDutyProperty.END_DATE}').val($('#${EventDutyProperty.START_DATE}').val())
                 $('.${EventDutyProperty.END_DATE}').toggle(false);
             } else {
