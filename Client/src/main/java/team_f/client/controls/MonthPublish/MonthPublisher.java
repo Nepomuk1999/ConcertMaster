@@ -78,7 +78,7 @@ public class MonthPublisher extends BorderPane {
         _table.setEditable(false);
         _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
                 MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
-                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn());
+                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn(), MonthPublisherHelper.getEventstatusColumn());
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 

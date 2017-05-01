@@ -16,7 +16,8 @@ public class MonthPublisherHelper {
         ObservableList<Events> list = FXCollections.observableArrayList();
         List<EventDuty> eventlist = event.getEventsByMonth(month, year);
         for (EventDuty eventDuty : eventlist) {
-            list.add(new Events(eventDuty.getEventDutyId(), eventDuty.getName(), eventDuty.getStartDate("dd/MM/yyyy"), eventDuty.getEndDate("dd/MM/yyyy"), eventDuty.getConductor(), eventDuty.getLocation(), String.valueOf(eventDuty.getDefaultPoints()), eventDuty.getDescription(), eventDuty.getEventType().toString()));
+            list.add(new Events(eventDuty.getEventDutyId(), eventDuty.getName(), eventDuty.getStartDate("dd/MM/yyyy"), eventDuty.getEndDate("dd/MM/yyyy"), eventDuty.getConductor(), eventDuty.getLocation(), String.valueOf(eventDuty.getDefaultPoints()),
+                    eventDuty.getDescription(), eventDuty.getEventType().toString(), eventDuty.getEventStatus().toString()));
         }
 
 
@@ -31,36 +32,42 @@ public class MonthPublisherHelper {
         return idCol;
     }
 
+    public static TableColumn<Events, Integer> getEventstatusColumn() {
+        TableColumn<Events, Integer> statusCol = new TableColumn<>("Eventstatus");
+        PropertyValueFactory<Events, Integer> statusCellValueFactory = new PropertyValueFactory<>("eventstatus");
+        statusCol.setCellValueFactory(statusCellValueFactory);
+        return statusCol;
+    }
 
     public static TableColumn<Events, String> getNameColumn() {
-        TableColumn<Events, String> firstNameCol = new TableColumn<>("Name");
-        PropertyValueFactory<Events, String> firstNameCellValueFactory = new PropertyValueFactory<>("name");
-        firstNameCol.setCellValueFactory(firstNameCellValueFactory);
-        return firstNameCol;
+        TableColumn<Events, String> nameCol = new TableColumn<>("Name");
+        PropertyValueFactory<Events, String> nameCellValueFactory = new PropertyValueFactory<>("name");
+        nameCol.setCellValueFactory(nameCellValueFactory);
+        return nameCol;
     }
 
 
     public static TableColumn<Events, String> getStartdateColumn() {
-        TableColumn<Events, String> lastNameCol = new TableColumn<>("Startdate");
-        PropertyValueFactory<Events, String> lastNameCellValueFactory = new PropertyValueFactory<>("startdate");
-        lastNameCol.setCellValueFactory(lastNameCellValueFactory);
-        return lastNameCol;
+        TableColumn<Events, String> startdateCol = new TableColumn<>("Startdate");
+        PropertyValueFactory<Events, String> startdateCellValueFactory = new PropertyValueFactory<>("startdate");
+        startdateCol.setCellValueFactory(startdateCellValueFactory);
+        return startdateCol;
     }
 
 
     public static TableColumn<Events, String> getEnddateColumn() {
-        TableColumn<Events, String> streetCol = new TableColumn<>("Enddate");
-        PropertyValueFactory<Events, String> streetCellValueFactory = new PropertyValueFactory<>("enddate");
-        streetCol.setCellValueFactory(streetCellValueFactory);
-        return streetCol;
+        TableColumn<Events, String> enddateCol = new TableColumn<>("Enddate");
+        PropertyValueFactory<Events, String> enddateCellValueFactory = new PropertyValueFactory<>("enddate");
+        enddateCol.setCellValueFactory(enddateCellValueFactory);
+        return enddateCol;
     }
 
 
     public static TableColumn<Events, String> getConductorColumn() {
-        TableColumn<Events, String> zipCodeCol = new TableColumn<>("Conductor");
-        PropertyValueFactory<Events, String> zipCodeCellValueFactory = new PropertyValueFactory<>("conductor");
-        zipCodeCol.setCellValueFactory(zipCodeCellValueFactory);
-        return zipCodeCol;
+        TableColumn<Events, String> conductorCol = new TableColumn<>("Conductor");
+        PropertyValueFactory<Events, String> conductorCellValueFactory = new PropertyValueFactory<>("conductor");
+        conductorCol.setCellValueFactory(conductorCellValueFactory);
+        return conductorCol;
     }
 
 
@@ -72,25 +79,25 @@ public class MonthPublisherHelper {
     }
 
     public static TableColumn<Events, String> getPointsColumn() {
-        TableColumn<Events, String> cityCol = new TableColumn<>("Points");
-        PropertyValueFactory<Events, String> cityCellValueFactory = new PropertyValueFactory<>("points");
-        cityCol.setCellValueFactory(cityCellValueFactory);
-        return cityCol;
+        TableColumn<Events, String> pointsCol = new TableColumn<>("Points");
+        PropertyValueFactory<Events, String> pointsCellValueFactory = new PropertyValueFactory<>("points");
+        pointsCol.setCellValueFactory(pointsCellValueFactory);
+        return pointsCol;
     }
 
 
     public static TableColumn<Events, String> getDescriptionColumn() {
-        TableColumn<Events, String> countryCol = new TableColumn<>("Description");
-        PropertyValueFactory<Events, String> countryCellValueFactory = new PropertyValueFactory<>("description");
-        countryCol.setCellValueFactory(countryCellValueFactory);
-        return countryCol;
+        TableColumn<Events, String> descriptionCol = new TableColumn<>("Description");
+        PropertyValueFactory<Events, String> descriptionCellValueFactory = new PropertyValueFactory<>("description");
+        descriptionCol.setCellValueFactory(descriptionCellValueFactory);
+        return descriptionCol;
     }
 
     public static TableColumn<Events, String> getEventtypeColumn() {
-        TableColumn<Events, String> countryCol = new TableColumn<>("Eventtype");
-        PropertyValueFactory<Events, String> countryCellValueFactory = new PropertyValueFactory<>("eventtype");
-        countryCol.setCellValueFactory(countryCellValueFactory);
-        return countryCol;
+        TableColumn<Events, String> eventtypeCol = new TableColumn<>("Eventtype");
+        PropertyValueFactory<Events, String> eventtypeCellValueFactory = new PropertyValueFactory<>("eventtype");
+        eventtypeCol.setCellValueFactory(eventtypeCellValueFactory);
+        return eventtypeCol;
     }
 
 
