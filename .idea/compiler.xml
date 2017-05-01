@@ -10,6 +10,7 @@
         <module name="Client" />
         <module name="Domain" />
         <module name="Hibernate" />
+        <module name="JSONConnector" />
         <module name="Server" />
       </profile>
     </annotationProcessing>
@@ -18,6 +19,7 @@
       <module name="Client" target="1.8" />
       <module name="Domain" target="1.8" />
       <module name="Hibernate" target="1.8" />
+      <module name="JSONConnector" target="1.8" />
       <module name="Server" target="1.8" />
     </bytecodeTargetLevel>
   </component>

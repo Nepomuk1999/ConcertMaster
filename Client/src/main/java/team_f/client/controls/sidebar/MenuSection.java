@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import team_f.client.helper.ImageUtil;
+
 import java.util.Collection;
 
 public class MenuSection extends TitledPane {
@@ -35,7 +36,7 @@ public class MenuSection extends TitledPane {
     public boolean add(MenuSectionItem menuSectionItem) {
         boolean result = true;
 
-        if(menuSectionItem != null) {
+        if (menuSectionItem != null) {
             menuSectionItem.setToggleGroup(_toggleGroup);
             _vBox.getChildren().add(menuSectionItem);
         } else {
@@ -48,9 +49,9 @@ public class MenuSection extends TitledPane {
     public boolean addAll(Collection<MenuSectionItem> menuSectionItems) {
         boolean result = true;
 
-        if(menuSectionItems != null) {
-            for(MenuSectionItem item : menuSectionItems) {
-                if(!add(item)) {
+        if (menuSectionItems != null) {
+            for (MenuSectionItem item : menuSectionItems) {
+                if (!add(item)) {
                     result = false;
                     break;
                 }

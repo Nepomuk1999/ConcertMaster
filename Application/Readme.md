@@ -1,1 +1,1 @@
-# team_f.application.Application Layer
+# team_f.application.EventApplication Layer

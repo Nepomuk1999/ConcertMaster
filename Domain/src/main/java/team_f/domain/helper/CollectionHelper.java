@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class CollectionHelper {
     public static boolean check(Collection collection) {
-        if(collection != null && collection.size() > 0 && !collection.contains(null)) {
+        if (collection != null && collection.size() > 0 && !collection.contains(null)) {
             return true;
         }
 
@@ -14,16 +14,16 @@ public class CollectionHelper {
     public static boolean containsDuplicates(Collection collection) {
         int count;
 
-        if(collection != null) {
-            for(Object item : collection) {
+        if (collection != null) {
+            for (Object item : collection) {
                 count = 0;
 
-                for(Object entry : collection) {
-                    if(item != null) {
-                        if(item.equals(entry)) {
+                for (Object entry : collection) {
+                    if (item != null) {
+                        if (item.equals(entry)) {
                             count++;
 
-                            if(count > 1) {
+                            if (count > 1) {
                                 return true;
                             }
                         }

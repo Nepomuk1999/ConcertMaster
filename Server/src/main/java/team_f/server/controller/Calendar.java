@@ -1,5 +1,13 @@
 package team_f.server.controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import team_f.application.EventApplication;
+import team_f.application.helper.EventDutyHelper;
+import team_f.domain.entities.EventDuty;
+import team_f.server.helper.CSSHelper;
+import team_f.server.helper.response.CommonResponse;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,13 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import team_f.application.Application;
-import team_f.domain.entities.EventDuty;
 
 @WebServlet(urlPatterns = {"/Calendar"})
 public class Calendar extends HttpServlet {
@@ -26,9 +29,6 @@ public class Calendar extends HttpServlet {
         String contentType = req.getContentType();
 
         if(MediaType.APPLICATION_JSON.equals(contentType)) {
-            resp.setContentType(MediaType.APPLICATION_JSON);
-            resp.setCharacterEncoding("UTF-8");
-
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject;
 
@@ -47,17 +47,17 @@ public class Calendar extends HttpServlet {
             }
 
             if(startDate != null && endDate != null) {
-                Application facade = new Application();
-                List<EventDuty> eventList = facade.getEvents(startDate.getMonthValue() +1, startDate.getYear());
+                EventApplication facade = new EventApplication();
+                List<EventDuty> eventList = facade.getEventsByMonth(startDate.getMonthValue() +1, startDate.getYear());
 
                 for(EventDuty event : eventList) {
                     jsonObject = new JSONObject();
                     jsonObject.put("id", event.getEventDutyId());
-                    jsonObject.put("start", event.getStarttime());
-                    jsonObject.put("end", event.getEndtime());
-                    jsonObject.put("title", event.getName());
+                    jsonObject.put("start", event.getStartTime());
+                    jsonObject.put("end", event.getEndTime());
+                    jsonObject.put("title","(" + EventDutyHelper.getEventTypeCode(event.getEventType()) + ")" +"\t"+event.getName());
+                    jsonObject.put("color", CSSHelper.getColor(EventDutyHelper.getColor(event.getEventType())));
                     //jsonObject.put("className", "");
-                    //jsonObject.put("color", "");
                     //jsonObject.put("backgroundColor", "");
                     //jsonObject.put("borderColor", "");
                     //jsonObject.put("textColor", "");
@@ -66,11 +66,7 @@ public class Calendar extends HttpServlet {
                 }
             }
 
-            PrintWriter writer = resp.getWriter();
-            writer.write(jsonArray.toString());
-
-            writer.flush();
-            writer.close();
+            CommonResponse.writeJSONObject(resp, jsonArray);
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
             req.getRequestDispatcher(getServletContext().getContextPath() + "/views/pages/plan_overview.jsp").include(req, resp);

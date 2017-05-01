@@ -49,6 +49,7 @@
         <option value="$PROJECT_DIR$/Client/pom.xml" />
         <option value="$PROJECT_DIR$/Domain/pom.xml" />
         <option value="$PROJECT_DIR$/Application/pom.xml" />
+        <option value="$PROJECT_DIR$/JSONConnector/pom.xml" />
       </list>
     </option>
   </component>

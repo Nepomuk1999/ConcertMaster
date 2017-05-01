@@ -20,7 +20,7 @@ public enum EventDutyProperty implements DomainEntityProperty {
     SECTION_DUTY_ROSTER_LIST,
     REQUEST_LIST,
 
-    // only used to parse objects from the view
+    // dependencies
     START_TIME,
     END_TIME,
     ALTERNATIVE_INSTRUMENTATION_LIST

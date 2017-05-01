@@ -18,7 +18,7 @@ public class Common {
     public static void closeAppWithWarning(Event event, Stage primaryStage, Configuration _configuration) {
         boolean close = true;
 
-        if(_configuration.getShowCloseWarning()) {
+        if (_configuration.getShowCloseWarning()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Beenden");
             alert.setHeaderText("Beenden");
@@ -26,17 +26,17 @@ public class Common {
 
             ButtonType result = alert.showAndWait().get();
 
-            if(result == ButtonType.OK) {
+            if (result == ButtonType.OK) {
                 close = true;
             } else {
                 close = false;
             }
         }
 
-        if(close) {
+        if (close) {
             Common.closeApp(primaryStage, _configuration);
         } else {
-            if(event != null) {
+            if (event != null) {
                 event.consume();
             }
         }

@@ -1,27 +1,18 @@
 package team_f.client.controls.Home;
 
-/**
- * Created by w7pro on 14.04.2017.
- */
-
-import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+
+public class TodolistHome extends BorderPane {
+    public TodolistHome() {
 
 
-//TODO: optional: integrate to HomeScreen(Home/HomeScreen.class) and connect with Database to save Todos etc.....
-public class TodolistHome extends Application {
-    @Override public void start(final Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("My TodoList");
+        alert.setHeaderText("Enter new Todo's or delete solved Todo's");
+
 
         final Label title = new Label();
         title.setText("TODO-List");
@@ -31,38 +22,34 @@ public class TodolistHome extends Application {
 
 
         final Button removeButton = new Button("Remove Selected");
-        removeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
-                final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
-                if (selectedIdx != -1) {
-                    String itemToRemove = listView.getSelectionModel().getSelectedItem();
+        removeButton.setOnAction(event -> {
+            final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
+            if (selectedIdx != -1) {
+                String itemToRemove = listView.getSelectionModel().getSelectedItem();
 
-                    final int newSelectedIdx =
-                            (selectedIdx == listView.getItems().size() - 1)
-                                    ? selectedIdx - 1
-                                    : selectedIdx;
+                final int newSelectedIdx =
+                        (selectedIdx == listView.getItems().size() - 1)
+                                ? selectedIdx - 1
+                                : selectedIdx;
 
-                    listView.getItems().remove(selectedIdx);
-                    listView.getSelectionModel().select(newSelectedIdx);
-                }
+                listView.getItems().remove(selectedIdx);
+                listView.getSelectionModel().select(newSelectedIdx);
             }
         });
 
         TextField inputField = new TextField();
         inputField.setPromptText("Add a new Todo here");
         final Button addButton = new Button("Add Todo");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
-                listView.getItems().add(inputField.getText());
-                inputField.setText("");
-                inputField.requestFocus();
+        addButton.setOnAction(event -> {
+            listView.getItems().add(inputField.getText());
+            inputField.setText("");
+            inputField.requestFocus();
 
 
-            }
         });
+
         addButton.disableProperty()
                 .bind(Bindings.isEmpty(inputField.textProperty()));
-
 
 
         final HBox controls = new HBox(10);
@@ -79,15 +66,25 @@ public class TodolistHome extends Application {
 
         );
 
-        layout.setPrefSize(400,400);
+        Label label = new Label("");
+        layout.setPrefSize(400, 400);
+        listView.setMaxWidth(Double.MAX_VALUE);
+        listView.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(listView, Priority.ALWAYS);
+        GridPane.setHgrow(listView, Priority.ALWAYS);
+        GridPane content2 = new GridPane();
+        content2.setMinWidth(400);
+        content2.setMinHeight(215);
+        content2.getChildren().addAll(layout);
+        alert.getDialogPane().setContent(content2);
+        alert.showAndWait();
 
-        stage.setScene(new Scene(layout));
-        stage.show();
+
     }
 
     private void initListView(ListView<String> listView) {
-        listView.getItems().setAll("test1", "test2", "test3", "test4");
+        listView.getItems().setAll("Termin anlegen für 10.12", "Punkte eintragen", "Terminplan Veröffentlichen");
     }
 
-    public static void main(String[] args) { launch(args); }
+
 }

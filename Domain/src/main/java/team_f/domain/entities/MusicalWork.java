@@ -7,6 +7,7 @@ public class MusicalWork implements DomainEntity {
     private int instrumentationID;
     private String name;
     private String composer;
+    private int alternativeInstrumentationId;
 
     public int getMusicalWorkID() {
         return musicalWorkID;
@@ -38,5 +39,13 @@ public class MusicalWork implements DomainEntity {
 
     public void setComposer(String composer) {
         this.composer = composer;
+    }
+
+    public int getAlternativeInstrumentationId() {
+        return this.alternativeInstrumentationId;
+    }
+
+    public void setAlternativeInstrumentationId(int alternativeInstrumentationId) {
+        this.alternativeInstrumentationId = alternativeInstrumentationId;
     }
 }

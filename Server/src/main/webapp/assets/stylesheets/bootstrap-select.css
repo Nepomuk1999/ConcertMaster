@@ -1,14 +1,28 @@
-.bootstrap-select.btn-group .dropdown-toggle .filter-option {
-    display: inline-block;
-    overflow: hidden;
+.bootstrap-select.btn-group {
+    display: block;
+    position: inherit;
     text-align: left;
     white-space: normal;
     width: auto;
     word-wrap: break-word;
 }
 
-.dropdown-menu * {
+.dropdown-menu {
+    position: inherit;
     white-space: normal;
+    z-index: 999999 !important;
+}
+
+.dropdown-menu * {
+    display: block;
+    white-space: pre-wrap;
+    z-index: 999999 !important;
+}
+
+.dropdown-menu.open {
+    white-space: pre-wrap;
+    overflow: visible;
     position: relative;
-    z-index: 5000 !important
+    z-index: 999999 !important;
+    background-color: white;
 }

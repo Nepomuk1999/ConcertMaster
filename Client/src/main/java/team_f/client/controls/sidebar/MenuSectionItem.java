@@ -16,5 +16,11 @@ public class MenuSectionItem extends ToggleButton {
         this(title);
 
         setOnAction(onclick);
+
+
+    }
+
+    public void changeColor() {
+        setStyle("-fx-background-color: aqua");
     }
 }

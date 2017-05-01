@@ -1,7 +1,6 @@
 package team_f.server.controller;
 
-import team_f.application.Application;
-
+import team_f.application.EventApplication;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +23,7 @@ public class Root extends HttpServlet {
 
     @Override
     public void destroy() {
-        Application facade = new Application();
+        EventApplication facade = new EventApplication();
         facade.closeSession();
     }
 }

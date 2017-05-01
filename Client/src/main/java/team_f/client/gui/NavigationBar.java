@@ -1,7 +1,5 @@
 package team_f.client.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import team_f.client.configuration.Configuration;
@@ -10,6 +8,11 @@ import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.singletons.BrowserSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
+import team_f.client.singletons.MonthPublisherSingleton;
+import team_f.client.singletons.MusiciansTableSingleton;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class NavigationBar {
     public static Sidebar getNavigationBar(BorderPane pane, Configuration configuration) {
@@ -27,15 +30,19 @@ public class NavigationBar {
 
         menuSection = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Show Schedules");
-        menuSectionItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                BrowserSingleton.getInstance().getBrowser().loadURL("http://localhost:8080/Calendar");
-                pane.setCenter(BrowserSingleton.getInstance());
-            }
+        menuSectionItem.setOnAction(event -> {
+            BrowserSingleton.getInstance().getBrowser().loadURL("http://localhost:8080/Calendar");
+            pane.setCenter(BrowserSingleton.getInstance());
         });
         menuSection.add(menuSectionItem);
-        menuSectionItem = new MenuSectionItem("Schedule Management");
+        menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
+        //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
+        menuSectionItem.setOnMouseClicked(event -> {
+            try {
+                pane.setCenter(MonthPublisherSingleton.getInstance(new URL(configuration.getStartURI())));
+            } catch (MalformedURLException e) {
+            }
+        });
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
@@ -48,6 +55,7 @@ public class NavigationBar {
 
         menuSection = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician Management");
+        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MusiciansTableSingleton.getInstance()));
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician List");
         menuSection.add(menuSectionItem);
@@ -63,7 +71,7 @@ public class NavigationBar {
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
-        menuSection = new MenuSection("User", "/userM.png", toggleGroup);
+        menuSection = new MenuSection("UserScreen", "/userM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Section Management");
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
