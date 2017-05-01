@@ -141,6 +141,10 @@ public class EventApplication {
         return musicalWorkFacade.getMusicalWorks();
     }
 
+    public List<Instrumentation> getInstrumentationListForEvent() {
+        return eventFacade.getInstrumentationsForEvent();
+    }
+
     public List<Pair<MusicalWork, Instrumentation>> getMusicalWorkInstrumentationList() {
         List<Pair<MusicalWork, Instrumentation>> list = new LinkedList<>();
 
