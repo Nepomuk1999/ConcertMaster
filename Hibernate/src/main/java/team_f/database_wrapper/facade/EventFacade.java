@@ -170,6 +170,11 @@ public class EventFacade {
         return events;
     }
 
+
+    /**
+     * Function to convert EventDutyEntity Object to EventDuty. Returns the EventDuty after creating and setting information from EventDutyEntity object.
+     * @return eventDuty    EventDuty       returns EventDuty Object
+     */
     public EventDuty convertToEventDuty(EventDutyEntity e) {
         EventDuty event = new EventDuty();
 
@@ -190,6 +195,11 @@ public class EventFacade {
         return event;
     }
 
+
+    /**
+     * Function to convert EventDuty Object to EventDutyEntity. Returns the EventDutyEntity after creating and setting information from EventDuty object.
+     * @return eventDutyEntity    EventDutyEntity       returns EventDutyEntity Object
+     */
     public EventDutyEntity convertToEventDutyEntity(EventDuty event) {
         EventDutyEntity eventDutyEntity = new EventDutyEntity();
 
@@ -327,6 +337,11 @@ public class EventFacade {
         return musicalWorks;
     }
 
+
+    /**
+     * Function to convert InstrumentationEntity Object to Instrumentation. Returns the Instrumentation after creating and setting Informations from InstrumentationEntity object.
+     * @return instrumentation    Instrumentation        returns Instrumentation Object
+     */
     public Instrumentation convertToInstrumentation (InstrumentationEntity ie) {
         Instrumentation i = new Instrumentation();
         i.setInstrumentationID(ie.getInstrumentationId());
@@ -461,6 +476,11 @@ public class EventFacade {
         return mwEntity.getMusicalWorkId();
     }
 
+
+    /**
+     * Function to convert MusicalWorkEntity Object to MusicalWork. Returns the MusicalWork after creating and setting Informations from MusicalWorkEntity object.
+     * @return musicalWork     MusicalWork        returns MusicalWork Object
+     */
     public MusicalWork convertToMusicalWork (MusicalWorkEntity mwe) {
         MusicalWork musicalWork = new MusicalWork();
         musicalWork.setMusicalWorkID(mwe.getMusicalWorkId());
@@ -470,6 +490,11 @@ public class EventFacade {
 
         return musicalWork;
     }
+
+    /**
+     * Function to convert MusicalWork Object to MusicalWorkEntity. Returns the MusicalWorkEntity after creating and setting Informations from MusicalWork object.
+     * @return musicalworkentity     MusicalWorkEntity         returns MusicalWorkEntity Object
+     */
 
     public MusicalWorkEntity convertToMusicalWorkEntity (MusicalWork mw) {
         MusicalWorkEntity mwe = new MusicalWorkEntity();
