@@ -188,7 +188,7 @@ public class Instrumentation implements DomainEntity {
 
     //TODO: specialinstrumentation
     public String getSpecialInstrumentation() {
-        return "Special: " + TextHelper.getTextFromString('+', "test", "test", "test");
+        return "Special: " + TextHelper.getTextFromString('+', "","","");
     }
 
 
@@ -244,13 +244,13 @@ public class Instrumentation implements DomainEntity {
                 return this.getClarinet();
             case BASSOON:
                 return this.getBassoon();
-            case VIOLIN1:
+            case FIRSTVIOLIN:
                 return this.getViolin1();
-            case VIOLIN2:
+            case SECONDVIOLIN:
                 return this.getViolin2();
             case VIOLA:
                 return this.getViola();
-            case VIOLINCELLO:
+            case VIOLONCELLO:
                 return this.getViolincello();
             case DOUBLEBASS:
                 return this.getDoublebass();

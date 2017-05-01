@@ -2,7 +2,6 @@ package team_f.server.controller;
 
 import javafx.util.Pair;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import team_f.application.EventApplication;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.server.helper.request.CalendarRequest;

@@ -32,7 +32,9 @@ public class DateTimeHelper {
     public static Boolean periodExpired(LocalDateTime starttime, int limitMonths) {
         LocalDateTime fromDateTime = starttime;
         LocalDateTime toDateTime = LocalDateTime.now();
-
+        if(fromDateTime.getYear()>toDateTime.getYear()){
+            return true;
+        }
         if ((fromDateTime.getMonthValue() - toDateTime.getMonthValue()) >= limitMonths) {
             return true;
         } else {

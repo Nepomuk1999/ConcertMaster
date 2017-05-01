@@ -1,7 +1,9 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Person {
@@ -15,7 +17,7 @@ public class Person {
     private String address;
     private String phoneNumber;
     private PersonRole personRole;
-    private List<String> instruments;
+    private List<InstrumentType> instruments = new LinkedList<>();
 
     public int getPersonId() {
         return personId;
@@ -89,15 +91,15 @@ public class Person {
         this.personRole = personRole;
     }
 
-    public List<String> getInstruments() {
+    public List<InstrumentType> getInstruments() {
         return instruments;
     }
 
-    public void setInstruments(List<String> instruments) {
+    public void setInstruments(List<InstrumentType> instruments) {
         this.instruments = instruments;
     }
 
-    public void setInstrument(String instrument) {
+    public void addInstrument(InstrumentType instrument) {
         instruments.add(instrument);
     }
 }

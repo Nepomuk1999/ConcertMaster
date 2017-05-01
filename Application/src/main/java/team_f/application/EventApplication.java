@@ -64,11 +64,10 @@ public class EventApplication {
         instrumentation.setInstrumentationID(instrumentationId);
         eventDuty.setInstrumentation(instrumentation);
 
-        MusicalWork tmpMusicalWork;
 
         if (musicalWorkIdList != null && alternativeInstrumentationIdList != null) {
             for (int i = 0; i < musicalWorkIdList.length && i < alternativeInstrumentationIdList.length; i++) {
-                tmpMusicalWork = new MusicalWork();
+                MusicalWork tmpMusicalWork = new MusicalWork();
                 tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
 
                 // set the alternative instrumentation even when it's the same as in the musical work
@@ -78,6 +77,8 @@ public class EventApplication {
             }
         }
 
+
+
         // check for errors
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
@@ -86,7 +87,7 @@ public class EventApplication {
             errorList.add(new Pair<>(String.valueOf(START_DATE), "cannot be modified"));
         }
 
-        //errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
+        errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
 
         // return the errorList when the validation is not successful
         if (errorList.size() > 0) {
@@ -151,12 +152,14 @@ public class EventApplication {
 
         eventList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
 
+        calculateMaxInstrumentation(eventDuty);
+
         List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrument(personApplication.getAllMusicians());
-        Instrumentation totalInstrumentation = eventDuty.getInstrumentation();
+        Instrumentation totalInstrumentation = eventDuty.getMaxInstrumetation();
 
         for (InstrumentType instrumentType : InstrumentType.values()) {
             for (EventDuty event : eventList) {
-                event.calculateMaxInstrumentation();
+                calculateMaxInstrumentation(event);
                 totalInstrumentation.addToInstrumentations(event.getMaxInstrumetation());
             }
 
@@ -168,6 +171,105 @@ public class EventApplication {
         }
 
         return errorList;
+    }
+
+    public void calculateMaxInstrumentation(EventDuty eventDuty) {
+        int maxFlute = 0;
+        int maxOboe = 0;
+        int maxClarinet = 0;
+        int maxBassoon = 0;
+
+        int maxViolin1 = 0;
+        int maxViolin2 = 0;
+        int maxViola = 0;
+        int maxViolincello = 0;
+        int maxDoublebass = 0;
+
+        int maxHorn = 0;
+        int maxTrumpet = 0;
+        int maxTrombone = 0;
+        int maxTube = 0;
+
+        int maxKettledrum = 0;
+        int maxPercussion = 0;
+        int maxHarp = 0;
+
+        for (int i = 0; i < eventDuty.getInstrumentationList().size(); i++) {
+            Instrumentation instrumentation = this.getInstrumentationList().get(i);
+
+            if (maxFlute < instrumentation.getFlute()) {
+                maxFlute = instrumentation.getFlute();
+            }
+            if (maxOboe < instrumentation.getOboe()) {
+                maxOboe = instrumentation.getOboe();
+            }
+            if (maxClarinet < instrumentation.getClarinet()) {
+                maxClarinet = instrumentation.getClarinet();
+            }
+            if (maxBassoon < instrumentation.getBassoon()) {
+                maxBassoon = instrumentation.getBassoon();
+            }
+            if (maxViolin1 < instrumentation.getViolin1()) {
+                maxViolin1 = instrumentation.getViolin1();
+            }
+            if (maxViolin2 < instrumentation.getViolin2()) {
+                maxViolin2 = instrumentation.getViolin2();
+            }
+            if (maxViola < instrumentation.getViola()) {
+                maxViola = instrumentation.getViola();
+            }
+            if (maxViolincello < instrumentation.getViolincello()) {
+                maxViolincello = instrumentation.getViolincello();
+            }
+            if (maxDoublebass < instrumentation.getDoublebass()) {
+                maxDoublebass = instrumentation.getDoublebass();
+            }
+            if (maxHorn < instrumentation.getHorn()) {
+                maxHorn = instrumentation.getHorn();
+            }
+            if (maxTrumpet < instrumentation.getTrumpet()) {
+                maxTrumpet = instrumentation.getTrumpet();
+            }
+            if (maxTrombone < instrumentation.getTrombone()) {
+                maxTrombone = instrumentation.getTrombone();
+            }
+            if (maxTube < instrumentation.getTube()) {
+                maxTube = instrumentation.getTube();
+            }
+            if (maxKettledrum < instrumentation.getKettledrum()) {
+                maxKettledrum = instrumentation.getKettledrum();
+            }
+            if (maxPercussion < instrumentation.getPercussion()) {
+                maxPercussion = instrumentation.getPercussion();
+            }
+            if (maxHarp < instrumentation.getHarp()) {
+                maxHarp = instrumentation.getHarp();
+            }
+        }
+
+        Instrumentation maxInstrumentation = new Instrumentation();
+
+        maxInstrumentation.setFlute(maxFlute);
+        maxInstrumentation.setOboe(maxOboe);
+        maxInstrumentation.setClarinet(maxClarinet);
+        maxInstrumentation.setBassoon(maxBassoon);
+
+        maxInstrumentation.setViolin1(maxViolin1);
+        maxInstrumentation.setViolin2(maxViolin2);
+        maxInstrumentation.setViola(maxViola);
+        maxInstrumentation.setViolincello(maxViolincello);
+        maxInstrumentation.setDoublebass(maxDoublebass);
+
+        maxInstrumentation.setHorn(maxHorn);
+        maxInstrumentation.setTrumpet(maxTrumpet);
+        maxInstrumentation.setTrombone(maxTrombone);
+        maxInstrumentation.setTube(maxTube);
+
+        maxInstrumentation.setKettledrum(maxKettledrum);
+        maxInstrumentation.setPercussion(maxPercussion);
+        maxInstrumentation.setHarp(maxHarp);
+
+        eventDuty.setMaxInstrumetation(maxInstrumentation);
     }
 
     public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {

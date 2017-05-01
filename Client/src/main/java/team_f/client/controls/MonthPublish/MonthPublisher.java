@@ -78,7 +78,7 @@ public class MonthPublisher extends BorderPane {
         _table.setEditable(false);
         _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
                 MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
-                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn());
+                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn(), MonthPublisherHelper.getEventstatusColumn());
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 
@@ -263,7 +263,7 @@ public class MonthPublisher extends BorderPane {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
                 alert.setHeaderText("An ErrorList occured while unpublishing selected Month.  Please try it again later or contact your System-Administrator!");
-                alert.setContentText("ERROR during unpublishing: " + ": " + _selectedMonth.getMonth() + " " + _selectedYear);
+                alert.setContentText("ERROR during unpublishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
             }
