@@ -189,7 +189,9 @@ public class EventFacade {
     public List<EventDuty> getEventsByTimeFrame(LocalDateTime start, LocalDateTime end) {
         EntityManager session = getCurrentSession();
 
-        Query query = session.createQuery("from EventDutyEntity where not (:end > starttime) OR (:start < endtime)");
+
+
+        Query query = session.createQuery("from EventDutyEntity where not ((:end < starttime) OR (:start > endtime))");
         query.setParameter("end", end);
         query.setParameter("start", start);
 

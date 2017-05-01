@@ -87,7 +87,7 @@ public class EventApplication {
             errorList.add(new Pair<>(String.valueOf(START_DATE), "cannot be modified"));
         }
 
-        // errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
+        errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
 
         // return the errorList when the validation is not successful
         if (errorList.size() > 0) {
