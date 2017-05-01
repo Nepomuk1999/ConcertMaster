@@ -11,9 +11,9 @@ public class Events {
     private String points;
     private String description;
     private String eventtype;
+    private String eventstatus;
 
-
-    public Events(Integer id, String name, String startdate, String enddate, String conductor, String location, String points, String description, String eventtype) {
+    public Events(Integer id, String name, String startdate, String enddate, String conductor, String location, String points, String description, String eventtype, String eventstatus) {
         super();
         this.id = id;
         this.name = name;
@@ -24,7 +24,7 @@ public class Events {
         this.points = points;
         this.description = description;
         this.eventtype = eventtype;
-
+        this.eventstatus = eventstatus;
     }
 
     public Integer getId() {
@@ -97,5 +97,13 @@ public class Events {
 
     public void setEventtype(String eventtype) {
         this.eventtype = eventtype;
+    }
+
+    public String getEventstatus() {
+        return eventstatus;
+    }
+
+    public void setEventstatus(String eventstatus) {
+        this.eventstatus = eventstatus;
     }
 }
