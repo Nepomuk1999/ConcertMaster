@@ -53,6 +53,10 @@ public class PersonFacade {
         return musicians;
     }
 
+    /**
+     * Function to convert a PersonEntity object to a Person. Returns the Person after creating and setting information from PersonyEntity object.
+     * @return person      Person        returns a person object
+     */
     private Person convertToPerson(PersonEntity pe) {
         Person person = new Person();
 
