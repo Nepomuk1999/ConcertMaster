@@ -31,7 +31,7 @@ cd ../Client
 mvn clean install
 
 ## Maven
-install [Maven](https://git-scm.com/downloads) for the automated build process
+install [Maven](https://maven.apache.org/download.cgi) for the automated build process
 
 ## Project structure
 * Server
