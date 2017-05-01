@@ -20,6 +20,14 @@ public class PersonFacade {
         _session = null;
     }
 
+    public PersonFacade() {
+        _session = SessionFactory.getSession();
+    }
+
+    public PersonFacade(EntityManager session) {
+        _session = session;
+    }
+
     protected EntityManager getCurrentSession() {
         return _session;
     }
