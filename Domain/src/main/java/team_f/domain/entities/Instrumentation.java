@@ -188,7 +188,7 @@ public class Instrumentation implements DomainEntity {
 
     //TODO: specialinstrumentation
     public String getSpecialInstrumentation() {
-        return "Special: " + TextHelper.getTextFromString('+', "test", "test", "test");
+        return "Special: " + TextHelper.getTextFromString('+', "","","");
     }
 
 
