@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import team_f.application.EventApplication;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
+
 import java.util.List;
 
 public class DomainEntityHelper {

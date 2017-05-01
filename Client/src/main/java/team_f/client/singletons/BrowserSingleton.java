@@ -10,7 +10,7 @@ public class BrowserSingleton {
     }
 
     public static BrowserView getInstance() {
-        if(_browserview == null) {
+        if (_browserview == null) {
             _browserview = new BrowserView(new Browser());
         }
 

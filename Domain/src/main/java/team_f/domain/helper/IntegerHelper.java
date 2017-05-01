@@ -2,7 +2,7 @@ package team_f.domain.helper;
 
 public class IntegerHelper {
     public static boolean isValidId(int id) {
-        if(id >= 0) {
+        if (id >= 0) {
             return true;
         }
 
@@ -10,7 +10,7 @@ public class IntegerHelper {
     }
 
     public static boolean isPositiveDefaultPoint(double points) {
-        if(points >= 0) {
+        if (points >= 0) {
             return true;
         }
 

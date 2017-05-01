@@ -9,7 +9,7 @@ public class HomeScreenSingleton {
     }
 
     public static HomeScreen getInstance() {
-        if(_homescreen == null) {
+        if (_homescreen == null) {
             _homescreen = new HomeScreen();
         }
 

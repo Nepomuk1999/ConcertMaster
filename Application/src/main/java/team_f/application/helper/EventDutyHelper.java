@@ -5,7 +5,7 @@ import team_f.domain.enums.EventType;
 
 public class EventDutyHelper {
     public static Color getColor(EventType eventType) {
-        if(eventType != null) {
+        if (eventType != null) {
             switch (eventType) {
                 case Concert:
                     return Color.SADDLEBROWN;
@@ -26,7 +26,7 @@ public class EventDutyHelper {
     }
 
     public static String getEventTypeText(EventType eventType) {
-        if(eventType != null) {
+        if (eventType != null) {
             switch (eventType) {
                 case NonMusicalEvent:
                     return "Non Musical Event";
@@ -47,7 +47,7 @@ public class EventDutyHelper {
     }
 
     public static String getEventTypeCode(EventType eventType) {
-        if(eventType != null) {
+        if (eventType != null) {
             switch (eventType) {
                 case NonMusicalEvent:
                     return "NM";

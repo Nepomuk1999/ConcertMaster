@@ -1,16 +1,15 @@
 package team_f.client.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import team_f.client.configuration.Configuration;
-import team_f.client.controls.Home.HomeScreen;
-import team_f.client.controls.Legende.LegendTable;
 import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
-import team_f.client.singletons.*;
+import team_f.client.singletons.BrowserSingleton;
+import team_f.client.singletons.HomeScreenSingleton;
+import team_f.client.singletons.MonthPublisherSingleton;
+import team_f.client.singletons.MusiciansTableSingleton;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,7 +36,7 @@ public class NavigationBar {
         });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
-      //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
+        //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
         menuSectionItem.setOnMouseClicked(event -> {
             try {
                 pane.setCenter(MonthPublisherSingleton.getInstance(new URL(configuration.getStartURI())));

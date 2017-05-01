@@ -27,7 +27,8 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
     public List<Pair<String, String>> validate(EventDuty eventDuty, EventDutyProperty... eventDutyproperty) {
         List<Pair<String, String>> resultList = new LinkedList<>();
 
-        LOOP: for (EventDutyProperty property : eventDutyproperty) {
+        LOOP:
+        for (EventDutyProperty property : eventDutyproperty) {
 
             switch (property) {
                 case ID:
@@ -152,12 +153,12 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     List<Instrumentation> iList = new LinkedList<>();
                     List<MusicalWork> wList = new LinkedList<>();
 
-                    for(int i = 0; i < eventDuty.getMusicalWorkList().size() && i < eventDuty.getInstrumentationList().size(); i++) {
+                    for (int i = 0; i < eventDuty.getMusicalWorkList().size() && i < eventDuty.getInstrumentationList().size(); i++) {
                         Pair<MusicalWork, Instrumentation> pair = new Pair<>(eventDuty.getMusicalWorkList().get(i), eventDuty.getInstrumentationList().get(i));
                         set.add(pair);
                     }
 
-                    for(Pair pair : set) {
+                    for (Pair pair : set) {
                         wList.add((MusicalWork) pair.getKey());
                         iList.add((Instrumentation) pair.getValue());
                     }
@@ -166,8 +167,8 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     eventDuty.setInstrumentationList(iList);
 
                     break;
-                }
             }
+        }
                     /*@TODO: Validation for
                         INSTRUMENTATION,
                         MUSICAL_WORK_LIST,

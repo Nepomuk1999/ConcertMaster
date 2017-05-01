@@ -8,19 +8,17 @@ import team_f.domain.enums.InstrumentType;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by dominik on 28.04.17.
- */
 public class PersonApplication {
     private PersonFacade personFacade = new PersonFacade();
 
-    public PersonApplication(){}
+    public PersonApplication() {
+    }
 
     public void closeSession() {
         personFacade.closeSession();
     }
 
-    public List<Person> getAllMusicians(){
+    public List<Person> getAllMusicians() {
         return personFacade.getAllMusicians();
     }
 
@@ -31,7 +29,7 @@ public class PersonApplication {
             List<Person> instrumentList = new LinkedList<>();
             Pair pair = new Pair<>(instrumentType, instrumentList);
 
-            for(Person person : persons) {
+            for (Person person : persons) {
                 for (String instrument : person.getInstruments())
                     if (instrumentType.equals(instrument)) {
                         instrumentList.add(person);

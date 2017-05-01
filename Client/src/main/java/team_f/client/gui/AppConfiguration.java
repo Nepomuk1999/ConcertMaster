@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
 import team_f.client.configuration.ConfigurationManager;
 import team_f.client.helper.Web;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -41,9 +42,9 @@ public class AppConfiguration {
         }
 
         // check if the webbrowser instead of this application should be started
-        if(_configuration.getOpenInWebbrowser()) {
+        if (_configuration.getOpenInWebbrowser()) {
             try {
-                if(Web.openInWebbrowser(new URI(_configuration.getStartURI()))) {
+                if (Web.openInWebbrowser(new URI(_configuration.getStartURI()))) {
                 }
             } catch (URISyntaxException e) {
             }
@@ -54,7 +55,7 @@ public class AppConfiguration {
 
     public static void saveConfiguration(Stage primaryStage, Configuration configuration) {
         // save config
-        if(primaryStage != null) {
+        if (primaryStage != null) {
             configuration.setWidth((int) primaryStage.getWidth());
             configuration.setHeight((int) primaryStage.getHeight());
         }

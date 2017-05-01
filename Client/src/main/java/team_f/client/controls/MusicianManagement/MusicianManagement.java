@@ -30,7 +30,7 @@ public class MusicianManagement extends BorderPane {
         streetField = new TextField();
         emailField = new TextField();
         phoneField = new TextField();
-        roleField=new TextField();
+        roleField = new TextField();
         sectionField = new TextField();
         instrumentField = new TextField();
 

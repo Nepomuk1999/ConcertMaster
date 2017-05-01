@@ -20,12 +20,12 @@ public class EnumHelper {
     }
 
     public static EventType[] getBasicEventTypeList() {
-        if(_eventTypeList == null) {
+        if (_eventTypeList == null) {
             List<EventType> eventTypes = new LinkedList();
 
-            for(EventType item : EventType.values()) {
+            for (EventType item : EventType.values()) {
                 // skip unnecessary event types
-                if(item == EventType.Rehearsal) {
+                if (item == EventType.Rehearsal) {
                     continue;
                 }
 

@@ -185,9 +185,10 @@ public class Instrumentation implements DomainEntity {
     public String getPercussionInstrumentation() {
         return "Percussion: " + TextHelper.getSeparatedText('/', getKettledrum(), getPercussion(), getHarp());
     }
+
     //TODO: specialinstrumentation
     public String getSpecialInstrumentation() {
-        return "Special: " + TextHelper.getTextFromString('+', "test", "test","test");
+        return "Special: " + TextHelper.getTextFromString('+', "test", "test", "test");
     }
 
 

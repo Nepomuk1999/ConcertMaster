@@ -2,6 +2,7 @@ package team_f.client.controls.sidebar;
 
 import javafx.scene.control.Accordion;
 import javafx.scene.layout.Pane;
+
 import java.util.Collection;
 
 public class Sidebar extends Pane {
@@ -16,7 +17,7 @@ public class Sidebar extends Pane {
     public boolean add(MenuSection menuSection) {
         boolean result = true;
 
-        if(menuSection != null) {
+        if (menuSection != null) {
             _accordion.getPanes().add(menuSection);
         } else {
             result = false;
@@ -28,9 +29,9 @@ public class Sidebar extends Pane {
     public boolean addAll(Collection<MenuSection> menuSections) {
         boolean result = true;
 
-        if(menuSections != null) {
-            for(MenuSection item : menuSections) {
-                if(!add(item)) {
+        if (menuSections != null) {
+            for (MenuSection item : menuSections) {
+                if (!add(item)) {
                     result = false;
                     break;
                 }

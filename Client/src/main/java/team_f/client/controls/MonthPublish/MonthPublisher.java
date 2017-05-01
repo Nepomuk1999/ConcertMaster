@@ -8,16 +8,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.Optional;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import team_f.client.helper.RequestResponseHelper;
 import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.entities.Publish;
 import team_f.jsonconnector.enums.PublishType;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class MonthPublisher extends BorderPane {
     private final ObservableList<Month> _data;
@@ -73,9 +74,9 @@ public class MonthPublisher extends BorderPane {
         });
 
 
-        _table = new TableView<>(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(),_selectedYear));
+        _table = new TableView<>(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(), _selectedYear));
         _table.setEditable(false);
-        _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(),MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
+        _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
                 MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
                 MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn());
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -85,14 +86,14 @@ public class MonthPublisher extends BorderPane {
             if (arg2 != null) {
                 _selectedMonth.setMonth(arg2.getMonth());
                 _selectedMonth.setValue(arg2.getValue());
-                _table.setItems(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(),_selectedYear));
+                _table.setItems(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(), _selectedYear));
             }
         });
 
 
         Button publishButton = new Button("Publish Month");
         publishButton.setStyle("-fx-font: 14 arial;");
-        Label labelPublishButton=new Label("Click here to publish Month!");
+        Label labelPublishButton = new Label("Click here to publish Month!");
         labelPublishButton.setStyle("-fx-font: 14 arial;");
         publishButton.setOnAction(event -> {
             publish();
@@ -100,29 +101,29 @@ public class MonthPublisher extends BorderPane {
 
         Button unpublishButton = new Button("Unpublish Month");
         unpublishButton.setStyle("-fx-font: 14 arial;");
-        Label labelUnpblishButton=new Label("Click here to unpublish Month!");
+        Label labelUnpblishButton = new Label("Click here to unpublish Month!");
         labelUnpblishButton.setStyle("-fx-font: 14 arial;");
         unpublishButton.setOnAction(event -> {
             unpublish();
         });
 
-        GridPane pane=new GridPane();
+        GridPane pane = new GridPane();
 
         pane.setHgap(10);
         pane.setVgap(5);
 
-        pane.add(labelYear, 30,5);
-        pane.add(comboBoxYear, 31,5);
-        pane.add(labelMonth, 30,7);
-        pane.add(comboBoxMonth, 31,7);
-        pane.add(labelPublishButton, 30,9);
-        pane.add(publishButton, 31,9);
-        pane.add(labelUnpblishButton, 30,11);
-        pane.add(unpublishButton, 31,11);
+        pane.add(labelYear, 30, 5);
+        pane.add(comboBoxYear, 31, 5);
+        pane.add(labelMonth, 30, 7);
+        pane.add(comboBoxMonth, 31, 7);
+        pane.add(labelPublishButton, 30, 9);
+        pane.add(publishButton, 31, 9);
+        pane.add(labelUnpblishButton, 30, 11);
+        pane.add(unpublishButton, 31, 11);
 
 
-         _root=new VBox();
-         _root.getChildren().addAll(pane);
+        _root = new VBox();
+        _root.getChildren().addAll(pane);
 
 
         StackPane header = new StackPane();
@@ -186,13 +187,13 @@ public class MonthPublisher extends BorderPane {
 
             boolean isSuccessful;
 
-            if(requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
+            if (requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
                 isSuccessful = true;
             } else {
                 isSuccessful = false;
             }
 
-            if(isSuccessful){
+            if (isSuccessful) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully published selected Month");
@@ -200,16 +201,17 @@ public class MonthPublisher extends BorderPane {
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
 
-            }else{
+            } else {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
                 alert.setHeaderText("An ErrorList occured while publishing selected Month. Please try it again later or contact your System-Administrator!");
-                alert.setContentText("ERROR during publishing: "+_selectedMonth.getMonth() + " " + _selectedYear);
+                alert.setContentText("ERROR during publishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
+            }
+            alert.showAndWait();
         }
-        alert.showAndWait();
-        }}
+    }
 
     private void unpublish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -243,13 +245,13 @@ public class MonthPublisher extends BorderPane {
 
             boolean isSuccessful;
 
-            if(requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
+            if (requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
                 isSuccessful = true;
             } else {
                 isSuccessful = false;
             }
 
-            if(isSuccessful){
+            if (isSuccessful) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
                 alert.setHeaderText("Succesfully unpublished selected Month");
@@ -257,11 +259,11 @@ public class MonthPublisher extends BorderPane {
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
 
-            }else{
+            } else {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
                 alert.setHeaderText("An ErrorList occured while unpublishing selected Month.  Please try it again later or contact your System-Administrator!");
-                alert.setContentText("ERROR during unpublishing: "+": "+_selectedMonth.getMonth() + " " + _selectedYear);
+                alert.setContentText("ERROR during unpublishing: " + ": " + _selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
             }
@@ -276,40 +278,6 @@ public class MonthPublisher extends BorderPane {
         }
 
         return null;
-    }
-
-    public static class Month {
-        private String month;
-        private int value;
-
-
-        public Month(String month, int value) {
-            this.month = month;
-            this.value = value;
-        }
-
-
-        @Override
-        public String toString()
-        {
-            return month.toString();
-        }
-
-        public String getMonth() {
-            return month;
-        }
-
-        public void setMonth(String month) {
-            this.month = month;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
     }
 }
 

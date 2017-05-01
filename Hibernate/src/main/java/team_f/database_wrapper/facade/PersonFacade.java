@@ -12,9 +12,6 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dominik on 28.04.17.
- */
 public class PersonFacade {
     EntityManager _session;
 
@@ -23,12 +20,13 @@ public class PersonFacade {
         _session = null;
     }
 
-    protected EntityManager getCurrentSession(){
+    protected EntityManager getCurrentSession() {
         return _session;
     }
 
     /**
      * Function to get all Musicians. Returns a List of Persons
+     *
      * @return musicians      List<Person>         returns a list of persons
      */
     public List<Person> getAllMusicians() {
@@ -69,7 +67,7 @@ public class PersonFacade {
         return person;
     }
 
-    private List<String> getPlayedInstrumentsByPersonId(int id){
+    private List<String> getPlayedInstrumentsByPersonId(int id) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -79,18 +77,18 @@ public class PersonFacade {
         List<MusicianPartEntity> musicianPartEntities = musicianPartQuery.getResultList();
         List<String> parts = new ArrayList<>();
 
-        for(MusicianPartEntity musicianpartEntity : musicianPartEntities) {
+        for (MusicianPartEntity musicianpartEntity : musicianPartEntities) {
             Query partQuery = session.createQuery("from PartEntity where partId = :id");
             partQuery.setParameter("id", musicianpartEntity.getPart());
 
             List<PartEntity> partEntities = partQuery.getResultList();
 
-            if(!(partEntities.isEmpty())) {
+            if (!(partEntities.isEmpty())) {
                 Query partTypeQuery = session.createQuery("from PartTypeEntity where partTypeId = :id");
                 partTypeQuery.setParameter("id", partEntities.get(0).getPartType());
                 List<PartTypeEntity> partTypeEntities = partTypeQuery.getResultList();
 
-                if(!partTypeEntities.isEmpty()) {
+                if (!partTypeEntities.isEmpty()) {
                     parts.add(partTypeEntities.get(0).getPartType());
                 }
             }

@@ -1,26 +1,11 @@
 package team_f.client.controls.Home;
 
-/**
- * Created by w7pro on 14.04.2017.
- */
-
-import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import team_f.client.controls.Legende.LegendEntries;
 
-
-
-public class TodolistHome extends BorderPane{
+public class TodolistHome extends BorderPane {
     public TodolistHome() {
 
 

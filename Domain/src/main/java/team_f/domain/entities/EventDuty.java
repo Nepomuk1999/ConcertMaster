@@ -53,7 +53,7 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEndDate(String format) {
-        if(endTime != null) {
+        if (endTime != null) {
             Date date = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
@@ -66,7 +66,7 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getStartDate(String format) {
-        if(startTime != null) {
+        if (startTime != null) {
             Date date = Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
@@ -79,7 +79,7 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getStartTime(String format) {
-        if(startTime != null) {
+        if (startTime != null) {
             Date date = Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
@@ -92,7 +92,7 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEndTime(String format) {
-        if(endTime != null) {
+        if (endTime != null) {
             Date date = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
@@ -169,7 +169,7 @@ public class EventDuty implements DomainEntity {
     }
 
     public Instrumentation getInstrumentation() {
-        return  maxInstrumetation;
+        return maxInstrumetation;
     }
 
     public void setInstrumentation(Instrumentation instrumentation) {
@@ -205,7 +205,7 @@ public class EventDuty implements DomainEntity {
         this.maxInstrumetation = maxInstrumetation;
     }
 
-    public void calculateMaxInstrumentation () {
+    public void calculateMaxInstrumentation() {
         int maxFlute = 0;
         int maxOboe = 0;
         int maxClarinet = 0;
@@ -229,22 +229,54 @@ public class EventDuty implements DomainEntity {
         for (int i = 0; i < this._musicalWorkList.size(); i++) {
             Instrumentation instrumentation = _instrumentationList.get(i);
 
-            if (maxFlute < instrumentation.getFlute()) { maxFlute = instrumentation.getFlute(); }
-            if (maxOboe < instrumentation.getOboe()) { maxOboe = instrumentation.getOboe(); }
-            if (maxClarinet < instrumentation.getClarinet()) { maxClarinet = instrumentation.getClarinet(); }
-            if (maxBassoon < instrumentation.getBassoon()) { maxBassoon = instrumentation.getBassoon(); }
-            if (maxViolin1 < instrumentation.getViolin1()) { maxViolin1 = instrumentation.getViolin1(); }
-            if (maxViolin2 < instrumentation.getViolin2()) { maxViolin2 = instrumentation.getViolin2(); }
-            if (maxViola < instrumentation.getViola()) { maxViola = instrumentation.getViola(); }
-            if (maxViolincello < instrumentation.getViolincello()) { maxViolincello = instrumentation.getViolincello(); }
-            if (maxDoublebass < instrumentation.getDoublebass()) { maxDoublebass = instrumentation.getDoublebass(); }
-            if (maxHorn < instrumentation.getHorn()) { maxHorn = instrumentation.getHorn(); }
-            if (maxTrumpet < instrumentation.getTrumpet()) { maxTrumpet = instrumentation.getTrumpet(); }
-            if (maxTrombone < instrumentation.getTrombone()) { maxTrombone = instrumentation.getTrombone(); }
-            if (maxTube < instrumentation.getTube()) { maxTube = instrumentation.getTube(); }
-            if (maxKettledrum < instrumentation.getKettledrum()) { maxKettledrum = instrumentation.getKettledrum(); }
-            if (maxPercussion < instrumentation.getPercussion()) { maxPercussion = instrumentation.getPercussion(); }
-            if (maxHarp < instrumentation.getHarp()) { maxHarp = instrumentation.getHarp(); }
+            if (maxFlute < instrumentation.getFlute()) {
+                maxFlute = instrumentation.getFlute();
+            }
+            if (maxOboe < instrumentation.getOboe()) {
+                maxOboe = instrumentation.getOboe();
+            }
+            if (maxClarinet < instrumentation.getClarinet()) {
+                maxClarinet = instrumentation.getClarinet();
+            }
+            if (maxBassoon < instrumentation.getBassoon()) {
+                maxBassoon = instrumentation.getBassoon();
+            }
+            if (maxViolin1 < instrumentation.getViolin1()) {
+                maxViolin1 = instrumentation.getViolin1();
+            }
+            if (maxViolin2 < instrumentation.getViolin2()) {
+                maxViolin2 = instrumentation.getViolin2();
+            }
+            if (maxViola < instrumentation.getViola()) {
+                maxViola = instrumentation.getViola();
+            }
+            if (maxViolincello < instrumentation.getViolincello()) {
+                maxViolincello = instrumentation.getViolincello();
+            }
+            if (maxDoublebass < instrumentation.getDoublebass()) {
+                maxDoublebass = instrumentation.getDoublebass();
+            }
+            if (maxHorn < instrumentation.getHorn()) {
+                maxHorn = instrumentation.getHorn();
+            }
+            if (maxTrumpet < instrumentation.getTrumpet()) {
+                maxTrumpet = instrumentation.getTrumpet();
+            }
+            if (maxTrombone < instrumentation.getTrombone()) {
+                maxTrombone = instrumentation.getTrombone();
+            }
+            if (maxTube < instrumentation.getTube()) {
+                maxTube = instrumentation.getTube();
+            }
+            if (maxKettledrum < instrumentation.getKettledrum()) {
+                maxKettledrum = instrumentation.getKettledrum();
+            }
+            if (maxPercussion < instrumentation.getPercussion()) {
+                maxPercussion = instrumentation.getPercussion();
+            }
+            if (maxHarp < instrumentation.getHarp()) {
+                maxHarp = instrumentation.getHarp();
+            }
         }
 
         Instrumentation maxInstrumentation = new Instrumentation();

@@ -2,10 +2,6 @@ package team_f.client.singletons;
 
 import team_f.client.controls.Legende.LegendTable;
 
-
-/**
- * Created by w7pro on 28.04.2017.
- */
 public class LegendSingleton {
     private static LegendTable _legendTable;
 
@@ -13,7 +9,7 @@ public class LegendSingleton {
     }
 
     public static LegendTable getInstance() {
-        if(_legendTable == null) {
+        if (_legendTable == null) {
             _legendTable = new LegendTable();
         }
 

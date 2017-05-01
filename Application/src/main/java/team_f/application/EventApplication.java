@@ -11,19 +11,20 @@ import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import static team_f.domain.enums.EventDutyProperty.START_DATE;
 
 public class EventApplication {
 
-    public EventApplication() {
-    }
-
     private EventFacade eventFacade = new EventFacade();
     private PersonApplication personApplication = new PersonApplication();
+    public EventApplication() {
+    }
 
     public void closeSession() {
         eventFacade.closeSession();
@@ -212,7 +213,7 @@ public class EventApplication {
             }
 
             return true;
-        }catch (Exception exp){
+        } catch (Exception exp) {
         }
 
         return false;
@@ -228,7 +229,7 @@ public class EventApplication {
             }
 
             return true;
-        }catch (Exception exp){
+        } catch (Exception exp) {
         }
 
         return false;

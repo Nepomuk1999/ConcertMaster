@@ -4,9 +4,6 @@ import team_f.domain.enums.PersonRole;
 
 import java.util.List;
 
-/**
- * Created by Christoph on 26.04.2017.
- */
 public class Person {
 
     private int personId;

@@ -1,25 +1,17 @@
 package team_f.client.controls.Legende;
 
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 
 // demonstrates highlighting rows in a tableview based upon the data values in the rows.
 public class LegendTable {
-    private TableView<LegendEntries> table ;
+    private TableView<LegendEntries> table;
 
     public LegendTable() {
         table = new TableView(LegendEntries.data);
@@ -51,7 +43,6 @@ public class LegendTable {
         //setCenter(table);
         //setVisible(true);
     }
-
 
 
     private TableColumn<LegendEntries, String> makeStringColumn(String columnName, String propertyName, int prefWidth) {

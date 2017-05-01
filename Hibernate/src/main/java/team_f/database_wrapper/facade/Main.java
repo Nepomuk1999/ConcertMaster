@@ -15,8 +15,8 @@ public class Main {
         try {
             System.out.println("Testing to add Entities in Database ...");
 
-            LocalDateTime s = LocalDateTime.of(2012,2,11,00,00, 00, 00);
-            LocalDateTime e = LocalDateTime.of(2012,2,12,00,00, 00, 00);
+            LocalDateTime s = LocalDateTime.of(2012, 2, 11, 00, 00, 00, 00);
+            LocalDateTime e = LocalDateTime.of(2012, 2, 12, 00, 00, 00, 00);
 
             /*
             eventFacade.addEvent("TestEvent4", "dies ist ein Test", s, e, EventType.Concert, EventStatus.Unpublished, "Test Conductor", "Opernhaus", 2, 1);
@@ -26,7 +26,7 @@ public class Main {
             System.out.println("TestEvents added...");
             List<EventDuty> events = eventFacade.getEventsByMonth(4, 2017);
 
-            for(EventDuty event : events) {
+            for (EventDuty event : events) {
                 System.out.println(event.getName());
             }
         } finally {

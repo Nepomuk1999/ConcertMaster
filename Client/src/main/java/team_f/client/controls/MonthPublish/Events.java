@@ -1,11 +1,6 @@
 package team_f.client.controls.MonthPublish;
 
-/**
- * Created by w7pro on 30.04.2017.
- */
-
-public class Events
-{
+public class Events {
 
     private Integer id;
     private String name;
@@ -18,8 +13,7 @@ public class Events
     private String eventtype;
 
 
-    public Events(Integer id, String name, String startdate, String enddate, String conductor, String location, String points,  String description, String eventtype)
-    {
+    public Events(Integer id, String name, String startdate, String enddate, String conductor, String location, String points, String description, String eventtype) {
         super();
         this.id = id;
         this.name = name;
@@ -28,8 +22,8 @@ public class Events
         this.conductor = conductor;
         this.location = location;
         this.points = points;
-        this.description=description;
-        this.eventtype=eventtype;
+        this.description = description;
+        this.eventtype = eventtype;
 
     }
 

@@ -41,11 +41,11 @@ public class MusicalWork implements DomainEntity {
         this.composer = composer;
     }
 
-    public void setAlternativeInstrumentationId(int alternativeInstrumentationId) {
-        this.alternativeInstrumentationId = alternativeInstrumentationId;
-    }
-
     public int getAlternativeInstrumentationId() {
         return this.alternativeInstrumentationId;
+    }
+
+    public void setAlternativeInstrumentationId(int alternativeInstrumentationId) {
+        this.alternativeInstrumentationId = alternativeInstrumentationId;
     }
 }

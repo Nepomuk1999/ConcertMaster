@@ -4,7 +4,7 @@ import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,7 +19,6 @@ import team_f.client.controls.Legende.LegendTable;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
 import team_f.client.singletons.HomeScreenSingleton;
-import team_f.client.singletons.TodoListSingleton;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,6 +26,10 @@ import java.net.URISyntaxException;
 public class Client extends Application {
     private final static String _version = "1.0.0";
     private Configuration _configuration;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void init() throws Exception {
@@ -105,7 +108,7 @@ public class Client extends Application {
             Menu menuTodo = new Menu("My TodoList");
             menuItem = new MenuItem("Show TodoList");
             menuItem.setOnAction(actionEvent -> {
-               new TodolistHome();
+                new TodolistHome();
 
             });
             menuTodo.getItems().add(menuItem);
@@ -140,9 +143,5 @@ public class Client extends Application {
         primaryStage.setOnCloseRequest(t -> Common.closeAppWithWarning(t, primaryStage, _configuration));
 
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

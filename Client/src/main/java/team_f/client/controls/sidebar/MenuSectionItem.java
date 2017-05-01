@@ -3,7 +3,6 @@ package team_f.client.controls.sidebar;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.MouseEvent;
 
 public class MenuSectionItem extends ToggleButton {
     public MenuSectionItem(String title) {
@@ -17,7 +16,7 @@ public class MenuSectionItem extends ToggleButton {
         this(title);
 
         setOnAction(onclick);
-        
+
 
     }
 

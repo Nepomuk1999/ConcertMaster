@@ -32,12 +32,13 @@ public class EventFacade {
         _session = null;
     }
 
-    protected EntityManager getCurrentSession(){
+    protected EntityManager getCurrentSession() {
         return _session;
     }
 
     /**
      * Function to add a ModelLogic. Returns the EventDutyId after saving it in database
+     *
      * @return EventDutyId      int         returns the primary key of the event
      */
     public Integer addEvent(EventDuty event) {
@@ -61,12 +62,13 @@ public class EventFacade {
             EventDuty intermediateEntities = getEventById(eventEntity.getEventDutyId());
             List<MusicalWork> intermediateMusicalWorkEntities = getMusicalWorksForEvent(eventEntity.getEventDutyId());
 
-            loop: for (MusicalWork musicalWork : event.getMusicalWorkList()) {
+            loop:
+            for (MusicalWork musicalWork : event.getMusicalWorkList()) {
                 // @TODO: this loop and the following if are only to avoid duplicated primary keys for musicalwork and eventIds
                 // @TODO: a possible workaround could be to remove the intermediate table objects which will be updated
                 // @TODO: Hibernate does not really like manyToMany relationships
-                for(MusicalWork intermeWork : intermediateMusicalWorkEntities) {
-                    if(intermeWork.getMusicalWorkID() == musicalWork.getMusicalWorkID()) {
+                for (MusicalWork intermeWork : intermediateMusicalWorkEntities) {
+                    if (intermeWork.getMusicalWorkID() == musicalWork.getMusicalWorkID()) {
                         continue loop;
                     }
 
@@ -118,7 +120,7 @@ public class EventFacade {
         List<EventDutyEntity> eventDutyEntities = query.getResultList();
         EventDuty event = new EventDuty();
 
-        if(eventDutyEntities.size() > 0) {
+        if (eventDutyEntities.size() > 0) {
             EventDutyEntity e = eventDutyEntities.get(0);
             event = convertToEventDuty(e);
 
@@ -153,7 +155,7 @@ public class EventFacade {
         List<EventDutyEntity> eventEntities = query.getResultList();
         List<EventDuty> events = new ArrayList<>();
 
-        for(EventDutyEntity eventDutyEntity : eventEntities) {
+        for (EventDutyEntity eventDutyEntity : eventEntities) {
             EventDuty event = convertToEventDuty(eventDutyEntity);
 
             events.add(event);
@@ -174,7 +176,7 @@ public class EventFacade {
         List<EventDutyEntity> eventEntities = query.getResultList();
         List<EventDuty> events = new ArrayList<>();
 
-        for(EventDutyEntity eventDutyEntity : eventEntities) {
+        for (EventDutyEntity eventDutyEntity : eventEntities) {
             EventDuty event;
             event = convertToEventDuty(eventDutyEntity);
 
@@ -246,10 +248,10 @@ public class EventFacade {
         Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorkEntities = eventDutyEntity.getEventDutyMusicalWorksByEventDutyId();
         List<MusicalWork> musicalWorks = event.getMusicalWorkList();
 
-        if(eventDutyMusicalWorkEntities != null) {
+        if (eventDutyMusicalWorkEntities != null) {
             for (MusicalWork musicalWork : musicalWorks) {
-                for(EventDutyMusicalWorkEntity item : eventDutyMusicalWorkEntities) {
-                    if(item.getMusicalWork() == musicalWork.getMusicalWorkID() && item.getEventDuty() == event.getEventDutyId()) {
+                for (EventDutyMusicalWorkEntity item : eventDutyMusicalWorkEntities) {
+                    if (item.getMusicalWork() == musicalWork.getMusicalWorkID() && item.getEventDuty() == event.getEventDutyId()) {
                         item.setAlternativeInstrumentation(musicalWork.getAlternativeInstrumentationId());
                     }
                 }
@@ -272,7 +274,7 @@ public class EventFacade {
         List<EventDutyMusicalWorkEntity> eList = query.getResultList();
         MusicalWork musicalWork;
 
-        for (EventDutyMusicalWorkEntity edmwe :eList) {
+        for (EventDutyMusicalWorkEntity edmwe : eList) {
 
             Query musicalQuery = session.createQuery("from MusicalWorkEntity where musicalWorkId = :id");
             musicalQuery.setParameter("id", edmwe.getMusicalWork());
@@ -304,7 +306,7 @@ public class EventFacade {
         InstrumentationEntity instrumentationEntity = new InstrumentationEntity();
         Instrumentation instrumentation = new Instrumentation();
 
-        if(instrumentations.size() > 0) {
+        if (instrumentations.size() > 0) {
             instrumentationEntity = instrumentations.get(0);
             instrumentation = convertToInstrumentation(instrumentationEntity);
         }
@@ -319,7 +321,7 @@ public class EventFacade {
         List<InstrumentationEntity> instrumentationEntities = query.getResultList();
         List<Instrumentation> instrumentations = new ArrayList<>();
 
-        for (InstrumentationEntity ie: instrumentationEntities) {
+        for (InstrumentationEntity ie : instrumentationEntities) {
             instrumentations.add(convertToInstrumentation(ie));
         }
 
@@ -365,7 +367,7 @@ public class EventFacade {
 
     */
 
-    public MusicalWork getMusicalWorkById(int id){
+    public MusicalWork getMusicalWorkById(int id) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -377,7 +379,7 @@ public class EventFacade {
         MusicalWorkEntity musicalWorkEntity;
         MusicalWork musicalWork = new MusicalWork();
 
-        if(instrumentations.size() > 0) {
+        if (instrumentations.size() > 0) {
             musicalWorkEntity = instrumentations.get(0);
             musicalWork = convertToMusicalWork(musicalWorkEntity);
         }
@@ -385,7 +387,7 @@ public class EventFacade {
         return musicalWork;
     }
 
-    public List<MusicalWork> getMusicalWorks(){
+    public List<MusicalWork> getMusicalWorks() {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -403,7 +405,7 @@ public class EventFacade {
         return musicalWorks;
     }
 
-    public Instrumentation convertToInstrumentation (InstrumentationEntity ie) {
+    public Instrumentation convertToInstrumentation(InstrumentationEntity ie) {
         Instrumentation i = new Instrumentation();
         i.setInstrumentationID(ie.getInstrumentationId());
 
@@ -443,7 +445,7 @@ public class EventFacade {
         return i;
     }
 
-    private BrassInstrumentationEntity getBrassInstrumentationEntity (int brassInstrumentationID) {
+    private BrassInstrumentationEntity getBrassInstrumentationEntity(int brassInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from BrassInstrumentationEntity where brassInstrumentationId = :id");
         query.setParameter("id", brassInstrumentationID);
@@ -453,14 +455,14 @@ public class EventFacade {
 
         BrassInstrumentationEntity e = new BrassInstrumentationEntity();
 
-        if(bie.size() > 0) {
+        if (bie.size() > 0) {
             e = bie.get(0);
         }
 
         return e;
     }
 
-    private WoodInstrumentationEntity getWoodInstrumentationEntity (int woodInstrumentationID) {
+    private WoodInstrumentationEntity getWoodInstrumentationEntity(int woodInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from WoodInstrumentationEntity where woodInstrumentationId = :id");
         query.setParameter("id", woodInstrumentationID);
@@ -470,14 +472,14 @@ public class EventFacade {
 
         WoodInstrumentationEntity e = new WoodInstrumentationEntity();
 
-        if(wie.size() > 0) {
+        if (wie.size() > 0) {
             e = wie.get(0);
         }
 
         return e;
     }
 
-    private StringInstrumentationEntity getStringInstrumentationEntity (int stringInstrumentationID) {
+    private StringInstrumentationEntity getStringInstrumentationEntity(int stringInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from StringInstrumentationEntity where stringInstrumentationId = :id");
         query.setParameter("id", stringInstrumentationID);
@@ -487,14 +489,14 @@ public class EventFacade {
 
         StringInstrumentationEntity e = new StringInstrumentationEntity();
 
-        if(sie.size() > 0) {
+        if (sie.size() > 0) {
             e = sie.get(0);
         }
 
         return e;
     }
 
-    private PercussionInstrumentationEntity getPercussionInstrumentationEntity (int percussionInstrumentationID) {
+    private PercussionInstrumentationEntity getPercussionInstrumentationEntity(int percussionInstrumentationID) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from PercussionInstrumentationEntity where percussionInstrumentationId = :id");
         query.setParameter("id", percussionInstrumentationID);
@@ -504,7 +506,7 @@ public class EventFacade {
 
         PercussionInstrumentationEntity e = new PercussionInstrumentationEntity();
 
-        if(pie.size() > 0) {
+        if (pie.size() > 0) {
             e = pie.get(0);
         }
 
@@ -522,7 +524,7 @@ public class EventFacade {
     }
 
 
-    public Integer addMusicalWork(MusicalWork musicalWork){
+    public Integer addMusicalWork(MusicalWork musicalWork) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -541,7 +543,7 @@ public class EventFacade {
         return mwEntity.getMusicalWorkId();
     }
 
-    public MusicalWork convertToMusicalWork (MusicalWorkEntity mwe) {
+    public MusicalWork convertToMusicalWork(MusicalWorkEntity mwe) {
         MusicalWork musicalWork = new MusicalWork();
         musicalWork.setMusicalWorkID(mwe.getMusicalWorkId());
         musicalWork.setInstrumentationID(mwe.getInstrumentationId());
@@ -551,7 +553,7 @@ public class EventFacade {
         return musicalWork;
     }
 
-    public MusicalWorkEntity convertToMusicalWorkEntity (MusicalWork mw) {
+    public MusicalWorkEntity convertToMusicalWorkEntity(MusicalWork mw) {
         MusicalWorkEntity mwe = new MusicalWorkEntity();
 
         mwe.setInstrumentationId(mw.getInstrumentationID());
