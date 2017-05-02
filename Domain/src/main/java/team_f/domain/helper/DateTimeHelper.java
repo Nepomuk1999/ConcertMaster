@@ -4,6 +4,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 public class DateTimeHelper {
@@ -37,6 +38,13 @@ public class DateTimeHelper {
         LocalDateTime fromDateTime = starttime;
         LocalDateTime nowTime = LocalDateTime.now();
 
+       Calendar month1 = new GregorianCalendar(nowTime.getYear(),nowTime.getMonthValue(),nowTime.getDayOfMonth());
+       Calendar month2 = new GregorianCalendar(nowTime.getYear(),nowTime.getMonthValue()+1,nowTime.getDayOfMonth());
+
+       int daysMont1 = month1.getActualMaximum(Calendar.DAY_OF_MONTH);
+       int daysMont2 = month2.getActualMaximum(Calendar.DAY_OF_MONTH);
+       int limit=daysMont1+daysMont2;
+
        Calendar cal = Calendar.getInstance();
        int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
        int restOfMonth=days-nowTime.getDayOfMonth();
@@ -51,15 +59,14 @@ public class DateTimeHelper {
        Date dateFrom = Date.from(instant2);
 
        long diff = dateFrom.getTime() - dateTo.getTime();
-       System.out.println(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-       if((TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)>61)){
+
+       if((TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)>limit)){
             return true;
         } else {
             return false;
         }
 
     }
-
     }
 
 
