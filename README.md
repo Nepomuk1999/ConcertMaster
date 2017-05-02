@@ -16,7 +16,7 @@ Or use a [Git](https://git-scm.com/downloads) client and a preffered IDE.
 
 ## Build
 **execute the following commands in the main directory of the cloned git repository**
-**Maven has to be installed!**
+**Maven has to be installed!**  
 cd Domain    
 mvn clean install  
 cd ../Hibernate  
