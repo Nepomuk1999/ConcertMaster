@@ -9,11 +9,12 @@
 <%@ attribute name="inputClass" type="java.lang.String" required="false" %>
 
 <label for="${id}" class="control-label">${label}</label><br>
-<div id="${id}" class="input-group clockpicker">
+<div id="${id}" class="controls input-group clockpicker">
     <input id="${id}-input" type="text" value="${inputValue}" name="${inputName}" class="form-control" placeholder="${inputClockFormat}" ${inputRequired ? "required" : ""} class="${inputClass}">
     <span class="input-group-addon">
         <span class="glyphicon glyphicon-time"></span>
     </span>
+    <p class="help-block"></p>
 </div>
 <script type="text/javascript">
     $('#${id}').clockpicker({

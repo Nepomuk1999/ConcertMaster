@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/stylesheets/bootstrap-select.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/stylesheets/bootstrap.css" />
     <script src='${pageContext.request.contextPath}/assets/javascripts/add-remove-list.js'></script>
+    <script src='${pageContext.request.contextPath}/assets/javascripts/jqBootstrapValidation/jqBootstrapValidation.js'></script>
 <c:choose>
     <c:when test="${includeCalendar}">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/stylesheets/fullcalendar.css" />
