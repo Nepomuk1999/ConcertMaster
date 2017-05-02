@@ -53,11 +53,6 @@ public class DateTimeHelper {
     }
 
 
-        public  static void main(String[] args) {
-            LocalDateTime ldtens = LocalDateTime.of(2017, Month.JULY, 2, 12, 30,42,12000);
-
-            DateTimeHelper.periodExpired(ldtens,2);
-        }
     }
 
 
