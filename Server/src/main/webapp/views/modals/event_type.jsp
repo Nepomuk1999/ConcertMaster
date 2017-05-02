@@ -129,16 +129,18 @@
         </div>
 
         <div class="control-group row">
-            <div class="form-group col-xs-12 col-sm-6">
+            <div class="control-group form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_NAME}">
                     <label for="${EventDutyProperty.NAME}" class="control-label">Name</label><br>
-                    <input id="${EventDutyProperty.NAME}" type="text" value="${eventDuty.name}" name="${EventDutyProperty.NAME}" placeholder="Name" class="form-control ValidateEmpty" required><br>
+                    <input id="${EventDutyProperty.NAME}" type="text" value="${eventDuty.name}" name="${EventDutyProperty.NAME}" placeholder="Name" class="form-control" minlength="2" required><br>
+                    <p class="help-block"></p>
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_LOCATION}">
                     <label for="${EventDutyProperty.LOCATION}" class="control-label">Location</label><br>
-                    <input id="${EventDutyProperty.LOCATION}" type="text" value="${eventDuty.location}" name="${EventDutyProperty.LOCATION}" placeholder="Location" class="form-control ValidateEmpty" required><br>
+                    <input id="${EventDutyProperty.LOCATION}" type="text" value="${eventDuty.location}" name="${EventDutyProperty.LOCATION}" placeholder="Location" class="form-control" minlength="2" required><br>
+                    <p class="help-block"></p>
                 </t:ErrorMessage>
             </div>
         </div>
@@ -147,13 +149,15 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_CONDUCTOR}">
                     <label for="${EventDutyProperty.CONDUCTOR}" class="control-label">Conductor</label><br>
-                    <input id="${EventDutyProperty.CONDUCTOR}" type="text" value="${eventDuty.conductor}" name="${EventDutyProperty.CONDUCTOR}" placeholder="Conductor" class="form-control ValidateEmpty" required><br>
+                    <input id="${EventDutyProperty.CONDUCTOR}" type="text" value="${eventDuty.conductor}" name="${EventDutyProperty.CONDUCTOR}" placeholder="Conductor" class="form-control" minlength="2" required><br>
+                    <p class="help-block"></p>
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_DEFAULT_POINTS}">
                     <label for="${EventDutyProperty.DEFAULT_POINTS}" class="control-label">Standard Points</label><br>
-                    <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="${empty eventDuty.defaultPoints ? 0 : eventDuty.defaultPoints}" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control ValidateGreaterZero" min="0" required><br>
+                    <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="${empty eventDuty.defaultPoints ? 0 : eventDuty.defaultPoints}" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
+                    <p class="help-block"></p>
                 </t:ErrorMessage>
             </div>
         </div>
@@ -162,7 +166,8 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_DESCRIPTION}">
                     <label for="${EventDutyProperty.DESCRIPTION}" class="control-label">Description</label><br>
-                    <input id="${EventDutyProperty.DESCRIPTION}" type="text" value="${eventDuty.description}" name="${EventDutyProperty.DESCRIPTION}" placeholder="Description" class="form-control ValidateEmpty"><br>
+                    <input id="${EventDutyProperty.DESCRIPTION}" type="text" value="${eventDuty.description}" name="${EventDutyProperty.DESCRIPTION}" placeholder="Description" class="form-control"><br>
+                    <p class="help-block"></p>
                 </t:ErrorMessage>
             </div>
             <div class="form-group col-xs-12 col-sm-6">
@@ -259,6 +264,8 @@
 </form>
 
 <script type="text/javascript">
+    $("input, select, .selectpicker, textarea").not("[type=submit]").jqBootstrapValidation();
+
     $(document).ready(function() {
         $('#${EventDutyProperty.EVENT_TYPE}').on('change', function(event) {
             var selectedItem = $(event.target).find("option:selected").val();

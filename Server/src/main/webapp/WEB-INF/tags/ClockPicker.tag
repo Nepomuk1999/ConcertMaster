@@ -14,6 +14,7 @@
     <span class="input-group-addon">
         <span class="glyphicon glyphicon-time"></span>
     </span>
+    <p class="help-block"></p>
 </div>
 <script type="text/javascript">
     $('#${id}').clockpicker({

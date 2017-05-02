@@ -11,6 +11,7 @@
 
 <label for="${id}" class="control-label">${label}</label><br>
 <input type="text" id="${id}" name="${inputName}" class="form-control" placeholder="${inputDateFormat}" value="${inputValue}" ${inputRequired ? "required" : ""} class="${inputClass}">
+<p class="help-block"></p>
 
 <script type="text/javascript">
     $( "#${id}" ).datepicker({
