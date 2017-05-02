@@ -60,7 +60,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         if (!DateTimeHelper.takesPlaceInFuture(eventDuty.getStartTime())) {
                             resultList.add(new Pair<>(String.valueOf(START_DATE), "is bygone"));
                         }
-                        if (!DateTimeHelper.periodExpired(eventDuty.getStartTime(), 3)) {
+                        if (!DateTimeHelper.periodExpired(eventDuty.getStartTime(), 61)) {
                             resultList.add(new Pair<>(String.valueOf(START_DATE), "must take place at least 2 months in future "));
                         }
                     } else {

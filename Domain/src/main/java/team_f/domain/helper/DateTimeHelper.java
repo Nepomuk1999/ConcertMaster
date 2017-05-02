@@ -1,6 +1,9 @@
 package team_f.domain.helper;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateTimeHelper {
     public static boolean takesPlaceInFuture(LocalDateTime time) {
@@ -29,19 +32,33 @@ public class DateTimeHelper {
         return false;
     }
 
-    public static Boolean periodExpired(LocalDateTime starttime, int limitMonths) {
+   public static Boolean periodExpired(LocalDateTime starttime, int limitDays) {
         LocalDateTime fromDateTime = starttime;
         LocalDateTime toDateTime = LocalDateTime.now();
-        if(fromDateTime.getYear()>toDateTime.getYear()){
-            return true;
-        }
-        if ((fromDateTime.getMonthValue() - toDateTime.getMonthValue()) >= limitMonths) {
+
+       Instant instant1 = toDateTime.atZone(ZoneId.systemDefault()).toInstant();
+       Date dateTo = Date.from(instant1);
+
+       Instant instant2 = starttime.atZone(ZoneId.systemDefault()).toInstant();
+       Date dateFrom = Date.from(instant2);
+
+       long diff = dateFrom.getTime() - dateTo.getTime();
+
+       if((TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)>limitDays)){
             return true;
         } else {
             return false;
         }
 
     }
-}
+
+
+        public  static void main(String[] args) {
+            LocalDateTime ldtens = LocalDateTime.of(2017, Month.JULY, 2, 12, 30,42,12000);
+
+            DateTimeHelper.periodExpired(ldtens,2);
+        }
+    }
+
 
 
