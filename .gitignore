@@ -23,6 +23,9 @@ codestyles/
 ui.lnf.xml
 filetypes.xml
 colors.scheme.xml
+hs_err_pid4220.log
+debugger.renderers.xml
+baseRefactoring.xml
 
 # NFS artifacts
 .nfs*
