@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -196,10 +197,12 @@ public class MonthPublisher extends BorderPane {
             if (isSuccessful) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
+                alert.setGraphic(new ImageView("check.png"));
                 alert.setHeaderText("Succesfully published selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
+
 
             } else {
                 alert = new Alert(Alert.AlertType.ERROR);
@@ -254,6 +257,7 @@ public class MonthPublisher extends BorderPane {
             if (isSuccessful) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Succes");
+                alert.setGraphic(new ImageView("check.png"));
                 alert.setHeaderText("Succesfully unpublished selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
