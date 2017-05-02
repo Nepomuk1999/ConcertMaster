@@ -30,6 +30,12 @@ mvn clean install
 cd ../Client
 mvn clean install
 
+# Create installable file
+1. Install [Bitrock's InstallBuilder](https://installbuilder.bitrock.com/). You can download it [here](https://installbuilder.bitrock.com/download-step-2.html).
+2. Open the *.xml in one of the subfolder of "Installers".
+3. Place your files in the appropriate folders. Search for Readme.txt in the folder "Installers" if you are unclear what you should add.
+4. Create a setup file for every platform you desire.
+
 ## Maven
 install [Maven](https://maven.apache.org/download.cgi) for the automated build process
 
