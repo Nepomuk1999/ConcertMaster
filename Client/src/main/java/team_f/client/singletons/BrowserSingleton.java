@@ -4,17 +4,17 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 
 public class BrowserSingleton {
-    private static BrowserView _browserview;
+    private static BrowserView _browserView;
 
     private BrowserSingleton() {
     }
 
     public static BrowserView getInstance() {
-        if (_browserview == null) {
-            _browserview = new BrowserView(new Browser());
+        if (_browserView == null) {
+            _browserView = new BrowserView(new Browser());
         }
 
-        return _browserview;
+        return _browserView;
     }
 }
 

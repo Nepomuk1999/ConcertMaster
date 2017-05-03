@@ -1,7 +1,6 @@
 package team_f.database_wrapper.facade;
 
 import org.hibernate.HibernateException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

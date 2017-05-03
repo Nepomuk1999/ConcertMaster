@@ -1,4 +1,4 @@
-package team_f.client.gui;
+package team_f.client.pages.musicalwork;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 
 public class MusicalWorkAddDelete extends Application {
     public static void main(String[] args) {

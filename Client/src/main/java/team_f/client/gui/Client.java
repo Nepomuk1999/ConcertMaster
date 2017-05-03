@@ -14,8 +14,8 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
-import team_f.client.controls.Home.TodolistHome;
-import team_f.client.controls.Legende.LegendTable;
+import team_f.client.pages.home.TodolistHome;
+import team_f.client.pages.legende.LegendTable;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
 import team_f.client.singletons.HomeScreenSingleton;
@@ -66,7 +66,7 @@ public class Client extends Application {
 
             MenuItem menuItem;
 
-            menuItem = new MenuItem("Home");
+            menuItem = new MenuItem("home");
             menuItem.setOnAction(event -> mainContent.setCenter(HomeScreenSingleton.getInstance()));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);

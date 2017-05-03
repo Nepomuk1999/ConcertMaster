@@ -1,4 +1,4 @@
-package team_f.client.controls.Legende;
+package team_f.client.pages.legende;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -7,7 +7,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
-
 
 // demonstrates highlighting rows in a tableview based upon the data values in the rows.
 public class LegendTable {
@@ -43,7 +42,6 @@ public class LegendTable {
         //setCenter(table);
         //setVisible(true);
     }
-
 
     private TableColumn<LegendEntries, String> makeStringColumn(String columnName, String propertyName, int prefWidth) {
         TableColumn<LegendEntries, String> column = new TableColumn<>(columnName);
@@ -88,5 +86,4 @@ public class LegendTable {
 
         return column;
     }
-
 }

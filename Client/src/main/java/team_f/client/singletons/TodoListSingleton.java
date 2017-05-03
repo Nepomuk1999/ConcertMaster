@@ -1,20 +1,20 @@
 package team_f.client.singletons;
 
-import team_f.client.controls.Home.TodolistHome;
+import team_f.client.pages.home.TodolistHome;
 
 public class TodoListSingleton {
 
-    private static TodolistHome _todolisthome;
+    private static TodolistHome _todoListHome;
 
     private TodoListSingleton() {
     }
 
     public static TodolistHome getInstance() {
-        if (_todolisthome == null) {
-            _todolisthome = new TodolistHome();
+        if (_todoListHome == null) {
+            _todoListHome = new TodolistHome();
         }
 
-        return _todolisthome;
+        return _todoListHome;
     }
 }
 

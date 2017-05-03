@@ -1,19 +1,19 @@
 package team_f.client.singletons;
 
-import team_f.client.controls.Home.HomeScreen;
+import team_f.client.pages.home.HomeScreen;
 
 public class HomeScreenSingleton {
-    private static HomeScreen _homescreen;
+    private static HomeScreen _homesScreen;
 
     private HomeScreenSingleton() {
     }
 
     public static HomeScreen getInstance() {
-        if (_homescreen == null) {
-            _homescreen = new HomeScreen();
+        if (_homesScreen == null) {
+            _homesScreen = new HomeScreen();
         }
 
-        return _homescreen;
+        return _homesScreen;
     }
 }
 

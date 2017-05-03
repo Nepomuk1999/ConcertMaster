@@ -1,12 +1,9 @@
-package team_f.client.controls.Home;
+package team_f.client.pages.home;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
-
 public class HomeScreen extends BorderPane {
-
-
     public HomeScreen() {
 
         Image image1 = new Image("Logo Neu.jpg");
@@ -17,9 +14,5 @@ public class HomeScreen extends BorderPane {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 bSize)));
-
-
     }
-
-
 }

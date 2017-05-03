@@ -1,11 +1,12 @@
-package team_f.client.controls.MonthPublish;
+package team_f.client.pages.monthpublish;
 
-public class Events {
+import java.time.LocalDateTime;
 
+public class Event {
     private Integer id;
     private String name;
-    private String startdate;
-    private String enddate;
+    private LocalDateTime startdate;
+    private LocalDateTime enddate;
     private String conductor;
     private String location;
     private String points;
@@ -13,7 +14,7 @@ public class Events {
     private String eventtype;
     private String eventstatus;
 
-    public Events(Integer id, String name, String startdate, String enddate, String conductor, String location, String points, String description, String eventtype, String eventstatus) {
+    public Event(Integer id, String name, LocalDateTime startdate, LocalDateTime enddate, String conductor, String location, String points, String description, String eventtype, String eventstatus) {
         super();
         this.id = id;
         this.name = name;
@@ -43,19 +44,19 @@ public class Events {
         this.name = name;
     }
 
-    public String getStartdate() {
+    public LocalDateTime getStartdate() {
         return startdate;
     }
 
-    public void setStartdate(String startdate) {
+    public void setStartdate(LocalDateTime startdate) {
         this.startdate = startdate;
     }
 
-    public String getEnddate() {
+    public LocalDateTime getEnddate() {
         return enddate;
     }
 
-    public void setEnddate(String enddate) {
+    public void setEnddate(LocalDateTime enddate) {
         this.enddate = enddate;
     }
 

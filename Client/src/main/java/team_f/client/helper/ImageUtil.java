@@ -1,7 +1,6 @@
 package team_f.client.helper;
 
 import javafx.scene.image.Image;
-
 import java.io.InputStream;
 
 public class ImageUtil {

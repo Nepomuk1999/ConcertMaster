@@ -1,4 +1,4 @@
-package team_f.client.controls.MusicianManagement;
+package team_f.client.pages.musicianmanagement;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,5 +88,4 @@ public class MusicianTableHelper {
         countryCol.setCellValueFactory(countryCellValueFactory);
         return countryCol;
     }
-
 }

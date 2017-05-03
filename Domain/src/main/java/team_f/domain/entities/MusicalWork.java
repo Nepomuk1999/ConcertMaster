@@ -3,49 +3,49 @@ package team_f.domain.entities;
 import team_f.domain.interfaces.DomainEntity;
 
 public class MusicalWork implements DomainEntity {
-    private int musicalWorkID;
-    private int instrumentationID;
-    private String name;
-    private String composer;
-    private int alternativeInstrumentationId;
+    private int _musicalWorkID;
+    private Instrumentation _instrumentation;
+    private String _name;
+    private String _composer;
+    private Instrumentation _alternativeInstrumentation;
 
     public int getMusicalWorkID() {
-        return musicalWorkID;
+        return _musicalWorkID;
     }
 
-    public void setMusicalWorkID(int musicalWorkID) {
-        this.musicalWorkID = musicalWorkID;
-    }
-
-    public int getInstrumentationID() {
-        return instrumentationID;
-    }
-
-    public void setInstrumentationID(int instrumentationID) {
-        this.instrumentationID = instrumentationID;
+    public Instrumentation getInstrumentation() {
+        return _instrumentation;
     }
 
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return _name;
     }
 
     public String getComposer() {
-        return composer;
+        return _composer;
+    }
+
+    public Instrumentation getAlternativeInstrumentation() {
+        return _alternativeInstrumentation;
+    }
+
+    public void setMusicalWorkID(int musicalWorkID) {
+        _musicalWorkID = musicalWorkID;
+    }
+
+    public void setInstrumentation(Instrumentation instrumentation) {
+        _instrumentation = instrumentation;
+    }
+
+    public void setName(String name) {
+        _name = name;
     }
 
     public void setComposer(String composer) {
-        this.composer = composer;
+        _composer = composer;
     }
 
-    public int getAlternativeInstrumentationId() {
-        return this.alternativeInstrumentationId;
-    }
-
-    public void setAlternativeInstrumentationId(int alternativeInstrumentationId) {
-        this.alternativeInstrumentationId = alternativeInstrumentationId;
+    public void setAlternativeInstrumentation(Instrumentation alternativeInstrumentation) {
+        _alternativeInstrumentation = alternativeInstrumentation;
     }
 }

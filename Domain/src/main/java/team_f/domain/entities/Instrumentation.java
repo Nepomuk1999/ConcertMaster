@@ -3,171 +3,172 @@ package team_f.domain.entities;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.helper.TextHelper;
 import team_f.domain.interfaces.DomainEntity;
-
 import java.util.List;
 
 public class Instrumentation implements DomainEntity {
-    private int instrumentationID;
+    private int _instrumentationID;
+
     //WoodInstrumentation
-    private int flute;
-    private int oboe;
-    private int clarinet;
-    private int bassoon;
+    private int _flute;
+    private int _oboe;
+    private int _clarinet;
+    private int _bassoon;
 
     //StringInstrumentation
-    private int violin1;
-    private int violin2;
-    private int viola;
-    private int violincello;
-    private int doublebass;
+    private int _violin1;
+    private int _violin2;
+    private int _viola;
+    private int _violincello;
+    private int _doublebass;
 
     //BrassInstrumentation
-    private int horn;
-    private int trumpet;
-    private int trombone;
-    private int tube;
+    private int _horn;
+    private int _trumpet;
+    private int _trombone;
+    private int _tube;
 
     //PercussionInstrumentation
-    private int kettledrum;
-    private int percussion;
-    private int harp;
+    private int _kettledrum;
+    private int _percussion;
+    private int _harp;
 
+    // specialInstrumentation
     private List<SpecialInstrumentation> special;
 
     public int getInstrumentationID() {
-        return instrumentationID;
-    }
-
-    public void setInstrumentationID(int instrumentationID) {
-        this.instrumentationID = instrumentationID;
+        return _instrumentationID;
     }
 
     public int getFlute() {
-        return flute;
-    }
-
-    public void setFlute(int flute) {
-        this.flute = flute;
+        return _flute;
     }
 
     public int getOboe() {
-        return oboe;
-    }
-
-    public void setOboe(int oboe) {
-        this.oboe = oboe;
+        return _oboe;
     }
 
     public int getClarinet() {
-        return clarinet;
-    }
-
-    public void setClarinet(int clarinet) {
-        this.clarinet = clarinet;
+        return _clarinet;
     }
 
     public int getBassoon() {
-        return bassoon;
-    }
-
-    public void setBassoon(int bassoon) {
-        this.bassoon = bassoon;
+        return _bassoon;
     }
 
     public int getViolin1() {
-        return violin1;
-    }
-
-    public void setViolin1(int violin1) {
-        this.violin1 = violin1;
+        return _violin1;
     }
 
     public int getViolin2() {
-        return violin2;
-    }
-
-    public void setViolin2(int violin2) {
-        this.violin2 = violin2;
+        return _violin2;
     }
 
     public int getViola() {
-        return viola;
-    }
-
-    public void setViola(int viola) {
-        this.viola = viola;
+        return _viola;
     }
 
     public int getViolincello() {
-        return violincello;
-    }
-
-    public void setViolincello(int violincello) {
-        this.violincello = violincello;
+        return _violincello;
     }
 
     public int getDoublebass() {
-        return doublebass;
-    }
-
-    public void setDoublebass(int doublebass) {
-        this.doublebass = doublebass;
+        return _doublebass;
     }
 
     public int getHorn() {
-        return horn;
-    }
-
-    public void setHorn(int horn) {
-        this.horn = horn;
+        return _horn;
     }
 
     public int getTrumpet() {
-        return trumpet;
-    }
-
-    public void setTrumpet(int trumpet) {
-        this.trumpet = trumpet;
+        return _trumpet;
     }
 
     public int getTrombone() {
-        return trombone;
-    }
-
-    public void setTrombone(int trombone) {
-        this.trombone = trombone;
+        return _trombone;
     }
 
     public int getTube() {
-        return tube;
-    }
-
-    public void setTube(int tube) {
-        this.tube = tube;
+        return _tube;
     }
 
     public int getKettledrum() {
-        return kettledrum;
-    }
-
-    public void setKettledrum(int kettledrum) {
-        this.kettledrum = kettledrum;
+        return _kettledrum;
     }
 
     public int getPercussion() {
-        return percussion;
+        return _percussion;
+    }
+
+    public void setClarinet(int clarinet) {
+        _clarinet = clarinet;
+    }
+
+    public void setInstrumentationID(int instrumentationID) {
+        _instrumentationID = instrumentationID;
+    }
+
+    public void setFlute(int flute) {
+        _flute = flute;
+    }
+
+    public void setOboe(int oboe) {
+        _oboe = oboe;
+    }
+
+    public void setBassoon(int bassoon) {
+        _bassoon = bassoon;
+    }
+
+    public void setViolin1(int violin1) {
+        _violin1 = violin1;
+    }
+
+    public void setViolin2(int violin2) {
+        _violin2 = violin2;
+    }
+
+    public void setViola(int viola) {
+        _viola = viola;
+    }
+
+    public void setViolincello(int violincello) {
+        _violincello = violincello;
+    }
+
+    public void setDoublebass(int doublebass) {
+        _doublebass = doublebass;
+    }
+
+    public void setHorn(int horn) {
+        _horn = horn;
+    }
+
+    public void setTrumpet(int trumpet) {
+        _trumpet = trumpet;
+    }
+
+    public void setTrombone(int trombone) {
+        _trombone = trombone;
+    }
+
+    public void setTube(int tube) {
+        _tube = tube;
+    }
+
+    public void setKettledrum(int kettledrum) {
+        _kettledrum = kettledrum;
     }
 
     public void setPercussion(int percussion) {
-        this.percussion = percussion;
+        _percussion = percussion;
     }
 
     public int getHarp() {
-        return harp;
+        return _harp;
     }
 
     public void setHarp(int harp) {
-        this.harp = harp;
+        _harp = harp;
     }
 
     public String getWoodInstrumentationText() {
@@ -191,7 +192,6 @@ public class Instrumentation implements DomainEntity {
         return "Special: " + TextHelper.getTextFromString('+', "","","");
     }
 
-
     public String getInstrumentationText() {
         StringBuilder text = new StringBuilder();
         text.append(getWoodInstrumentationText());
@@ -209,65 +209,69 @@ public class Instrumentation implements DomainEntity {
     }
 
     public void addToSpecial(String instrument, int instrumentCount, String section) {
-        special.add(new SpecialInstrumentation(instrument, instrumentCount, section));
+        SpecialInstrumentation specialInstrumentation = new SpecialInstrumentation();
+        specialInstrumentation.setSpecialInstrument(instrument);
+        specialInstrumentation.setSpecialInstrumentCount(instrumentCount);
+        specialInstrumentation.setSectionType(section);
+        special.add(specialInstrumentation);
     }
 
     public void addToInstrumentations(Instrumentation instrumentation) {
-        this.setFlute(this.getFlute() + instrumentation.getFlute());
-        this.setOboe(this.getOboe() + instrumentation.getOboe());
-        this.setClarinet(this.getClarinet() + instrumentation.getClarinet());
-        this.setBassoon(this.getBassoon() + instrumentation.getBassoon());
+        setFlute(getFlute() + instrumentation.getFlute());
+        setOboe(getOboe() + instrumentation.getOboe());
+        setClarinet(getClarinet() + instrumentation.getClarinet());
+        setBassoon(getBassoon() + instrumentation.getBassoon());
 
-        this.setViolin1(this.getViolin1() + instrumentation.getViolin1());
-        this.setViolin2(this.getViolin2() + instrumentation.getViolin2());
-        this.setViola(this.getViola() + instrumentation.getViola());
-        this.setViolincello(this.getViolincello() + instrumentation.getViolincello());
-        this.setDoublebass(this.getDoublebass() + instrumentation.getDoublebass());
+        setViolin1(getViolin1() + instrumentation.getViolin1());
+        setViolin2(getViolin2() + instrumentation.getViolin2());
+        setViola(getViola() + instrumentation.getViola());
+        setViolincello(getViolincello() + instrumentation.getViolincello());
+        setDoublebass(getDoublebass() + instrumentation.getDoublebass());
 
-        this.setHorn(this.getHorn() + instrumentation.getHorn());
-        this.setTrumpet(this.getTrumpet() + instrumentation.getTrumpet());
-        this.setTrombone(this.getTrombone() + instrumentation.getTrombone());
-        this.setTube(this.getTube() + instrumentation.getTube());
+        setHorn(getHorn() + instrumentation.getHorn());
+        setTrumpet(getTrumpet() + instrumentation.getTrumpet());
+        setTrombone(getTrombone() + instrumentation.getTrombone());
+        setTube(getTube() + instrumentation.getTube());
 
-        this.setKettledrum(this.getKettledrum() + instrumentation.getKettledrum());
-        this.setPercussion(this.getPercussion() + instrumentation.getPercussion());
-        this.setHarp(this.getHarp() + instrumentation.getHarp());
+        setKettledrum(getKettledrum() + instrumentation.getKettledrum());
+        setPercussion(getPercussion() + instrumentation.getPercussion());
+        setHarp(getHarp() + instrumentation.getHarp());
     }
 
     public int getByInstrumentType(InstrumentType instrumentType) {
         switch (instrumentType) {
             case FLUTE:
-                return this.getFlute();
+                return getFlute();
             case OBOE:
-                return this.getOboe();
+                return getOboe();
             case CLARINET:
-                return this.getClarinet();
+                return getClarinet();
             case BASSOON:
-                return this.getBassoon();
+                return getBassoon();
             case FIRSTVIOLIN:
-                return this.getViolin1();
+                return getViolin1();
             case SECONDVIOLIN:
-                return this.getViolin2();
+                return getViolin2();
             case VIOLA:
-                return this.getViola();
+                return getViola();
             case VIOLONCELLO:
-                return this.getViolincello();
+                return getViolincello();
             case DOUBLEBASS:
-                return this.getDoublebass();
+                return getDoublebass();
             case HORN:
-                return this.getHorn();
+                return getHorn();
             case TRUMPET:
-                return this.getTrumpet();
+                return getTrumpet();
             case TROMBONE:
-                return this.getTrombone();
+                return getTrombone();
             case TUBE:
-                return this.getTube();
+                return getTube();
             case KETTLEDRUM:
-                return this.getKettledrum();
+                return getKettledrum();
             case PERCUSSION:
-                return this.getPercussion();
+                return getPercussion();
             case HARP:
-                return this.getHarp();
+                return getHarp();
         }
 
         return -1;

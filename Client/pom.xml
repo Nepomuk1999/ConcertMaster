@@ -44,12 +44,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>application-layer</groupId>
-            <artifactId>application-layer</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>json-connector</groupId>
             <artifactId>json-connector</artifactId>
             <version>1.0</version>
@@ -61,7 +55,12 @@
             <version>8.0-r5</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1-m05</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

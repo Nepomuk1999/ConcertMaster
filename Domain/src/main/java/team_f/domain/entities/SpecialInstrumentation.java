@@ -1,38 +1,40 @@
 package team_f.domain.entities;
 
 public class SpecialInstrumentation {
+    private int _specialInstrumentationID;
+    private String _sectionType;
+    private String _specialInstrument;
+    private int _specialInstrumentCount;
 
-    private String sectionType;
-    private String specialInstrument;
-    private int specialInstrumentCount;
-
-    public SpecialInstrumentation(String specialInstrument, int specialInstrumentCount, String sectionType) {
-        this.sectionType = sectionType;
-        this.specialInstrument = specialInstrument;
-        this.specialInstrumentCount = specialInstrumentCount;
+    public int getSpecialInstrumentationID() {
+        return _specialInstrumentationID;
     }
 
     public String getSectionType() {
-        return sectionType;
-    }
-
-    public void setSectionType(String sectionType) {
-        sectionType = sectionType;
+        return _sectionType;
     }
 
     public String getSpecialInstrument() {
-        return specialInstrument;
-    }
-
-    public void setSpecialInstrument(String specialInstrument) {
-        specialInstrument = specialInstrument;
+        return _specialInstrument;
     }
 
     public int getSpecialInstrumentCount() {
-        return specialInstrumentCount;
+        return _specialInstrumentCount;
+    }
+
+    public void setSpecialInstrumentationID(int specialInstrumentationID) {
+        _specialInstrumentationID = specialInstrumentationID;
+    }
+
+    public void setSectionType(String sectionType) {
+        _sectionType = sectionType;
+    }
+
+    public void setSpecialInstrument(String specialInstrument) {
+        _specialInstrument = specialInstrument;
     }
 
     public void setSpecialInstrumentCount(int specialInstrumentCount) {
-        this.specialInstrumentCount = specialInstrumentCount;
+        _specialInstrumentCount = specialInstrumentCount;
     }
 }

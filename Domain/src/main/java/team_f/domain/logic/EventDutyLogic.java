@@ -11,12 +11,10 @@ import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.helper.IntegerHelper;
 import team_f.domain.helper.StringHelper;
 import team_f.domain.interfaces.EntityLogic;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import static team_f.domain.enums.EventDutyProperty.*;
 
 public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty> {
@@ -32,9 +30,10 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
             switch (property) {
                 case ID:
-                    if (!IntegerHelper.isValidId(eventDuty.getEventDutyId())) {
+                    if (!IntegerHelper.isValidId(eventDuty.getEventDutyID())) {
                         resultList.add(new Pair<>(String.valueOf(ID), "is not in the correct range"));
                     }
+
                     break;
 
                 case EVENT_TYPE:
@@ -66,6 +65,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     } else {
                         resultList.add(new Pair<>(String.valueOf(START_DATE), "is empty"));
                     }
+
                     break;
 
                 case END_DATE:
@@ -88,12 +88,14 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         //TODO: if empty then default value 3h
                         resultList.add(new Pair<>(String.valueOf(END_DATE), "is empty"));
                     }
+
                     break;
 
                 case DEFAULT_POINTS:
                     if (!IntegerHelper.isPositiveDefaultPoint(eventDuty.getDefaultPoints())) {
                         resultList.add(new Pair<>(String.valueOf(DEFAULT_POINTS), "Only positive Points possible"));
                     }
+
                     break;
 
                 case NAME:
@@ -106,12 +108,14 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     if (eventDuty.getLocation() == null && !StringHelper.isNotEmpty(eventDuty.getLocation())) {
                         resultList.add(new Pair<>(String.valueOf(LOCATION), "is empty"));
                     }
+
                     break;
 
                 case CONDUCTOR:
                     if (eventDuty.getConductor() == null && !StringHelper.isNotEmpty(eventDuty.getConductor())) {
                         resultList.add(new Pair<>(String.valueOf(CONDUCTOR), "is empty"));
                     }
+
                     break;
 
                 case EVENT_STATUS:
@@ -133,7 +137,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
 
                 case REHEARSAL_FOR:
-                    if (eventDuty.getRehearsalFor() == null || IntegerHelper.isValidId(eventDuty.getRehearsalFor().getEventDutyId())) {
+                    if (eventDuty.getRehearsalFor() == null || IntegerHelper.isValidId(eventDuty.getRehearsalFor().getEventDutyID())) {
                         resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "is not valid"));
                     } else {
                         if (eventDuty.getRehearsalFor().getRehearsalFor() != null) {
@@ -146,6 +150,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         }
 
                     }
+
                     break;
                 case MUSICAL_WORK_LIST:
 
@@ -169,18 +174,17 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
             }
         }
-                    /*@TODO: Validation for
-                        INSTRUMENTATION,
-                        MUSICAL_WORK_LIST,
 
-                        DISPOSITION_LIST,
-                        SECTION_DUTY_ROSTER_LIST,
-                        REQUEST_LIST
-                        */
+        /*@TODO: Validation for
+        INSTRUMENTATION,
+        MUSICAL_WORK_LIST,
+        DISPOSITION_LIST,
+        SECTION_DUTY_ROSTER_LIST,
+        REQUEST_LIST
+        */
 
         return resultList;
     }
-
 
     @Override
     public List<Pair<String, String>> validate(EventDuty eventDuty) {

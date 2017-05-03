@@ -1,7 +1,8 @@
 package team_f.jsonconnector.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import team_f.jsonconnector.entities.JSONObjectEntity;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -9,6 +10,7 @@ public class WriteHelper {
     public static boolean writeJSONObject(Writer writer, JSONObjectEntity jsonObjectEntity) {
         if(writer != null && jsonObjectEntity != null) {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
 
             try {
                 mapper.writeValue(writer, jsonObjectEntity);

@@ -1,10 +1,9 @@
 package team_f.client.helper;
 
 import sun.net.www.http.PosterOutputStream;
-import team_f.jsonconnector.entities.JSONObjectEntity;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
-
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;

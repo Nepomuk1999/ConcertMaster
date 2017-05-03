@@ -1,105 +1,106 @@
 package team_f.domain.entities;
 
-import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class Person {
+    private int _personID;
+    private String _initials;
+    private String _firstname;
+    private String _lastname;
+    private String _email;
+    private String _gender;
+    private String _address;
+    private String _phoneNumber;
+    private PersonRole _personRole;
+    private List<Instrument> _instruments = new LinkedList<>();
 
-    private int personId;
-    private String initials;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String gender;
-    private String address;
-    private String phoneNumber;
-    private PersonRole personRole;
-    private List<InstrumentType> instruments = new LinkedList<>();
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public int getPersonID() {
+        return _personID;
     }
 
     public String getInitials() {
-        return initials;
-    }
-
-    public void setInitials(String initials) {
-        this.initials = initials;
+        return _initials;
     }
 
     public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+        return _firstname;
     }
 
     public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+        return _lastname;
     }
 
     public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return _email;
     }
 
     public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
+        return _gender;
     }
 
     public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+        return _address;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        return _phoneNumber;
     }
 
     public PersonRole getPersonRole() {
-        return personRole;
+        return _personRole;
+    }
+
+    public List<Instrument> getInstruments() {
+        return _instruments;
+    }
+
+    public void setPersonID(int personID) {
+        _personID = personID;
+    }
+
+    public void setInitials(String initials) {
+        _initials = initials;
+    }
+
+    public void setFirstname(String firstname) {
+        _firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        _lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        _email = email;
+    }
+
+    public void setGender(String gender) {
+        _gender = gender;
+    }
+
+    public void setAddress(String address) {
+        _address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        _phoneNumber = phoneNumber;
     }
 
     public void setPersonRole(PersonRole personRole) {
-        this.personRole = personRole;
+        _personRole = personRole;
     }
 
-    public List<InstrumentType> getInstruments() {
-        return instruments;
+    public void setInstruments(List<Instrument> instruments) {
+        _instruments = instruments;
     }
 
-    public void setInstruments(List<InstrumentType> instruments) {
-        this.instruments = instruments;
-    }
+    public void addInstrument(Instrument instrument) {
+        if(_instruments == null) {
+            _instruments = new LinkedList<>();
+        }
 
-    public void addInstrument(InstrumentType instrument) {
-        instruments.add(instrument);
+        _instruments.add(instrument);
     }
 }

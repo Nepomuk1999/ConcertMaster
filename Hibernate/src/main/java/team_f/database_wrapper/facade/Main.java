@@ -1,7 +1,6 @@
 package team_f.database_wrapper.facade;
 
 import team_f.domain.entities.EventDuty;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;

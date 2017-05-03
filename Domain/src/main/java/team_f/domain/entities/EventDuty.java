@@ -3,7 +3,6 @@ package team_f.domain.entities;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
-
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -13,48 +12,48 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class EventDuty implements DomainEntity {
-    private int eventDutyId;
-    private String name;
-    private String description;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private EventType eventType;
-    private EventStatus eventStatus;
-    private String conductor;
-    private String location;
-    private EventDuty rehearsalFor;
-    private double defaultPoints;
-    private Instrumentation maxInstrumetation;
+    private int _eventDutyID;
+    private String _name;
+    private String _description;
+    private LocalDateTime _startTime;
+    private LocalDateTime _endTime;
+    private EventType _eventType;
+    private EventStatus _eventStatus;
+    private String _conductor;
+    private String _location;
+    private EventDuty _rehearsalFor;
+    private double _defaultPoints;
+    private Instrumentation _maxInstrumentation;
     private List<MusicalWork> _musicalWorkList = new LinkedList<>();
     private List<Instrumentation> _instrumentationList = new LinkedList<>();
 
-    public int getEventDutyId() {
-        return eventDutyId;
+    public int getEventDutyID() {
+        return _eventDutyID;
     }
 
-    public void setEventDutyId(int eventDutyId) {
-        this.eventDutyId = eventDutyId;
+    public void setEventDutyID(int eventDutyID) {
+        _eventDutyID = eventDutyID;
     }
 
     public String getName() {
-        return name;
+        return _name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        _name = name;
     }
 
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        _description = description;
     }
 
     public String getEndDate(String format) {
-        if (endTime != null) {
-            Date date = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
+        if (_endTime != null) {
+            Date date = Date.from(_endTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -66,8 +65,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getStartDate(String format) {
-        if (startTime != null) {
-            Date date = Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant());
+        if (_startTime != null) {
+            Date date = Date.from(_startTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -79,8 +78,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getStartTime(String format) {
-        if (startTime != null) {
-            Date date = Date.from(startTime.atZone(ZoneId.systemDefault()).toInstant());
+        if (_startTime != null) {
+            Date date = Date.from(_startTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -92,8 +91,8 @@ public class EventDuty implements DomainEntity {
     }
 
     public String getEndTime(String format) {
-        if (endTime != null) {
-            Date date = Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant());
+        if (_endTime != null) {
+            Date date = Date.from(_endTime.atZone(ZoneId.systemDefault()).toInstant());
 
             Format formatter = new SimpleDateFormat(format);
             String result = formatter.format(date);
@@ -105,75 +104,75 @@ public class EventDuty implements DomainEntity {
     }
 
     public LocalDateTime getStartTime() {
-        return startTime;
+        return _startTime;
     }
 
     public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+        _startTime = startTime;
     }
 
     public LocalDateTime getEndTime() {
-        return endTime;
+        return _endTime;
     }
 
     public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+        _endTime = endTime;
     }
 
     public EventType getEventType() {
-        return eventType;
+        return _eventType;
     }
 
     public void setEventType(EventType eventType) {
-        this.eventType = eventType;
+        _eventType = eventType;
     }
 
     public EventStatus getEventStatus() {
-        return eventStatus;
+        return _eventStatus;
     }
 
     public void setEventStatus(EventStatus eventStatus) {
-        this.eventStatus = eventStatus;
+        _eventStatus = eventStatus;
     }
 
     public String getConductor() {
-        return conductor;
+        return _conductor;
     }
 
     public void setConductor(String conductor) {
-        this.conductor = conductor;
+        _conductor = conductor;
     }
 
     public String getLocation() {
-        return location;
+        return _location;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        _location = location;
     }
 
     public EventDuty getRehearsalFor() {
-        return rehearsalFor;
+        return _rehearsalFor;
     }
 
     public void setRehearsalFor(EventDuty rehearsalFor) {
-        this.rehearsalFor = rehearsalFor;
+        _rehearsalFor = rehearsalFor;
     }
 
     public double getDefaultPoints() {
-        return defaultPoints;
+        return _defaultPoints;
     }
 
     public void setDefaultPoints(double defaultPoints) {
-        this.defaultPoints = defaultPoints;
+        _defaultPoints = defaultPoints;
     }
 
     public Instrumentation getInstrumentation() {
-        return maxInstrumetation;
+        return _maxInstrumentation;
     }
 
     public void setInstrumentation(Instrumentation instrumentation) {
-        this.maxInstrumetation = instrumentation;
+        _maxInstrumentation = instrumentation;
     }
 
     public void addMusicalWork(MusicalWork musicalWork, Instrumentation instrumentation) {
@@ -185,23 +184,23 @@ public class EventDuty implements DomainEntity {
         return _musicalWorkList;
     }
 
-    public void setMusicalWorkList(List e) {
-        this._musicalWorkList = e;
+    public void setMusicalWorkList(List musicalWorkList) {
+        this._musicalWorkList = musicalWorkList;
     }
 
     public List<Instrumentation> getInstrumentationList() {
         return _instrumentationList;
     }
 
-    public void setInstrumentationList(List<Instrumentation> l) {
-        this._instrumentationList = l;
+    public void setInstrumentationList(List<Instrumentation> instrumentationList) {
+        this._instrumentationList = instrumentationList;
     }
 
-    public Instrumentation getMaxInstrumetation() {
-        return maxInstrumetation;
+    public Instrumentation getMaxInstrumentation() {
+        return _maxInstrumentation;
     }
 
-    public void setMaxInstrumetation(Instrumentation maxInstrumetation) {
-        this.maxInstrumetation = maxInstrumetation;
+    public void setMaxInstrumentation(Instrumentation maxInstrumentation) {
+        _maxInstrumentation = maxInstrumentation;
     }
 }

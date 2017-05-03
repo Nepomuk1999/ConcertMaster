@@ -1,4 +1,4 @@
-package team_f.client.controls.Home;
+package team_f.client.pages.home;
 
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
@@ -7,8 +7,6 @@ import javafx.scene.layout.*;
 
 public class TodolistHome extends BorderPane {
     public TodolistHome() {
-
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("My TodoList");
         alert.setHeaderText("Enter new Todo's or delete solved Todo's");
@@ -78,13 +76,9 @@ public class TodolistHome extends BorderPane {
         content2.getChildren().addAll(layout);
         alert.getDialogPane().setContent(content2);
         alert.showAndWait();
-
-
     }
 
     private void initListView(ListView<String> listView) {
         listView.getItems().setAll("Termin anlegen für 10.12", "Punkte eintragen", "Terminplan Veröffentlichen");
     }
-
-
 }

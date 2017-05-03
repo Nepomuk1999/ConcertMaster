@@ -5,9 +5,9 @@ import org.json.JSONObject;
 import team_f.application.EventApplication;
 import team_f.application.helper.EventDutyHelper;
 import team_f.domain.entities.EventDuty;
+import team_f.jsonconnector.common.URIList;
 import team_f.server.helper.CSSHelper;
 import team_f.server.helper.response.CommonResponse;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/Calendar"})
+@WebServlet(urlPatterns = {URIList.calendar})
 public class Calendar extends HttpServlet {
     @Override
     public void init() throws ServletException {
@@ -52,7 +52,7 @@ public class Calendar extends HttpServlet {
 
                 for(EventDuty event : eventList) {
                     jsonObject = new JSONObject();
-                    jsonObject.put("id", event.getEventDutyId());
+                    jsonObject.put("id", event.getEventDutyID());
                     jsonObject.put("start", event.getStartTime());
                     jsonObject.put("end", event.getEndTime());
                     jsonObject.put("title","(" + EventDutyHelper.getEventTypeCode(event.getEventType()) + ")" +"\t"+event.getName());

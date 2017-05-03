@@ -18,17 +18,17 @@
         </h4>
     </div>
     <div class="modal-body container-fluid">
-        <input type="number" name="${EventDutyProperty.ID}" value="${eventDuty.eventDutyId}" class="hidden">
+        <input type="number" name="${EventDutyProperty.ID}" value="${eventDuty.eventDutyID}" class="hidden">
 
         <div class="control-group row">
             <c:if test="${IS_REHEARSAL_FOR}">
                 <div class="form-group col-xs-12 col-sm-6">
                     <t:ErrorMessage errorMessage="${PROBLEM_REHEARSAL_FOR}">
                         <label for="${EventDutyProperty.REHEARSAL_FOR}" class="control-label">For Event</label><br>
-                        <input type="number" id="${EventDutyProperty.REHEARSAL_FOR}_" class="hidden" name="${EventDutyProperty.REHEARSAL_FOR}" value="${eventDuty.rehearsalFor.eventDutyId}">
+                        <input type="number" id="${EventDutyProperty.REHEARSAL_FOR}_" class="hidden" name="${EventDutyProperty.REHEARSAL_FOR}" value="${eventDuty.rehearsalFor.eventDutyID}">
                         <label id="${EventDutyProperty.REHEARSAL_FOR}" class="form-control">${eventDuty.rehearsalFor.name}</label>
                         <%--<select class="selectpicker form-control" data-live-search="true" name="${EventDutyProperty.REHEARSAL_FOR}" disabled>
-                            <option value="${eventDuty.rehearsalFor.eventDutyId}" selected disabled>${eventDuty.rehearsalFor.name}</option>
+                            <option value="${eventDuty.rehearsalFor.eventDutyID}" selected disabled>${eventDuty.rehearsalFor.name}</option>
                         </select>--%>
                     </t:ErrorMessage>
                 </div>
@@ -221,7 +221,7 @@
                                                                 selected
                                                             </c:if>
                                                         </c:forEach>
-                                                        data-subtext="${item.composer}" instrumentation-id="${item.instrumentationID}">${item.name}</option>
+                                                        data-subtext="${item.composer}" instrumentation-id="${item.instrumentation.instrumentationID}">${item.name}</option>
                                             </c:forEach>
                                         </select>
                                         <!-- @TODO: add a new popup window to edit the instrumentations -->
@@ -311,11 +311,11 @@
         var predefinedInstrumentationIdList = [
         <c:forEach var="musicalWork" items="${eventDuty.musicalWorkList}">
             <c:choose>
-                <c:when test="${not empty musicalWork.alternativeInstrumentationId}">
-                    ${musicalWork.alternativeInstrumentationId}
+                <c:when test="${not empty musicalWork.alternativeInstrumentation.instrumentationID}">
+                    ${musicalWork.alternativeInstrumentation.instrumentationID}
                 </c:when>
                 <c:otherwise>
-                    ${musicalWork.instrumentationID}
+                    ${musicalWork.instrumentation.instrumentationID}
                 </c:otherwise>
             </c:choose>
             ${","}

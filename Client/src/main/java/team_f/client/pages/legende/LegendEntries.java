@@ -1,4 +1,4 @@
-package team_f.client.controls.Legende;
+package team_f.client.pages.legende;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

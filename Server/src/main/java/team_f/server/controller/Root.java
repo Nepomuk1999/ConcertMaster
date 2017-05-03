@@ -1,6 +1,7 @@
 package team_f.server.controller;
 
 import team_f.application.EventApplication;
+import team_f.jsonconnector.common.URIList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
-@WebServlet(name = "example", urlPatterns = {""})
+@WebServlet(urlPatterns = {URIList.root})
 public class Root extends HttpServlet {
     @Override
     public void init() throws ServletException {

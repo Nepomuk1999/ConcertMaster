@@ -2,6 +2,7 @@ package team_f.application.helper;
 
 import javafx.util.Pair;
 import team_f.application.EventApplication;
+import team_f.application.InstrumentationApplication;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 
@@ -16,7 +17,7 @@ public class DomainEntityHelper {
     }
 
     public static List<Instrumentation> getInstrumentationList() {
-        EventApplication facade = new EventApplication();
+        InstrumentationApplication facade = new InstrumentationApplication();
         List<Instrumentation> instrumentationList = facade.getInstrumentationList();
 
         return instrumentationList;

@@ -1,4 +1,4 @@
-package team_f.client.controls.MusicianManagement;
+package team_f.client.pages.musicianmanagement;
 
 public class PersonTestData {
     // Properties of the person (name, address, job)

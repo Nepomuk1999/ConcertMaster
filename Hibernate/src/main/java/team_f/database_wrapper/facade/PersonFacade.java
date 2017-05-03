@@ -1,16 +1,13 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.MusicianPartEntity;
-import team_f.database_wrapper.database.PartEntity;
-import team_f.database_wrapper.database.PartTypeEntity;
-import team_f.database_wrapper.database.PersonEntity;
+import team_f.database_wrapper.database.*;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PersonFacade {
@@ -39,24 +36,23 @@ public class PersonFacade {
      * @return musicians      List<Person>         returns a list of persons
      */
     public List<Person> getAllMusicians() {
-
         EntityManager session = getCurrentSession();
 
-        // prevent SQL injections
         Query query = session.createQuery("from PersonEntity");
 
         List<PersonEntity> musicianEntities = query.getResultList();
         List<Person> musicians = new ArrayList<>();
+        Person person;
 
         for (PersonEntity entity : musicianEntities) {
-            Person person = new Person();
-
             person = convertToPerson(entity);
 
-            for (String s : getPlayedInstrumentsByPersonId(person.getPersonId())) {
-                if(contains(s)) {
-                    person.addInstrument(InstrumentType.valueOf(s.toUpperCase().replaceAll("\\s+", "")));
-                }
+            Collection<InstrumentEntity> instruments = entity.getInstrumentsByPersonId();
+
+            if(instruments != null && instruments.size() > 0) {
+                // set only the first item because musicians cannot play multiple instruments in the orchestra (is only a feature for the future)
+                InstrumentFacade instrumentFacade = new InstrumentFacade(getCurrentSession());
+                person.addInstrument(instrumentFacade.convertToInstrument(instruments.iterator().next()));
             }
 
             musicians.add(person);
@@ -83,7 +79,7 @@ public class PersonFacade {
     private Person convertToPerson(PersonEntity pe) {
         Person person = new Person();
 
-        person.setPersonId(pe.getPersonId());
+        person.setPersonID(pe.getPersonId());
         person.setFirstname(pe.getFirstname());
         person.setLastname(pe.getLastname());
         person.setAddress(pe.getAddress());
@@ -96,7 +92,7 @@ public class PersonFacade {
         return person;
     }
 
-    private List<String> getPlayedInstrumentsByPersonId(int id) {
+    /*private List<String> getPlayedInstrumentsByPersonId(int id) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -124,6 +120,5 @@ public class PersonFacade {
         }
 
         return parts;
-    }
-
+    }*/
 }

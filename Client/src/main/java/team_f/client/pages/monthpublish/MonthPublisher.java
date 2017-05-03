@@ -1,4 +1,4 @@
-package team_f.client.controls.MonthPublish;
+package team_f.client.pages.monthpublish;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,10 +11,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import team_f.client.helper.RequestResponseHelper;
+import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.entities.Publish;
 import team_f.jsonconnector.enums.PublishType;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -26,9 +26,9 @@ public class MonthPublisher extends BorderPane {
     private int _selectedYear;
     private Month _selectedMonth;
     private VBox _root;
-    private TableView<Events> _table;
+    private TableView<Event> _table;
     private URL _baseURL;
-    private String _uri = "/Publish";
+    private String _uri = URIList.publish;
 
     public MonthPublisher(URL baseURL) {
         _baseURL = baseURL;
@@ -74,7 +74,7 @@ public class MonthPublisher extends BorderPane {
         });
 
 
-        _table = new TableView<>(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(), _selectedYear));
+        _table = new TableView<>(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
         _table.setEditable(false);
         _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
                 MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
@@ -86,7 +86,7 @@ public class MonthPublisher extends BorderPane {
             if (arg2 != null) {
                 _selectedMonth.setMonth(arg2.getMonth());
                 _selectedMonth.setValue(arg2.getValue());
-                _table.setItems(MonthPublisherHelper.getEventsList(_selectedMonth.getValue(), _selectedYear));
+                _table.setItems(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
             }
         });
 
@@ -156,7 +156,7 @@ public class MonthPublisher extends BorderPane {
     private void publish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Publish  Month");
-        alert.setHeaderText("Are you sure you want to Publish the following month? You are no longer able to edit the Events assigned to this month  ");
+        alert.setHeaderText("Are you sure you want to Publish the following month? You are no longer able to edit the Event assigned to this month  ");
         alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
 
         ButtonType buttonTypeOne = new ButtonType("Publish");
@@ -274,6 +274,15 @@ public class MonthPublisher extends BorderPane {
     private URL getFullURL() {
         try {
             return new URL(_baseURL, _uri);
+        } catch (MalformedURLException e) {
+        }
+
+        return null;
+    }
+
+    private URL getFullEventURL() {
+        try {
+            return new URL(_baseURL, URIList.event);
         } catch (MalformedURLException e) {
         }
 

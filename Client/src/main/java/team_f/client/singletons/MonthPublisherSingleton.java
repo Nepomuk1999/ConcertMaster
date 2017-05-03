@@ -1,7 +1,6 @@
 package team_f.client.singletons;
 
-import team_f.client.controls.MonthPublish.MonthPublisher;
-
+import team_f.client.pages.monthpublish.MonthPublisher;
 import java.net.URL;
 
 public class MonthPublisherSingleton {

@@ -1,6 +1,6 @@
 package team_f.client.singletons;
 
-import team_f.client.controls.Legende.LegendTable;
+import team_f.client.pages.legende.LegendTable;
 
 public class LegendSingleton {
     private static LegendTable _legendTable;

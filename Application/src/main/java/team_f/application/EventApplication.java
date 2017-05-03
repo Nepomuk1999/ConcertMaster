@@ -2,6 +2,9 @@ package team_f.application;
 
 import javafx.util.Pair;
 import team_f.database_wrapper.facade.EventFacade;
+import team_f.database_wrapper.facade.InstrumentationFacade;
+import team_f.database_wrapper.facade.MusicalWorkFacade;
+import team_f.database_wrapper.facade.SessionFactory;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
@@ -11,7 +14,7 @@ import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.EventDutyLogic;
-
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,9 +23,12 @@ import java.util.List;
 import static team_f.domain.enums.EventDutyProperty.START_DATE;
 
 public class EventApplication {
-
-    private EventFacade eventFacade = new EventFacade();
+    private EntityManager session = SessionFactory.getSession();
+    private EventFacade eventFacade = new EventFacade(session);
+    InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
+    private MusicalWorkFacade musicalWorkFacade = new MusicalWorkFacade(session);
     private PersonApplication personApplication = new PersonApplication();
+
     public EventApplication() {
     }
 
@@ -37,7 +43,7 @@ public class EventApplication {
 
         // transform the parameters in a domain object
         EventDuty eventDuty = new EventDuty();
-        eventDuty.setEventDutyId(id);
+        eventDuty.setEventDutyID(id);
         eventDuty.setName(name);
         eventDuty.setDescription(description);
         eventDuty.setLocation(location);
@@ -54,7 +60,7 @@ public class EventApplication {
         }
 
         if (instrumentationId > 0) {
-            Instrumentation instrumentation = eventFacade.getInstrumentationByID(instrumentationId);
+            Instrumentation instrumentation = instrumentationFacade.getInstrumentationByID(instrumentationId);
             eventDuty.setInstrumentation(instrumentation);
         }
 
@@ -71,13 +77,11 @@ public class EventApplication {
                 tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
 
                 // set the alternative instrumentation even when it's the same as in the musical work
-                tmpMusicalWork.setAlternativeInstrumentationId(alternativeInstrumentationIdList[i]);
+                tmpMusicalWork.setAlternativeInstrumentation(instrumentationFacade.getInstrumentationByID(alternativeInstrumentationIdList[i]));
 
                 eventDuty.addMusicalWork(tmpMusicalWork, null);
             }
         }
-
-
 
         // check for errors
         EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
@@ -101,7 +105,7 @@ public class EventApplication {
             mE.setComposer(musicalWork.getComposer());
             // do not overwrite the predefined instrumentationId: use the intermediate table instead
             //mE.setInstrumentationID(musicalWork.getInstrumentationID());
-            mE.setAlternativeInstrumentationId(musicalWork.getAlternativeInstrumentationId());
+            mE.setAlternativeInstrumentation(musicalWork.getAlternativeInstrumentation());
 
             mE.setName(musicalWork.getName());
             eventMusicalList.add(mE);
@@ -127,11 +131,7 @@ public class EventApplication {
     }
 
     public List<MusicalWork> getMusicalWorkList() {
-        return eventFacade.getMusicalWorks();
-    }
-
-    public List<Instrumentation> getInstrumentationList() {
-        return eventFacade.getInstrumentations();
+        return musicalWorkFacade.getMusicalWorks();
     }
 
     public List<Pair<MusicalWork, Instrumentation>> getMusicalWorkInstrumentationList() {
@@ -154,13 +154,13 @@ public class EventApplication {
 
         calculateMaxInstrumentation(eventDuty);
 
-        List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrument(personApplication.getAllMusicians());
-        Instrumentation totalInstrumentation = eventDuty.getMaxInstrumetation();
+        List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrumentType(personApplication.getAllMusicians());
+        Instrumentation totalInstrumentation = eventDuty.getMaxInstrumentation();
 
         for (InstrumentType instrumentType : InstrumentType.values()) {
             for (EventDuty event : eventList) {
                 calculateMaxInstrumentation(event);
-                totalInstrumentation.addToInstrumentations(event.getMaxInstrumetation());
+                totalInstrumentation.addToInstrumentations(event.getMaxInstrumentation());
             }
 
             Pair<InstrumentType, List<Person>> pairList = getMusicianListByInstrumentType(instrumentType, list);
@@ -195,7 +195,7 @@ public class EventApplication {
         int maxHarp = 0;
 
         for (int i = 0; i < eventDuty.getInstrumentationList().size(); i++) {
-            Instrumentation instrumentation = this.getInstrumentationList().get(i);
+            Instrumentation instrumentation = instrumentationFacade.getInstrumentations().get(i);
 
             if (maxFlute < instrumentation.getFlute()) {
                 maxFlute = instrumentation.getFlute();
@@ -269,7 +269,7 @@ public class EventApplication {
         maxInstrumentation.setPercussion(maxPercussion);
         maxInstrumentation.setHarp(maxHarp);
 
-        eventDuty.setMaxInstrumetation(maxInstrumentation);
+        eventDuty.setMaxInstrumentation(maxInstrumentation);
     }
 
     public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
@@ -284,7 +284,7 @@ public class EventApplication {
         return pair;
     }
 
-    public List<Pair<String, String>> getEvenetsByFrame(EventDuty eventDuty) {
+    public List<Pair<String, String>> getEventsByFrame(EventDuty eventDuty) {
         List<EventDuty> eventDutyList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
         List<EventDuty> rehearsalList = new ArrayList<>();
         List<Pair<String, String>> errorList = new LinkedList<>();
@@ -296,7 +296,7 @@ public class EventApplication {
         }
         if (rehearsalList.size() > 0) {
             for (EventDuty rehearsal : rehearsalList) {
-                if (eventDuty.getRehearsalFor().getEventDutyId() == rehearsal.getEventDutyId()) {
+                if (eventDuty.getRehearsalFor().getEventDutyID() == rehearsal.getEventDutyID()) {
                     errorList.add(new Pair<>(String.valueOf(EventDutyProperty.REHEARSAL_FOR), "you have already a rehearsal for this event"));
                 }
             }
@@ -306,6 +306,7 @@ public class EventApplication {
     }
 
     public boolean publishEventsByMonth(int month, int year) {
+        // @TODO: more appropriate error messages
         try {
             List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 

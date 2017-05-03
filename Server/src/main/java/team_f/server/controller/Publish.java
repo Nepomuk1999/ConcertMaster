@@ -1,14 +1,12 @@
 package team_f.server.controller;
 
-import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.EventApplication;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
-import team_f.server.helper.request.EventDutyRequest;
 import team_f.server.helper.response.CommonResponse;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-@WebServlet(urlPatterns = {"/Publish"})
+@WebServlet(urlPatterns = {URIList.publish})
 public class Publish extends HttpServlet {
     @Override
     public void init() throws ServletException {

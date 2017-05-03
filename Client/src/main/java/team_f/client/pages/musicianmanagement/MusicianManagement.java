@@ -1,4 +1,4 @@
-package team_f.client.controls.MusicianManagement;
+package team_f.client.pages.musicianmanagement;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -6,7 +6,6 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -22,7 +21,6 @@ public class MusicianManagement extends BorderPane {
     private final TextField sectionField;
     private final TextField instrumentField;
     private TableView<PersonTestData> table;
-
 
     public MusicianManagement() {
         firstNameField = new TextField();
@@ -200,6 +198,5 @@ public class MusicianManagement extends BorderPane {
                 textField.setStyle("-fx-border-color: green");
             }
         }
-
     }
 }

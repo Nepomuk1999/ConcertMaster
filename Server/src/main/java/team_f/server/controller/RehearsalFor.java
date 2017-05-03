@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import team_f.application.EventApplication;
 import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
+import team_f.jsonconnector.common.URIList;
 import team_f.server.helper.request.CalendarRequest;
 import team_f.server.helper.request.EventDutyRequest;
 import team_f.server.helper.response.CommonResponse;
@@ -18,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/RehearsalFor"})
+@WebServlet(urlPatterns = {URIList.rehearsalFor})
 public class RehearsalFor extends HttpServlet {
     @Override
     public void init() throws ServletException {

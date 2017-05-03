@@ -1,4 +1,4 @@
-package team_f.client.controls.MonthPublish;
+package team_f.client.pages.monthpublish;
 
 public class Month {
     private String month;

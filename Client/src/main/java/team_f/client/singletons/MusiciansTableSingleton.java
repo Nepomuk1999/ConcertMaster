@@ -1,6 +1,6 @@
 package team_f.client.singletons;
 
-import team_f.client.controls.MusicianManagement.MusicianManagement;
+import team_f.client.pages.musicianmanagement.MusicianManagement;
 
 public class MusiciansTableSingleton {
     private static MusicianManagement _musicianTable;
