@@ -129,7 +129,7 @@ public class MonthPublisher extends BorderPane {
 
         StackPane header = new StackPane();
         StackPane bottom = new StackPane();
-        Label headerTitle = new Label("Publish/Unpublish Shedule");
+        Label headerTitle = new Label("Publish/Unpublish Schedule");
         headerTitle.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 36));
         header.getChildren().add(headerTitle);
         setStyle("-fx-border-color: cornflowerblue; -fx-border-radius: 10; -fx-border-insets: 0;");
@@ -157,7 +157,7 @@ public class MonthPublisher extends BorderPane {
     private void publish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Publish  Month");
-        alert.setHeaderText("Are you sure you want to Publish the following month? You are no longer able to edit the Event assigned to this month  ");
+        alert.setHeaderText("Are you sure you want to Publish the following month? You are no longer able to edit the Events assigned to this month");
         alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
 
         ButtonType buttonTypeOne = new ButtonType("Publish");
@@ -196,7 +196,7 @@ public class MonthPublisher extends BorderPane {
 
             if (isSuccessful) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Succes");
+                alert.setTitle("Success");
                 alert.setGraphic(new ImageView("check.png"));
                 alert.setHeaderText("Succesfully published selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
@@ -256,7 +256,7 @@ public class MonthPublisher extends BorderPane {
 
             if (isSuccessful) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Succes");
+                alert.setTitle("Success");
                 alert.setGraphic(new ImageView("check.png"));
                 alert.setHeaderText("Succesfully unpublished selected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
