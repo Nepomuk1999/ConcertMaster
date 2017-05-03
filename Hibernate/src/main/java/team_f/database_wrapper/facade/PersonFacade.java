@@ -1,6 +1,6 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.*;
+import team_f.database_wrapper.entities.*;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
@@ -10,24 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PersonFacade {
-    EntityManager _session;
-
-    public void closeSession() {
-        _session.close();
-        _session = null;
-    }
-
+public class PersonFacade extends BaseDatabaseFacade {
     public PersonFacade() {
-        _session = SessionFactory.getSession();
+        super();
     }
 
     public PersonFacade(EntityManager session) {
-        _session = session;
-    }
-
-    protected EntityManager getCurrentSession() {
-        return _session;
+        super(session);
     }
 
     /**

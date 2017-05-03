@@ -5,27 +5,27 @@
     <persistence-unit name="sem4_team2" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>team_f.database_wrapper.database.AccountEntity</class>
-        <class>team_f.database_wrapper.database.BrassInstrumentationEntity</class>
-        <class>team_f.database_wrapper.database.DutyDispositionEntity</class>
-        <class>team_f.database_wrapper.database.EventDutyEntity</class>
-        <class>team_f.database_wrapper.database.EventDutyMusicalWorkEntity</class>
-        <class>team_f.database_wrapper.database.EventDutySectionDutyRosterEntity</class>
-        <class>team_f.database_wrapper.database.InstrumentEntity</class>
-        <class>team_f.database_wrapper.database.InstrumentTypeEntity</class>
-        <class>team_f.database_wrapper.database.InstrumentationEntity</class>
-        <class>team_f.database_wrapper.database.MusicalWorkEntity</class>
-        <class>team_f.database_wrapper.database.MusicianPartEntity</class>
-        <class>team_f.database_wrapper.database.PartEntity</class>
-        <class>team_f.database_wrapper.database.PartTypeEntity</class>
-        <class>team_f.database_wrapper.database.PercussionInstrumentationEntity</class>
-        <class>team_f.database_wrapper.database.PersonEntity</class>
-        <class>team_f.database_wrapper.database.PersonOrchestraRoleEntity</class>
-        <class>team_f.database_wrapper.database.RequestEntity</class>
-        <class>team_f.database_wrapper.database.SectionDutyRosterEntity</class>
-        <class>team_f.database_wrapper.database.SpecialInstrumentationEntity</class>
-        <class>team_f.database_wrapper.database.StringInstrumentationEntity</class>
-        <class>team_f.database_wrapper.database.WoodInstrumentationEntity</class>
+        <class>team_f.database_wrapper.entities.AccountEntity</class>
+        <class>team_f.database_wrapper.entities.BrassInstrumentationEntity</class>
+        <class>team_f.database_wrapper.entities.DutyDispositionEntity</class>
+        <class>team_f.database_wrapper.entities.EventDutyEntity</class>
+        <class>team_f.database_wrapper.entities.EventDutyMusicalWorkEntity</class>
+        <class>team_f.database_wrapper.entities.EventDutySectionDutyRosterEntity</class>
+        <class>team_f.database_wrapper.entities.InstrumentEntity</class>
+        <class>team_f.database_wrapper.entities.InstrumentTypeEntity</class>
+        <class>team_f.database_wrapper.entities.InstrumentationEntity</class>
+        <class>team_f.database_wrapper.entities.MusicalWorkEntity</class>
+        <class>team_f.database_wrapper.entities.MusicianPartEntity</class>
+        <class>team_f.database_wrapper.entities.PartEntity</class>
+        <class>team_f.database_wrapper.entities.PartTypeEntity</class>
+        <class>team_f.database_wrapper.entities.PercussionInstrumentationEntity</class>
+        <class>team_f.database_wrapper.entities.PersonEntity</class>
+        <class>team_f.database_wrapper.entities.PersonOrchestraRoleEntity</class>
+        <class>team_f.database_wrapper.entities.RequestEntity</class>
+        <class>team_f.database_wrapper.entities.SectionDutyRosterEntity</class>
+        <class>team_f.database_wrapper.entities.SpecialInstrumentationEntity</class>
+        <class>team_f.database_wrapper.entities.StringInstrumentationEntity</class>
+        <class>team_f.database_wrapper.entities.WoodInstrumentationEntity</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />

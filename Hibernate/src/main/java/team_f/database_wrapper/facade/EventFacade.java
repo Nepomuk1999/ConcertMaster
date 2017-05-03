@@ -1,6 +1,6 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.*;
+import team_f.database_wrapper.entities.*;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EventStatus;
@@ -13,28 +13,17 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventFacade {
-    EntityManager _session;
-
+public class EventFacade extends BaseDatabaseFacade {
     public EventFacade() {
-        _session = SessionFactory.getSession();
+        super();
     }
 
     public EventFacade(EntityManager session) {
-        _session = session;
-    }
-
-    public void closeSession() {
-        _session.close();
-        _session = null;
-    }
-
-    protected EntityManager getCurrentSession() {
-        return _session;
+        super(session);
     }
 
     /**
-     * Function to add a ModelLogic. Returns the EventDutyId after saving it in database
+     * Function to add a ModelLogic. Returns the EventDutyId after saving it in entities
      *
      * @return EventDutyId      int         returns the primary key of the event
      */
@@ -233,8 +222,8 @@ public class EventFacade {
         eventDutyEntity.setDescription(event.getDescription());
         eventDutyEntity.setStarttime(event.getStartTime());
         eventDutyEntity.setEndtime(event.getEndTime());
-        eventDutyEntity.setEventType(team_f.database_wrapper.entities.EventType.valueOf(event.getEventType().toString()));
-        eventDutyEntity.setEventStatus(team_f.database_wrapper.entities.EventStatus.valueOf(event.getEventStatus().toString()));
+        eventDutyEntity.setEventType(team_f.database_wrapper.enums.EventType.valueOf(event.getEventType().toString()));
+        eventDutyEntity.setEventStatus(team_f.database_wrapper.enums.EventStatus.valueOf(event.getEventStatus().toString()));
         eventDutyEntity.setConductor(event.getConductor());
         eventDutyEntity.setLocation(event.getLocation());
         eventDutyEntity.setDefaultPoints(event.getDefaultPoints());
@@ -242,7 +231,7 @@ public class EventFacade {
             eventDutyEntity.setRehearsalFor(event.getRehearsalFor().getEventDutyID());
         }
 
-        // There are only a few musical works associated with an event. Therefore get the full list instead of asking the DB every time and modify the entities when needed.
+        // There are only a few musical works associated with an event. Therefore get the full list instead of asking the DB every time and modify the enums when needed.
         Collection<EventDutyMusicalWorkEntity> eventDutyMusicalWorkEntities = eventDutyEntity.getEventDutyMusicalWorksByEventDutyId();
         List<MusicalWork> musicalWorks = event.getMusicalWorkList();
 

@@ -1,31 +1,20 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.EventDutyMusicalWorkEntity;
-import team_f.database_wrapper.database.MusicalWorkEntity;
+import team_f.database_wrapper.entities.EventDutyMusicalWorkEntity;
+import team_f.database_wrapper.entities.MusicalWorkEntity;
 import team_f.domain.entities.MusicalWork;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicalWorkFacade {
-    EntityManager _session;
-
-    public void closeSession() {
-        _session.close();
-        _session = null;
-    }
-
+public class MusicalWorkFacade extends BaseDatabaseFacade {
     public MusicalWorkFacade() {
-        _session = SessionFactory.getSession();
+        super();
     }
 
     public MusicalWorkFacade(EntityManager session) {
-        _session = session;
-    }
-
-    protected EntityManager getCurrentSession() {
-        return _session;
+        super(session);
     }
 
     public Integer addMusicalWork(MusicalWork musicalWork) {

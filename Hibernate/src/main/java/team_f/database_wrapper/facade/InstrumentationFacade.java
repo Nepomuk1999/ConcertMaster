@@ -1,30 +1,19 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.*;
+import team_f.database_wrapper.entities.*;
 import team_f.domain.entities.Instrumentation;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrumentationFacade {
-    EntityManager _session;
-
-    public void closeSession() {
-        _session.close();
-        _session = null;
-    }
-
+public class InstrumentationFacade extends BaseDatabaseFacade {
     public InstrumentationFacade() {
-        _session = SessionFactory.getSession();
+        super();
     }
 
     public InstrumentationFacade(EntityManager session) {
-        _session = session;
-    }
-
-    protected EntityManager getCurrentSession() {
-        return _session;
+        super(session);
     }
 
     /*
@@ -40,7 +29,7 @@ public class InstrumentationFacade {
         WoodInstrumentationEntity woodInstrumentation = new WoodInstrumentationEntity();
         PercussionInstrumentationEntity percussionInstrumentation = new PercussionInstrumentationEntity();
 
-        // temporarily store all child entities in the transaction and get the id
+        // temporarily store all child enums in the transaction and get the id
         session.persist(stringInstrumentation);
         session.persist(brassInstrumentation);
         session.persist(woodInstrumentation);

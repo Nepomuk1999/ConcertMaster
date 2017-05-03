@@ -1,32 +1,20 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.database.*;
+import team_f.database_wrapper.entities.*;
 import team_f.domain.entities.Instrument;
 import team_f.domain.enums.InstrumentType;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrumentFacade {
-    EntityManager _session;
-
-    public void closeSession() {
-        _session.close();
-        _session = null;
-    }
-
+public class InstrumentFacade extends BaseDatabaseFacade {
     public InstrumentFacade() {
-        _session = SessionFactory.getSession();
+        super();
     }
 
     public InstrumentFacade(EntityManager session) {
-        _session = session;
-    }
-
-    protected EntityManager getCurrentSession() {
-        return _session;
+        super(session);
     }
 
     /**
