@@ -22,7 +22,7 @@ public class NavigationBar {
         ToggleGroup toggleGroup = new ToggleGroup();
         sidebar.setStyle("-fx-background-color:   #e0e0d1");
 
-        menuSection = new MenuSection("home", "/homeM.png", null);
+        menuSection = new MenuSection("Home", "/homeM.png", null);
         menuSection.setAnimated(false);
         menuSection.setCollapsible(false);
         menuSection.setOnMouseClicked(event -> pane.setCenter(HomeScreenSingleton.getInstance()));
