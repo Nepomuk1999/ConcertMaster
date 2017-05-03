@@ -157,7 +157,7 @@ public class MonthPublisher extends BorderPane {
     private void publish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Publish  Month");
-        alert.setHeaderText("Are you sure you want to Publish the following month? You are no longer able to edit the Event assigned to this month  ");
+        alert.setHeaderText("Are you sure you want to Publish the following month? You are no longer able to edit the Events assigned to this month  ");
         alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
 
         ButtonType buttonTypeOne = new ButtonType("Publish");
