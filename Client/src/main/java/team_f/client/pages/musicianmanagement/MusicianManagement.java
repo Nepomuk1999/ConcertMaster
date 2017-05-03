@@ -12,25 +12,46 @@ import java.util.Optional;
 
 public class MusicianManagement extends BorderPane {
 
-    private final TextField firstNameField;
-    private final TextField lastNameField;
-    private final TextField streetField;
-    private final TextField emailField;
-    private final TextField phoneField;
-    private final TextField roleField;
-    private final TextField sectionField;
-    private final TextField instrumentField;
+    private final TextField _firstNameField;
+    private final TextField _lastNameField;
+    private final TextField _streetField;
+    private final TextField _emailField;
+    private final TextField _phoneField;
     private TableView<PersonTestData> table;
+    private ComboBox<String> _comboBoxSection;
+    private ComboBox<String> _comboBoxInstrument;
+    private ComboBox<String> _comboBoxRole;
+    private ComboBox<String> _comboBoxGender;
+
+    private final TextField _usernameField;
+    private ComboBox<String> _comboBoxAccountRole;
+
+   // private final TextField instrumentField;
+
+
+    //person id, initials, first, last, emalil, gender, Adress,phone, personrole, (username, password, accountrole)
 
     public MusicianManagement() {
-        firstNameField = new TextField();
-        lastNameField = new TextField();
-        streetField = new TextField();
-        emailField = new TextField();
-        phoneField = new TextField();
-        roleField = new TextField();
-        sectionField = new TextField();
-        instrumentField = new TextField();
+
+
+        _firstNameField = new TextField();
+        _lastNameField = new TextField();
+        _streetField = new TextField();
+        _emailField = new TextField();
+        _phoneField = new TextField();
+
+
+        _comboBoxSection=new ComboBox<>();
+        _comboBoxInstrument=new ComboBox<>();
+        _comboBoxRole=new ComboBox<>();
+        _comboBoxGender=new ComboBox<>();
+
+
+
+
+        _usernameField = new TextField();
+        _comboBoxAccountRole=new ComboBox<>();
+
 
         table = new TableView<>(MusicianTableHelper.getPersonList());
         table.setEditable(false);
@@ -46,7 +67,51 @@ public class MusicianManagement extends BorderPane {
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        GridPane newDataPane = this.getNewPersonDataPane();
+
+        _comboBoxSection.setStyle("-fx-font: 14 arial;");
+        _comboBoxSection.getSelectionModel().selectFirst();
+        _comboBoxSection.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+            if (arg2 != null) {
+                System.out.println("selected");
+            }
+        });
+
+
+        _comboBoxInstrument.setStyle("-fx-font: 14 arial;");
+        _comboBoxInstrument.getSelectionModel().selectFirst();
+        _comboBoxInstrument.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+            if (arg2 != null) {
+                System.out.println("selected");
+            }
+        });
+
+        _comboBoxRole.setStyle("-fx-font: 14 arial;");
+        _comboBoxRole.getSelectionModel().selectFirst();
+        _comboBoxRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+            if (arg2 != null) {
+                System.out.println("selected");
+            }
+        });
+
+        _comboBoxGender.setStyle("-fx-font: 14 arial;");
+        _comboBoxGender.getSelectionModel().selectFirst();
+        _comboBoxGender.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+            if (arg2 != null) {
+                System.out.println("selected");
+            }
+        });
+
+
+        _comboBoxAccountRole.setStyle("-fx-font: 14 arial;");
+        _comboBoxAccountRole.getSelectionModel().selectFirst();
+        _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+            if (arg2 != null) {
+                System.out.println("selected");
+            }
+        });
+
+
+        GridPane newDataPane = getNewPersonDataPane();
 
         // Create the Delete Button and add Event-Handler
         Button deleteButton = new Button("Delete Selected Rows");
@@ -68,26 +133,32 @@ public class MusicianManagement extends BorderPane {
     public GridPane getNewPersonDataPane() {
         GridPane pane = new GridPane();
         pane.setHgap(10);
-        pane.setVgap(5);
+        pane.setVgap(7);
 
-        pane.addRow(0, new Label("First Name:"), firstNameField);
-        pane.addRow(0, new Label("Last Name:"), lastNameField);
-        pane.addRow(1, new Label("Street:"), streetField);
-        pane.addRow(1, new Label("Email:"), emailField);
-        pane.addRow(1, new Label("Phonenumber:"), phoneField);
-        pane.addRow(2, new Label("Role:"), roleField);
-        pane.addRow(2, new Label("Section:"), sectionField);
-        pane.addRow(2, new Label("Instruments:"), instrumentField);
+        pane.addRow(0, new Label("Role:"), _comboBoxSection);
+        pane.addRow(0, new Label("Section:"), _comboBoxInstrument);
+        pane.addRow(0, new Label("Instruments:"), _comboBoxRole);
+        pane.addRow(1, new Label("Gender:"), _comboBoxGender);
+        pane.addRow(1, new Label("First Name:"), _firstNameField);
+        pane.addRow(1, new Label("Last Name:"), _lastNameField);
+        pane.addRow(2, new Label("Street:"), _streetField);
+        pane.addRow(2, new Label("Email:"), _emailField);
+        pane.addRow(2, new Label("Phonenumber:"), _phoneField);
+
+        pane.add(new Label("Username"),12, 1);
+        pane.add(_usernameField,13, 1);
+        pane.add(new Label("Accountrole"),12, 2);
+        pane.add(_comboBoxAccountRole,13, 2);
+
+
 
         ArrayList<TextField> fields = new ArrayList<>();
-        fields.add(firstNameField);
-        fields.add(lastNameField);
-        fields.add(streetField);
-        fields.add(emailField);
-        fields.add(phoneField);
-        fields.add(roleField);
-        fields.add(sectionField);
-        fields.add(instrumentField);
+        fields.add(_firstNameField);
+        fields.add(_lastNameField);
+        fields.add(_streetField);
+        fields.add(_emailField);
+        fields.add(_phoneField);
+
 
         Button addButton = new Button("Add");
         Button resetButton = new Button("Reset");
@@ -100,9 +171,10 @@ public class MusicianManagement extends BorderPane {
         });
 
         addButton.setOnAction(e -> {
-            if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || streetField.getText().isEmpty()
-                    || emailField.getText().isEmpty() || phoneField.getText().isEmpty() || roleField.getText().isEmpty() ||
-                    sectionField.getText().isEmpty() || instrumentField.getText().isEmpty()) {
+
+            if (_firstNameField.getText().isEmpty() || _lastNameField.getText().isEmpty() || _streetField.getText().isEmpty()
+                    || _emailField.getText().isEmpty() || _phoneField.getText().isEmpty()) {
+
                 validate(fields);
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -113,11 +185,12 @@ public class MusicianManagement extends BorderPane {
 
             } else {
                 addPerson();
+
             }
         });
 
-        pane.add(addButton, 6, 2);
-        pane.add(resetButton, 7, 2);
+        pane.add(addButton, 6, 3);
+        pane.add(resetButton, 7, 3);
 
         return pane;
     }
@@ -133,19 +206,19 @@ public class MusicianManagement extends BorderPane {
         }
 
 
-        PersonTestData person = new PersonTestData(currentId + 1, firstNameField.getText(), lastNameField.getText(), streetField.getText(),
-                emailField.getText(), phoneField.getText(), roleField.getText(), sectionField.getText(), instrumentField.getText());
+       // PersonTestData person = new PersonTestData(currentId + 1, _firstNameField.getText(), _lastNameField.getText(), _streetField.getText(),
+          //     _emailField.getText(), _phoneField.getText());
 
-        table.getItems().add(person);
+        // table.getItems().add(person);
 
-        firstNameField.setText(null);
-        lastNameField.setText(null);
-        streetField.setText(null);
-        emailField.setText(null);
-        phoneField.setText(null);
-        roleField.setText(null);
+        _firstNameField.setText(null);
+        _lastNameField.setText(null);
+        _streetField.setText(null);
+        _emailField.setText(null);
+        _phoneField.setText(null);
+       /* _initials.setText(null);
         sectionField.setText(null);
-        instrumentField.setText(null);
+        instrumentField.setText(null);*/
     }
 
     public void deletePerson() {
