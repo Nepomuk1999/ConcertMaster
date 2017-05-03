@@ -28,7 +28,6 @@ public class EventFacade extends BaseDatabaseFacade {
      * @return EventDutyId      int         returns the primary key of the event
      */
     public Integer addEvent(EventDuty event) {
-
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
@@ -42,7 +41,6 @@ public class EventFacade extends BaseDatabaseFacade {
         }
 
         if (!(eventEntity.getEventType().equals(EventType.NonMusicalEvent))) {
-
             Collection<EventDutyMusicalWorkEntity> emweList = new LinkedList<>();
             EventDutyMusicalWorkEntity emwe;
             MusicalWorkFacade musicalWorkFacade = new MusicalWorkFacade(getCurrentSession());
