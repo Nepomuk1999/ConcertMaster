@@ -74,7 +74,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                             resultList.add(new Pair<>(String.valueOf(END_DATE), "is bygone"));
                         }
                         if (!DateTimeHelper.compareDates(eventDuty.getStartTime(), eventDuty.getEndTime())) {
-                            resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Starttime"));
+                            resultList.add(new Pair<>(String.valueOf(END_DATE), "is before Start Time"));
                         }
                         if (eventDuty.getEventType().toString().equals(EventType.Concert.toString()) || eventDuty.getEventType().toString().equals(EventType.Hofkapelle.toString())
                                 || eventDuty.getEventType().toString().equals(EventType.NonMusicalEvent.toString()) || eventDuty.getEventType().toString().equals(EventType.Rehearsal.toString())

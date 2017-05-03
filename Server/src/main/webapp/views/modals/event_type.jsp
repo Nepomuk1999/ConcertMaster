@@ -56,12 +56,12 @@
         <c:if test="${IS_REHEARSAL_FOR}">
             <div class="control-group row">
                 <div class="form-group col-xs-12 col-sm-6">
-                    <label for="${EventDutyProperty.START_TIME}_" class="control-label">Starttime</label><br>
+                    <label for="${EventDutyProperty.START_TIME}_" class="control-label">Start Time</label><br>
                     <label id="${EventDutyProperty.START_TIME}_" class="form-control">${eventDuty.rehearsalFor.getStartDate("MM/dd/yyyy")} ${eventDuty.rehearsalFor.getStartTime("HH:mm")}</label>
                 </div>
 
                 <div class="form-group col-xs-12 col-sm-6">
-                    <label for="${EventDutyProperty.END_TIME}_" class="control-label">Endtime</label><br>
+                    <label for="${EventDutyProperty.END_TIME}_" class="control-label">End Time</label><br>
                     <label id="${EventDutyProperty.END_TIME}_" class="form-control">${eventDuty.rehearsalFor.getEndDate("MM/dd/yyyy")} ${eventDuty.rehearsalFor.getEndTime("HH:mm")}</label>
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <t:ErrorMessage errorMessage="${PROBLEM_START_DATE}">
                     <t:DatePicker>
-                        <jsp:attribute name="label">${"Startdate"}</jsp:attribute>
+                        <jsp:attribute name="label">${"Start Date"}</jsp:attribute>
                         <jsp:attribute name="id">${EventDutyProperty.START_DATE}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.START_DATE}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
@@ -86,7 +86,7 @@
             <div class="form-group col-xs-12 col-sm-6 ${EventDutyProperty.END_DATE}">
                 <t:ErrorMessage errorMessage="${PROBLEM_END_DATE}">
                     <t:DatePicker>
-                        <jsp:attribute name="label">${"Enddate"}</jsp:attribute>
+                        <jsp:attribute name="label">${"End Date"}</jsp:attribute>
                         <jsp:attribute name="id">${EventDutyProperty.END_DATE}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.END_DATE}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
@@ -102,7 +102,7 @@
             <div class="form-group col-xs-12 col-sm-6 form-inline">
                 <t:ErrorMessage errorMessage="${PROBLEM_START_TIME}">
                     <t:ClockPicker>
-                        <jsp:attribute name="label">${"Starttime"}</jsp:attribute>
+                        <jsp:attribute name="label">${"Start Time"}</jsp:attribute>
                         <jsp:attribute name="id">${EventDutyProperty.START_TIME}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.START_TIME}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>
@@ -116,7 +116,7 @@
             <div class="form-group col-xs-12 col-sm-6 form-inline">
                 <t:ErrorMessage errorMessage="${PROBLEM_END_TIME}">
                     <t:ClockPicker>
-                        <jsp:attribute name="label">${"Endtime"}</jsp:attribute>
+                        <jsp:attribute name="label">${"End Time"}</jsp:attribute>
                         <jsp:attribute name="id">${EventDutyProperty.END_TIME}</jsp:attribute>
                         <jsp:attribute name="inputName">${EventDutyProperty.END_TIME}</jsp:attribute>
                         <jsp:attribute name="inputRequired">${true}</jsp:attribute>

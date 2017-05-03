@@ -73,7 +73,7 @@ public class MonthPublisherHelper {
 
 
     public static TableColumn<Event, String> getStartdateColumn() {
-        TableColumn<Event, String> startdateCol = new TableColumn<>("Startdate");
+        TableColumn<Event, String> startdateCol = new TableColumn<>("Start Date");
         PropertyValueFactory<Event, String> startdateCellValueFactory = new PropertyValueFactory<>("startdate");
         startdateCol.setCellValueFactory(startdateCellValueFactory);
         return startdateCol;
@@ -81,7 +81,7 @@ public class MonthPublisherHelper {
 
 
     public static TableColumn<Event, String> getEnddateColumn() {
-        TableColumn<Event, String> enddateCol = new TableColumn<>("Enddate");
+        TableColumn<Event, String> enddateCol = new TableColumn<>("End Date");
         PropertyValueFactory<Event, String> enddateCellValueFactory = new PropertyValueFactory<>("enddate");
         enddateCol.setCellValueFactory(enddateCellValueFactory);
         return enddateCol;

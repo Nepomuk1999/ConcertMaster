@@ -71,7 +71,7 @@ public class NavigationBar {
         menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
-        menuSection = new MenuSection("UserScreen", "/userM.png", toggleGroup);
+        menuSection = new MenuSection("User Screen", "/userM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Section Management");
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
