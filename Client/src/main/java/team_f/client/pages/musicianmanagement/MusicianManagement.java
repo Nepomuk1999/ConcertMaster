@@ -26,10 +26,6 @@ public class MusicianManagement extends BorderPane {
     private final TextField _usernameField;
     private ComboBox<String> _comboBoxAccountRole;
 
-   // private final TextField instrumentField;
-
-
-    //person id, initials, first, last, emalil, gender, Adress,phone, personrole, (username, password, accountrole)
 
     public MusicianManagement() {
 
@@ -45,8 +41,6 @@ public class MusicianManagement extends BorderPane {
         _comboBoxInstrument=new ComboBox<>();
         _comboBoxRole=new ComboBox<>();
         _comboBoxGender=new ComboBox<>();
-
-
 
 
         _usernameField = new TextField();
@@ -118,7 +112,7 @@ public class MusicianManagement extends BorderPane {
         deleteButton.setOnAction(e -> deletePerson());
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, deleteButton, table);
+        root.getChildren().addAll(newDataPane,table,deleteButton );
         root.setSpacing(5);
         root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -133,7 +127,7 @@ public class MusicianManagement extends BorderPane {
     public GridPane getNewPersonDataPane() {
         GridPane pane = new GridPane();
         pane.setHgap(10);
-        pane.setVgap(7);
+        pane.setVgap(10);
 
         pane.addRow(0, new Label("Role:"), _comboBoxSection);
         pane.addRow(0, new Label("Section:"), _comboBoxInstrument);
@@ -144,12 +138,12 @@ public class MusicianManagement extends BorderPane {
         pane.addRow(2, new Label("Street:"), _streetField);
         pane.addRow(2, new Label("Email:"), _emailField);
         pane.addRow(2, new Label("Phonenumber:"), _phoneField);
-
-        pane.add(new Label("Username"),12, 1);
-        pane.add(_usernameField,13, 1);
-        pane.add(new Label("Accountrole"),12, 2);
-        pane.add(_comboBoxAccountRole,13, 2);
-
+        pane.addRow(3, new Label(""));
+        pane.addRow(4, new Label(""));
+        pane.add(new Label("Username"),15, 1);
+        pane.add(_usernameField,16, 1);
+        pane.add(new Label("Accountrole"),15, 2);
+        pane.add(_comboBoxAccountRole,16, 2);
 
 
         ArrayList<TextField> fields = new ArrayList<>();
@@ -189,8 +183,8 @@ public class MusicianManagement extends BorderPane {
             }
         });
 
-        pane.add(addButton, 6, 3);
-        pane.add(resetButton, 7, 3);
+        pane.add(addButton, 0, 3);
+        pane.add(resetButton, 1, 3);
 
         return pane;
     }
@@ -216,9 +210,7 @@ public class MusicianManagement extends BorderPane {
         _streetField.setText(null);
         _emailField.setText(null);
         _phoneField.setText(null);
-       /* _initials.setText(null);
-        sectionField.setText(null);
-        instrumentField.setText(null);*/
+
     }
 
     public void deletePerson() {
