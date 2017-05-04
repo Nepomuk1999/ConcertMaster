@@ -6,10 +6,7 @@ import team_f.client.configuration.Configuration;
 import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
-import team_f.client.singletons.BrowserSingleton;
-import team_f.client.singletons.HomeScreenSingleton;
-import team_f.client.singletons.MonthPublisherSingleton;
-import team_f.client.singletons.MusiciansTableSingleton;
+import team_f.client.singletons.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -62,6 +59,9 @@ public class NavigationBar {
         sidebar.add(menuSection);
 
         menuSection = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
+        menuSectionItem = new MenuSectionItem("MusicalWork Management");
+        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MusicalWorkSingleton.getInstance()));
+        menuSection.add(menuSectionItem);
         sidebar.add(menuSection);
 
         menuSection = new MenuSection("Inventory", "/inventaryM.png", toggleGroup);
