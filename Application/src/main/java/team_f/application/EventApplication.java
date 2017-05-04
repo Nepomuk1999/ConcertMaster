@@ -157,12 +157,12 @@ public class EventApplication {
         List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrumentType(personApplication.getAllMusicians());
         Instrumentation totalInstrumentation = eventDuty.getMaxInstrumentation();
 
-        for (InstrumentType instrumentType : InstrumentType.values()) {
-            for (EventDuty event : eventList) {
+        for (EventDuty event : eventList) {
                 calculateMaxInstrumentation(event);
                 totalInstrumentation.addToInstrumentations(event.getMaxInstrumentation());
-            }
+        }
 
+        for (InstrumentType instrumentType : InstrumentType.values()) {
             Pair<InstrumentType, List<Person>> pairList = getMusicianListByInstrumentType(instrumentType, list);
 
             if (totalInstrumentation.getByInstrumentType(instrumentType) > pairList.getValue().size()) {
