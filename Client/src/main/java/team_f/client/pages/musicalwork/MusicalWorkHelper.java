@@ -22,28 +22,28 @@ public class MusicalWorkHelper {
     // Returns PersonTestData Id TableColumn
     public static TableColumn<MusicalWorkTestData, Integer> getIdColumn() {
         TableColumn<MusicalWorkTestData, Integer> idCol = new TableColumn<>("Id");
-        PropertyValueFactory<MusicalWorkTestData, Integer> idCellValueFactory = new PropertyValueFactory<>("id");
+        PropertyValueFactory<MusicalWorkTestData, Integer> idCellValueFactory = new PropertyValueFactory<>("_id");
         idCol.setCellValueFactory(idCellValueFactory);
         return idCol;
     }
 
     public static TableColumn<MusicalWorkTestData, String> getMusicalWorkNameColumn() {
         TableColumn<MusicalWorkTestData, String> musicalWorkNameCol = new TableColumn<>("MusicalWork Name");
-        PropertyValueFactory<MusicalWorkTestData, String> musicalWorkNameCellValueFactory = new PropertyValueFactory<>("name");
+        PropertyValueFactory<MusicalWorkTestData, String> musicalWorkNameCellValueFactory = new PropertyValueFactory<>("_musicalWorkName");
         musicalWorkNameCol.setCellValueFactory(musicalWorkNameCellValueFactory);
         return musicalWorkNameCol;
     }
 
     public static TableColumn<MusicalWorkTestData, String> getComposerColumn() {
         TableColumn<MusicalWorkTestData, String> composerCol = new TableColumn<>("Composer name");
-        PropertyValueFactory<MusicalWorkTestData, String> composerCellValueFactory = new PropertyValueFactory<>("composer");
+        PropertyValueFactory<MusicalWorkTestData, String> composerCellValueFactory = new PropertyValueFactory<>("_composer");
         composerCol.setCellValueFactory(composerCellValueFactory);
         return composerCol;
     }
 
     public static TableColumn<MusicalWorkTestData, String> getInstrumentationColumn() {
         TableColumn<MusicalWorkTestData, String> instrumentationCol = new TableColumn<>("Instrumentation");
-        PropertyValueFactory<MusicalWorkTestData, String> composerCellValueFactory = new PropertyValueFactory<>("instrumentation");
+        PropertyValueFactory<MusicalWorkTestData, String> composerCellValueFactory = new PropertyValueFactory<>("_instrumentation");
         instrumentationCol.setCellValueFactory(composerCellValueFactory);
         return instrumentationCol;
     }
