@@ -1,5 +1,7 @@
 package team_f.client.pages.musicianmanagement;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView.TableViewSelectionModel;
@@ -17,7 +19,7 @@ public class MusicianManagement extends BorderPane {
     private final TextField _streetField;
     private final TextField _emailField;
     private final TextField _phoneField;
-    private TableView<PersonTestData> table;
+    private TableView<PersonTestData> _table;
     private ComboBox<String> _comboBoxSection;
     private ComboBox<String> _comboBoxInstrument;
     private ComboBox<String> _comboBoxRole;
@@ -47,19 +49,21 @@ public class MusicianManagement extends BorderPane {
         _comboBoxAccountRole=new ComboBox<>();
 
 
-        table = new TableView<>(MusicianTableHelper.getPersonList());
-        table.setEditable(false);
+        _table = new TableView<>(MusicianTableHelper.getPersonList());
+        _table.setEditable(false);
+        _table.getColumns().addListener((ListChangeListener) change -> {
+            change.next();
+            if(change.wasReplaced()) {
+                _table.getColumns().clear();
+                getTableColumns();
 
-        TableViewSelectionModel<PersonTestData> tsm = table.getSelectionModel();
+            }
+        });
+
+        TableViewSelectionModel<PersonTestData> tsm = _table.getSelectionModel();
         tsm.setSelectionMode(SelectionMode.SINGLE);
-
-
-        table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
-                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(), MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(), MusicianTableHelper.getInstrumentColumn());
-
-
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        getTableColumns();
+        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 
         _comboBoxSection.setStyle("-fx-font: 14 arial;");
@@ -108,11 +112,11 @@ public class MusicianManagement extends BorderPane {
         GridPane newDataPane = getNewPersonDataPane();
 
         // Create the Delete Button and add Event-Handler
-        Button deleteButton = new Button("Delete Selected Rows");
-        deleteButton.setOnAction(e -> deletePerson());
+        Button editButton = new Button("Edit Selected Musician");
+        editButton.setOnAction(e -> editPerson());
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane,table,deleteButton );
+        root.getChildren().addAll(newDataPane, _table,editButton );
         root.setSpacing(5);
         root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -189,11 +193,17 @@ public class MusicianManagement extends BorderPane {
         return pane;
     }
 
+    public void getTableColumns(){
+        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
+                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
+                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(), MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(), MusicianTableHelper.getInstrumentColumn());
+    }
+
     public void addPerson() {
         Integer currentId = 0;
 
         // Get the next ID
-        for (PersonTestData p : table.getItems()) {
+        for (PersonTestData p : _table.getItems()) {
             if (p.getId() > currentId) {
                 currentId = p.getId();
             }
@@ -203,7 +213,7 @@ public class MusicianManagement extends BorderPane {
        // PersonTestData person = new PersonTestData(currentId + 1, _firstNameField.getText(), _lastNameField.getText(), _streetField.getText(),
           //     _emailField.getText(), _phoneField.getText());
 
-        // table.getItems().add(person);
+        // _table.getItems().add(person);
 
         _firstNameField.setText(null);
         _lastNameField.setText(null);
@@ -213,9 +223,9 @@ public class MusicianManagement extends BorderPane {
 
     }
 
-    public void deletePerson() {
+    public void editPerson() {
 
-        TableViewSelectionModel<PersonTestData> tsm = table.getSelectionModel();
+        TableViewSelectionModel<PersonTestData> tsm = _table.getSelectionModel();
 
         // Check, if any rows are selected
         if (tsm.isEmpty()) {
@@ -251,7 +261,7 @@ public class MusicianManagement extends BorderPane {
 
         for (int i = selectedIndices.length - 1; i >= 0; i--) {
             tsm.clearSelection(selectedIndices[i].intValue());
-            table.getItems().remove(selectedIndices[i].intValue());
+            _table.getItems().remove(selectedIndices[i].intValue());
         }
     }
 
