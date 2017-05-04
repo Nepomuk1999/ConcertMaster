@@ -58,22 +58,22 @@ public class LegendTable {
                             setFont(new Font("Arial", 15));
                             setAlignment(Pos.CENTER);
                             if (item.equals("DODGERBLUE")) {
-                                setStyle("-fx-background-color: DODGERBLUE");
+                                setStyle("-fx-background-color: DODGERBLUE;"+"-fx-text-fill: white");
                             }
                             if (item.equals("DARKMAGENTA")) {
-                                setStyle("-fx-background-color: DARKMAGENTA");
+                                setStyle("-fx-background-color: DARKMAGENTA;"+"-fx-text-fill: white");
                             }
                             if (item.equals("DARKSLATEBLUE")) {
-                                setStyle("-fx-background-color: DARKSLATEBLUE");
+                                setStyle("-fx-background-color: DARKSLATEBLUE;"+"-fx-text-fill: white");
                             }
                             if (item.equals("SADDLEBROWN")) {
-                                setStyle("-fx-background-color: SADDLEBROWN");
+                                setStyle("-fx-background-color: SADDLEBROWN;"+"-fx-text-fill: white");
                             }
                             if (item.equals("DARKSALMON")) {
-                                setStyle("-fx-background-color: DARKSALMON");
+                                setStyle("-fx-background-color: DARKSALMON;"+"-fx-text-fill: white");
                             }
                             if (item.equals("DARKCYAN")) {
-                                setStyle("-fx-background-color: DARKCYAN");
+                                setStyle("-fx-background-color: DARKCYAN;"+"-fx-text-fill: white");
                             }
 
                         }
