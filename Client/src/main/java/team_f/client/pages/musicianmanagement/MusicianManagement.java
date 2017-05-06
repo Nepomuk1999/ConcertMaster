@@ -1,8 +1,8 @@
 package team_f.client.pages.musicianmanagement;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -60,16 +60,18 @@ public class MusicianManagement extends BorderPane {
         _table = new TableView<>(MusicianTableHelper.getPersonList());
         _table.setEditable(false);
 
-        TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
+        _table.getColumns().addListener((ListChangeListener) change -> {
+            change.next();
+            if(change.wasReplaced()) {
+                _table.getColumns().clear();
+                getTableColumns();
+
+            }
+        });
+
+        TableView.TableViewSelectionModel tsm = _table.getSelectionModel();
         tsm.setSelectionMode(SelectionMode.SINGLE);
-
-        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
-                                   MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                                   MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
-                                   MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
-                                   MusicianTableHelper.getInstrumentColumn());
-
-
+        getTableColumns();
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         _comboBoxSection.setStyle("-fx-font: 14 arial;");
@@ -116,11 +118,11 @@ public class MusicianManagement extends BorderPane {
         GridPane newDataPane = getNewPersonDataPane();
 
         // Create the Delete Button and add Event-Handler
-        Button deleteButton = new Button("Delete Selected Rows");
-        deleteButton.setOnAction(e -> deletePerson());
+        Button editButton = new Button("Edit Selected Musician");
+        editButton.setOnAction(e -> editPerson());
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, deleteButton, _table);
+        root.getChildren().addAll(newDataPane, _table,editButton );
         root.setSpacing(5);
         root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -135,7 +137,7 @@ public class MusicianManagement extends BorderPane {
     public GridPane getNewPersonDataPane() {
         GridPane pane = new GridPane();
         pane.setHgap(10);
-        pane.setVgap(7);
+        pane.setVgap(10);
 
         pane.addRow(0, new Label("Role:"), _comboBoxRole);
         pane.addRow(0, new Label("Section:"), _comboBoxSection);
@@ -146,11 +148,12 @@ public class MusicianManagement extends BorderPane {
         pane.addRow(2, new Label("Street:"), _streetField);
         pane.addRow(2, new Label("Email:"), _emailField);
         pane.addRow(2, new Label("Phone Number:"), _phoneField);
-
-        pane.add(new Label("Username"),12, 1);
-        pane.add(_usernameField,13, 1);
-        pane.add(new Label("Accountrole"),12, 2);
-        pane.add(_comboBoxAccountRole,13, 2);
+        pane.addRow(3, new Label(""));
+        pane.addRow(4, new Label(""));
+        pane.add(new Label("Username:"),15, 1);
+        pane.add(_usernameField,16, 1);
+        pane.add(new Label("Account Role"),15, 2);
+        pane.add(_comboBoxAccountRole,16, 2);
 
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_firstNameField);
@@ -188,15 +191,21 @@ public class MusicianManagement extends BorderPane {
             }
         });
 
-        pane.add(addButton, 6, 3);
-        pane.add(resetButton, 7, 3);
+        pane.add(addButton, 0, 3);
+        pane.add(resetButton, 1, 3);
 
         return pane;
     }
 
-    public void addPerson() {
-        // _table.getItems().add(person);
+    public void getTableColumns(){
+        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
+                                   MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
+                                   MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
+                                   MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
+                                   MusicianTableHelper.getInstrumentColumn());
+    }
 
+    public void addPerson() {
         Person person = new Person();
         person.setFirstname(_firstNameField.getText());
         person.setLastname(_lastNameField.getText());
@@ -220,19 +229,18 @@ public class MusicianManagement extends BorderPane {
 
         if (request != null && request.getKeyValueList() != null && request.getKeyValueList().size() == 0) {
             isSuccessful = true;
+            // _table.getItems().add(person);
         } else {
             isSuccessful = false;
+            // @TODO: show error message
         }
-
-        // @TODO: show error message
-
-        // @todo: save the entity and add it to the list
-
+        
         reset();
     }
 
-    public void deletePerson() {
-        TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
+    public void editPerson() {
+
+        TableView.TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
 
         // Check, if any rows are selected
         if (tsm.isEmpty()) {
@@ -286,7 +294,7 @@ public class MusicianManagement extends BorderPane {
         _streetField.setText(null);
         _emailField.setText(null);
         _phoneField.setText(null);
-       /* _initials.setText(null);
+        /* _initials.setText(null);
         sectionField.setText(null);
         instrumentField.setText(null);*/
     }
