@@ -2,6 +2,7 @@ package team_f.jsonconnector.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.PersonRole;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.LinkedList;
@@ -13,11 +14,12 @@ public class Person implements JSONObjectEntity {
     private String _firstname;
     private String _lastname;
     private String _email;
-    private String _gender;
+    private Gender _gender;
     private String _address;
     private String _phoneNumber;
     private PersonRole _personRole;
     private List<Instrument> _instruments = new LinkedList<>();
+    private Account _account;
 
     @JsonGetter("id")
     public int getPersonID() {
@@ -45,7 +47,7 @@ public class Person implements JSONObjectEntity {
     }
 
     @JsonGetter("gender")
-    public String getGender() {
+    public Gender getGender() {
         return _gender;
     }
 
@@ -59,7 +61,6 @@ public class Person implements JSONObjectEntity {
         return _phoneNumber;
     }
 
-
     @JsonGetter("role")
     public PersonRole getPersonRole() {
         return _personRole;
@@ -68,6 +69,11 @@ public class Person implements JSONObjectEntity {
     @JsonGetter("instruments")
     public List<Instrument> getInstruments() {
         return _instruments;
+    }
+
+    @JsonGetter("account")
+    public Account getAccount() {
+        return _account;
     }
 
     @JsonSetter("id")
@@ -96,7 +102,7 @@ public class Person implements JSONObjectEntity {
     }
 
     @JsonSetter("gender")
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         _gender = gender;
     }
 
@@ -118,5 +124,10 @@ public class Person implements JSONObjectEntity {
     @JsonSetter("instruments")
     public void setInstruments(List<Instrument> instruments) {
         _instruments = instruments;
+    }
+
+    @JsonSetter("account")
+    public void setAccount(Account account) {
+        _account = account;
     }
 }

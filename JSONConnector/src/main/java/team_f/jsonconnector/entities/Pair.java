@@ -3,27 +3,27 @@ package team_f.jsonconnector.entities;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-public class Pair {
-    private String _key;
-    private String _value;
+public class Pair<K, V> {
+    private K _key;
+    private V _value;
 
     @JsonGetter("key")
-    public String getKey() {
+    public K getKey() {
         return _key;
     }
 
     @JsonGetter("value")
-    public String getValue() {
+    public V getValue() {
         return _value;
     }
 
     @JsonSetter("key")
-    public void setKey(String key) {
+    public void setKey(K key) {
         _key = key;
     }
 
     @JsonSetter("value")
-    public void setValue(String value) {
+    public void setValue(V value) {
         _value = value;
     }
 }

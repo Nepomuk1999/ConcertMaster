@@ -203,4 +203,9 @@ public class EventDuty implements DomainEntity {
     public void setMaxInstrumentation(Instrumentation maxInstrumentation) {
         _maxInstrumentation = maxInstrumentation;
     }
+
+    @Override
+    public int getID() {
+        return getEventDutyID();
+    }
 }

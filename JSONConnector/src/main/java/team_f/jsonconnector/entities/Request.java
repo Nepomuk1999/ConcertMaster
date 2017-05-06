@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Request implements JSONObjectEntity {
     private ActionType _actionType;
-    private List<Pair> _parameterKeyValueList;
+    private List<Pair<String, String>> _parameterKeyValueList;
 
     @JsonGetter("action_type")
     public ActionType getActionType() {
@@ -16,7 +16,7 @@ public class Request implements JSONObjectEntity {
     }
 
     @JsonGetter("parameter_key_value")
-    public List<Pair> getParameterValue() {
+    public List<Pair<String, String>> getParameterValue() {
         return _parameterKeyValueList;
     }
 
@@ -26,7 +26,7 @@ public class Request implements JSONObjectEntity {
     }
 
     @JsonSetter("parameter_key_value")
-    public void setParameterKey(List<Pair> parameterKeyValueList) {
+    public void setParameterKey(List<Pair<String, String>> parameterKeyValueList) {
         _parameterKeyValueList = parameterKeyValueList;
     }
 }

@@ -21,15 +21,15 @@ public class MonthPublisherHelper {
 
         Request request = new Request();
         request.setActionType(ActionType.GET_BY_PARAMETER);
-        List<Pair> keyValueList = new LinkedList<>();
-        Pair pair;
+        List<Pair<String, String>> keyValueList = new LinkedList<>();
+        Pair<String, String> pair;
 
-        pair = new Pair();
+        pair = new Pair<>();
         pair.setKey(String.valueOf(EventDutyParameter.MONTH));
         pair.setValue("" + month);
         keyValueList.add(pair);
 
-        pair = new Pair();
+        pair = new Pair<>();
         pair.setKey(String.valueOf(EventDutyParameter.YEAR));
         pair.setValue("" + year);
         keyValueList.add(pair);

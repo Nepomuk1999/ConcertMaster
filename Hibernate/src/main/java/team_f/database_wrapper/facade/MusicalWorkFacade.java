@@ -18,7 +18,6 @@ public class MusicalWorkFacade extends BaseDatabaseFacade {
     }
 
     public Integer addMusicalWork(MusicalWork musicalWork) {
-
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 

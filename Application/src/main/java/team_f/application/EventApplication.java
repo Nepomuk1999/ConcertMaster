@@ -305,36 +305,52 @@ public class EventApplication {
         return errorList;
     }
 
-    public boolean publishEventsByMonth(int month, int year) {
-        // @TODO: more appropriate error messages
-        try {
-            List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+    public List<Pair<DomainEntity, List<Pair<String, String>>>> publishEventsByMonth(int month, int year) {
+        List<Pair<DomainEntity, List<Pair<String, String>>>> fullErrorList = new LinkedList<>();
 
-            for (EventDuty event : events) {
-                event.setEventStatus(EventStatus.Published);
+        List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+
+        for (EventDuty event : events) {
+            event.setEventStatus(EventStatus.Published);
+
+            try {
                 eventFacade.addEvent(event);
+            } catch (Exception e) {
+                List<Pair<String, String>> errorList = new LinkedList<>();
+                errorList.add(new Pair<>("", "could not publish"));
+                fullErrorList.add(new Pair<>(event, errorList));
             }
-
-            return true;
-        } catch (Exception exp) {
         }
 
-        return false;
+        return fullErrorList;
     }
 
-    public boolean unpublishEventsByMonth(int month, int year) {
-        try {
-            List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
+    public List<Pair<DomainEntity, List<Pair<String, String>>>> unpublishEventsByMonth(int month, int year) {
+        List<Pair<DomainEntity, List<Pair<String, String>>>> fullErrorList = new LinkedList<>();
+        List<Pair<String, String>> errorList;
+        List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 
-            for (EventDuty event : events) {
-                event.setEventStatus(EventStatus.Unpublished);
-                eventFacade.addEvent(event);
+        EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
+        List<Pair<String, String>> tmpErrorList;
+
+        for (EventDuty event : events) {
+            event.setEventStatus(EventStatus.Unpublished);
+
+            tmpErrorList = eventDutyLogic.validate(event);
+
+            if(tmpErrorList.size() == 0) {
+                try {
+                    eventFacade.addEvent(event);
+                } catch (Exception e) {
+                    errorList = new LinkedList<>();
+                    errorList.add(new Pair<>("", "could not unpublish"));
+                    fullErrorList.add(new Pair<>(event, errorList));
+                }
+            } else {
+                fullErrorList.add(new Pair<>(event, tmpErrorList));
             }
-
-            return true;
-        } catch (Exception exp) {
         }
 
-        return false;
+        return fullErrorList;
     }
 }

@@ -48,4 +48,9 @@ public class MusicalWork implements DomainEntity {
     public void setAlternativeInstrumentation(Instrumentation alternativeInstrumentation) {
         _alternativeInstrumentation = alternativeInstrumentation;
     }
+
+    @Override
+    public int getID() {
+        return getMusicalWorkID();
+    }
 }

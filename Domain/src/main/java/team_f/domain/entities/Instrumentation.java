@@ -276,4 +276,9 @@ public class Instrumentation implements DomainEntity {
 
         return -1;
     }
+
+    @Override
+    public int getID() {
+        return getInstrumentationID();
+    }
 }

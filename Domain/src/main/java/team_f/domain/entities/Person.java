@@ -1,10 +1,12 @@
 package team_f.domain.entities;
 
 import team_f.domain.enums.PersonRole;
+import team_f.domain.interfaces.DomainEntity;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class Person {
+public class Person implements DomainEntity {
     private int _personID;
     private String _initials;
     private String _firstname;
@@ -14,6 +16,7 @@ public class Person {
     private String _address;
     private String _phoneNumber;
     private PersonRole _personRole;
+    private Account _account;
     private List<Instrument> _instruments = new LinkedList<>();
 
     public int getPersonID() {
@@ -54,6 +57,10 @@ public class Person {
 
     public List<Instrument> getInstruments() {
         return _instruments;
+    }
+
+    public Account getAccount() {
+        return _account;
     }
 
     public void setPersonID(int personID) {
@@ -102,5 +109,14 @@ public class Person {
         }
 
         _instruments.add(instrument);
+    }
+
+    public void setAccount(Account account) {
+        _account = account;
+    }
+
+    @Override
+    public int getID() {
+        return getPersonID();
     }
 }

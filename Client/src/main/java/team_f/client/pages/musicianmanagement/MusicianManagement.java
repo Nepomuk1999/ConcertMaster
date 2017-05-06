@@ -6,67 +6,71 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import team_f.client.entities.KeyValuePair;
+import team_f.client.helper.RequestResponseHelper;
+import team_f.jsonconnector.common.URIList;
+import team_f.jsonconnector.entities.Account;
+import team_f.jsonconnector.entities.ErrorList;
+import team_f.jsonconnector.entities.Person;
+import team_f.jsonconnector.enums.AccountRole;
+import team_f.jsonconnector.enums.Gender;
+import team_f.jsonconnector.enums.PersonRole;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
 public class MusicianManagement extends BorderPane {
-
-    private final TextField _firstNameField;
-    private final TextField _lastNameField;
-    private final TextField _streetField;
-    private final TextField _emailField;
-    private final TextField _phoneField;
-    private TableView<PersonTestData> table;
+    private TextField _firstNameField;
+    private TextField _lastNameField;
+    private TextField _streetField;
+    private TextField _emailField;
+    private TextField _phoneField;
+    private TableView<Person> _table;
     private ComboBox<String> _comboBoxSection;
     private ComboBox<String> _comboBoxInstrument;
-    private ComboBox<String> _comboBoxRole;
-    private ComboBox<String> _comboBoxGender;
-
-    private final TextField _usernameField;
-    private ComboBox<String> _comboBoxAccountRole;
-
-   // private final TextField instrumentField;
-
-
-    //person id, initials, first, last, emalil, gender, Adress,phone, personrole, (username, password, accountrole)
-
-    public MusicianManagement() {
+    private ComboBox<KeyValuePair> _comboBoxRole;
+    private ComboBox<KeyValuePair> _comboBoxGender;
+    private TextField _usernameField;
+    private ComboBox<KeyValuePair> _comboBoxAccountRole;
+    // private final TextField instrumentField;
+    private URL _baseURL;
+    private final ObservableList<KeyValuePair> _personRoleList = MusicianTableHelper.getPersonRoleList();
+    private final ObservableList<KeyValuePair> _accountRoleList = MusicianTableHelper.getAccountRoleList();
+    private final ObservableList<KeyValuePair> _genderList = MusicianTableHelper.getGenderList();
 
 
+    public MusicianManagement(URL baseURL) {
+        _baseURL = baseURL;
         _firstNameField = new TextField();
         _lastNameField = new TextField();
         _streetField = new TextField();
         _emailField = new TextField();
         _phoneField = new TextField();
 
-
-        _comboBoxSection=new ComboBox<>();
-        _comboBoxInstrument=new ComboBox<>();
-        _comboBoxRole=new ComboBox<>();
-        _comboBoxGender=new ComboBox<>();
-
-
-
+        _comboBoxSection = new ComboBox<>();
+        _comboBoxInstrument = new ComboBox<>();
+        _comboBoxRole = new ComboBox<>(_personRoleList);
+        _comboBoxGender = new ComboBox<>(_genderList);
 
         _usernameField = new TextField();
-        _comboBoxAccountRole=new ComboBox<>();
+        _comboBoxAccountRole = new ComboBox<>(_accountRoleList);
 
+        _table = new TableView<>(MusicianTableHelper.getPersonList());
+        _table.setEditable(false);
 
-        table = new TableView<>(MusicianTableHelper.getPersonList());
-        table.setEditable(false);
-
-        TableViewSelectionModel<PersonTestData> tsm = table.getSelectionModel();
+        TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
         tsm.setSelectionMode(SelectionMode.SINGLE);
 
+        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
+                                   MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
+                                   MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
+                                   MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
+                                   MusicianTableHelper.getInstrumentColumn());
 
-        table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
-                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(), MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(), MusicianTableHelper.getInstrumentColumn());
 
-
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         _comboBoxSection.setStyle("-fx-font: 14 arial;");
         _comboBoxSection.getSelectionModel().selectFirst();
@@ -75,7 +79,6 @@ public class MusicianManagement extends BorderPane {
                 System.out.println("selected");
             }
         });
-
 
         _comboBoxInstrument.setStyle("-fx-font: 14 arial;");
         _comboBoxInstrument.getSelectionModel().selectFirst();
@@ -101,7 +104,6 @@ public class MusicianManagement extends BorderPane {
             }
         });
 
-
         _comboBoxAccountRole.setStyle("-fx-font: 14 arial;");
         _comboBoxAccountRole.getSelectionModel().selectFirst();
         _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
@@ -118,7 +120,7 @@ public class MusicianManagement extends BorderPane {
         deleteButton.setOnAction(e -> deletePerson());
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, deleteButton, table);
+        root.getChildren().addAll(newDataPane, deleteButton, _table);
         root.setSpacing(5);
         root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -135,22 +137,20 @@ public class MusicianManagement extends BorderPane {
         pane.setHgap(10);
         pane.setVgap(7);
 
-        pane.addRow(0, new Label("Role:"), _comboBoxSection);
-        pane.addRow(0, new Label("Section:"), _comboBoxInstrument);
-        pane.addRow(0, new Label("Instruments:"), _comboBoxRole);
+        pane.addRow(0, new Label("Role:"), _comboBoxRole);
+        pane.addRow(0, new Label("Section:"), _comboBoxSection);
+        pane.addRow(0, new Label("Instruments:"), _comboBoxInstrument);
         pane.addRow(1, new Label("Gender:"), _comboBoxGender);
         pane.addRow(1, new Label("First Name:"), _firstNameField);
         pane.addRow(1, new Label("Last Name:"), _lastNameField);
         pane.addRow(2, new Label("Street:"), _streetField);
         pane.addRow(2, new Label("Email:"), _emailField);
-        pane.addRow(2, new Label("Phonenumber:"), _phoneField);
+        pane.addRow(2, new Label("Phone Number:"), _phoneField);
 
         pane.add(new Label("Username"),12, 1);
         pane.add(_usernameField,13, 1);
         pane.add(new Label("Accountrole"),12, 2);
         pane.add(_comboBoxAccountRole,13, 2);
-
-
 
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_firstNameField);
@@ -158,7 +158,6 @@ public class MusicianManagement extends BorderPane {
         fields.add(_streetField);
         fields.add(_emailField);
         fields.add(_phoneField);
-
 
         Button addButton = new Button("Add");
         Button resetButton = new Button("Reset");
@@ -196,34 +195,44 @@ public class MusicianManagement extends BorderPane {
     }
 
     public void addPerson() {
-        Integer currentId = 0;
+        // _table.getItems().add(person);
 
-        // Get the next ID
-        for (PersonTestData p : table.getItems()) {
-            if (p.getId() > currentId) {
-                currentId = p.getId();
-            }
+        Person person = new Person();
+        person.setFirstname(_firstNameField.getText());
+        person.setLastname(_lastNameField.getText());
+        person.setAddress(_streetField.getText());
+        person.setEmail(_emailField.getText());
+        person.setPhoneNumber(_phoneField.getText());
+        person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
+        //person.setInstruments();
+        //person.setInitials();
+        person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
+
+        Account account = new Account();
+        account.setUsername(_usernameField.getText());
+        account.setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
+
+        person.setAccount(account);
+
+        ErrorList request = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getFullURL(), person, ErrorList.class);
+
+        boolean isSuccessful;
+
+        if (request != null && request.getKeyValueList() != null && request.getKeyValueList().size() == 0) {
+            isSuccessful = true;
+        } else {
+            isSuccessful = false;
         }
 
+        // @TODO: show error message
 
-       // PersonTestData person = new PersonTestData(currentId + 1, _firstNameField.getText(), _lastNameField.getText(), _streetField.getText(),
-          //     _emailField.getText(), _phoneField.getText());
+        // @todo: save the entity and add it to the list
 
-        // table.getItems().add(person);
-
-        _firstNameField.setText(null);
-        _lastNameField.setText(null);
-        _streetField.setText(null);
-        _emailField.setText(null);
-        _phoneField.setText(null);
-       /* _initials.setText(null);
-        sectionField.setText(null);
-        instrumentField.setText(null);*/
+        reset();
     }
 
     public void deletePerson() {
-
-        TableViewSelectionModel<PersonTestData> tsm = table.getSelectionModel();
+        TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
 
         // Check, if any rows are selected
         if (tsm.isEmpty()) {
@@ -231,11 +240,10 @@ public class MusicianManagement extends BorderPane {
             return;
         }
 
-
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Delete");
         alert.setHeaderText("The following Person will be deleted");
-        alert.setContentText(tsm.getSelectedItem().getFirstName() + " " + tsm.getSelectedItem().getLastName());
+        alert.setContentText(tsm.getSelectedItem().getFirstname() + " " + tsm.getSelectedItem().getLastname());
 
         ButtonType buttonTypeOne = new ButtonType("Delete");
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
@@ -248,7 +256,6 @@ public class MusicianManagement extends BorderPane {
             return;
         }
 
-
         // Get all selected row indices in an array
         ObservableList<Integer> list = tsm.getSelectedIndices();
 
@@ -259,7 +266,7 @@ public class MusicianManagement extends BorderPane {
 
         for (int i = selectedIndices.length - 1; i >= 0; i--) {
             tsm.clearSelection(selectedIndices[i].intValue());
-            table.getItems().remove(selectedIndices[i].intValue());
+            _table.getItems().remove(selectedIndices[i].intValue());
         }
     }
 
@@ -271,5 +278,25 @@ public class MusicianManagement extends BorderPane {
                 textField.setStyle("-fx-border-color: green");
             }
         }
+    }
+
+    private void reset() {
+        _firstNameField.setText(null);
+        _lastNameField.setText(null);
+        _streetField.setText(null);
+        _emailField.setText(null);
+        _phoneField.setText(null);
+       /* _initials.setText(null);
+        sectionField.setText(null);
+        instrumentField.setText(null);*/
+    }
+
+    private URL getFullURL() {
+        try {
+            return new URL(_baseURL, URIList.register);
+        } catch (MalformedURLException e) {
+        }
+
+        return null;
     }
 }

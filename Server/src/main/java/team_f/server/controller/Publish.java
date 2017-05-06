@@ -2,12 +2,13 @@ package team_f.server.controller;
 
 import org.json.JSONArray;
 import team_f.application.EventApplication;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.response.CommonResponse;
+import team_f.server.helper.response.JsonResponse;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(urlPatterns = {URIList.publish})
 public class Publish extends HttpServlet {
@@ -43,29 +44,18 @@ public class Publish extends HttpServlet {
 
             if(publish != null) {
                 EventApplication facade = new EventApplication();
-                boolean isSuccessful = false;
+                List<javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>>> tmpErrorList = null;
 
                 switch (publish.getPublishType()) {
                     case PUBLISH:
-                        isSuccessful = facade.publishEventsByMonth(publish.getMonth(), publish.getYear());
+                        tmpErrorList = facade.publishEventsByMonth(publish.getMonth(), publish.getYear());
                         break;
                     case UNPUBLISH:
-                        isSuccessful = facade.unpublishEventsByMonth(publish.getMonth(), publish.getYear());
+                        tmpErrorList = facade.unpublishEventsByMonth(publish.getMonth(), publish.getYear());
                         break;
                 }
 
-                ErrorList errorList = new ErrorList();
-                ArrayList<Error> errors = new ArrayList<>();
-                Error error;
-
-                if(!isSuccessful) {
-                    error = new Error();
-                    error.setKey("successful");
-                    error.setValue("false");
-                    errors.add(error);
-                }
-
-                errorList.setValue(errors);
+                ErrorList errorList = JsonResponse.prepareErrorMessages(tmpErrorList);
                 resp.setContentType(MediaType.APPLICATION_JSON);
                 WriteHelper.writeJSONObject(resp.getWriter(), errorList);
             }

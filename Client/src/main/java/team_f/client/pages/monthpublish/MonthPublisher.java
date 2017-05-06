@@ -29,7 +29,6 @@ public class MonthPublisher extends BorderPane {
     private VBox _root;
     private TableView<Event> _table;
     private URL _baseURL;
-    private String _uri = URIList.publish;
 
     public MonthPublisher(URL baseURL) {
         _baseURL = baseURL;
@@ -277,7 +276,7 @@ public class MonthPublisher extends BorderPane {
 
     private URL getFullURL() {
         try {
-            return new URL(_baseURL, _uri);
+            return new URL(_baseURL, URIList.publish);
         } catch (MalformedURLException e) {
         }
 

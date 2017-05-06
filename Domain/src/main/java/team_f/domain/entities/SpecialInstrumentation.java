@@ -1,6 +1,8 @@
 package team_f.domain.entities;
 
-public class SpecialInstrumentation {
+import team_f.domain.interfaces.DomainEntity;
+
+public class SpecialInstrumentation implements DomainEntity {
     private int _specialInstrumentationID;
     private String _sectionType;
     private String _specialInstrument;
@@ -36,5 +38,10 @@ public class SpecialInstrumentation {
 
     public void setSpecialInstrumentCount(int specialInstrumentCount) {
         _specialInstrumentCount = specialInstrumentCount;
+    }
+
+    @Override
+    public int getID() {
+        return getSpecialInstrumentationID();
     }
 }

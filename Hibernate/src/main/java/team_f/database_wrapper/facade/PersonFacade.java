@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class PersonFacade extends BaseDatabaseFacade {
+    private static AccountFacade _accountFacade = new AccountFacade();
+
     public PersonFacade() {
         super();
     }
@@ -50,6 +52,22 @@ public class PersonFacade extends BaseDatabaseFacade {
         return musicians;
     }
 
+    public Integer register(Person person) {
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        PersonEntity eventEntity = convertToPersonEntity(person);
+
+        try {
+            session.flush();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+
+        return eventEntity.getPersonId();
+    }
+
     public static boolean contains(String test) {
 
         for (InstrumentType c : InstrumentType.values()) {
@@ -59,6 +77,28 @@ public class PersonFacade extends BaseDatabaseFacade {
         }
 
         return false;
+    }
+
+    protected PersonEntity convertToPersonEntity(Person person) {
+        PersonEntity entity = new PersonEntity();
+
+        entity.setPersonId(person.getPersonID());
+        entity.setAddress(person.getAddress());
+        entity.setEmail(person.getEmail());
+        entity.setFirstname(person.getFirstname());
+        entity.setLastname(person.getLastname());
+        entity.setInitials(person.getInitials());
+        entity.setGender(person.getGender());
+        entity.setPhoneNumber(person.getPhoneNumber());
+        entity.setPersonRole(team_f.database_wrapper.enums.PersonRole.valueOf(String.valueOf(person.getPersonRole())));
+
+        AccountEntity account = _accountFacade.convertToAccountEntity(person.getAccount());
+        entity.setAccountByAccount(account);
+
+        // @TODO: instruments cannot be set so easily
+        //entity.setInstrumentsByPersonId();
+
+        return entity;
     }
 
     /**

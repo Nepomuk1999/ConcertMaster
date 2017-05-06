@@ -6,15 +6,15 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.List;
 
 public class ErrorList implements JSONObjectEntity {
-    private List<Error> _errors;
+    private List<Pair<Integer, List<Error>>> _errors;
 
     @JsonGetter("errors")
-    public List<Error> getKeyValueList() {
+    public List<Pair<Integer, List<Error>>> getKeyValueList() {
         return _errors;
     }
 
     @JsonSetter("errors")
-    public void setValue(List<Error> errors) {
+    public void setValue(List<Pair<Integer, List<Error>>> errors) {
         _errors = errors;
     }
 }

@@ -55,7 +55,12 @@ public class NavigationBar {
 
         menuSection = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MusiciansTableSingleton.getInstance()));
+        menuSectionItem.setOnMouseClicked(event -> {
+            try {
+                pane.setCenter(MusiciansTableSingleton.getInstance(new URL(configuration.getStartURI())));
+            } catch (MalformedURLException e) {
+            }
+        });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician List");
         menuSection.add(menuSectionItem);

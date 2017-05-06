@@ -1,8 +1,9 @@
 package team_f.domain.entities;
 
 import team_f.domain.enums.InstrumentType;
+import team_f.domain.interfaces.DomainEntity;
 
-public class Instrument {
+public class Instrument implements DomainEntity {
     private int _instrumentID;
     private InstrumentType _instrumentType;
     private String _brand;
@@ -38,5 +39,10 @@ public class Instrument {
 
     public void setInstrumentID(int instrumentID) {
         _instrumentID = instrumentID;
+    }
+
+    @Override
+    public int getID() {
+        return getInstrumentID();
     }
 }

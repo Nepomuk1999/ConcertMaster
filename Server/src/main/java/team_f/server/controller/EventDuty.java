@@ -53,7 +53,7 @@ public class EventDuty extends HttpServlet {
                         int month = -1;
                         int year = -1;
 
-                        for(Pair item : request.getParameterValue()) {
+                        for(Pair<String, String> item : request.getParameterValue()) {
                             if(String.valueOf(EventDutyParameter.MONTH).equals(item.getKey())) {
                                 try {
                                     month = Integer.parseInt(item.getValue());
