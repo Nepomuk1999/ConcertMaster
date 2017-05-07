@@ -87,6 +87,8 @@ public class MonthPublisher extends BorderPane {
 
         comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
+                comboBoxYear.getSelectionModel().select(arg2.intValue());
+                comboBoxYear.hide();
                 _selectedYear = arg2.intValue();
             }
         });
@@ -102,6 +104,8 @@ public class MonthPublisher extends BorderPane {
 
         comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
+                comboBoxMonth.getSelectionModel().select(arg2.getValue());
+                comboBoxMonth.hide();
                 _selectedMonth.setMonth(arg2.getMonth());
                 _selectedMonth.setValue(arg2.getValue());
                 _table.setItems(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
@@ -131,6 +135,7 @@ public class MonthPublisher extends BorderPane {
 
 
         Button OpenDirectoryChooserButton = new Button();
+        OpenDirectoryChooserButton.setMinWidth(180);
         OpenDirectoryChooserButton.setStyle("-fx-font: 14 arial;");
         OpenDirectoryChooserButton.setText("Open DirectoryChooser");
         OpenDirectoryChooserButton.setOnAction(event -> {
@@ -153,6 +158,7 @@ public class MonthPublisher extends BorderPane {
         directoryLabel.setStyle("-fx-font: 14 arial;");
 
         Button pdfGeneratorButton = new Button("Convert Schedule to PDF");
+        pdfGeneratorButton.setMinWidth(180);
         pdfGeneratorButton.setStyle("-fx-font: 14 arial;");
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
             List<Event> items = _table.getItems();
@@ -168,12 +174,22 @@ public class MonthPublisher extends BorderPane {
 
         });
 
+        Label titlePublisher=new Label("Publisher");
+        titlePublisher.setStyle(" -fx-font-size: 20px;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-text-fill: #333333;\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+
+        Label titlePdfConverter=new Label("PDF Converter");
+        titlePdfConverter.setStyle(" -fx-font-size: 20px;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-text-fill: #333333;\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
 
         GridPane pane = new GridPane();
-
         pane.setHgap(10);
         pane.setVgap(5);
-
+        pane.add(titlePublisher, 10, 4);
         pane.add(labelYear, 10, 5);
         pane.add(comboBoxYear, 11, 5);
         pane.add(labelMonth, 10, 6);
@@ -183,6 +199,7 @@ public class MonthPublisher extends BorderPane {
         pane.add(labelUnpblishButton, 10, 8);
         pane.add(unpublishButton, 11, 8);
 
+        pane.add(titlePdfConverter, 30, 4);
         pane.add(directoryLabel, 30, 5);
         pane.add(_directorySelected, 30, 6);
         pane.add(OpenDirectoryChooserButton, 31, 6);
@@ -194,20 +211,6 @@ public class MonthPublisher extends BorderPane {
         _root = new VBox();
         _root.getChildren().addAll(pane);
 
-
-        StackPane header = new StackPane();
-        StackPane bottom = new StackPane();
-        Label headerTitle = new Label("Publish/Unpublish Schedule");
-        headerTitle.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 36));
-        header.getChildren().add(headerTitle);
-        setStyle("-fx-border-color: cornflowerblue; -fx-border-radius: 10; -fx-border-insets: 0;");
-        header.setStyle("-fx-background-color: derive(cornflowerblue, 70%); -fx-background-radius: 10 10 0 0; ");
-        bottom.setStyle("-fx-background-color: derive(cornflowerblue, 70%); -fx-background-radius: 0 0 10 10; ");
-        setTop(header);
-        Label bottomTitle = new Label("");
-        bottomTitle.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 36));
-        bottom.getChildren().add(bottomTitle);
-        setBottom(bottom);
 
         VBox tableBox = new VBox();
         tableBox.getChildren().addAll(_table);

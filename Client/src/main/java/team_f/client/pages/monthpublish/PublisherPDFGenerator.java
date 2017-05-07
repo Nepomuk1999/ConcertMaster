@@ -18,6 +18,8 @@ import com.itextpdf.layout.element.Table;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -91,11 +93,9 @@ public class PublisherPDFGenerator {
                     else table.addCell(" ");
                     if (event.getName() != null) table.addCell(event.getName().toString());
                     else table.addCell(" ");
-                    if (event.getStartdate() != null) table.addCell(event.getStartdate().getDayOfMonth()+"."+event.getStartdate().getMonth()+"\n"
-                            +event.getStartdate().getHour()+":"+event.getStartdate().getMinute());
+                    if (event.getStartdate() != null) table.addCell(event.getStartdate().toString());
                     else table.addCell(" ");
-                    if (event.getEnddate() != null) table.addCell(event.getEnddate().getDayOfMonth()+"."+event.getEnddate().getMonth()+"\n"
-                            +event.getEnddate().getHour()+":"+event.getEnddate().getMinute());
+                    if (event.getEnddate() != null) table.addCell(event.getEnddate().toString());
                     else table.addCell(" ");
                     if (event.getLocation() != null) table.addCell(event.getLocation().toString());
                     else table.addCell(" ");
