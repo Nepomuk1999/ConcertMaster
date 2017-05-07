@@ -22,7 +22,7 @@ public class MusicalWorkHelper {
     // Returns PersonTestData Id TableColumn
     public static TableColumn<MusicalWorkTestData, Integer> getIdColumn() {
         TableColumn<MusicalWorkTestData, Integer> idCol = new TableColumn<>("Id");
-        PropertyValueFactory<MusicalWorkTestData, Integer> idCellValueFactory = new PropertyValueFactory<>("_id");
+        PropertyValueFactory<MusicalWorkTestData, Integer> idCellValueFactory = new PropertyValueFactory<>("id");
         idCol.setCellValueFactory(idCellValueFactory);
         return idCol;
     }

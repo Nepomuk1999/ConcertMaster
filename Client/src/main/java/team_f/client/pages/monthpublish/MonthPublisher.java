@@ -2,6 +2,7 @@ package team_f.client.pages.monthpublish;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -11,14 +12,19 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import team_f.client.helper.RequestResponseHelper;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.entities.Publish;
 import team_f.jsonconnector.enums.PublishType;
+
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class MonthPublisher extends BorderPane {
@@ -29,6 +35,8 @@ public class MonthPublisher extends BorderPane {
     private VBox _root;
     private TableView<Event> _table;
     private URL _baseURL;
+    private TextField _name;
+    TextField _directorySelected;
 
     public MonthPublisher(URL baseURL) {
         _baseURL = baseURL;
@@ -46,6 +54,11 @@ public class MonthPublisher extends BorderPane {
                 new Month("November", 11),
                 new Month("December", 12));
 
+        _name=new TextField();
+        _name.setMinWidth(250);
+        _directorySelected =new TextField();
+        _directorySelected.setMinWidth(250);
+
         _year = FXCollections.observableArrayList();
         LocalDateTime current = LocalDateTime.now();
         for (int i = -1; i < 6; i++) {
@@ -53,6 +66,7 @@ public class MonthPublisher extends BorderPane {
         }
 
         ComboBox<Integer> comboBoxYear = new ComboBox<>(_year);
+        comboBoxYear.setMinWidth(125);
         comboBoxYear.setStyle("-fx-font: 14 arial;");
         Label labelYear = new Label("Select a Year!");
         labelYear.setStyle("-fx-font: 14 arial;");
@@ -60,6 +74,7 @@ public class MonthPublisher extends BorderPane {
         _selectedYear = comboBoxYear.getSelectionModel().getSelectedItem().intValue();
 
         ComboBox<Month> comboBoxMonth = new ComboBox<>(_data);
+        comboBoxMonth.setMinWidth(125);
         comboBoxMonth.setStyle("-fx-font: 14 arial;");
         Label labelMonth = new Label("Select a Month to publish or unpublish!");
         labelMonth.setStyle("-fx-font: 14 arial;");
@@ -92,6 +107,7 @@ public class MonthPublisher extends BorderPane {
 
 
         Button publishButton = new Button("Publish Month");
+        publishButton.setMinWidth(125);
         publishButton.setStyle("-fx-font: 14 arial;");
         Label labelPublishButton = new Label("Click here to publish Month!");
         labelPublishButton.setStyle("-fx-font: 14 arial;");
@@ -100,6 +116,7 @@ public class MonthPublisher extends BorderPane {
         });
 
         Button unpublishButton = new Button("Unpublish Month");
+        unpublishButton.setMinWidth(125);
         unpublishButton.setStyle("-fx-font: 14 arial;");
         Label labelUnpblishButton = new Label("Click here to unpublish Month!");
         labelUnpblishButton.setStyle("-fx-font: 14 arial;");
@@ -107,19 +124,70 @@ public class MonthPublisher extends BorderPane {
             unpublish();
         });
 
+
+
+
+     //Todo: same style like other buttons
+
+
+        Button OpenDirectoryChooserButton = new Button();
+        OpenDirectoryChooserButton.setStyle("-fx-font: 14 arial;");
+        OpenDirectoryChooserButton.setText("Open DirectoryChooser");
+        OpenDirectoryChooserButton.setOnAction(event -> {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            File selectedDirectory =
+                    directoryChooser.showDialog(new Stage());
+
+            if(selectedDirectory == null){
+                _directorySelected.setText("No Directory _directorySelected");
+            }else{
+                _directorySelected.setText(selectedDirectory.getAbsolutePath());
+            }
+        });
+
+
+
+        Label nameLabel = new Label("Document Name:");
+        nameLabel.setStyle("-fx-font: 14 arial;");
+
+        Label directoryLabel = new Label("Selected Directory:");
+        directoryLabel.setStyle("-fx-font: 14 arial;");
+
+        Button pdfGeneratorButton = new Button("Convert Schedule to PDF");
+        pdfGeneratorButton.setStyle("-fx-font: 14 arial;");
+        pdfGeneratorButton.setOnAction((ActionEvent event) -> {
+            List<Event> items = _table.getItems();
+            try {
+                validateInput(_directorySelected.getText(), _name.getText());
+                String selectedValues=_selectedMonth+"/"+_selectedYear;
+                PublisherPDFGenerator main=new PublisherPDFGenerator(items, selectedValues, _directorySelected.getText(), _name.getText());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+
+
         GridPane pane = new GridPane();
 
         pane.setHgap(10);
         pane.setVgap(5);
 
-        pane.add(labelYear, 30, 5);
-        pane.add(comboBoxYear, 31, 5);
-        pane.add(labelMonth, 30, 7);
-        pane.add(comboBoxMonth, 31, 7);
-        pane.add(labelPublishButton, 30, 9);
-        pane.add(publishButton, 31, 9);
-        pane.add(labelUnpblishButton, 30, 11);
-        pane.add(unpublishButton, 31, 11);
+        pane.add(labelYear, 10, 5);
+        pane.add(comboBoxYear, 11, 5);
+        pane.add(labelMonth, 10, 6);
+        pane.add(comboBoxMonth, 11, 6);
+        pane.add(labelPublishButton, 10, 7);
+        pane.add(publishButton, 11, 7);
+        pane.add(labelUnpblishButton, 10, 8);
+        pane.add(unpublishButton, 11, 8);
+
+        pane.add(directoryLabel, 30, 5);
+        pane.add(_directorySelected, 30, 6);
+        pane.add(OpenDirectoryChooserButton, 31, 6);
+        pane.add(nameLabel, 30, 7);
+        pane.add(_name, 30, 8);
+        pane.add(pdfGeneratorButton, 31, 8);
 
 
         _root = new VBox();
@@ -151,6 +219,34 @@ public class MonthPublisher extends BorderPane {
                 "-fx-border-color: blue;");
         setBottom(tableBox);
         setCenter(_root);
+    }
+
+    private void validateInput(String directory, String name) {
+        Boolean correct=true;
+        if(directory==null||directory.isEmpty()||directory.trim().length()==0){
+            _directorySelected.setStyle("-fx-border-color: red");
+            correct=false;
+        }
+        if(name==null||name.isEmpty()||name.trim().length()==0){
+            _name.setStyle("-fx-border-color: red");
+            correct=false;
+        }
+        if(correct==false){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Convert to PDF");
+            alert.setHeaderText("Please select a valid Directory and Name!");
+            alert.setContentText("Invalid fields are marked with a red border");
+            alert.showAndWait();
+        }
+        if(correct==true){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setGraphic(new ImageView("check.png"));
+            alert.setTitle("Convert to PDF");
+            alert.setHeaderText("Successfully converted to a PDF-File");
+            alert.showAndWait();
+            _directorySelected.setStyle("-fx-border-color: none");
+            _name.setStyle("-fx-border-color: none");
+        }
     }
 
     private void publish() {
@@ -197,7 +293,7 @@ public class MonthPublisher extends BorderPane {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setGraphic(new ImageView("check.png"));
-                alert.setHeaderText("Succesfully published selected Month");
+                alert.setHeaderText("Succesfully published _directorySelected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
@@ -206,7 +302,7 @@ public class MonthPublisher extends BorderPane {
             } else {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
-                alert.setHeaderText("An ErrorList occured while publishing selected Month. Please try it again later or contact your System-Administrator!");
+                alert.setHeaderText("An ErrorList occured while publishing _directorySelected Month. Please try it again later or contact your System-Administrator!");
                 alert.setContentText("ERROR during publishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
@@ -257,7 +353,7 @@ public class MonthPublisher extends BorderPane {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setGraphic(new ImageView("check.png"));
-                alert.setHeaderText("Succesfully unpublished selected Month");
+                alert.setHeaderText("Succesfully unpublished _directorySelected Month");
                 alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
@@ -265,7 +361,7 @@ public class MonthPublisher extends BorderPane {
             } else {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Failure");
-                alert.setHeaderText("An ErrorList occured while unpublishing selected Month.  Please try it again later or contact your System-Administrator!");
+                alert.setHeaderText("An ErrorList occured while unpublishing _directorySelected Month.  Please try it again later or contact your System-Administrator!");
                 alert.setContentText("ERROR during unpublishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
                 _root.setDisable(false);
                 _root.getChildren().remove(box);
