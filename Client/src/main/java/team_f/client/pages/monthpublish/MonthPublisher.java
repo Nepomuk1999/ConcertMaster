@@ -54,9 +54,9 @@ public class MonthPublisher extends BorderPane {
                 new Month("November", 11),
                 new Month("December", 12));
 
-        _name=new TextField();
+        _name = new TextField();
         _name.setMinWidth(250);
-        _directorySelected =new TextField();
+        _directorySelected = new TextField();
         _directorySelected.setMinWidth(250);
 
         _year = FXCollections.observableArrayList();
@@ -69,6 +69,7 @@ public class MonthPublisher extends BorderPane {
         comboBoxYear.setMinWidth(125);
         comboBoxYear.setStyle("-fx-font: 14 arial;");
         Label labelYear = new Label("Select a Year!");
+        labelYear.setMinWidth(250);
         labelYear.setStyle("-fx-font: 14 arial;");
         comboBoxYear.getSelectionModel().select(1);
         _selectedYear = comboBoxYear.getSelectionModel().getSelectedItem().intValue();
@@ -77,6 +78,7 @@ public class MonthPublisher extends BorderPane {
         comboBoxMonth.setMinWidth(125);
         comboBoxMonth.setStyle("-fx-font: 14 arial;");
         Label labelMonth = new Label("Select a Month to publish or unpublish!");
+        labelMonth.setMinWidth(250);
         labelMonth.setStyle("-fx-font: 14 arial;");
         comboBoxMonth.getSelectionModel().selectFirst();
         _selectedMonth = new Month(comboBoxMonth.getSelectionModel().getSelectedItem().getMonth(), comboBoxMonth.getSelectionModel().getSelectedItem().getValue());
@@ -110,6 +112,7 @@ public class MonthPublisher extends BorderPane {
         publishButton.setMinWidth(125);
         publishButton.setStyle("-fx-font: 14 arial;");
         Label labelPublishButton = new Label("Click here to publish Month!");
+        labelPublishButton.setMinWidth(250);
         labelPublishButton.setStyle("-fx-font: 14 arial;");
         publishButton.setOnAction(event -> {
             publish();
@@ -119,15 +122,11 @@ public class MonthPublisher extends BorderPane {
         unpublishButton.setMinWidth(125);
         unpublishButton.setStyle("-fx-font: 14 arial;");
         Label labelUnpblishButton = new Label("Click here to unpublish Month!");
+        labelPublishButton.setMinWidth(250);
         labelUnpblishButton.setStyle("-fx-font: 14 arial;");
         unpublishButton.setOnAction(event -> {
             unpublish();
         });
-
-
-
-
-     //Todo: same style like other buttons
 
 
         Button OpenDirectoryChooserButton = new Button();
@@ -138,19 +137,20 @@ public class MonthPublisher extends BorderPane {
             File selectedDirectory =
                     directoryChooser.showDialog(new Stage());
 
-            if(selectedDirectory == null){
+            if (selectedDirectory == null) {
                 _directorySelected.setText("No Directory _directorySelected");
-            }else{
+            } else {
                 _directorySelected.setText(selectedDirectory.getAbsolutePath());
             }
         });
 
 
-
         Label nameLabel = new Label("Document Name:");
+        nameLabel.setMinWidth(250);
         nameLabel.setStyle("-fx-font: 14 arial;");
 
         Label directoryLabel = new Label("Selected Directory:");
+        directoryLabel.setMinWidth(250);
         directoryLabel.setStyle("-fx-font: 14 arial;");
 
         Button pdfGeneratorButton = new Button("Convert Schedule to PDF");
@@ -159,8 +159,8 @@ public class MonthPublisher extends BorderPane {
             List<Event> items = _table.getItems();
             try {
                 validateInput(_directorySelected.getText(), _name.getText());
-                String selectedValues=_selectedMonth+"/"+_selectedYear;
-                PublisherPDFGenerator main=new PublisherPDFGenerator(items, selectedValues, _directorySelected.getText(), _name.getText());
+                String selectedValues = _selectedMonth + "/" + _selectedYear;
+                PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _directorySelected.getText(), _name.getText());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -222,23 +222,23 @@ public class MonthPublisher extends BorderPane {
     }
 
     private void validateInput(String directory, String name) {
-        Boolean correct=true;
-        if(directory==null||directory.isEmpty()||directory.trim().length()==0){
+        Boolean correct = true;
+        if (directory == null || directory.isEmpty() || directory.trim().length() == 0) {
             _directorySelected.setStyle("-fx-border-color: red");
-            correct=false;
+            correct = false;
         }
-        if(name==null||name.isEmpty()||name.trim().length()==0){
+        if (name == null || name.isEmpty() || name.trim().length() == 0) {
             _name.setStyle("-fx-border-color: red");
-            correct=false;
+            correct = false;
         }
-        if(correct==false){
+        if (correct == false) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Convert to PDF");
             alert.setHeaderText("Please select a valid Directory and Name!");
             alert.setContentText("Invalid fields are marked with a red border");
             alert.showAndWait();
         }
-        if(correct==true){
+        if (correct == true) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setGraphic(new ImageView("check.png"));
             alert.setTitle("Convert to PDF");
