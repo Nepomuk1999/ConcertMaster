@@ -7,7 +7,6 @@ import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.singletons.*;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -28,8 +27,10 @@ public class NavigationBar {
         menuSection = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Show Schedules");
         menuSectionItem.setOnAction(event -> {
-            BrowserSingleton.getInstance().getBrowser().loadURL("http://localhost:8080/Calendar");
-            pane.setCenter(BrowserSingleton.getInstance());
+            try {
+                pane.setCenter(BrowserSingleton.getInstance(new URL("http://localhost:8080/Calendar")));
+            } catch (MalformedURLException e) {
+            }
         });
         menuSection.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
