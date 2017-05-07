@@ -3,9 +3,17 @@
 function showCalendar(dayClickCallback, eventClickCallback) {
     $('#calendar').fullCalendar({
         header: {
-            left: 'prev,next today',
+            left: 'prev,next today print',
             center: 'title',
             right: 'month,agendaWeek,agendaDay,listWeek'
+        },
+        customButtons: {
+            print: {
+                text: 'Print',
+                click: function() {
+                    window.print();
+                }
+            }
         },
         editable: true,
         eventStartEditable: false,

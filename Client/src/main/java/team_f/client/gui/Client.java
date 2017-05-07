@@ -18,10 +18,11 @@ import team_f.client.pages.home.TodolistHome;
 import team_f.client.pages.legende.LegendTable;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.Web;
+import team_f.client.singletons.BrowserSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
-
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class Client extends Application {
     private final static String _version = "1.0.0";
@@ -37,9 +38,6 @@ public class Client extends Application {
         if (Environment.isMac()) {
             BrowserCore.initialize();
         }
-
-        // load the webbrowser instance at the startup to avoid unnecessary lags for the user
-        Webbrowser.getBrowser("/");
     }
 
     @Override
@@ -49,6 +47,9 @@ public class Client extends Application {
         if (_configuration == null) {
             Common.closeApp(primaryStage, _configuration);
         }
+
+        // load the webbrowser instance at the startup to avoid unnecessary lags for the user
+        BrowserSingleton.getInstance(new URL(_configuration.getStartURI()));
 
         primaryStage.setTitle(_configuration.getAppName());
         primaryStage.getIcons().add(AppConfiguration.getAppIcon());
@@ -107,10 +108,7 @@ public class Client extends Application {
 
             Menu menuTodo = new Menu("My TodoList");
             menuItem = new MenuItem("Show TodoList");
-            menuItem.setOnAction(actionEvent -> {
-                new TodolistHome();
-
-            });
+            menuItem.setOnAction(actionEvent -> new TodolistHome());
             menuTodo.getItems().add(menuItem);
 
 

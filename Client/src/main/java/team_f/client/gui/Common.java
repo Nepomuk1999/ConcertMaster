@@ -20,9 +20,9 @@ public class Common {
 
         if (_configuration.getShowCloseWarning()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Beenden");
-            alert.setHeaderText("Beenden");
-            alert.setContentText("Wollen Sie die Anwendung wirklich schließen?");
+            alert.setTitle("Close");
+            alert.setHeaderText("Close");
+            alert.setContentText("Do you want to close the app?");
 
             ButtonType result = alert.showAndWait().get();
 
