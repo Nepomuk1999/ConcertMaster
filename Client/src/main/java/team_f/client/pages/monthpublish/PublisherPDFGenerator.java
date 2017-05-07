@@ -69,7 +69,8 @@ public class PublisherPDFGenerator {
             p.setMarginTop(35);
             doc.add(p);
 
-            Table table = new Table(10);
+
+            Table table = new Table(new float[]{1,1,1,1,1,1,1,1,1,1});
 
             table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Eventtype"));
@@ -90,9 +91,11 @@ public class PublisherPDFGenerator {
                     else table.addCell(" ");
                     if (event.getName() != null) table.addCell(event.getName().toString());
                     else table.addCell(" ");
-                    if (event.getStartdate() != null) table.addCell(event.getStartdate().toString());
+                    if (event.getStartdate() != null) table.addCell(event.getStartdate().getDayOfMonth()+"."+event.getStartdate().getMonth()+"\n"
+                            +event.getStartdate().getHour()+":"+event.getStartdate().getMinute());
                     else table.addCell(" ");
-                    if (event.getEnddate() != null) table.addCell(event.getEnddate().toString());
+                    if (event.getEnddate() != null) table.addCell(event.getEnddate().getDayOfMonth()+"."+event.getEnddate().getMonth()+"\n"
+                            +event.getEnddate().getHour()+":"+event.getEnddate().getMinute());
                     else table.addCell(" ");
                     if (event.getLocation() != null) table.addCell(event.getLocation().toString());
                     else table.addCell(" ");

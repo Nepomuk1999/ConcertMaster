@@ -58,6 +58,7 @@ public class MonthPublisher extends BorderPane {
         _name.setMinWidth(250);
         _directorySelected = new TextField();
         _directorySelected.setMinWidth(250);
+        _directorySelected.setEditable(false);
 
         _year = FXCollections.observableArrayList();
         LocalDateTime current = LocalDateTime.now();
@@ -137,11 +138,9 @@ public class MonthPublisher extends BorderPane {
             File selectedDirectory =
                     directoryChooser.showDialog(new Stage());
 
-            if (selectedDirectory == null) {
-                _directorySelected.setText("No Directory _directorySelected");
-            } else {
+
                 _directorySelected.setText(selectedDirectory.getAbsolutePath());
-            }
+
         });
 
 
@@ -158,7 +157,9 @@ public class MonthPublisher extends BorderPane {
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
             List<Event> items = _table.getItems();
             try {
-                validateInput(_directorySelected.getText(), _name.getText());
+                if(validateInput(_directorySelected.getText(), _name.getText())==false){
+                    return;
+                }
                 String selectedValues = _selectedMonth + "/" + _selectedYear;
                 PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _directorySelected.getText(), _name.getText());
             } catch (Exception e) {
@@ -221,7 +222,7 @@ public class MonthPublisher extends BorderPane {
         setCenter(_root);
     }
 
-    private void validateInput(String directory, String name) {
+    private Boolean validateInput(String directory, String name) {
         Boolean correct = true;
         if (directory == null || directory.isEmpty() || directory.trim().length() == 0) {
             _directorySelected.setStyle("-fx-border-color: red");
@@ -247,6 +248,7 @@ public class MonthPublisher extends BorderPane {
             _directorySelected.setStyle("-fx-border-color: none");
             _name.setStyle("-fx-border-color: none");
         }
+        return correct;
     }
 
     private void publish() {
