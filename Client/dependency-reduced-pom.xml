@@ -51,6 +51,14 @@
       <url>http://repo.maven.apache.org/maven2</url>
     </repository>
     <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>Central Maven</id>
+      <name>Central Maven Repository</name>
+      <url>http://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
       <id>com.teamdev</id>
       <url>http://maven.teamdev.com/repository/products</url>
     </repository>
