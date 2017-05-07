@@ -29,7 +29,7 @@ public class RehearsalFor extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
 
-        if (MediaType.APPLICATION_JSON.equals(contentType)) {
+        if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
@@ -44,7 +44,7 @@ public class RehearsalFor extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
 
-        if(MediaType.APPLICATION_JSON.equals(contentType)) {
+        if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             EventApplication facade = new EventApplication();

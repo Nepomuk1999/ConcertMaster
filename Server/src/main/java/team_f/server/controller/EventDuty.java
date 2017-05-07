@@ -31,7 +31,7 @@ public class EventDuty extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
 
-        if (MediaType.APPLICATION_JSON.equals(contentType)) {
+        if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -42,7 +42,7 @@ public class EventDuty extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
 
-        if(MediaType.APPLICATION_JSON.equals(contentType)) {
+        if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             team_f.jsonconnector.entities.Request request = (team_f.jsonconnector.entities.Request) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Request.class);
 
             if(request != null) {

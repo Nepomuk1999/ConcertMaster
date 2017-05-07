@@ -130,6 +130,10 @@ public class EventApplication {
         return eventFacade.getEventsByMonth(month, year);
     }
 
+    public List<EventDuty> getEventsByTimeFrame(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return eventFacade.getEventsByTimeFrame(startDateTime, endDateTime);
+    }
+
     public List<MusicalWork> getMusicalWorkList() {
         return musicalWorkFacade.getMusicalWorks();
     }

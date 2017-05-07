@@ -27,7 +27,7 @@ public class Register extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
 
-        if (MediaType.APPLICATION_JSON.equals(contentType)) {
+        if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -38,7 +38,7 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
 
-        if(MediaType.APPLICATION_JSON.equals(contentType)) {
+        if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             team_f.jsonconnector.entities.Person person = (team_f.jsonconnector.entities.Person) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Person.class);
 
             if(person != null) {
