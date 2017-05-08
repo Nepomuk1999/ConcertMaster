@@ -6,7 +6,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 
-public class Web {
+public class WebHelper {
     public static boolean openInWebbrowser(URI uri) {
         if (OSInfo.getOSType() == OSInfo.OSType.LINUX) {
             try {

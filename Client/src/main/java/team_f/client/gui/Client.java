@@ -17,7 +17,7 @@ import team_f.client.configuration.Configuration;
 import team_f.client.pages.home.TodolistHome;
 import team_f.client.pages.legende.LegendTable;
 import team_f.client.controls.sidebar.Sidebar;
-import team_f.client.helper.Web;
+import team_f.client.helper.WebHelper;
 import team_f.client.singletons.BrowserSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
 import java.net.URI;
@@ -75,7 +75,7 @@ public class Client extends Application {
             menuItem = new MenuItem("Open in Browser");
             menuItem.setOnAction(actionEvent -> {
                 try {
-                    Web.openInWebbrowser(new URI(_configuration.getStartURI()));
+                    WebHelper.openInWebbrowser(new URI(_configuration.getStartURI()));
                 } catch (URISyntaxException e) {
                 }
             });

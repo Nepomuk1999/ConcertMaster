@@ -3,11 +3,11 @@ package team_f.client.helper;
 import javafx.scene.image.Image;
 import java.io.InputStream;
 
-public class ImageUtil {
+public class ImageUtilHelper {
     public static Image getImage(String sourcePath) {
         InputStream input = null;
         try {
-            Class c = ImageUtil.class;
+            Class c = ImageUtilHelper.class;
             input = c.getResourceAsStream(sourcePath);
             Image img = new Image(input);
             return img;
