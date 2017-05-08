@@ -13,13 +13,10 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-
+import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -31,8 +28,8 @@ public class PublisherPDFGenerator {
     private final PdfFont _bold;
     private final String _date;
 
-         public PublisherPDFGenerator(List<Event> list, String date, String directory, String name) throws Exception {
-             final String DEST = parseToPath(directory,name);
+         public PublisherPDFGenerator(List<Event> list, String date, String directory) throws Exception {
+             final String DEST = parseToPath(directory);
              _regular = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
              _bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 
@@ -43,7 +40,7 @@ public class PublisherPDFGenerator {
              manipulatePdf(DEST);
          }
 
-        protected String parseToPath(String directory, String name){
+        protected String parseToPath(String directory){
              StringBuilder finalPath=new StringBuilder();
              for(int i=0; i<directory.length();i++){
                  if (directory.charAt(i)=='\\') {
@@ -52,7 +49,6 @@ public class PublisherPDFGenerator {
                      finalPath.append(directory.charAt(i));
                  }
              }
-            finalPath.append('/'+name+".pdf");
              return finalPath.toString();
         }
 
@@ -116,6 +112,12 @@ public class PublisherPDFGenerator {
 
             doc.close();
             pdfDoc.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setGraphic(new ImageView("check.png"));
+            alert.setHeaderText("Succesfully converted selected Month to PDF");
+            alert.showAndWait();
 
         }
 

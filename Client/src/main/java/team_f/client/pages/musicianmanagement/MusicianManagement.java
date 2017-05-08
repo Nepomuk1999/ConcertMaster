@@ -162,15 +162,10 @@ public class MusicianManagement extends BorderPane {
         fields.add(_emailField);
         fields.add(_phoneField);
 
-        Button addButton = new Button("Add");
-        Button resetButton = new Button("Reset");
+        Button addButton = new Button("Add Musician");
 
-        resetButton.setOnAction(e -> {
-            for (TextField field : fields) {
-                field.setText(null);
-                field.setStyle(null);
-            }
-        });
+
+
 
         addButton.setOnAction(e -> {
 
@@ -192,8 +187,6 @@ public class MusicianManagement extends BorderPane {
         });
 
         pane.add(addButton, 0, 3);
-        pane.add(resetButton, 1, 3);
-
         return pane;
     }
 
@@ -294,9 +287,6 @@ public class MusicianManagement extends BorderPane {
         _streetField.setText(null);
         _emailField.setText(null);
         _phoneField.setText(null);
-        /* _initials.setText(null);
-        sectionField.setText(null);
-        instrumentField.setText(null);*/
     }
 
     private URL getFullURL() {
