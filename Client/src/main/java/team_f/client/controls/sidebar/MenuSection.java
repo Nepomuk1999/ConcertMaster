@@ -6,7 +6,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import team_f.client.helper.ImageUtil;
+import team_f.client.helper.ImageUtilHelper;
 
 import java.util.Collection;
 
@@ -16,7 +16,7 @@ public class MenuSection extends TitledPane {
 
     public MenuSection(String title, String graphicPath, ToggleGroup toggleGroup) {
         setText(title);
-        Image buildImage = ImageUtil.getImage(graphicPath);
+        Image buildImage = ImageUtilHelper.getImage(graphicPath);
         setGraphic(new ImageView(buildImage));
 
         // initialize with predefined settings
