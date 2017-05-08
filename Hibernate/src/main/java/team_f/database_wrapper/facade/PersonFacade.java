@@ -1,17 +1,23 @@
 package team_f.database_wrapper.facade;
 
-import team_f.database_wrapper.entities.*;
+import team_f.database_wrapper.entities.AccountEntity;
+import team_f.database_wrapper.entities.MusicianPartEntity;
+import team_f.database_wrapper.entities.PersonEntity;
+import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PersonFacade extends BaseDatabaseFacade {
     private static AccountFacade _accountFacade = new AccountFacade();
+    private static InstrumentTypeFacade _instrumentTypeFacade = new InstrumentTypeFacade();
 
     public PersonFacade() {
         super();
@@ -38,12 +44,13 @@ public class PersonFacade extends BaseDatabaseFacade {
         for (PersonEntity entity : musicianEntities) {
             person = convertToPerson(entity);
 
-            Collection<InstrumentEntity> instruments = entity.getInstrumentsByPersonId();
+            Collection<String> playedInstruments = _instrumentTypeFacade.getPlayedInstrumentsByPersonId(entity.getPersonId());
 
-            if(instruments != null && instruments.size() > 0) {
+            if(playedInstruments != null && playedInstruments.size() > 0) {
                 // set only the first item because musicians cannot play multiple instruments in the orchestra (is only a feature for the future)
-                InstrumentFacade instrumentFacade = new InstrumentFacade(getCurrentSession());
-                person.addInstrument(instrumentFacade.convertToInstrument(instruments.iterator().next()));
+                for (String instrumentType: playedInstruments) {
+                    person.addPlayedInstrument(InstrumentType.valueOf(instrumentType));
+                }
             }
 
             musicians.add(person);
@@ -56,7 +63,23 @@ public class PersonFacade extends BaseDatabaseFacade {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        PersonEntity eventEntity = convertToPersonEntity(person);
+        Account account = person.getAccount();
+        AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
+        session.persist(accountEntity);
+        int accountId = accountEntity.getAccountId();
+
+
+        PersonEntity personEntity = convertToPersonEntity(person);
+        personEntity.setAccount(accountId);
+
+        session.persist(personEntity);
+
+        List<MusicianPartEntity> musicianPartEntities = getMusicianPartEntityFromPerson(person);
+
+        for ( MusicianPartEntity musicianPartEntity: musicianPartEntities) {
+            musicianPartEntity.setMusician(personEntity.getPersonId());
+            session.persist(musicianPartEntity);
+        }
 
         try {
             session.flush();
@@ -65,7 +88,7 @@ public class PersonFacade extends BaseDatabaseFacade {
             session.getTransaction().rollback();
         }
 
-        return eventEntity.getPersonId();
+        return personEntity.getPersonId();
     }
 
     public static boolean contains(String test) {
@@ -95,11 +118,22 @@ public class PersonFacade extends BaseDatabaseFacade {
         AccountEntity account = _accountFacade.convertToAccountEntity(person.getAccount());
         entity.setAccountByAccount(account);
 
-        // @TODO: instruments cannot be set so easily
-        //entity.setInstrumentsByPersonId();
-
         return entity;
     }
+
+    protected List<MusicianPartEntity> getMusicianPartEntityFromPerson (Person person) {
+        List<MusicianPartEntity> musicianPartEntities = new LinkedList();
+
+        for (InstrumentType instrumentType : person.getPlayedInstruments()) {
+            MusicianPartEntity musicianPartEntity = new MusicianPartEntity();
+            musicianPartEntity.setPart(_instrumentTypeFacade.getPartIdByPlayedInstrument(instrumentType));
+            musicianPartEntities.add(musicianPartEntity);
+        }
+
+        return musicianPartEntities;
+    }
+
+
 
     /**
      * Function to convert a PersonEntity object to a Person. Returns the Person after creating and setting information from PersonyEntity object.
@@ -118,36 +152,9 @@ public class PersonFacade extends BaseDatabaseFacade {
         person.setPhoneNumber(pe.getPhoneNumber());
         person.setPersonRole(PersonRole.valueOf(pe.getPersonRole().toString()));
 
+        AccountEntity accountEntity = pe.getAccountByAccount();
+        person.setAccount(_accountFacade.convertToAccount(accountEntity));
+
         return person;
     }
-
-    /*private List<String> getPlayedInstrumentsByPersonId(int id) {
-        EntityManager session = getCurrentSession();
-
-        // prevent SQL injections
-        Query musicianPartQuery = session.createQuery("from MusicianPartEntity where musician = :id");
-        musicianPartQuery.setParameter("id", id);
-
-        List<MusicianPartEntity> musicianPartEntities = musicianPartQuery.getResultList();
-        List<String> parts = new ArrayList<>();
-
-        for (MusicianPartEntity musicianpartEntity : musicianPartEntities) {
-            Query partQuery = session.createQuery("from PartEntity where partId = :id");
-            partQuery.setParameter("id", musicianpartEntity.getPart());
-
-            List<PartEntity> partEntities = partQuery.getResultList();
-
-            if (!(partEntities.isEmpty())) {
-                Query partTypeQuery = session.createQuery("from PartTypeEntity where partTypeId = :id");
-                partTypeQuery.setParameter("id", partEntities.get(0).getPartType());
-                List<PartTypeEntity> partTypeEntities = partTypeQuery.getResultList();
-
-                if (!partTypeEntities.isEmpty()) {
-                    parts.add(partTypeEntities.get(0).getPartType());
-                }
-            }
-        }
-
-        return parts;
-    }*/
 }

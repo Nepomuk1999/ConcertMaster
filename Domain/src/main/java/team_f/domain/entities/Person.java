@@ -1,5 +1,6 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 
@@ -18,6 +19,7 @@ public class Person implements DomainEntity {
     private PersonRole _personRole;
     private Account _account;
     private List<Instrument> _instruments = new LinkedList<>();
+    private List<InstrumentType> _playedInstruments = new LinkedList<>();
 
     public int getPersonID() {
         return _personID;
@@ -57,6 +59,10 @@ public class Person implements DomainEntity {
 
     public List<Instrument> getInstruments() {
         return _instruments;
+    }
+
+    public List<InstrumentType> getPlayedInstruments() {
+        return _playedInstruments;
     }
 
     public Account getAccount() {
@@ -109,6 +115,14 @@ public class Person implements DomainEntity {
         }
 
         _instruments.add(instrument);
+    }
+
+    public void setPlayedInstruments(List<InstrumentType> instrumentTypes) {
+        this._playedInstruments = instrumentTypes;
+    }
+
+    public void addPlayedInstrument (InstrumentType instrumentType) {
+        _playedInstruments.add(instrumentType);
     }
 
     public void setAccount(Account account) {

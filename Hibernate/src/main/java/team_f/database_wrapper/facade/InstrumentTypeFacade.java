@@ -1,7 +1,11 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.InstrumentTypeEntity;
+import team_f.database_wrapper.entities.MusicianPartEntity;
+import team_f.database_wrapper.entities.PartEntity;
+import team_f.database_wrapper.entities.PartTypeEntity;
 import team_f.domain.enums.InstrumentType;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -54,6 +58,78 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade {
         }
 
         return instrumentType;
+    }
+
+    protected List<String> getPlayedInstrumentsByPersonId(int id) {
+        EntityManager session = getCurrentSession();
+
+        // prevent SQL injections
+        Query musicianPartQuery = session.createQuery("from MusicianPartEntity where musician = :id");
+        musicianPartQuery.setParameter("id", id);
+
+        List<MusicianPartEntity> musicianPartEntities = musicianPartQuery.getResultList();
+        List<String> parts = new ArrayList<>();
+
+        for (MusicianPartEntity musicianpartEntity : musicianPartEntities) {
+            Query partQuery = session.createQuery("from PartEntity where partId = :id");
+            partQuery.setParameter("id", musicianpartEntity.getPart());
+
+            List<PartEntity> partEntities = partQuery.getResultList();
+
+            if (!(partEntities.isEmpty())) {
+                Query partTypeQuery = session.createQuery("from PartTypeEntity where partTypeId = :id");
+                partTypeQuery.setParameter("id", partEntities.get(0).getPartType());
+                List<PartTypeEntity> partTypeEntities = partTypeQuery.getResultList();
+
+                if (!partTypeEntities.isEmpty()) {
+                    parts.add(partTypeEntities.get(0).getPartType());
+                }
+            }
+        }
+
+        return parts;
+    }
+
+    protected Integer getPartIdByPlayedInstrument (InstrumentType instrumentType) {
+        Integer partId;
+
+        if (instrumentType.equals(InstrumentType.FIRSTVIOLIN)) {
+            partId = 1;
+        } else if (instrumentType.equals(InstrumentType.SECONDVIOLIN)) {
+            partId = 2;
+        } else if (instrumentType.equals(InstrumentType.VIOLA)) {
+            partId = 3;
+        } else if (instrumentType.equals(InstrumentType.VIOLONCELLO)) {
+            partId = 4;
+        } else if (instrumentType.equals(InstrumentType.DOUBLEBASS)) {
+            partId = 5;
+        } else if (instrumentType.equals(InstrumentType.FLUTE)) {
+            partId = 8;
+        } else if (instrumentType.equals(InstrumentType.OBOE)) {
+            partId = 10;
+        } else if (instrumentType.equals(InstrumentType.CLARINET)) {
+            partId = 11;
+        } else if (instrumentType.equals(InstrumentType.BASSOON)) {
+            partId = 13;
+        } else if (instrumentType.equals(InstrumentType.HORN)) {
+            partId = 23;
+        } else if (instrumentType.equals(InstrumentType.TRUMPET)) {
+            partId = 18;
+        } else if (instrumentType.equals(InstrumentType.TROMBONE)) {
+            partId = 19;
+        } else if (instrumentType.equals(InstrumentType.TUBE)) {
+            partId = 22;
+        } else if (instrumentType.equals(InstrumentType.KETTLEDRUM)) {
+            partId = 27;
+        } else if (instrumentType.equals(InstrumentType.PERCUSSION)) {
+            partId = 28;
+        } else if (instrumentType.equals(InstrumentType.HARP)) {
+            partId = 29;
+        } else {
+            partId = -1;
+        }
+
+        return partId;
     }
 
     /**
