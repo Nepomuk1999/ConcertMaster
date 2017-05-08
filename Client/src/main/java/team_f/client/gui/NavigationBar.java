@@ -9,22 +9,26 @@ import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.singletons.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class NavigationBar {
     public static Sidebar getNavigationBar(BorderPane pane, Configuration configuration) {
         Sidebar sidebar = new Sidebar();
-        MenuSection menuSection;
+        //MenuSection menuSection;
+        ArrayList<MenuSection> menuSectionArrayList=new ArrayList<>();
         MenuSectionItem menuSectionItem;
         ToggleGroup toggleGroup = new ToggleGroup();
         sidebar.setStyle("-fx-background-color:   #e0e0d1");
 
-        menuSection = new MenuSection("Home", "/homeM.png", null);
-        menuSection.setAnimated(false);
-        menuSection.setCollapsible(false);
-        menuSection.setOnMouseClicked(event -> pane.setCenter(HomeScreenSingleton.getInstance()));
-        sidebar.add(menuSection);
+        MenuSection menuSectionHome = new MenuSection("Home", "/homeM.png", null);
+        menuSectionHome.setAnimated(false);
+        menuSectionHome.setCollapsible(false);
+        sidebar.add(menuSectionHome);
+        menuSectionArrayList.add(menuSectionHome);
 
-        menuSection = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
+        MenuSection menuSectionServiceSchedule = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
+        //menuSectionServiceSchedule.setStyle("-fx-color: rgb(0,100,157);"+"-fx-text-fill: white");
+
         menuSectionItem = new MenuSectionItem("Show Schedules");
         menuSectionItem.setOnAction(event -> {
             try {
@@ -32,7 +36,8 @@ public class NavigationBar {
             } catch (MalformedURLException e) {
             }
         });
-        menuSection.add(menuSectionItem);
+
+        menuSectionServiceSchedule.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
         //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
         menuSectionItem.setOnMouseClicked(event -> {
@@ -41,17 +46,19 @@ public class NavigationBar {
             } catch (MalformedURLException e) {
             }
         });
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionServiceSchedule.add(menuSectionItem);
+        sidebar.add(menuSectionServiceSchedule);
+        menuSectionArrayList.add(menuSectionServiceSchedule);
 
-        menuSection = new MenuSection("Services", "/dutyM.png", toggleGroup);
+        MenuSection menuSectionServices = new MenuSection("Services", "/dutyM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Service Schedules");
-        menuSection.add(menuSectionItem);
+        menuSectionServices.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Service Management");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionServices.add(menuSectionItem);
+        sidebar.add(menuSectionServices);
+        menuSectionArrayList.add(menuSectionServices);
 
-        menuSection = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
+        MenuSection menuSectionMusician = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionItem.setOnMouseClicked(event -> {
             try {
@@ -59,37 +66,50 @@ public class NavigationBar {
             } catch (MalformedURLException e) {
             }
         });
-        menuSection.add(menuSectionItem);
+        menuSectionMusician.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician List");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionMusician.add(menuSectionItem);
+        sidebar.add(menuSectionMusician);
+        menuSectionArrayList.add(menuSectionMusician);
 
-        menuSection = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
+        MenuSection menuSectionCompositions = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("MusicalWork Management");
         menuSectionItem.setOnMouseClicked(event -> pane.setCenter(MusicalWorkSingleton.getInstance()));
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionCompositions.add(menuSectionItem);
+        sidebar.add(menuSectionCompositions);
+        menuSectionArrayList.add(menuSectionCompositions);
 
-        menuSection = new MenuSection("Inventory", "/inventaryM.png", toggleGroup);
+        MenuSection menuSectionInventory = new MenuSection("Inventory", "/inventaryM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Show Inventory");
-        menuSection.add(menuSectionItem);
+        menuSectionInventory.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Add Item");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionInventory.add(menuSectionItem);
+        sidebar.add(menuSectionInventory);
+        menuSectionArrayList.add(menuSectionInventory);
 
-        menuSection = new MenuSection("User Screen", "/userM.png", toggleGroup);
+        MenuSection menuSectionUserScreen = new MenuSection("User Screen", "/userM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Section Management");
-        menuSection.add(menuSectionItem);
+        menuSectionUserScreen.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionUserScreen.add(menuSectionItem);
+        sidebar.add(menuSectionUserScreen);
+        menuSectionArrayList.add(menuSectionUserScreen);
 
-        menuSection = new MenuSection("Administration", "/settingsM.png", toggleGroup);
+        MenuSection menuSectionAdministration = new MenuSection("Administration", "/settingsM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Section Management");
-        menuSection.add(menuSectionItem);
+        menuSectionAdministration.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSection.add(menuSectionItem);
-        sidebar.add(menuSection);
+        menuSectionAdministration.add(menuSectionItem);
+        sidebar.add(menuSectionAdministration);
+        menuSectionArrayList.add(menuSectionAdministration);
+
+        menuSectionHome.setOnMouseClicked(event -> {
+            for (MenuSection menuSection : menuSectionArrayList) {
+                menuSection.setExpanded(false);
+            }
+            pane.setCenter(HomeScreenSingleton.getInstance());
+        });
+
 
         return sidebar;
     }
