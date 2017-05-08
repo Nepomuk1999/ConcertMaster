@@ -112,7 +112,7 @@ public class Client extends Application {
             menuTodo.getItems().add(menuItem);
 
 
-            menuBar.getMenus().addAll(menuFile, menuHelp, menuTodo);
+            menuBar.getMenus().addAll(menuFile, menuTodo, menuHelp);
             content.setTop(menuBar);
         }
 

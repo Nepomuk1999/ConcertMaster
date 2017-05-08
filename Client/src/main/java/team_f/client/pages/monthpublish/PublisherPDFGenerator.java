@@ -105,7 +105,7 @@ public class PublisherPDFGenerator {
                     else table.addCell(" ");
 
                 }
-                table.setMarginTop(35);
+                table.setMarginTop(15);
                 doc.add(table);
 
             }

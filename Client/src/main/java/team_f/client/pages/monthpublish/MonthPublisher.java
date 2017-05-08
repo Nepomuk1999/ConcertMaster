@@ -32,9 +32,10 @@ public class MonthPublisher extends BorderPane {
     private VBox _root;
     private TableView<Event> _table;
     private URL _baseURL;
-    TextField _directorySelected;
+    TextField _selectedPath;
 
     public MonthPublisher(URL baseURL) {
+
         _baseURL = baseURL;
         _data = FXCollections.observableArrayList(
                 new Month("January", 1),
@@ -50,9 +51,9 @@ public class MonthPublisher extends BorderPane {
                 new Month("November", 11),
                 new Month("December", 12));
 
-        _directorySelected = new TextField();
-        _directorySelected.setMinWidth(250);
-        _directorySelected.setEditable(false);
+        _selectedPath = new TextField();
+        _selectedPath.setMinWidth(250);
+        _selectedPath.setEditable(false);
 
         _year = FXCollections.observableArrayList();
         LocalDateTime current = LocalDateTime.now();
@@ -60,6 +61,7 @@ public class MonthPublisher extends BorderPane {
             _year.add(current.getYear() + i);
         }
 
+        //Comboboxes
         ComboBox<Integer> comboBoxYear = new ComboBox<>(_year);
         comboBoxYear.setMinWidth(125);
         comboBoxYear.setStyle("-fx-font: 14 arial;");
@@ -88,14 +90,6 @@ public class MonthPublisher extends BorderPane {
         });
 
 
-        _table = new TableView<>(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
-        _table.setEditable(false);
-        _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
-                MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
-                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn(), MonthPublisherHelper.getEventstatusColumn());
-        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-
         comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 comboBoxMonth.hide();
@@ -105,7 +99,15 @@ public class MonthPublisher extends BorderPane {
             }
         });
 
+        _table = new TableView<>(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
+        _table.setEditable(false);
+        _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
+                MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
+                MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn(), MonthPublisherHelper.getEventstatusColumn());
+        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+
+        //Button
         Button publishButton = new Button("Publish Month");
         publishButton.setMinWidth(125);
         publishButton.setStyle("-fx-font: 14 arial;");
@@ -120,48 +122,38 @@ public class MonthPublisher extends BorderPane {
             unpublish();
         });
 
-
-        Button OpenFileChooserButton = new Button();
-        OpenFileChooserButton.setMinWidth(180);
-        OpenFileChooserButton.setStyle("-fx-font: 14 arial;");
-        OpenFileChooserButton.setText("Open FileChooser");
-        OpenFileChooserButton.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-
-            File selectedDirectory =
-                    fileChooser.showSaveDialog(new Stage());
-                _directorySelected.setText(selectedDirectory.getAbsolutePath());
-
-        });
-
         Label directoryLabel = new Label("Selected Directory:");
         directoryLabel.setMinWidth(250);
         directoryLabel.setStyle("-fx-font: 14 arial;");
 
+        _selectedPath.setDisable(true);
+        _selectedPath.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null&&newValue.matches(".*\\w.*")&&!newValue.isEmpty()){
+                _selectedPath.setDisable(false);
+            }else{
+                _selectedPath.setDisable(true);
+            }
+        });
+
         Button pdfGeneratorButton = new Button("Convert Schedule to PDF");
         pdfGeneratorButton.setMinWidth(180);
         pdfGeneratorButton.setStyle("-fx-font: 14 arial;");
-        pdfGeneratorButton.setDisable(true);
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File selectedDirectory = fileChooser.showSaveDialog(new Stage());
+            _selectedPath.setText(selectedDirectory.getAbsolutePath());
             List<Event> items = _table.getItems();
             String selectedValues = _selectedMonth + "/" + _selectedYear;
             try {
-                PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _directorySelected.getText());
+                PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _selectedPath.getText());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         });
 
-        _directorySelected.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue!=null&&!newValue.isEmpty()&&newValue.matches(".*\\w.*")){
-                pdfGeneratorButton.setDisable(false);
-            }else{
-                pdfGeneratorButton.setDisable(true);
-            }
-        });
-
+        //Title Label
         Label titlePublisher=new Label("Publisher");
         titlePublisher.setStyle(" -fx-font-size: 20px;\n" +
                 "    -fx-font-weight: bold;\n" +
@@ -174,6 +166,8 @@ public class MonthPublisher extends BorderPane {
                 "    -fx-text-fill: #333333;\n" +
                 "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
 
+
+        //Event Pane
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(5);
@@ -182,16 +176,15 @@ public class MonthPublisher extends BorderPane {
         pane.add(comboBoxYear, 12, 6);
         pane.add(labelMonth, 13, 5);
         pane.add(comboBoxMonth, 13, 6);
-        pane.add(titlePdfConverter, 42, 4);
-        pane.add(directoryLabel, 42, 5);
-        pane.add(_directorySelected, 42, 6);
-        pane.add(OpenFileChooserButton, 43, 6);
-        pane.add(pdfGeneratorButton, 43, 7);
-
+        pane.add(titlePdfConverter, 40, 4);
+        pane.add(directoryLabel, 40, 5);
+        pane.add(_selectedPath, 40, 6);
+        pane.add(pdfGeneratorButton, 41, 6);
 
         _root = new VBox();
         _root.getChildren().addAll(pane);
 
+        //Table
         VBox tableBox = new VBox();
         tableBox.getChildren().addAll(_table, publishButton, unpublishButton);
         tableBox.setSpacing(5);
@@ -218,12 +211,12 @@ public class MonthPublisher extends BorderPane {
         ButtonType buttonTypeCancel = new ButtonType("Cancel");
 
         ProgressIndicator pi = new ProgressIndicator();
+        pi.setMinSize(100,100);
 
         VBox box = new VBox(pi);
-        box.setAlignment(Pos.CENTER);
+        box.setAlignment(Pos.TOP_CENTER);
         _root.setDisable(true);
         _root.getChildren().add(box);
-
         alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
 
         Optional<ButtonType> result = alert.showAndWait();
