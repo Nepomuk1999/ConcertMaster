@@ -3,8 +3,6 @@
     <fullName>Server for ConcertMaster</fullName>
     <version>1.0</version>
     <installerFilename></installerFilename>
-    <readmeFile>tomcat/RELEASE-NOTES</readmeFile>
-    <licenseFile>tomcat/LICENSE</licenseFile>
     <componentList>
         <component>
             <name>default</name>
@@ -15,28 +13,30 @@
             <desktopShortcutList>
                 <shortcut>
                     <comment>Server for ConcertMaster</comment>
-                    <exec>${installdir}/tomcat/bin/catalina.sh</exec>
+                    <exec>${installdir}/tomcat/bin/catalina.sh start</exec>
                     <icon>${installdir}/tomcat/icon.ico</icon>
                     <name>Start ConcertMaster Server</name>
-                    <path>start</path>
+                    <noPinToStart>0</noPinToStart>
+                    <path></path>
                     <platforms>all</platforms>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/tomcat/bin/catalina.bat</windowsExec>
+                    <windowsExec>${installdir}\tomcat\bin\catalina.bat</windowsExec>
                     <windowsExecArgs>start</windowsExecArgs>
                     <windowsIcon>${installdir}/tomcat/icon.ico</windowsIcon>
                     <windowsPath></windowsPath>
                 </shortcut>
                 <shortcut>
                     <comment>Stop ConcertMaster Server</comment>
-                    <exec>${installdir}/tomcat/bin/catalina.sh</exec>
+                    <exec>${installdir}/tomcat/bin/catalina.sh stop</exec>
                     <icon>${installdir}/tomcat/icon.ico</icon>
                     <name>Stop ConcertMaster Server</name>
-                    <path>stop</path>
+                    <noPinToStart>0</noPinToStart>
+                    <path></path>
                     <platforms>all</platforms>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/tomcat/bin/catalina.bat</windowsExec>
+                    <windowsExec>${installdir}\tomcat\bin\catalina.bat</windowsExec>
                     <windowsExecArgs>stop</windowsExecArgs>
                     <windowsIcon>${installdir}/tomcat/icon.ico</windowsIcon>
                     <windowsPath></windowsPath>
@@ -105,8 +105,8 @@
                     <name>Start Tomcat</name>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/tomcat/bin/catalina.bat start</windowsExec>
-                    <windowsExecArgs></windowsExecArgs>
+                    <windowsExec>${installdir}/tomcat/bin/catalina.bat</windowsExec>
+                    <windowsExecArgs>start</windowsExecArgs>
                     <windowsIcon>${installdir}/tomcat/icon.ico</windowsIcon>
                     <windowsPath>${installdir}</windowsPath>
                 </startMenuShortcut>
@@ -115,14 +115,14 @@
                     <name>Stop Tomcat</name>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/tomcat/bin/catalina.bat stop</windowsExec>
-                    <windowsExecArgs></windowsExecArgs>
+                    <windowsExec>${installdir}/tomcat/bin/catalina.bat</windowsExec>
+                    <windowsExecArgs>stop</windowsExecArgs>
                     <windowsIcon>${installdir}/tomcat/icon.ico</windowsIcon>
                     <windowsPath>${installdir}</windowsPath>
                 </startMenuShortcut>
                 <startMenuLinkShortcut>
-                    <comment>Launch Tomcat Main Page</comment>
-                    <name>Launch Tomcat Application</name>
+                    <comment>Start ConcertMaster in Webbrowser</comment>
+                    <name>Start ConcertMaster in Webbrowser</name>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
                     <url>http://localhost:${tomcat_http_port}</url>
@@ -133,7 +133,7 @@
     </componentList>
     <preInstallationActionList>
         <autodetectJava>
-            <customErrorMessage>Java 1.5 or later is required to be installed in your system before continue the installation.</customErrorMessage>
+            <customErrorMessage>Java 1.8 is required</customErrorMessage>
             <promptUser>1</promptUser>
             <validVersionList>
                 <validVersion>
@@ -222,7 +222,7 @@
                     </ruleList>
                 </runProgram>
                 <runProgram>
-                    <program>${installdir}/tomcat/bin/catalina.bat</program>
+                    <program>${installdir}\tomcat\bin\catalina.bat</program>
                     <programArguments>start</programArguments>
                     <workingDirectory>${installdir}</workingDirectory>
                     <ruleList>

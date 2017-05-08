@@ -13,16 +13,17 @@
             <desktopShortcutList>
                 <shortcut>
                     <comment>Start ${product_fullname}</comment>
-                    <exec>java -jar "${installdir}/Client/Client.jar"</exec>
+                    <exec>${installdir}/Client/Client.jar</exec>
                     <icon>${installdir}/Client/icon.png</icon>
                     <name>${product_fullname}</name>
+                    <noPinToStart>0</noPinToStart>
                     <path></path>
                     <platforms>all</platforms>
                     <runAsAdmin>0</runAsAdmin>
                     <runInTerminal>0</runInTerminal>
-                    <windowsExec>java</windowsExec>
-                    <windowsExecArgs>-jar "${installdir}/Client/Client.jar"</windowsExecArgs>
-                    <windowsIcon>${installdir}/Client/icon.png</windowsIcon>
+                    <windowsExec>${installdir}\Client\Client.jar</windowsExec>
+                    <windowsExecArgs></windowsExecArgs>
+                    <windowsIcon>${installdir}\Client\icon.png</windowsIcon>
                     <windowsPath></windowsPath>
                 </shortcut>
             </desktopShortcutList>
@@ -123,8 +124,8 @@
             <progressText>Start ConcertMaster</progressText>
             <actionList>
                 <runProgram>
-                    <program>java</program>
-                    <programArguments>-jar "${installdir}/Client/Client.jar"</programArguments>
+                    <program>${installdir}/Client/Client.jar</program>
+                    <programArguments></programArguments>
                     <ruleList>
                         <platformTest>
                             <type>linux</type>
@@ -133,7 +134,7 @@
                 </runProgram>
                 <runProgram>
                     <program>java</program>
-                    <programArguments>-jar "${installdir}/Client/Client.jar"</programArguments>
+                    <programArguments>-jar "${installdir}\Client\Client.jar"</programArguments>
                     <ruleList>
                         <platformTest>
                             <type>windows</type>

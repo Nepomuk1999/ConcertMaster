@@ -27,6 +27,10 @@ hs_err_pid4220.log
 debugger.renderers.xml
 baseRefactoring.xml
 
+# installers
+Installers/Client/Client/Client.jar
+Installers/Server/tomcat/webapps/Root.war
+
 # NFS artifacts
 .nfs*
 
