@@ -36,7 +36,8 @@ public class Calendar extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
-        String contentTypeAttribute = req.getHeader("accept");
+        String headerTypeAccept = req.getHeader("accept");
+        String headerTypeXMsCookieURIrequested = req.getHeader("x-ms-cookieuri-requested");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             JSONArray jsonArray = new JSONArray();
@@ -77,7 +78,7 @@ public class Calendar extends HttpServlet {
             }
 
             CommonResponse.writeJSONObject(resp, jsonArray);
-        } else if(contentTypeAttribute != null && contentTypeAttribute.startsWith(_iCalendarMediaType)) {
+        } else if((headerTypeAccept != null && headerTypeAccept.startsWith(_iCalendarMediaType)) || (headerTypeXMsCookieURIrequested != null && headerTypeXMsCookieURIrequested.trim().equals("t"))) {
             // response.setHeader("Content-type", "text/calendar");
             // pacify outlook
             resp.setHeader("Content-type", "application/x-msoutlook");
