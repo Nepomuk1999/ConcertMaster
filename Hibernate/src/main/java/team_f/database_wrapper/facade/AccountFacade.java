@@ -23,4 +23,13 @@ public class AccountFacade extends BaseDatabaseFacade {
 
         return entity;
     }
+
+    public Account convertToAccount(AccountEntity accountEntity) {
+        Account account = new Account();
+        account.setAccountID(accountEntity.getAccountId());
+        account.setUsername(accountEntity.getUsername());
+        account.setRole(team_f.domain.enums.AccountRole.valueOf(accountEntity.getAccountRole().toString()));
+
+        return account;
+    }
 }
