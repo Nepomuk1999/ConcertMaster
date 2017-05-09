@@ -5,10 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.client.entities.KeyValuePair;
+import team_f.jsonconnector.entities.Instrument;
 import team_f.jsonconnector.entities.Person;
-import team_f.jsonconnector.enums.AccountRole;
-import team_f.jsonconnector.enums.Gender;
-import team_f.jsonconnector.enums.PersonRole;
+import team_f.jsonconnector.enums.*;
 
 public class MusicianTableHelper {
     // Returns an observable list of persons
@@ -116,6 +115,79 @@ public class MusicianTableHelper {
         ObservableList<KeyValuePair> list = FXCollections.observableArrayList(
                 new KeyValuePair("Female", Gender.FEMALE),
                 new KeyValuePair("Male", Gender.MALE));
+
+        return list;
+    }
+
+    public static ObservableList<KeyValuePair> getInstrumentTypeList(SectionType sectionType) {
+        ObservableList<KeyValuePair> list = FXCollections.observableArrayList();
+
+        switch (sectionType) {
+            case BRASS:
+                list.addAll(
+                        new KeyValuePair("Horn", InstrumentType.HORN),
+                        new KeyValuePair("Trombone", InstrumentType.TROMBONE),
+                        new KeyValuePair("Trumpet", InstrumentType.TRUMPET),
+                        new KeyValuePair("Tube", InstrumentType.TUBE));
+                break;
+            case VIOLA:
+                list.addAll(
+                        new KeyValuePair("Viola", InstrumentType.VIOLA)
+                );
+                break;
+            case VIOLIN1:
+                list.addAll(
+                        new KeyValuePair("1.Violin", InstrumentType.FIRSTVIOLIN)
+                );
+                break;
+            case VIOLIN2:
+                list.addAll(
+                        new KeyValuePair("2.Violin", InstrumentType.SECONDVIOLIN)
+                );
+                break;
+            case WOODWIND:
+                list.addAll(
+                        new KeyValuePair("Flute", InstrumentType.FLUTE),
+                        new KeyValuePair("Oboe", InstrumentType.OBOE),
+                        new KeyValuePair("Clarinet", InstrumentType.CLARINET),
+                        new KeyValuePair("Bassoon", InstrumentType.BASSOON));
+
+                break;
+            case DOUBLEBASS:
+                list.addAll(
+                        new KeyValuePair("Double Bass", InstrumentType.DOUBLEBASS)
+                );
+
+                break;
+            case PERCUSSION:
+                list.addAll(
+                        new KeyValuePair("Percussion", InstrumentType.PERCUSSION),
+                        new KeyValuePair("Harp", InstrumentType.HARP),
+                        new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM)
+                );
+
+                break;
+            case VIOLINCELLO:
+                list.addAll(
+                        new KeyValuePair("Violincello", InstrumentType.VIOLONCELLO)
+                );
+
+                break;
+        }
+
+        return list;
+    }
+
+    public static ObservableList<KeyValuePair> getSectionTypeList() {
+        ObservableList<KeyValuePair> list = FXCollections.observableArrayList(
+                new KeyValuePair("Brass", SectionType.BRASS),
+                new KeyValuePair("Doublebass", SectionType.DOUBLEBASS),
+                new KeyValuePair("Percussion", SectionType.PERCUSSION),
+                new KeyValuePair("Viola", SectionType.VIOLA),
+                new KeyValuePair("Violin 1", SectionType.VIOLIN1),
+                new KeyValuePair("Violin 2", SectionType.VIOLIN2),
+                new KeyValuePair("Violincello", SectionType.VIOLINCELLO),
+                new KeyValuePair("Woodwind", SectionType.WOODWIND));
 
         return list;
     }

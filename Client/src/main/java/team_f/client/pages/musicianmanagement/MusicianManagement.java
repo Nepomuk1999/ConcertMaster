@@ -11,9 +11,9 @@ import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.enums.AccountRole;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.PersonRole;
+import team_f.jsonconnector.enums.SectionType;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
 
 public class MusicianManagement extends BaseTablePage<Person, Person, Person, PersonParameter> {
     private TextField _firstNameField;
@@ -22,8 +22,8 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
     private TextField _emailField;
     private TextField _phoneField;
     private TableView<Person> _table;
-    private ComboBox<String> _comboBoxSection;
-    private ComboBox<String> _comboBoxInstrument;
+    private ComboBox<KeyValuePair> _comboBoxSectionType;
+    private ComboBox<KeyValuePair> _comboBoxInstrumentType;
     private ComboBox<KeyValuePair> _comboBoxRole;
     private ComboBox<KeyValuePair> _comboBoxGender;
     private TextField _usernameField;
@@ -32,6 +32,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
     private final ObservableList<KeyValuePair> _personRoleList = MusicianTableHelper.getPersonRoleList();
     private final ObservableList<KeyValuePair> _accountRoleList = MusicianTableHelper.getAccountRoleList();
     private final ObservableList<KeyValuePair> _genderList = MusicianTableHelper.getGenderList();
+    private final ObservableList<KeyValuePair> _sectionTypeList = MusicianTableHelper.getSectionTypeList();
 
     public MusicianManagement() {
     }
@@ -44,8 +45,8 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _emailField = new TextField();
         _phoneField = new TextField();
 
-        _comboBoxSection = new ComboBox<>();
-        _comboBoxInstrument = new ComboBox<>();
+        _comboBoxSectionType = new ComboBox<>(_sectionTypeList);
+        _comboBoxInstrumentType = new ComboBox<>();
         _comboBoxRole = new ComboBox<>(_personRoleList);
         _comboBoxGender = new ComboBox<>(_genderList);
 
@@ -55,12 +56,18 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _table = new TableView<>(MusicianTableHelper.getPersonList());
         _table.setEditable(false);
 
+        _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) newValue.getValue()));
+            _comboBoxInstrumentType.getSelectionModel().selectFirst();
+        });
+
+        _comboBoxInstrumentType.getSelectionModel().selectFirst();
+
         _table.getColumns().addListener((ListChangeListener) change -> {
             change.next();
             if(change.wasReplaced()) {
                 _table.getColumns().clear();
                 getTableColumns();
-
             }
         });
 
@@ -69,16 +76,16 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         getTableColumns();
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        _comboBoxSection.setStyle("-fx-font: 14 arial;");
-        _comboBoxSection.getSelectionModel().selectFirst();
-        _comboBoxSection.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+        _comboBoxSectionType.setStyle("-fx-font: 14 arial;");
+        _comboBoxSectionType.getSelectionModel().selectFirst();
+        _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
             }
         });
 
-        _comboBoxInstrument.setStyle("-fx-font: 14 arial;");
-        _comboBoxInstrument.getSelectionModel().selectFirst();
-        _comboBoxInstrument.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
+        _comboBoxInstrumentType.setStyle("-fx-font: 14 arial;");
+        _comboBoxInstrumentType.getSelectionModel().selectFirst();
+        _comboBoxInstrumentType.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
             }
         });
@@ -148,8 +155,8 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         pane.setVgap(10);
 
         pane.addRow(0, new Label("Role:"), _comboBoxRole);
-        pane.addRow(0, new Label("Section:"), _comboBoxSection);
-        pane.addRow(0, new Label("Instruments:"), _comboBoxInstrument);
+        pane.addRow(0, new Label("Section:"), _comboBoxSectionType);
+        pane.addRow(0, new Label("Instruments:"), _comboBoxInstrumentType);
         pane.addRow(1, new Label("Gender:"), _comboBoxGender);
         pane.addRow(1, new Label("First Name:"), _firstNameField);
         pane.addRow(1, new Label("Last Name:"), _lastNameField);
