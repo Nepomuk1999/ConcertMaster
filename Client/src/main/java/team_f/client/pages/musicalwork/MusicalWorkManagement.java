@@ -2,6 +2,7 @@ package team_f.client.pages.musicalwork;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import team_f.client.pages.BaseTablePage;
@@ -198,46 +199,84 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
     private GridPane getNewMusicalWorkDataPane() {
         GridPane pane = new GridPane();
         pane.setHgap(10);
-        pane.setVgap(7);
+        pane.setVgap(10);
 
-        pane.addRow(0, new Label("Name:"), _nameField);
-        pane.addRow(0, new Label("Composer:"), _composerField);
+        pane.getColumnConstraints().addAll(new ColumnConstraints(130), new ColumnConstraints(130), new ColumnConstraints(130),
+                new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130));
+
+        Label titleMusicalWork = new Label("MusicalWork");
+        titleMusicalWork.setStyle(" -fx-font-size: 20px;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-text-fill: #333333;\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+
+        pane.addRow(0,titleMusicalWork);
+        pane.addRow(1, new Label("Name"), _nameField);
+        pane.addRow(1, new Label("Composer:"), _composerField);
+
 
         //Strings
-        pane.addRow(3, new Label("1. Violin:"), _firstViolinField);
-        pane.addRow(4, new Label("2. Violin:"), _secondViolinField);
-        pane.addRow(5, new Label("Viola:"), _violaField);
-        pane.addRow(6, new Label("Violoncello:"), _violoncelloField);
-        pane.addRow(7, new Label("Contrabass:"), _contrabassField);
+        pane.addRow(4, new Label("1. Violin:"), _firstViolinField);
+        pane.addRow(5, new Label("2. Violin:"), _secondViolinField);
+        pane.addRow(6, new Label("Viola:"), _violaField);
+        pane.addRow(7, new Label("Violoncello:"), _violoncelloField);
+        pane.addRow(8, new Label("Contrabass:"), _contrabassField);
 
         //Wood
-        pane.addRow(3, new Label("Flute:"), _fluteField);
-        pane.addRow(4, new Label("Oboe:"), _oboeField);
-        pane.addRow(5, new Label("Clarinet:"), _clarinetField);
-        pane.addRow(6, new Label("Bassoon:"), _bassoonField);
+        pane.addRow(4, new Label("Flute:"), _fluteField);
+        pane.addRow(5, new Label("Oboe:"), _oboeField);
+        pane.addRow(6, new Label("Clarinet:"), _clarinetField);
+        pane.addRow(7, new Label("Bassoon:"), _bassoonField);
 
         //Brass
-        pane.addRow(3, new Label("Horn:"), _hornField);
-        pane.addRow(4, new Label("Trumpet:"), _trumpetField);
-        pane.addRow(5, new Label("Trombone:"), _tromboneField);
-        pane.addRow(6, new Label("Tuba:"), _tubaField);
+        pane.addRow(4, new Label("Horn:"), _hornField);
+        pane.addRow(5, new Label("Trumpet:"), _trumpetField);
+        pane.addRow(6, new Label("Trombone:"), _tromboneField);
+        pane.addRow(7, new Label("Tuba:"), _tubaField);
 
         //Percussion
-        pane.addRow(3, new Label("Kettledrum:"), _kettledrumField);
-        pane.addRow(4, new Label("Percussion:"), _percussionField);
-        pane.addRow(5, new Label("Harp:"), _harpField);
+        pane.addRow(4, new Label("Kettledrum:"), _kettledrumField);
+        pane.addRow(5, new Label("Percussion:"), _percussionField);
+        pane.addRow(6, new Label("Harp:"), _harpField);
 
-        pane.addRow(3, _specialInstrumentation);
+        pane.addRow(4, _specialInstrumentation);
+
+
 
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_nameField);
         fields.add(_composerField);
 
+        fields.add(_firstViolinField);
+        fields.add(_secondViolinField);
+        fields.add(_violaField);
+        fields.add(_violoncelloField);
+        fields.add(_contrabassField);
+
+        fields.add(_fluteField);
+        fields.add(_oboeField);
+        fields.add(_clarinetField);
+        fields.add(_bassoonField);
+
+        fields.add(_hornField);
+        fields.add(_trumpetField);
+        fields.add(_tromboneField);
+        fields.add(_tubaField);
+
+        fields.add(_kettledrumField);
+        fields.add(_percussionField);
+        fields.add(_harpField);
+
 
         Button addButton = new Button("Add MusicalWork");
+        addButton.setMinWidth(130);
 
         addButton.setOnAction(e -> {
-            if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty()) {
+            if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
+                    _firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
+                    _contrabassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
+                    _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubaField.getText().isEmpty()
+                    || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
                 validate(fields);
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -250,13 +289,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
             }
         });
 
-        pane.add(new Label("Instrumentation:"), 0,1);
-        pane.add(new Label("String:"), 0,2);
-        pane.add(new Label("Wood:"),2,2);
-        pane.add(new Label("Brass:"),4, 2);
-        pane.add(new Label("Percussion:"),6, 2);
-        pane.add(new Label("Special Instruments:"),8,2);
-        pane.add(addButton, 9, 7);
+
+        pane.add(new Label("Instrumentation:"), 0,2);
+        pane.add(new Label("String:"), 0,3);
+        pane.add(new Label("Wood:"),2,3);
+        pane.add(new Label("Brass:"),4, 3);
+        pane.add(new Label("Percussion:"),6, 3);
+        pane.add(new Label("Special Instruments:"),8,3);
+        pane.add(addButton, 9, 8);
 
         return pane;
     }
