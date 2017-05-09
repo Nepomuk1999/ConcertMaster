@@ -85,4 +85,8 @@ public class HomeScreen extends BasePage<Void, NullType, NullType, NullType> {
     @Override
     public void exit() {
     }
+
+    @Override
+    public void dispose() {
+    }
 }

@@ -210,6 +210,10 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
     public void exit() {
     }
 
+    @Override
+    public void dispose() {
+    }
+
     private void publish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Publish  Month");

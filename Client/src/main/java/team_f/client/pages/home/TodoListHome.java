@@ -97,6 +97,10 @@ public class TodoListHome extends BasePage<Void, NullType, NullType, NullType> {
     public void exit() {
     }
 
+    @Override
+    public void dispose() {
+    }
+
     private void initListView(ListView<String> listView) {
         listView.getItems().setAll("Termin anlegen für 10.12", "Punkte eintragen", "Terminplan Veröffentlichen");
     }

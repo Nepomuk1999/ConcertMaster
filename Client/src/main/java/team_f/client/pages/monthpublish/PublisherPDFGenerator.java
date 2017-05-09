@@ -18,12 +18,14 @@ import javafx.scene.image.ImageView;
 import team_f.jsonconnector.entities.EventDuty;
 
 import java.io.File;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 
 
 public class PublisherPDFGenerator {
 
-    private static final String IMAGE = "C:\\Users\\w7pro\\IdeaProjects\\ConcertMaster1\\Client\\src\\main\\resources\\Logo2.jpg";
+    private static final URL IMAGE = ClassLoader.getSystemResource("Logo2.jpg");
     private List<EventDuty> _list;
     private final PdfFont _regular;
     private final PdfFont _bold;

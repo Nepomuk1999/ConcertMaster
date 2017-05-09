@@ -124,6 +124,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
     public void exit() {
     }
 
+    @Override
+    public void dispose() {
+    }
+
     public void addMusicalWork() {
         if(_create != null) {
             MusicalWork musicalWork = new MusicalWork();

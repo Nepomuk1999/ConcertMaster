@@ -56,6 +56,10 @@ public class LegendTable extends BasePage<Void, NullType, NullType, NullType> {
     public void exit() {
     }
 
+    @Override
+    public void dispose() {
+    }
+
     private TableColumn<LegendEntries, String> makeStringColumn(String columnName, String propertyName, int prefWidth) {
         TableColumn<LegendEntries, String> column = new TableColumn<>(columnName);
         column.setCellValueFactory(new PropertyValueFactory<LegendEntries, String>(propertyName));

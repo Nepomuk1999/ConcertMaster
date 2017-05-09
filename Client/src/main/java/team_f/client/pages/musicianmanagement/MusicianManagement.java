@@ -125,12 +125,14 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
     @Override
     public void load() {
-
     }
 
     @Override
     public void exit() {
+    }
 
+    @Override
+    public void dispose() {
     }
 
     public GridPane getNewPersonDataPane() {
