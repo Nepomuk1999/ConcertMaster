@@ -6,11 +6,11 @@ import team_f.client.pages.PageAction;
 import team_f.client.pages.musicianmanagement.MusicianManagement;
 import team_f.client.pages.musicianmanagement.PersonParameter;
 import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.ErrorList;
-import team_f.jsonconnector.entities.Person;
-import team_f.jsonconnector.entities.PersonList;
-import team_f.jsonconnector.entities.Request;
+import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.enums.request.ActionType;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -38,6 +38,8 @@ public class MusiciansTableSingleton {
 
                         if(personList != null) {
                             return personList.getPersonList();
+                        } else {
+                            // @TODO: show error
                         }
                     }
 
@@ -51,9 +53,15 @@ public class MusiciansTableSingleton {
                     ErrorList errorList = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
                     boolean isSuccessful;
 
-                    if (errorList != null && errorList.getKeyValueList() != null && errorList.getKeyValueList().size() == 0) {
-                        isSuccessful = true;
-                        return (Person) errorList.getEntity();
+                    if (errorList != null && errorList.getKeyValueList() != null && errorList.getKeyValueList().size() == 1) {
+                        Pair<JSONObjectEntity, List<Error>> person = errorList.getKeyValueList().get(0);
+
+                        if(person != null && person.getValue() != null && person.getValue().size() == 0) {
+                            isSuccessful = true;
+                            return (Person) person.getKey();
+                        } else {
+                            isSuccessful = false;
+                        }
                     } else {
                         isSuccessful = false;
                         // @TODO: show error message
@@ -66,6 +74,21 @@ public class MusiciansTableSingleton {
             _musicianTable.setOnEdit(new PageAction<Person, Person>() {
                 @Override
                 public Person doAction(Person value) {
+                    if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.UPDATE);
+
+                        Person person = (Person) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, Person.class);
+
+                        if(person != null) {
+                            return person;
+                        } else {
+                            // @TODO: show error
+                        }
+
+                        return person;
+                    }
+
                     return null;
                 }
             });

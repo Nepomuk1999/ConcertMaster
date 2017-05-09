@@ -16,7 +16,13 @@ public class PersonConverter {
         result.setInitials(person.getInitials());
         result.setAccount(AccountConverter.convertToJSON(person.getAccount()));
         result.setPersonRole(PersonRole.valueOf(String.valueOf(person.getPersonRole())));
-        result.setGender(Gender.valueOf(String.valueOf(person.getGender())));
+
+        if(person.getGender().equals("m")) {
+            result.setGender(Gender.MALE);
+        } else if(person.getGender().equals("w")){
+            result.setGender(Gender.FEMALE);
+        }
+
         result.setEmail(person.getEmail());
         result.setAddress(person.getAddress());
 

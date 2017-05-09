@@ -142,8 +142,8 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         scaleDefault.setPivotY(0);
         borderPane.getTransforms().setAll(scaleDefault);*/
 
-        mySlider.valueProperty().addListener((arg0, arg1, arg2) -> {
-            Scale scale = new Scale(arg2.doubleValue(), arg2.doubleValue());
+        mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            Scale scale = new Scale(newValue.doubleValue(), newValue.doubleValue());
             scale.setPivotX(0);
             scale.setPivotY(0);
             borderPane.getTransforms().setAll(scale);
@@ -300,6 +300,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
             if(resultPerson != null && resultPerson.getPersonID() > 0) {
                 _table.getItems().add(resultPerson);
+                update();
             }
         }
 
@@ -312,8 +313,11 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
             Person resultPerson = _edit.doAction(person);
 
-            _table.getItems().remove(person);
-            _table.getItems().add(resultPerson);
+            if(resultPerson != null) {
+                _table.getItems().remove(person);
+                _table.getItems().add(resultPerson);
+                update();
+            }
 
             // @TODO: use setOnEdit instead of handling all the stuff in this class
             /*TableView.TableViewSelectionModel<Person> tsm = _table.getSelectionModel();

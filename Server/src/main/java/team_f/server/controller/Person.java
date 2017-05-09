@@ -1,15 +1,16 @@
 package team_f.server.controller;
 
+import javafx.util.*;
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
-import team_f.jsonconnector.enums.*;
-import team_f.jsonconnector.enums.request.EventDutyParameter;
+import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
+import team_f.server.helper.converter.PersonConverter;
 import team_f.server.helper.response.CommonResponse;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,6 +47,8 @@ public class Person extends HttpServlet {
 
             if(request != null) {
                 PersonApplication facade = new PersonApplication();
+                team_f.jsonconnector.entities.Person person;
+                javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
 
                 switch (request.getActionType()) {
                     case GET_BY_PARAMETER:
@@ -54,49 +57,9 @@ public class Person extends HttpServlet {
                         List<team_f.domain.entities.Person> personEntityList = facade.getAllMusicians();
                         List<team_f.jsonconnector.entities.Person> personList = new LinkedList<>();
                         PersonList persons = new PersonList();
-                        team_f.jsonconnector.entities.Person person;
-                        Instrument instrument;
-                        Account account;
 
                         for(team_f.domain.entities.Person item : personEntityList) {
-                            person = new team_f.jsonconnector.entities.Person();
-                            person.setPersonID(item.getPersonID());
-                            person.setFirstname(item.getFirstname());
-                            person.setLastname(item.getLastname());
-                            person.setAddress(item.getAddress());
-                            person.setEmail(item.getEmail());
-
-                            if(item.getGender().equals("m")) {
-                                person.setGender(Gender.MALE);
-                            } else if(item.getGender().equals("w")){
-                                person.setGender(Gender.FEMALE);
-                            }
-
-                            person.setInitials(item.getInitials());
-                            person.setPersonRole(PersonRole.valueOf(String.valueOf(item.getPersonRole())));
-                            person.setPhoneNumber(item.getPhoneNumber());
-
-                            if(item.getInstruments() != null) {
-                                // @TODO: only the first, perhaps this feature can be improved in the future
-                                for(int i = 0; i < item.getInstruments().size() && i < 1; i++) {
-                                    instrument = new Instrument();
-                                    instrument.setInstrumentID(item.getInstruments().get(i).getInstrumentID());
-                                    instrument.setBrand(item.getInstruments().get(i).getBrand());
-                                    instrument.setModel(item.getInstruments().get(i).getModel());
-                                    instrument.setInstrumentType(InstrumentType.valueOf(String.valueOf(item.getInstruments().get(i).getInstrumentType())));
-                                }
-                            }
-
-                            if(item.getAccount() != null) {
-                                account = new Account();
-                                account.setAccountID(item.getAccount().getAccountID());
-                                account.setPassword(item.getAccount().getPassword());
-                                account.setRole(AccountRole.valueOf(String.valueOf(item.getAccount().getRole())));
-                                account.setUsername(item.getAccount().getUsername());
-
-                                person.setAccount(account);
-                            }
-
+                            person = PersonConverter.convertToJSON(item);
                             personList.add(person);
                         }
 
@@ -104,6 +67,16 @@ public class Person extends HttpServlet {
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         WriteHelper.writeJSONObject(resp.getWriter(), persons);
+
+                        break;
+                    case UPDATE:
+                        // @TODO: add update functionality
+                        /*person = (team_f.jsonconnector.entities.Person) request.getEntity();
+                        tmpErrorList = facade.updatePerson(person);
+                        person = PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey());
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        WriteHelper.writeJSONObject(resp.getWriter(), person);*/
 
                         break;
                     default:

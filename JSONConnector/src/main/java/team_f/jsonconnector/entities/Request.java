@@ -11,6 +11,7 @@ import java.util.List;
 public class Request implements JSONObjectEntity {
     private ActionType _actionType;
     private List<Pair<String, String>> _parameterKeyValueList;
+    private JSONObjectEntity _entity;
 
     @JsonGetter("action_type")
     public ActionType getActionType() {
@@ -22,6 +23,11 @@ public class Request implements JSONObjectEntity {
         return _parameterKeyValueList;
     }
 
+    @JsonGetter("entity")
+    public JSONObjectEntity getEntity() {
+        return _entity;
+    }
+
     @JsonSetter("action_type")
     public void setActionType(ActionType actionType) {
         _actionType = actionType;
@@ -30,5 +36,10 @@ public class Request implements JSONObjectEntity {
     @JsonSetter("parameter_key_value")
     public void setParameterKey(List<Pair<String, String>> parameterKeyValueList) {
         _parameterKeyValueList = parameterKeyValueList;
+    }
+
+    @JsonGetter("entity")
+    public void setEntity(JSONObjectEntity entity) {
+        entity = _entity;
     }
 }

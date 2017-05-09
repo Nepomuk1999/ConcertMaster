@@ -3,6 +3,8 @@ package team_f.server.controller;
 import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
+import team_f.domain.entities.*;
+import team_f.domain.entities.Person;
 import team_f.domain.enums.AccountRole;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
@@ -11,6 +13,7 @@ import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
+import team_f.server.helper.converter.PersonConverter;
 import team_f.server.helper.response.CommonResponse;
 import team_f.server.helper.response.JsonResponse;
 import javax.servlet.ServletException;
@@ -71,7 +74,7 @@ public class Register extends HttpServlet {
                 tmpErrorList = facade.register(person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
                                                person.getPhoneNumber(), personRole, username, accountRole, instrumentTypeList);
 
-                ErrorList errorList = JsonResponse.prepareErrorMessage(tmpErrorList.getKey(), tmpErrorList.getValue());
+                ErrorList errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                 resp.setContentType(MediaType.APPLICATION_JSON);
                 WriteHelper.writeJSONObject(resp.getWriter(), errorList);
             }
