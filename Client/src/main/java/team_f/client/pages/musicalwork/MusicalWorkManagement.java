@@ -146,7 +146,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
             scale.setPivotX(0);
             scale.setPivotY(0);
             borderPane.getTransforms().setAll(scale);
-
         });
 
         VBox zoomTool = new VBox();
@@ -163,7 +162,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
             List<MusicalWork> resultMusicalWorkList = _load.doAction(null);
             _table.setItems(FXCollections.observableList(resultMusicalWorkList));
 
-
             // @TODO:
             _table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
             MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
@@ -178,6 +176,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
 
     @Override
     public void exit() {
+        if(_exit != null) {
+            _exit.doAction(null);
+        }
     }
 
     @Override
