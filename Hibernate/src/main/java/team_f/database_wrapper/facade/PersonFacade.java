@@ -49,10 +49,7 @@ public class PersonFacade extends BaseDatabaseFacade {
             if(playedInstruments != null && playedInstruments.size() > 0) {
                 // set only the first item because musicians cannot play multiple instruments in the orchestra (is only a feature for the future)
                 for (String instrumentType: playedInstruments) {
-                    try {
-                        person.addPlayedInstrument(InstrumentType.valueOf(instrumentType.replace(" ", "").toUpperCase()));
-                    } catch (Exception e) {
-                    }
+                    person.addPlayedInstrument(InstrumentType.valueOf(instrumentType));
                 }
             }
 
