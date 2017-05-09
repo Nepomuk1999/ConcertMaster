@@ -24,6 +24,10 @@ public class MenuSection extends TitledPane {
         _vBox.setPadding(new Insets(0, 0, 0, 0));
         _vBox.setStyle("-fx-background-color: #e0e0d1");
         setContent(_vBox);
+        setStyle(" -fx-font-size: 14px;\n" +
+                "    -fx-text-fill: #333333;\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+
         _toggleGroup = toggleGroup;
     }
 

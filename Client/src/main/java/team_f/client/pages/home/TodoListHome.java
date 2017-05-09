@@ -26,6 +26,7 @@ public class TodoListHome extends BasePage<Void, NullType, NullType, NullType> {
 
 
         final Button removeButton = new Button("Remove Selected");
+        removeButton.setDisable(true);
         removeButton.setOnAction(event -> {
             final int selectedIdx = listView.getSelectionModel().getSelectedIndex();
             if (selectedIdx != -1) {
@@ -40,6 +41,10 @@ public class TodoListHome extends BasePage<Void, NullType, NullType, NullType> {
                 listView.getSelectionModel().select(newSelectedIdx);
             }
         });
+
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
+                -> removeButton.setDisable(false));
+
 
         TextField inputField = new TextField();
         inputField.setPromptText("Add a new Todo here");
