@@ -1,10 +1,12 @@
 package team_f.jsonconnector.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorList implements JSONObjectEntity {
     private List<Pair<Integer, List<Error>>> _errors;
     private JSONObjectEntity _entity;

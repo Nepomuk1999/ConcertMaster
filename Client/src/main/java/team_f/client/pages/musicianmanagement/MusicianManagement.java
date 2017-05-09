@@ -15,10 +15,10 @@ import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.enums.AccountRole;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.PersonRole;
+import team_f.jsonconnector.enums.SectionType;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
-import java.util.Optional;
 
 public class MusicianManagement extends BaseTablePage<Person, Person, Person, PersonParameter> {
     private TextField _firstNameField;
@@ -37,6 +37,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
     private final ObservableList<KeyValuePair> _personRoleList = MusicianTableHelper.getPersonRoleList();
     private final ObservableList<KeyValuePair> _accountRoleList = MusicianTableHelper.getAccountRoleList();
     private final ObservableList<KeyValuePair> _genderList = MusicianTableHelper.getGenderList();
+    private final ObservableList<KeyValuePair> _sectionTypeList = MusicianTableHelper.getSectionTypeList();
 
     public MusicianManagement() {
     }
@@ -49,7 +50,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _emailField = new TextField();
         _phoneField = new TextField();
 
-        _comboBoxSectionType = new ComboBox<>();
+        _comboBoxSectionType = new ComboBox<>(_sectionTypeList);
         _comboBoxInstrumentType = new ComboBox<>();
         _comboBoxRole = new ComboBox<>(_personRoleList);
         _comboBoxGender = new ComboBox<>(_genderList);
@@ -74,23 +75,24 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
         _comboBoxSectionType.setStyle("-fx-font: 14 arial;");
         _comboBoxSectionType.getSelectionModel().selectFirst();
-        _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
+        _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) newValue.getValue()));
+                _comboBoxInstrumentType.getSelectionModel().selectFirst();
             }
         });
+        _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(0).getValue()));
 
         _comboBoxInstrumentType.setStyle("-fx-font: 14 arial;");
         _comboBoxInstrumentType.getSelectionModel().selectFirst();
-        _comboBoxInstrumentType.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
-            }
+        _comboBoxInstrumentType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
         _comboBoxRole.setStyle("-fx-font: 14 arial;");
         _comboBoxRole.getSelectionModel().selectFirst();
-        _comboBoxRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
-                if(arg2.getValue().equals(PersonRole.External_musician)){
+        _comboBoxRole.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if(newValue.getValue().equals(PersonRole.External_musician)){
                     _usernameField.setDisable(true);
                     _comboBoxAccountRole.setDisable(true);
                 }else{
@@ -102,16 +104,12 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
         _comboBoxGender.setStyle("-fx-font: 14 arial;");
         _comboBoxGender.getSelectionModel().selectFirst();
-        _comboBoxGender.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
-            }
+        _comboBoxGender.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
         _comboBoxAccountRole.setStyle("-fx-font: 14 arial;");
         _comboBoxAccountRole.getSelectionModel().selectFirst();
-        _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
-            }
+        _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
         GridPane newDataPane = getNewPersonDataPane();

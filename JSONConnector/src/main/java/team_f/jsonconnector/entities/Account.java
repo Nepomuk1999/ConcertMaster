@@ -1,9 +1,11 @@
 package team_f.jsonconnector.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.AccountRole;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
     private Integer _accountID;
     private String _username;

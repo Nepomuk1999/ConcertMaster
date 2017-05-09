@@ -15,8 +15,6 @@ import java.nio.charset.StandardCharsets;
 
 public class RequestResponseHelper {
     public static <T extends JSONObjectEntity> JSONObjectEntity writeAndReadJSONObject(URL url, JSONObjectEntity requestJSONObject, Class<T> responseJSONObjectClass) {
-        StringBuffer sb = new StringBuffer();
-
         if (url != null && requestJSONObject != null && responseJSONObjectClass != null) {
             try {
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

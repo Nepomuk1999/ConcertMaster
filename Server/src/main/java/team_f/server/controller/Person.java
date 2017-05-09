@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,28 +51,34 @@ public class Person extends HttpServlet {
                     case GET_BY_PARAMETER:
                         break;
                     case GET_ALL:
-                        List<team_f.domain.entities.Person> personEnitityList = facade.getAllMusicians();
+                        List<team_f.domain.entities.Person> personEntityList = facade.getAllMusicians();
                         List<team_f.jsonconnector.entities.Person> personList = new LinkedList<>();
                         PersonList persons = new PersonList();
                         team_f.jsonconnector.entities.Person person;
                         Instrument instrument;
                         Account account;
 
-                        for(team_f.domain.entities.Person item : personEnitityList) {
+                        for(team_f.domain.entities.Person item : personEntityList) {
                             person = new team_f.jsonconnector.entities.Person();
                             person.setPersonID(item.getPersonID());
                             person.setFirstname(item.getFirstname());
                             person.setLastname(item.getLastname());
                             person.setAddress(item.getAddress());
                             person.setEmail(item.getEmail());
-                            person.setGender(Gender.valueOf(item.getGender()));
+
+                            if(item.getGender().equals("m")) {
+                                person.setGender(Gender.MALE);
+                            } else if(item.getGender().equals("w")){
+                                person.setGender(Gender.FEMALE);
+                            }
+
                             person.setInitials(item.getInitials());
                             person.setPersonRole(PersonRole.valueOf(String.valueOf(item.getPersonRole())));
                             person.setPhoneNumber(item.getPhoneNumber());
 
                             if(item.getInstruments() != null) {
                                 // @TODO: only the first perhaps this feature can be improved in the future
-                                for(int i = 0; i < 1; i++) {
+                                for(int i = 0; i < item.getInstruments().size() && i < 1; i++) {
                                     instrument = new Instrument();
                                     instrument.setInstrumentID(item.getInstruments().get(i).getInstrumentID());
                                     instrument.setBrand(item.getInstruments().get(i).getBrand());
@@ -96,6 +101,9 @@ public class Person extends HttpServlet {
                         }
 
                         persons.setPersonList(personList);
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        WriteHelper.writeJSONObject(resp.getWriter(), persons);
 
                         break;
                     default:

@@ -1,6 +1,7 @@
 package team_f.jsonconnector.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.PersonRole;
@@ -8,6 +9,7 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.LinkedList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Person implements JSONObjectEntity {
     private int _personID;
     private String _initials;
@@ -129,5 +131,26 @@ public class Person implements JSONObjectEntity {
     @JsonSetter("account")
     public void setAccount(Account account) {
         _account = account;
+    }
+
+    // for other purposes
+    public String getInstrument() {
+        if(_instruments != null) {
+            if(_instruments.size() > 0) {
+                return _instruments.get(0).getBrand() + " " + _instruments.get(0).getModel();
+            }
+        }
+
+        return "";
+    }
+
+    public String getInstrumentType() {
+        if(_instruments != null) {
+            if(_instruments.size() > 0) {
+                return _instruments.get(0).getInstrumentType().toString();
+            }
+        }
+
+        return "";
     }
 }

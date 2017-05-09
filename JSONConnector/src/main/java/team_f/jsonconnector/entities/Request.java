@@ -1,11 +1,13 @@
 package team_f.jsonconnector.entities;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.request.ActionType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Request implements JSONObjectEntity {
     private ActionType _actionType;
     private List<Pair<String, String>> _parameterKeyValueList;
