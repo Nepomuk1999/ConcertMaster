@@ -4,9 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
@@ -121,14 +123,44 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         VBox root = new VBox();
         root.getChildren().addAll(newDataPane, _table,editButton );
         root.setSpacing(5);
-        root.setStyle("-fx-padding: 10;" +
+        BorderPane borderPane=new BorderPane();
+        borderPane.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
                 "-fx-border-color: blue;");
 
-        setCenter(root);
+        Slider mySlider = new Slider();
+        mySlider.setMaxWidth(100);
+        mySlider.setMin(0.5);
+        mySlider.setMax(2);
+        mySlider.setValue(1);
+        mySlider.setShowTickLabels(true);
+        mySlider.setShowTickMarks(true);
+        mySlider.setMajorTickUnit(0.25);
+        mySlider.setMinorTickCount(1);
+        mySlider.setBlockIncrement(0.1);
+
+        /*Scale scaleDefault = new Scale(0.8,1);
+        scaleDefault.setPivotX(0);
+        scaleDefault.setPivotY(0);
+        borderPane.getTransforms().setAll(scaleDefault);*/
+
+        mySlider.valueProperty().addListener((arg0, arg1, arg2) -> {
+            Scale scale = new Scale(arg2.doubleValue(), arg2.doubleValue());
+            scale.setPivotX(0);
+            scale.setPivotY(0);
+            borderPane.getTransforms().setAll(scale);
+
+        });
+
+        VBox zoomTool = new VBox();
+        zoomTool.setStyle("-fx-padding: 10;");
+        zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
+        setTop(zoomTool);
+        borderPane.setCenter(root);
+        setCenter(borderPane);
     }
 
     @Override
