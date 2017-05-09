@@ -8,12 +8,12 @@ import java.util.List;
 public class EventDutyList implements JSONObjectEntity {
     private List<EventDuty> _eventDutyList;
 
-    @JsonGetter("eventDuties")
+    @JsonGetter("event_duties")
     public List<EventDuty> getEventDutyList() {
         return _eventDutyList;
     }
 
-    @JsonSetter("eventDuties")
+    @JsonSetter("event_duties")
     public void setEventDutyList(List<EventDuty> eventDutyList) {
         _eventDutyList = eventDutyList;
     }

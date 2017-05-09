@@ -153,7 +153,10 @@ public class PersonFacade extends BaseDatabaseFacade {
         person.setPersonRole(PersonRole.valueOf(pe.getPersonRole().toString()));
 
         AccountEntity accountEntity = pe.getAccountByAccount();
-        person.setAccount(_accountFacade.convertToAccount(accountEntity));
+
+        if(accountEntity != null) {
+            person.setAccount(_accountFacade.convertToAccount(accountEntity));
+        }
 
         return person;
     }

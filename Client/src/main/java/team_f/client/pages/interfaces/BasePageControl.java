@@ -5,6 +5,7 @@ import team_f.client.pages.PageAction;
 public interface BasePageControl {
     public void initialize();
     public void load();
+    public void update();
     public void exit();
     public void dispose();
 }

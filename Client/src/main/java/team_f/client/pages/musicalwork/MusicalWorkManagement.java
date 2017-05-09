@@ -140,6 +140,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
     }
 
     @Override
+    public void update() {
+    }
+
+    @Override
     public void exit() {
     }
 

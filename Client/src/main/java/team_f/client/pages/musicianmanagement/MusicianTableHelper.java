@@ -10,13 +10,6 @@ import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.*;
 
 public class MusicianTableHelper {
-    // Returns an observable list of persons
-    public static ObservableList<Person> getPersonList() {
-        // @todo: load the data dynamically
-
-        return FXCollections.observableArrayList();
-    }
-
     // Returns PersonTestData Id TableColumn
     public static TableColumn<Person, Integer> getIdColumn() {
         TableColumn<Person, Integer> idCol = new TableColumn<>("Id");
@@ -28,7 +21,7 @@ public class MusicianTableHelper {
     // Returns First Name TableColumn
     public static TableColumn<Person, String> getFirstNameColumn() {
         TableColumn<Person, String> firstNameCol = new TableColumn<>("First Name");
-        PropertyValueFactory<Person, String> firstNameCellValueFactory = new PropertyValueFactory<>("firstName");
+        PropertyValueFactory<Person, String> firstNameCellValueFactory = new PropertyValueFactory<>("firstname");
         firstNameCol.setCellValueFactory(firstNameCellValueFactory);
         return firstNameCol;
     }
@@ -36,7 +29,7 @@ public class MusicianTableHelper {
     // Returns Last Name TableColumn
     public static TableColumn<Person, String> getLastNameColumn() {
         TableColumn<Person, String> lastNameCol = new TableColumn<>("Last Name");
-        PropertyValueFactory<Person, String> lastNameCellValueFactory = new PropertyValueFactory<>("lastName");
+        PropertyValueFactory<Person, String> lastNameCellValueFactory = new PropertyValueFactory<>("lastname");
         lastNameCol.setCellValueFactory(lastNameCellValueFactory);
         return lastNameCol;
     }
@@ -137,12 +130,12 @@ public class MusicianTableHelper {
                 break;
             case VIOLIN1:
                 list.addAll(
-                        new KeyValuePair("1.Violin", InstrumentType.FIRSTVIOLIN)
+                        new KeyValuePair("1. Violin", InstrumentType.FIRSTVIOLIN)
                 );
                 break;
             case VIOLIN2:
                 list.addAll(
-                        new KeyValuePair("2.Violin", InstrumentType.SECONDVIOLIN)
+                        new KeyValuePair("2. Violin", InstrumentType.SECONDVIOLIN)
                 );
                 break;
             case WOODWIND:

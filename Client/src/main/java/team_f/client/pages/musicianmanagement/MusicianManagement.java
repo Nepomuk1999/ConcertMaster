@@ -1,5 +1,6 @@
 package team_f.client.pages.musicianmanagement;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -14,6 +15,7 @@ import team_f.jsonconnector.enums.PersonRole;
 import team_f.jsonconnector.enums.SectionType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MusicianManagement extends BaseTablePage<Person, Person, Person, PersonParameter> {
     private TextField _firstNameField;
@@ -53,7 +55,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _usernameField = new TextField();
         _comboBoxAccountRole = new ComboBox<>(_accountRoleList);
 
-        _table = new TableView<>(MusicianTableHelper.getPersonList());
+        _table = new TableView<>();
         _table.setEditable(false);
 
         _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -66,14 +68,13 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _table.getColumns().addListener((ListChangeListener) change -> {
             change.next();
             if(change.wasReplaced()) {
-                _table.getColumns().clear();
-                getTableColumns();
+                update();
             }
         });
 
         TableView.TableViewSelectionModel tsm = _table.getSelectionModel();
         tsm.setSelectionMode(SelectionMode.SINGLE);
-        getTableColumns();
+        update();
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         _comboBoxSectionType.setStyle("-fx-font: 14 arial;");
@@ -139,6 +140,20 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
     @Override
     public void load() {
+        if(_load != null) {
+        }
+
+        loadList();
+    }
+
+    @Override
+    public void update() {
+        _table.getColumns().clear();
+        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
+                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
+                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
+                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
+                MusicianTableHelper.getInstrumentColumn());
     }
 
     @Override
@@ -172,9 +187,9 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         pane.add(new Label("Role:"), 0,1);
         pane.add(_comboBoxRole, 0,2);
         pane.add(new Label("Section:"),1,1);
-        pane.add(_comboBoxSection,1,2);
+        pane.add(_comboBoxSectionType,1,2);
         pane.add(new Label("Instruments:"), 2,1);
-        pane.add(_comboBoxInstrument,2,2);
+        pane.add(_comboBoxInstrumentType,2,2);
 
         pane.add(new Label("Gender:"), 0,3);
         pane.add(_comboBoxGender,0,4);
@@ -223,7 +238,6 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         Button addButton = new Button("Add Musician");
 
         addButton.setOnAction(e -> {
-
             if (_firstNameField.getText().isEmpty() || _lastNameField.getText().isEmpty() || _streetField.getText().isEmpty()
                     || _emailField.getText().isEmpty() || _phoneField.getText().isEmpty()) {
 
@@ -243,14 +257,6 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
         pane.add(addButton, 4, 6);
         return pane;
-    }
-
-    public void getTableColumns(){
-        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
-                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
-                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
-                MusicianTableHelper.getInstrumentColumn());
     }
 
     private void reset() {
@@ -292,6 +298,13 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
     public void editPerson() {
         if(_edit != null) {
+            Person person = new Person();
+
+            Person resultPerson = _edit.doAction(person);
+
+            _table.getItems().remove(person);
+            _table.getItems().add(resultPerson);
+
             // @TODO: use setOnEdit instead of handling all the stuff in this class
             /*TableView.TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
 
@@ -333,6 +346,18 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
             /*
             Person person = new Person();
             _edit.doAction(person);*/
+        }
+    }
+
+    private void loadList() {
+        if(_loadList != null) {
+            PersonParameter personParameter = new PersonParameter();
+            List<Person> personList = _loadList.doAction(personParameter);
+
+            if(personList != null) {
+                _table.setItems(FXCollections.observableList(personList));
+                update();
+            }
         }
     }
 }
