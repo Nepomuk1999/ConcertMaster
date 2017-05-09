@@ -87,6 +87,13 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _comboBoxRole.getSelectionModel().selectFirst();
         _comboBoxRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
+                if(arg2.getValue().equals(PersonRole.External_musician)){
+                    _usernameField.setDisable(true);
+                    _comboBoxAccountRole.setDisable(true);
+                }else{
+                    _usernameField.setDisable(false);
+                    _comboBoxAccountRole.setDisable(false);
+                }
             }
         });
 
