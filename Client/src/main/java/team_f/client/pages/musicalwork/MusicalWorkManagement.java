@@ -39,6 +39,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
     private TextField _percussionField;
     private TextField _harpField;
 
+    private TextField _specialInstrumentation;
+
     public MusicalWorkManagement(){
     }
 
@@ -54,43 +56,46 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
 
         _stringinstrumentation = new int[4];
         _firstViolinField = new TextField();
-        _firstViolinField.setMaxWidth(30.0);
+        _firstViolinField.setMaxWidth(40.0);
         _secondViolinField = new TextField();
-        _secondViolinField.setMaxWidth(30.0);
+        _secondViolinField.setMaxWidth(40.0);
         _violaField = new TextField();
-        _violaField.setMaxWidth(30.0);
+        _violaField.setMaxWidth(40.0);
         _violoncelloField = new TextField();
-        _violoncelloField.setMaxWidth(30.0);
+        _violoncelloField.setMaxWidth(40.0);
         _contrabassField = new TextField();
-        _contrabassField.setMaxWidth(30.0);
+        _contrabassField.setMaxWidth(40.0);
 
         _woodInstrumentation = new int[3];
         _fluteField = new TextField();
-        _fluteField.setMaxWidth(30.0);
+        _fluteField.setMaxWidth(40.0);
         _oboeField = new TextField();
-        _oboeField.setMaxWidth(30.0);
+        _oboeField.setMaxWidth(40.0);
         _clarinetField = new TextField();
-        _clarinetField.setMaxWidth(30.0);
+        _clarinetField.setMaxWidth(40.0);
         _bassoonField = new TextField();
-        _bassoonField.setMaxWidth(0.0);
+        _bassoonField.setMaxWidth(40.0);
 
         _brassInstrumentation = new int[3];
         _hornField = new TextField();
-        _hornField.setMaxWidth(30.0);
+        _hornField.setMaxWidth(40.0);
         _trumpetField = new TextField();
-        _trumpetField.setMaxWidth(30.0);
+        _trumpetField.setMaxWidth(40.0);
         _tromboneField = new TextField();
-        _tromboneField.setMaxWidth(30.0);
+        _tromboneField.setMaxWidth(40.0);
         _tubaField = new TextField();
-        _tubaField.setMaxWidth(30.0);
+        _tubaField.setMaxWidth(40.0);
 
         _percussionInstrumentation = new int[2];
         _kettledrumField = new TextField();
-        _kettledrumField.setMaxWidth(30.0);
+        _kettledrumField.setMaxWidth(40.0);
         _percussionField = new TextField();
-        _percussionField.setMaxWidth(30.0);
+        _percussionField.setMaxWidth(40.0);
         _harpField = new TextField();
-        _harpField.setMaxWidth(30.0);
+        _harpField.setMaxWidth(40.0);
+
+        _specialInstrumentation = new TextField();
+
 
         _table = new TableView<>();
         _table.setEditable(false);
@@ -107,7 +112,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
         deleteButton.setOnAction(e -> deleteMusicalWork());
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, deleteButton, _table);
+        root.getChildren().addAll(newDataPane, _table, deleteButton);
         root.setSpacing(5);
         root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -125,9 +130,12 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
             List<MusicalWork> resultMusicalWorkList = _load.doAction(null);
             _table.setItems(FXCollections.observableList(resultMusicalWorkList));
 
+
             // @TODO:
             _table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
             MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
+
+            _table.refresh();
         }
     }
 
@@ -152,6 +160,23 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
                 _table.getItems().add(resultMusicalWork);
                 _nameField.setText(null);
                 _composerField.setText(null);
+                _firstViolinField.setText(null);
+                _secondViolinField.setText(null);
+                _violaField.setText(null);
+                _violoncelloField.setText(null);
+                _contrabassField.setText(null);
+                _fluteField.setText(null);
+                _oboeField.setText(null);
+                _clarinetField.setText(null);
+                _bassoonField.setText(null);
+                _hornField.setText(null);
+                _trumpetField.setText(null);
+                _tromboneField.setText(null);
+                _tubaField.setText(null);
+                _kettledrumField.setText(null);
+                _percussionField.setText(null);
+                _harpField.setText(null);
+                _specialInstrumentation.setText(null);
             }
         }
     }
@@ -202,19 +227,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
         pane.addRow(4, new Label("Percussion:"), _percussionField);
         pane.addRow(5, new Label("Harp:"), _harpField);
 
+        pane.addRow(3, _specialInstrumentation);
+
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_nameField);
         fields.add(_composerField);
 
-        Button addButton = new Button("Add MusicalWork");
-        Button resetButton = new Button("Reset");
 
-        resetButton.setOnAction(e -> {
-            for (TextField field : fields) {
-                field.setText(null);
-                field.setStyle(null);
-            }
-        });
+        Button addButton = new Button("Add MusicalWork");
 
         addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty()) {
@@ -237,7 +257,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
         pane.add(new Label("Percussion:"),6, 2);
         pane.add(new Label("Special Instruments:"),8,2);
         pane.add(addButton, 9, 7);
-        pane.add(resetButton, 10, 7);
 
         return pane;
     }
