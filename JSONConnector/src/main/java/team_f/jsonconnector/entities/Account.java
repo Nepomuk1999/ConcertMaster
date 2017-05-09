@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.AccountRole;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Account {
+public class Account implements JSONObjectEntity {
     private Integer _accountID;
     private String _username;
     private String _password;

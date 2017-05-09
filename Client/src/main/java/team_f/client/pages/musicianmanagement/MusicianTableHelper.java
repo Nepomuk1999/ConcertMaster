@@ -66,14 +66,6 @@ public class MusicianTableHelper {
         return cityCol;
     }
 
-    // Returns Section TableColumn
-    public static TableColumn<Person, String> getSectionColumn() {
-        TableColumn<Person, String> countryCol = new TableColumn<>("Instrument");
-        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrument");
-        countryCol.setCellValueFactory(countryCellValueFactory);
-        return countryCol;
-    }
-
     public static TableColumn<Person, String> getInstrumentColumn() {
         TableColumn<Person, String> countryCol = new TableColumn<>("Instrument Type");
         PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrumentType");

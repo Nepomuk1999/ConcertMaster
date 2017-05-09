@@ -9,12 +9,14 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import team_f.jsonconnector.enums.EventStatus;
 import team_f.jsonconnector.enums.EventType;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
+
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EventDuty {
+public class EventDuty implements JSONObjectEntity {
     private int _eventDutyID;
     private String _name;
     private String _description;
@@ -158,7 +160,7 @@ public class EventDuty {
     }
 
     @JsonSetter("musical_works")
-    public void setMusicalWorkList(List e) {
+    public void setMusicalWorkList(List<MusicalWork> e) {
         this._musicalWorkList = e;
     }
 

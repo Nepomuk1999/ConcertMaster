@@ -22,7 +22,7 @@ public class ErrorList implements JSONObjectEntity {
     }
 
     @JsonSetter("errors")
-    public void setValue(List<Pair<Integer, List<Error>>> errors) {
+    public void setErrorList(List<Pair<Integer, List<Error>>> errors) {
         _errors = errors;
     }
 

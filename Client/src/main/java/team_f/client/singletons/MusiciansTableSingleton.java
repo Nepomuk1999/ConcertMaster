@@ -11,10 +11,8 @@ import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.entities.PersonList;
 import team_f.jsonconnector.entities.Request;
 import team_f.jsonconnector.enums.request.ActionType;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MusiciansTableSingleton {
@@ -29,24 +27,6 @@ public class MusiciansTableSingleton {
             _configuration = configuration;
             _musicianTable = new MusicianManagement();
 
-            _musicianTable.setOnCreate(new PageAction<Person, Person>() {
-                @Override
-                public Person doAction(Person value) {
-                    ErrorList request = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
-
-                    boolean isSuccessful;
-
-                    if (request != null && request.getKeyValueList() != null && request.getKeyValueList().size() == 0) {
-                        isSuccessful = true;
-                    } else {
-                        isSuccessful = false;
-                        // @TODO: show error message
-                    }
-
-                    return (Person) request.getEntity();
-                }
-            });
-
             _musicianTable.setOnLoadList(new PageAction<List<Person>, PersonParameter>() {
                 @Override
                 public List<Person> doAction(PersonParameter value) {
@@ -59,6 +39,24 @@ public class MusiciansTableSingleton {
                         if(personList != null) {
                             return personList.getPersonList();
                         }
+                    }
+
+                    return null;
+                }
+            });
+
+            _musicianTable.setOnCreate(new PageAction<Person, Person>() {
+                @Override
+                public Person doAction(Person value) {
+                    ErrorList errorList = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
+                    boolean isSuccessful;
+
+                    if (errorList != null && errorList.getKeyValueList() != null && errorList.getKeyValueList().size() == 0) {
+                        isSuccessful = true;
+                        return (Person) errorList.getEntity();
+                    } else {
+                        isSuccessful = false;
+                        // @TODO: show error message
                     }
 
                     return null;

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.Gender;
+import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.enums.PersonRole;
+import team_f.jsonconnector.enums.SectionType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,8 +22,8 @@ public class Person implements JSONObjectEntity {
     private String _address;
     private String _phoneNumber;
     private PersonRole _personRole;
-    private List<Instrument> _instruments = new LinkedList<>();
     private Account _account;
+    private InstrumentType _instrumentType;
 
     @JsonGetter("id")
     public int getPersonID() {
@@ -68,14 +70,14 @@ public class Person implements JSONObjectEntity {
         return _personRole;
     }
 
-    @JsonGetter("instruments")
-    public List<Instrument> getInstruments() {
-        return _instruments;
-    }
-
     @JsonGetter("account")
     public Account getAccount() {
         return _account;
+    }
+
+    @JsonGetter("instrument_type")
+    public InstrumentType getInstrumentType() {
+        return _instrumentType;
     }
 
     @JsonSetter("id")
@@ -123,34 +125,13 @@ public class Person implements JSONObjectEntity {
         _personRole = personRole;
     }
 
-    @JsonSetter("instruments")
-    public void setInstruments(List<Instrument> instruments) {
-        _instruments = instruments;
-    }
-
     @JsonSetter("account")
     public void setAccount(Account account) {
         _account = account;
     }
 
-    // for other purposes
-    public String getInstrument() {
-        if(_instruments != null) {
-            if(_instruments.size() > 0) {
-                return _instruments.get(0).getBrand() + " " + _instruments.get(0).getModel();
-            }
-        }
-
-        return "";
-    }
-
-    public String getInstrumentType() {
-        if(_instruments != null) {
-            if(_instruments.size() > 0) {
-                return _instruments.get(0).getInstrumentType().toString();
-            }
-        }
-
-        return "";
+    @JsonSetter("instrument_type")
+    public void setInstrumentType(InstrumentType instrumentType) {
+        instrumentType = _instrumentType;
     }
 }

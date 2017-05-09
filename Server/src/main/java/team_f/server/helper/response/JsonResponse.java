@@ -1,9 +1,12 @@
 package team_f.server.helper.response;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.domain.interfaces.DomainEntity;
+import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.ErrorList;
-import team_f.jsonconnector.entities.Pair;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
+import team_f.server.helper.converter.*;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class JsonResponse {
             }
         }
 
-        resultErrorList.setValue(errorItemList);
+        resultErrorList.setErrorList(errorItemList);
         return resultErrorList;
     }
 
@@ -35,7 +38,21 @@ public class JsonResponse {
         Pair<Integer, List<Error>> resultPair = getErrorList(entity, errorList);
         List<Pair<Integer, List<Error>>> list = new LinkedList<>();
         list.add(resultPair);
-        resultErrorList.setValue(list);
+        resultErrorList.setErrorList(list);
+
+        if(entity instanceof team_f.domain.entities.EventDuty) {
+            resultErrorList.setEntity(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) entity));
+        } else if(entity instanceof team_f.domain.entities.MusicalWork) {
+            resultErrorList.setEntity(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) entity));
+        } else if(entity instanceof team_f.domain.entities.Instrumentation) {
+            resultErrorList.setEntity(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) entity));
+        } else if(entity instanceof team_f.domain.entities.Person) {
+            resultErrorList.setEntity(PersonConverter.convertToJSON((team_f.domain.entities.Person) entity));
+        } else if(entity instanceof team_f.domain.entities.Account) {
+            resultErrorList.setEntity(AccountConverter.convertToJSON((team_f.domain.entities.Account) entity));
+        } else {
+            throw new NotImplementedException();
+        }
 
         return resultErrorList;
     }

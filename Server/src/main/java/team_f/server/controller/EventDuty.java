@@ -10,6 +10,7 @@ import team_f.jsonconnector.enums.EventType;
 import team_f.jsonconnector.enums.request.EventDutyParameter;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
+import team_f.server.helper.converter.EventDutyConverter;
 import team_f.server.helper.response.CommonResponse;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -74,23 +75,7 @@ public class EventDuty extends HttpServlet {
                             team_f.jsonconnector.entities.EventDuty eventDuty;
 
                             for(team_f.domain.entities.EventDuty item : eventDuties) {
-                                eventDuty = new team_f.jsonconnector.entities.EventDuty();
-                                eventDuty.setEventDutyID(item.getEventDutyID());
-                                eventDuty.setConductor(item.getConductor());
-                                eventDuty.setDefaultPoints(item.getDefaultPoints());
-                                eventDuty.setDescription(item.getDescription());
-                                eventDuty.setEndTime(item.getEndTime());
-                                eventDuty.setEventStatus(EventStatus.valueOf(String.valueOf(item.getEventStatus())));
-                                // @TODO: complete this
-                                //eventDuty.getInstrumentation(item.getInstrumentation());
-                                eventDuty.setEventType(EventType.valueOf(String.valueOf(item.getEventType())));
-                                eventDuty.setLocation(item.getLocation());
-                                eventDuty.setMusicalWorkList(item.getMusicalWorkList());
-                                eventDuty.setName(item.getName());
-                                // @TODO: complete this
-                                //eventDuty.setRehearsalFor(item.getRehearsalFor());
-                                eventDuty.setStartTime(item.getStartTime());
-
+                                eventDuty = EventDutyConverter.convertToJSON(item);
                                 tmpList.add(eventDuty);
                             }
 

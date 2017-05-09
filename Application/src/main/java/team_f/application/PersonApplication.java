@@ -54,7 +54,7 @@ public class PersonApplication {
 
     public Pair<DomainEntity, List<Pair<String, String>>> register(String firstname, String lastname, String gender, String address,
                                                                    String email, String phoneNumber, PersonRole personRole, String username,
-                                                                   AccountRole accountRole, Instrument instrument) {
+                                                                   AccountRole accountRole, List<InstrumentType> instrumentTypeList) {
 
         Person person = new Person();
         person.setFirstname(firstname);
@@ -64,7 +64,8 @@ public class PersonApplication {
         person.setEmail(email);
         person.setPhoneNumber(phoneNumber);
         person.setPersonRole(personRole);
-        person.addInstrument(instrument);
+        //person.addInstrument(instrument);
+        person.setPlayedInstruments(instrumentTypeList);
 
         if(firstname != null && lastname != null && firstname.length() > 0 && lastname.length() > 0) {
             person.setInitials("" + firstname.charAt(0) + lastname.charAt(0));

@@ -10,10 +10,7 @@ import javafx.scene.layout.VBox;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
-import team_f.jsonconnector.enums.AccountRole;
-import team_f.jsonconnector.enums.Gender;
-import team_f.jsonconnector.enums.PersonRole;
-import team_f.jsonconnector.enums.SectionType;
+import team_f.jsonconnector.enums.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,8 +140,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
                 MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
                 MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
-                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
-                MusicianTableHelper.getInstrumentColumn());
+                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getInstrumentColumn());
     }
 
     @Override
@@ -257,6 +253,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
             person.setEmail(_emailField.getText());
             person.setPhoneNumber(_phoneField.getText());
             person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
+            person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
             //person.setInstruments();
             //person.setInitials();
             person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());

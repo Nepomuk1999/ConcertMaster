@@ -77,7 +77,7 @@ public class Person extends HttpServlet {
                             person.setPhoneNumber(item.getPhoneNumber());
 
                             if(item.getInstruments() != null) {
-                                // @TODO: only the first perhaps this feature can be improved in the future
+                                // @TODO: only the first, perhaps this feature can be improved in the future
                                 for(int i = 0; i < item.getInstruments().size() && i < 1; i++) {
                                     instrument = new Instrument();
                                     instrument.setInstrumentID(item.getInstruments().get(i).getInstrumentID());
