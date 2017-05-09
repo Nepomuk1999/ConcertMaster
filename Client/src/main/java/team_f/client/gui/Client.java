@@ -35,13 +35,13 @@ public class Client extends Application {
         launch(args);
     }
 
-    @Override
-    public void init() throws Exception {
+    /*@Override
+     public void init() throws Exception {
         // On Mac OS X Chromium engine must be initialized in non-UI thread.
         if (Environment.isMac()) {
             BrowserCore.initialize();
         }
-    }
+    } */
 
     @Override
     public void start(Stage primaryStage) throws Exception {

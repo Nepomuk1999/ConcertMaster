@@ -54,32 +54,43 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
 
         _stringinstrumentation = new int[4];
         _firstViolinField = new TextField();
-        _firstViolinField.setMaxWidth(50.0);
+        _firstViolinField.setMaxWidth(30.0);
         _secondViolinField = new TextField();
-        _secondViolinField.setMaxWidth(50.0);
+        _secondViolinField.setMaxWidth(30.0);
         _violaField = new TextField();
-        _violaField.setMaxWidth(50.0);
+        _violaField.setMaxWidth(30.0);
         _violoncelloField = new TextField();
-        _violoncelloField.setMaxWidth(50.0);
+        _violoncelloField.setMaxWidth(30.0);
         _contrabassField = new TextField();
-        _contrabassField.setMaxWidth(50.0);
+        _contrabassField.setMaxWidth(30.0);
 
         _woodInstrumentation = new int[3];
         _fluteField = new TextField();
+        _fluteField.setMaxWidth(30.0);
         _oboeField = new TextField();
+        _oboeField.setMaxWidth(30.0);
         _clarinetField = new TextField();
+        _clarinetField.setMaxWidth(30.0);
         _bassoonField = new TextField();
+        _bassoonField.setMaxWidth(0.0);
 
         _brassInstrumentation = new int[3];
         _hornField = new TextField();
+        _hornField.setMaxWidth(30.0);
         _trumpetField = new TextField();
+        _trumpetField.setMaxWidth(30.0);
         _tromboneField = new TextField();
+        _tromboneField.setMaxWidth(30.0);
         _tubaField = new TextField();
+        _tubaField.setMaxWidth(30.0);
 
         _percussionInstrumentation = new int[2];
         _kettledrumField = new TextField();
+        _kettledrumField.setMaxWidth(30.0);
         _percussionField = new TextField();
+        _percussionField.setMaxWidth(30.0);
         _harpField = new TextField();
+        _harpField.setMaxWidth(30.0);
 
         _table = new TableView<>();
         _table.setEditable(false);
