@@ -206,8 +206,6 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         pane.addRow(3, new Label(""));
         pane.addRow(4, new Label(""));*/
 
-
-
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_firstNameField);
         fields.add(_lastNameField);
