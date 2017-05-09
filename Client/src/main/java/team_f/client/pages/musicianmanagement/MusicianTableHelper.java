@@ -13,7 +13,7 @@ public class MusicianTableHelper {
     // Returns PersonTestData Id TableColumn
     public static TableColumn<Person, Integer> getIdColumn() {
         TableColumn<Person, Integer> idCol = new TableColumn<>("Id");
-        PropertyValueFactory<Person, Integer> idCellValueFactory = new PropertyValueFactory<>("id");
+        PropertyValueFactory<Person, Integer> idCellValueFactory = new PropertyValueFactory<>("personID");
         idCol.setCellValueFactory(idCellValueFactory);
         return idCol;
     }
@@ -37,7 +37,7 @@ public class MusicianTableHelper {
     // Returns Street TableColumn
     public static TableColumn<Person, String> getStreetColumn() {
         TableColumn<Person, String> streetCol = new TableColumn<>("Street");
-        PropertyValueFactory<Person, String> streetCellValueFactory = new PropertyValueFactory<>("street");
+        PropertyValueFactory<Person, String> streetCellValueFactory = new PropertyValueFactory<>("address");
         streetCol.setCellValueFactory(streetCellValueFactory);
         return streetCol;
     }
@@ -53,7 +53,7 @@ public class MusicianTableHelper {
     // Returns City TableColumn
     public static TableColumn<Person, String> getPhonenumberColumn() {
         TableColumn<Person, String> cityCol = new TableColumn<>("Phonenumber");
-        PropertyValueFactory<Person, String> cityCellValueFactory = new PropertyValueFactory<>("phonenumber");
+        PropertyValueFactory<Person, String> cityCellValueFactory = new PropertyValueFactory<>("phoneNumber");
         cityCol.setCellValueFactory(cityCellValueFactory);
         return cityCol;
     }
@@ -61,22 +61,22 @@ public class MusicianTableHelper {
     // Returns Phone TableColumn
     public static TableColumn<Person, String> getRoleColumn() {
         TableColumn<Person, String> cityCol = new TableColumn<>("Role");
-        PropertyValueFactory<Person, String> cityCellValueFactory = new PropertyValueFactory<>("role");
+        PropertyValueFactory<Person, String> cityCellValueFactory = new PropertyValueFactory<>("personRole");
         cityCol.setCellValueFactory(cityCellValueFactory);
         return cityCol;
     }
 
     // Returns Section TableColumn
     public static TableColumn<Person, String> getSectionColumn() {
-        TableColumn<Person, String> countryCol = new TableColumn<>("Section");
-        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("section");
+        TableColumn<Person, String> countryCol = new TableColumn<>("Instrument");
+        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrument");
         countryCol.setCellValueFactory(countryCellValueFactory);
         return countryCol;
     }
 
     public static TableColumn<Person, String> getInstrumentColumn() {
-        TableColumn<Person, String> countryCol = new TableColumn<>("Instruments");
-        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrument");
+        TableColumn<Person, String> countryCol = new TableColumn<>("Instrument Type");
+        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrumentType");
         countryCol.setCellValueFactory(countryCellValueFactory);
         return countryCol;
     }
