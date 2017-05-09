@@ -7,8 +7,15 @@ public class MusicalWorkConverter {
         MusicalWork result = new MusicalWork();
         result.setMusicalWorkID(musicalWork.getMusicalWorkID());
         result.setName(musicalWork.getName());
-        result.setAlternativeInstrumentationId(InstrumentationConverter.convertToJSON(musicalWork.getAlternativeInstrumentation()));
-        result.setInstrumentation(InstrumentationConverter.convertToJSON(musicalWork.getInstrumentation()));
+
+        if(musicalWork.getAlternativeInstrumentation() != null) {
+            result.setAlternativeInstrumentationId(InstrumentationConverter.convertToJSON(musicalWork.getAlternativeInstrumentation()));
+        }
+
+        if(musicalWork.getInstrumentation() != null) {
+            result.setInstrumentation(InstrumentationConverter.convertToJSON(musicalWork.getInstrumentation()));
+        }
+
         result.setComposer(musicalWork.getComposer());
 
         return result;

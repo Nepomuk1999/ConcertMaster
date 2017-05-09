@@ -212,6 +212,9 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
 
     @Override
     public void exit() {
+        if(_exit != null) {
+            _exit.doAction(null);
+        }
     }
 
     @Override
@@ -332,7 +335,7 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
         if(_loadList != null) {
             MonthPublishParameter eventDutySearchItem = new MonthPublishParameter();
             eventDutySearchItem.setMonth(_selectedMonth.getValue());
-            eventDutySearchItem.setMonth(_selectedYear);
+            eventDutySearchItem.setYear(_selectedYear);
             List<EventDuty> eventDuties = _loadList.doAction(eventDutySearchItem);
 
             if(eventDuties != null) {

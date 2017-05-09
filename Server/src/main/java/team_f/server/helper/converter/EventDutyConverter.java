@@ -31,7 +31,10 @@ public class EventDutyConverter {
         }
 
         result.setName(eventDuty.getName());
-        result.setRehearsalFor(convertToJSON(eventDuty.getRehearsalFor()));
+
+        if(eventDuty.getRehearsalFor() != null) {
+            result.setRehearsalFor(convertToJSON(eventDuty.getRehearsalFor()));
+        }
 
         return result;
     }

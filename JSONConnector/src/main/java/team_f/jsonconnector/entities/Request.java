@@ -18,8 +18,8 @@ public class Request implements JSONObjectEntity {
         return _actionType;
     }
 
-    @JsonGetter("parameter_key_value")
-    public List<Pair<String, String>> getParameterValue() {
+    @JsonGetter("parameter_key_value_list")
+    public List<Pair<String, String>> getParameterValueList() {
         return _parameterKeyValueList;
     }
 
@@ -33,8 +33,8 @@ public class Request implements JSONObjectEntity {
         _actionType = actionType;
     }
 
-    @JsonSetter("parameter_key_value")
-    public void setParameterKey(List<Pair<String, String>> parameterKeyValueList) {
+    @JsonSetter("parameter_key_value_list")
+    public void setParameterKeyList(List<Pair<String, String>> parameterKeyValueList) {
         _parameterKeyValueList = parameterKeyValueList;
     }
 

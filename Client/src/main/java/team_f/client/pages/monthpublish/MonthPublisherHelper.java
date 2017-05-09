@@ -34,7 +34,7 @@ public class MonthPublisherHelper {
         pair.setValue("" + year);
         keyValueList.add(pair);
 
-        request.setParameterKey(keyValueList);
+        request.setParameterKeyList(keyValueList);
 
         EventDutyList eventDutyList = (EventDutyList) RequestResponseHelper.writeAndReadJSONObject(url, request, EventDutyList.class);
 
@@ -48,14 +48,14 @@ public class MonthPublisherHelper {
 
     public static TableColumn<EventDuty, Integer> getIdColumn() {
         TableColumn<EventDuty, Integer> idCol = new TableColumn<>("Id");
-        PropertyValueFactory<EventDuty, Integer> idCellValueFactory = new PropertyValueFactory<>("id");
+        PropertyValueFactory<EventDuty, Integer> idCellValueFactory = new PropertyValueFactory<>("eventDutyID");
         idCol.setCellValueFactory(idCellValueFactory);
         return idCol;
     }
 
     public static TableColumn<EventDuty, Integer> getEventstatusColumn() {
         TableColumn<EventDuty, Integer> statusCol = new TableColumn<>("Eventstatus");
-        PropertyValueFactory<EventDuty, Integer> statusCellValueFactory = new PropertyValueFactory<>("eventstatus");
+        PropertyValueFactory<EventDuty, Integer> statusCellValueFactory = new PropertyValueFactory<>("eventStatus");
         statusCol.setCellValueFactory(statusCellValueFactory);
         return statusCol;
     }
@@ -70,7 +70,7 @@ public class MonthPublisherHelper {
 
     public static TableColumn<EventDuty, String> getStartdateColumn() {
         TableColumn<EventDuty, String> startdateCol = new TableColumn<>("Start Date");
-        PropertyValueFactory<EventDuty, String> startdateCellValueFactory = new PropertyValueFactory<>("startdate");
+        PropertyValueFactory<EventDuty, String> startdateCellValueFactory = new PropertyValueFactory<>("startTime");
         startdateCol.setCellValueFactory(startdateCellValueFactory);
         return startdateCol;
     }
@@ -78,7 +78,7 @@ public class MonthPublisherHelper {
 
     public static TableColumn<EventDuty, String> getEnddateColumn() {
         TableColumn<EventDuty, String> enddateCol = new TableColumn<>("End Date");
-        PropertyValueFactory<EventDuty, String> enddateCellValueFactory = new PropertyValueFactory<>("enddate");
+        PropertyValueFactory<EventDuty, String> enddateCellValueFactory = new PropertyValueFactory<>("endTime");
         enddateCol.setCellValueFactory(enddateCellValueFactory);
         return enddateCol;
     }
@@ -101,7 +101,7 @@ public class MonthPublisherHelper {
 
     public static TableColumn<EventDuty, String> getPointsColumn() {
         TableColumn<EventDuty, String> pointsCol = new TableColumn<>("Points");
-        PropertyValueFactory<EventDuty, String> pointsCellValueFactory = new PropertyValueFactory<>("points");
+        PropertyValueFactory<EventDuty, String> pointsCellValueFactory = new PropertyValueFactory<>("defaultPoints");
         pointsCol.setCellValueFactory(pointsCellValueFactory);
         return pointsCol;
     }
@@ -116,7 +116,7 @@ public class MonthPublisherHelper {
 
     public static TableColumn<EventDuty, String> getEventtypeColumn() {
         TableColumn<EventDuty, String> eventtypeCol = new TableColumn<>("Eventtype");
-        PropertyValueFactory<EventDuty, String> eventtypeCellValueFactory = new PropertyValueFactory<>("eventtype");
+        PropertyValueFactory<EventDuty, String> eventtypeCellValueFactory = new PropertyValueFactory<>("eventType");
         eventtypeCol.setCellValueFactory(eventtypeCellValueFactory);
         return eventtypeCol;
     }
