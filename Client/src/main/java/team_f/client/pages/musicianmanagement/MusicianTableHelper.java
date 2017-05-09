@@ -94,7 +94,7 @@ public class MusicianTableHelper {
                 new KeyValuePair("External Musician", PersonRole.External_musician),
                 new KeyValuePair("Manager", PersonRole.Manager),
                 new KeyValuePair("Musician Librarian", PersonRole.Music_librarian),
-                new KeyValuePair("Orchestral Facility Manager", PersonRole.Orchestral_facility_manager),
+                new KeyValuePair("Facility Manager", PersonRole.Orchestral_facility_manager),
                 new KeyValuePair("Substitute", PersonRole.Substitute));
 
         return list;

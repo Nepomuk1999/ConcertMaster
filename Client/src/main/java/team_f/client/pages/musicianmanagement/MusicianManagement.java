@@ -150,10 +150,57 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
     }
 
     public GridPane getNewPersonDataPane() {
-        GridPane pane = new GridPane();
-        pane.setHgap(10);
-        pane.setVgap(10);
 
+        //Title Label
+        Label titleMusician=new Label("Create Musician");
+        titleMusician.setStyle(" -fx-font-size: 20px;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-text-fill: #333333;\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+
+        Label titleAccount=new Label("Create Account");
+        titleAccount.setStyle(" -fx-font-size: 20px;\n" +
+                "    -fx-font-weight: bold;\n" +
+                "    -fx-text-fill: #333333;\n" +
+                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+
+
+        GridPane pane = new GridPane();
+        pane.setHgap(15);
+        pane.setVgap(10);
+        pane.add(titleMusician,0,0);
+        pane.add(new Label("Role:"), 0,1);
+        pane.add(_comboBoxRole, 0,2);
+        pane.add(new Label("Section:"),1,1);
+        pane.add(_comboBoxSection,1,2);
+        pane.add(new Label("Instruments:"), 2,1);
+        pane.add(_comboBoxInstrument,2,2);
+
+        pane.add(new Label("Gender:"), 0,3);
+        pane.add(_comboBoxGender,0,4);
+        pane.add(new Label("First Name:"), 1,3);
+        pane.add(_firstNameField,1,4);
+        pane.add(new Label("Last Name:"), 2,3);
+        pane.add(_lastNameField,2,4);
+
+        pane.add(new Label("Street:"), 0,5);
+        pane.add(_streetField,0,6);
+        pane.add(new Label("Phone Number:"), 1,5);
+        pane.add(_phoneField,1,6);
+        pane.add(new Label("Email:"), 2,5);
+        pane.add(_emailField,2,6);
+
+        //pane.add(titleAccount,20,0);
+        pane.add(new Label("Username:"),3, 3);
+        pane.add(_usernameField,3, 4);
+        pane.add(new Label("Account Role:"),3, 5);
+        pane.add(_comboBoxAccountRole,3, 6);
+
+        pane.addRow(7, new Label(" "));
+        pane.addRow(8, new Label(" "));
+
+
+/*
         pane.addRow(0, new Label("Role:"), _comboBoxRole);
         pane.addRow(0, new Label("Section:"), _comboBoxSectionType);
         pane.addRow(0, new Label("Instruments:"), _comboBoxInstrumentType);
@@ -164,11 +211,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         pane.addRow(2, new Label("Email:"), _emailField);
         pane.addRow(2, new Label("Phone Number:"), _phoneField);
         pane.addRow(3, new Label(""));
-        pane.addRow(4, new Label(""));
-        pane.add(new Label("Username:"),15, 1);
-        pane.add(_usernameField,16, 1);
-        pane.add(new Label("Account Role"),15, 2);
-        pane.add(_comboBoxAccountRole,16, 2);
+        pane.addRow(4, new Label(""));*/
 
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_firstNameField);
@@ -198,7 +241,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
             }
         });
 
-        pane.add(addButton, 0, 3);
+        pane.add(addButton, 4, 6);
         return pane;
     }
 
