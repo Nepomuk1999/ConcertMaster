@@ -1,10 +1,19 @@
 package team_f.client.singletons;
 
 import team_f.client.configuration.Configuration;
+import team_f.client.helper.RequestResponseHelper;
+import team_f.client.pages.PageAction;
 import team_f.client.pages.musicalwork.MusicalWorkManagement;
+import team_f.client.pages.musicalwork.MusicalWorkParameter;
 import team_f.jsonconnector.common.URIList;
+import team_f.jsonconnector.entities.ErrorList;
+import team_f.jsonconnector.entities.MusicalWork;
+import team_f.jsonconnector.entities.Request;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MusicalWorkSingleton {
     private static MusicalWorkManagement _musicalWork;
@@ -17,12 +26,12 @@ public class MusicalWorkSingleton {
         if (_musicalWork == null) {
             _configuration = configuration;
             _musicalWork = new MusicalWorkManagement();
-
-            // @TODO: implement
-            /*_musicalWork.setOnCreate(new PageAction<MusicalWork, MusicalWork>() {
+            
+            _musicalWork.setOnLoadList(new PageAction<List<MusicalWork>, MusicalWorkParameter>() {
                 @Override
-                public MusicalWork doAction(MusicalWork value) {
-                    ErrorList request = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), value, ErrorList.class);
+                public List<MusicalWork> doAction(MusicalWorkParameter value) {
+                    /*Request requestObject = new Request();
+                    ErrorList request = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), requestObject, ErrorList.class);
 
                     boolean isSuccessful;
 
@@ -32,11 +41,11 @@ public class MusicalWorkSingleton {
                     } else {
                         isSuccessful = false;
                         // @TODO: show error message
-                    }
+                    }*/
 
-                    return new MusicalWork();
+                    return new ArrayList<>();
                 }
-            });*/
+            });
         }
 
         return _musicalWork;

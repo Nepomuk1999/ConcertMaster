@@ -16,32 +16,32 @@ public class InstrumentationFacade extends BaseDatabaseFacade {
         super(session);
     }
 
-    /*
-    public Integer addInstrumentation(InstrumentationEntity inst) {
+
+    public Integer addInstrumentation(Instrumentation instrumentation) {
 
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        // create new Instrumentation entity
-        InstrumentationEntity instrumentation = new InstrumentationEntity();
-        StringInstrumentationEntity stringInstrumentation = new StringInstrumentationEntity();
-        BrassInstrumentationEntity brassInstrumentation = new BrassInstrumentationEntity();
-        WoodInstrumentationEntity woodInstrumentation = new WoodInstrumentationEntity();
-        PercussionInstrumentationEntity percussionInstrumentation = new PercussionInstrumentationEntity();
+        // create new Instrumentation entities
+        InstrumentationEntity instrumentationEntity = new InstrumentationEntity();
+        StringInstrumentationEntity stringInstrumentationEntity = getStringInstrumentationEntityFromInstrumentation(instrumentation);
+        WoodInstrumentationEntity woodInstrumentationEntity = getWoodInstrumentationEntityFromInstrumentation(instrumentation);
+        BrassInstrumentationEntity brassInstrumentationEntity = getBrassInstrumentationEntityFromInstrumentation(instrumentation);
+        PercussionInstrumentationEntity percussionInstrumentationEntity = getPercussionInstrumentationEntityFromInstrumentation(instrumentation);
 
-        // temporarily store all child enums in the transaction and get the id
-        session.persist(stringInstrumentation);
-        session.persist(brassInstrumentation);
-        session.persist(woodInstrumentation);
-        session.persist(percussionInstrumentation);
+        // store all child entries in the transaction and get the id
+        session.persist(stringInstrumentationEntity);
+        session.persist(brassInstrumentationEntity);
+        session.persist(woodInstrumentationEntity);
+        session.persist(percussionInstrumentationEntity);
 
-        // set the received
-        instrumentation.setStringInstrumentation(stringInstrumentation.getStringInstrumentationId());
-        instrumentation.setBrassInstrumentation(brassInstrumentation.getBrassInstrumentationId());
-        instrumentation.setWoodInstrumentation(woodInstrumentation.getWoodInstrumentationId());
-        instrumentation.setPercussionInstrumentation(percussionInstrumentation.getPercussionInstrumentationId());
+        // set the received ids
+        instrumentationEntity.setStringInstrumentation(stringInstrumentationEntity.getStringInstrumentationId());
+        instrumentationEntity.setBrassInstrumentation(brassInstrumentationEntity.getBrassInstrumentationId());
+        instrumentationEntity.setWoodInstrumentation(woodInstrumentationEntity.getWoodInstrumentationId());
+        instrumentationEntity.setPercussionInstrumentation(percussionInstrumentationEntity.getPercussionInstrumentationId());
 
-        session.persist(instrumentation);
+        session.persist(instrumentationEntity);
 
         try {
             session.flush();
@@ -50,10 +50,10 @@ public class InstrumentationFacade extends BaseDatabaseFacade {
             session.getTransaction().rollback();
         }
 
-        return instrumentation.getInstrumentationId();
+        return instrumentationEntity.getInstrumentationId();
     }
 
-    */
+
 
     public Instrumentation getInstrumentationByID(int id) {
         EntityManager session = getCurrentSession();
@@ -131,6 +131,50 @@ public class InstrumentationFacade extends BaseDatabaseFacade {
         }*/
 
         return instrumentation;
+    }
+
+    private WoodInstrumentationEntity getWoodInstrumentationEntityFromInstrumentation (Instrumentation instrumentation) {
+        WoodInstrumentationEntity woodInstrumentationEntity = new WoodInstrumentationEntity();
+
+        woodInstrumentationEntity.setFlute(instrumentation.getFlute());
+        woodInstrumentationEntity.setOboe(instrumentation.getOboe());
+        woodInstrumentationEntity.setClarinet(instrumentation.getClarinet());
+        woodInstrumentationEntity.setBassoon(instrumentation.getBassoon());
+
+        return woodInstrumentationEntity;
+    }
+
+    private StringInstrumentationEntity getStringInstrumentationEntityFromInstrumentation (Instrumentation instrumentation) {
+        StringInstrumentationEntity stringInstrumentationEntity = new StringInstrumentationEntity();
+
+        stringInstrumentationEntity.setViolin1(instrumentation.getViolin1());
+        stringInstrumentationEntity.setViolin2(instrumentation.getViolin2());
+        stringInstrumentationEntity.setViola(instrumentation.getViola());
+        stringInstrumentationEntity.setViolincello(instrumentation.getViolincello());
+        stringInstrumentationEntity.setDoublebass(instrumentation.getDoublebass());
+
+        return stringInstrumentationEntity;
+    }
+
+    private BrassInstrumentationEntity getBrassInstrumentationEntityFromInstrumentation (Instrumentation instrumentation) {
+        BrassInstrumentationEntity brassInstrumentationEntity = new BrassInstrumentationEntity();
+
+        brassInstrumentationEntity.setHorn(instrumentation.getHorn());
+        brassInstrumentationEntity.setTrumpet(instrumentation.getTrumpet());
+        brassInstrumentationEntity.setTrombone(instrumentation.getTrombone());
+        brassInstrumentationEntity.setTube(instrumentation.getTube());
+
+        return brassInstrumentationEntity;
+    }
+
+    private PercussionInstrumentationEntity getPercussionInstrumentationEntityFromInstrumentation (Instrumentation instrumentation) {
+        PercussionInstrumentationEntity percussionInstrumentationEntity = new PercussionInstrumentationEntity();
+
+        percussionInstrumentationEntity.setKettledrum(instrumentation.getKettledrum());
+        percussionInstrumentationEntity.setPercussion(instrumentation.getPercussion());
+        percussionInstrumentationEntity.setHarp(instrumentation.getHarp());
+
+        return percussionInstrumentationEntity;
     }
 
     private BrassInstrumentationEntity getBrassInstrumentationEntity(int brassInstrumentationID) {

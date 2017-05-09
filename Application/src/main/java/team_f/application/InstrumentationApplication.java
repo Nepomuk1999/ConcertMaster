@@ -2,24 +2,26 @@ package team_f.application;
 
 import javafx.util.Pair;
 import team_f.database_wrapper.facade.InstrumentationFacade;
-import team_f.database_wrapper.facade.PersonFacade;
 import team_f.database_wrapper.facade.SessionFactory;
 import team_f.domain.entities.Instrumentation;
+import team_f.domain.enums.EntityType;
 import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.logic.DomainEntityManager;
+import team_f.domain.logic.InstrumentationLogic;
 
 import javax.persistence.EntityManager;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InstrumentationApplication {
     private EntityManager session = SessionFactory.getSession();
-    private PersonFacade personFacade = new PersonFacade(session);
     private InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
 
     public InstrumentationApplication() {
     }
 
     public void closeSession() {
-        personFacade.closeSession();
+        instrumentationFacade.closeSession();
     }
 
     public List<Instrumentation> getInstrumentationList() {
@@ -47,19 +49,16 @@ public class InstrumentationApplication {
         instrumentation.setPercussion(percussion);
         instrumentation.setHarp(harp);
 
+        InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
 
+        List<Pair<String, String>> errorList = instrumentationLogic.validate(instrumentation);
 
-        /*
-        InstrumentLogic personLogic = (InstrumentLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
+        if (errorList.size() > 0) {
+            return new Pair<>(instrumentation, errorList);
+        }
 
-        List<Pair<String, String>> errorList = personLogic.validate(instrumentation);
-        */
+        instrumentationFacade.addInstrumentation(instrumentation);
 
-        Pair<DomainEntity, List<Pair<String, String>>> errorList = null;
-
-
-
-
-        return errorList;
+        return new Pair<>(instrumentation, new LinkedList<>());
     }
 }
