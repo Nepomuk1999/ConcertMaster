@@ -3,25 +3,19 @@ package team_f.client.pages.musicianmanagement;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import team_f.client.entities.KeyValuePair;
-import team_f.client.helper.RequestResponseHelper;
-import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.Account;
-import team_f.jsonconnector.entities.ErrorList;
-import team_f.jsonconnector.entities.Person;
+import team_f.client.pages.BaseTablePage;
+import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.enums.AccountRole;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.PersonRole;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class MusicianManagement extends BorderPane {
+public class MusicianManagement extends BaseTablePage<Person, Person, Person, PersonParameter> {
     private TextField _firstNameField;
     private TextField _lastNameField;
     private TextField _streetField;
@@ -35,14 +29,15 @@ public class MusicianManagement extends BorderPane {
     private TextField _usernameField;
     private ComboBox<KeyValuePair> _comboBoxAccountRole;
     // private final TextField instrumentField;
-    private URL _baseURL;
     private final ObservableList<KeyValuePair> _personRoleList = MusicianTableHelper.getPersonRoleList();
     private final ObservableList<KeyValuePair> _accountRoleList = MusicianTableHelper.getAccountRoleList();
     private final ObservableList<KeyValuePair> _genderList = MusicianTableHelper.getGenderList();
 
+    public MusicianManagement() {
+    }
 
-    public MusicianManagement(URL baseURL) {
-        _baseURL = baseURL;
+    @Override
+    public void initialize() {
         _firstNameField = new TextField();
         _lastNameField = new TextField();
         _streetField = new TextField();
@@ -78,7 +73,6 @@ public class MusicianManagement extends BorderPane {
         _comboBoxSection.getSelectionModel().selectFirst();
         _comboBoxSection.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
-                System.out.println("selected");
             }
         });
 
@@ -86,7 +80,6 @@ public class MusicianManagement extends BorderPane {
         _comboBoxInstrument.getSelectionModel().selectFirst();
         _comboBoxInstrument.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
-                System.out.println("selected");
             }
         });
 
@@ -94,7 +87,6 @@ public class MusicianManagement extends BorderPane {
         _comboBoxRole.getSelectionModel().selectFirst();
         _comboBoxRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
-                System.out.println("selected");
             }
         });
 
@@ -102,7 +94,6 @@ public class MusicianManagement extends BorderPane {
         _comboBoxGender.getSelectionModel().selectFirst();
         _comboBoxGender.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
-                System.out.println("selected");
             }
         });
 
@@ -110,10 +101,8 @@ public class MusicianManagement extends BorderPane {
         _comboBoxAccountRole.getSelectionModel().selectFirst();
         _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
-                System.out.println("selected");
             }
         });
-
 
         GridPane newDataPane = getNewPersonDataPane();
 
@@ -132,6 +121,16 @@ public class MusicianManagement extends BorderPane {
                 "-fx-border-color: blue;");
 
         setCenter(root);
+    }
+
+    @Override
+    public void load() {
+
+    }
+
+    @Override
+    public void exit() {
+
     }
 
     public GridPane getNewPersonDataPane() {
@@ -164,9 +163,6 @@ public class MusicianManagement extends BorderPane {
 
         Button addButton = new Button("Add Musician");
 
-
-
-
         addButton.setOnAction(e -> {
 
             if (_firstNameField.getText().isEmpty() || _lastNameField.getText().isEmpty() || _streetField.getText().isEmpty()
@@ -192,93 +188,10 @@ public class MusicianManagement extends BorderPane {
 
     public void getTableColumns(){
         _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
-                                   MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                                   MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
-                                   MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
-                                   MusicianTableHelper.getInstrumentColumn());
-    }
-
-    public void addPerson() {
-        Person person = new Person();
-        person.setFirstname(_firstNameField.getText());
-        person.setLastname(_lastNameField.getText());
-        person.setAddress(_streetField.getText());
-        person.setEmail(_emailField.getText());
-        person.setPhoneNumber(_phoneField.getText());
-        person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
-        //person.setInstruments();
-        //person.setInitials();
-        person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
-
-        Account account = new Account();
-        account.setUsername(_usernameField.getText());
-        account.setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
-
-        person.setAccount(account);
-
-        ErrorList request = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getFullURL(), person, ErrorList.class);
-
-        boolean isSuccessful;
-
-        if (request != null && request.getKeyValueList() != null && request.getKeyValueList().size() == 0) {
-            isSuccessful = true;
-            // _table.getItems().add(person);
-        } else {
-            isSuccessful = false;
-            // @TODO: show error message
-        }
-        
-        reset();
-    }
-
-    public void editPerson() {
-
-        TableView.TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
-
-        // Check, if any rows are selected
-        if (tsm.isEmpty()) {
-            System.out.println("Select a row to delete!");
-            return;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Delete");
-        alert.setHeaderText("The following Person will be deleted");
-        alert.setContentText(tsm.getSelectedItem().getFirstname() + " " + tsm.getSelectedItem().getLastname());
-
-        ButtonType buttonTypeOne = new ButtonType("Delete");
-        ButtonType buttonTypeCancel = new ButtonType("Cancel");
-
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeCancel) {
-            alert.close();
-            return;
-        }
-
-        // Get all selected row indices in an array
-        ObservableList<Integer> list = tsm.getSelectedIndices();
-
-        Integer[] selectedIndices = new Integer[list.size()];
-        selectedIndices = list.toArray(selectedIndices);
-
-        Arrays.sort(selectedIndices);
-
-        for (int i = selectedIndices.length - 1; i >= 0; i--) {
-            tsm.clearSelection(selectedIndices[i].intValue());
-            _table.getItems().remove(selectedIndices[i].intValue());
-        }
-    }
-
-    public void validate(ArrayList<TextField> fields) {
-        for (TextField textField : fields) {
-            if (textField.getText().isEmpty()) {
-                textField.setStyle("-fx-border-color: red");
-            } else {
-                textField.setStyle("-fx-border-color: green");
-            }
-        }
+                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
+                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
+                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getSectionColumn(),
+                MusicianTableHelper.getInstrumentColumn());
     }
 
     private void reset() {
@@ -289,12 +202,78 @@ public class MusicianManagement extends BorderPane {
         _phoneField.setText(null);
     }
 
-    private URL getFullURL() {
-        try {
-            return new URL(_baseURL, URIList.register);
-        } catch (MalformedURLException e) {
+    public void addPerson() {
+        if(_create != null) {
+            Person person = new Person();
+            person.setFirstname(_firstNameField.getText());
+            person.setLastname(_lastNameField.getText());
+            person.setAddress(_streetField.getText());
+            person.setEmail(_emailField.getText());
+            person.setPhoneNumber(_phoneField.getText());
+            person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
+            //person.setInstruments();
+            //person.setInitials();
+            person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
+
+            Account account = new Account();
+            account.setUsername(_usernameField.getText());
+            account.setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
+
+            person.setAccount(account);
+
+            Person resultPerson = _create.doAction(person);
+
+            if(resultPerson != null && resultPerson.getPersonID() > 0) {
+                _table.getItems().add(resultPerson);
+            }
         }
 
-        return null;
+        reset();
+    }
+
+    public void editPerson() {
+        if(_edit != null) {
+            // @TODO: use setOnEdit instead of handling all the stuff in this class
+            /*TableView.TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
+
+            // Check, if any rows are selected
+            if (tsm.isEmpty()) {
+                System.out.println("Select a row to delete!");
+                return;
+            }
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Delete");
+            alert.setHeaderText("The following Person will be deleted");
+            alert.setContentText(tsm.getSelectedItem().getFirstname() + " " + tsm.getSelectedItem().getLastname());
+
+            ButtonType buttonTypeOne = new ButtonType("Delete");
+            ButtonType buttonTypeCancel = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeCancel) {
+                alert.close();
+                return;
+            }
+
+            // Get all selected row indices in an array
+            ObservableList<Integer> list = tsm.getSelectedIndices();
+
+            Integer[] selectedIndices = new Integer[list.size()];
+            selectedIndices = list.toArray(selectedIndices);
+
+            Arrays.sort(selectedIndices);
+
+            for (int i = selectedIndices.length - 1; i >= 0; i--) {
+                tsm.clearSelection(selectedIndices[i].intValue());
+                _table.getItems().remove(selectedIndices[i].intValue());
+            }*/
+
+            /*
+            Person person = new Person();
+            _edit.doAction(person);*/
+        }
     }
 }

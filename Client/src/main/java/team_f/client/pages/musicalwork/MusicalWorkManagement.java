@@ -1,47 +1,53 @@
 package team_f.client.pages.musicalwork;
 
+import javafx.collections.FXCollections;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
-import java.net.URL;
+import team_f.client.pages.BaseTablePage;
+import team_f.jsonconnector.entities.Instrumentation;
+import team_f.jsonconnector.entities.MusicalWork;
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by dominik on 04.05.17.
- */
-public class MusicalWorkManagement extends BorderPane {
-    private final TextField _nameField;
-    private final TextField _composerField;
-    private TableView<MusicalWorkTestData> table;
+public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWork, MusicalWork, MusicalWorkParameter> {
+    private TextField _nameField;
+    private TextField _composerField;
+    private TableView<MusicalWork> _table;
 
     private int[] _stringinstrumentation;
-    private final TextField _firstViolinField;
-    private final TextField _secondViolinField;
-    private final TextField _violaField;
-    private final TextField _violoncelloField;
-    private final TextField _contrabassField;
+    private TextField _firstViolinField;
+    private TextField _secondViolinField;
+    private TextField _violaField;
+    private TextField _violoncelloField;
+    private TextField _contrabassField;
 
     private int[] _woodInstrumentation;
-    private final TextField _fluteField;
-    private final TextField _oboeField;
-    private final TextField _clarinetField;
-    private final TextField _bassoonField;
-
+    private TextField _fluteField;
+    private TextField _oboeField;
+    private TextField _clarinetField;
+    private TextField _bassoonField;
 
     private int[] _brassInstrumentation;
-    private final TextField _hornField;
-    private final TextField _trumpetField;
-    private final TextField _tromboneField;
-    private final TextField _tubaField;
+    private TextField _hornField;
+    private TextField _trumpetField;
+    private TextField _tromboneField;
+    private TextField _tubaField;
 
     private int[] _percussionInstrumentation;
-    private final TextField _kettledrumField;
-    private final TextField _percussionField;
-    private final TextField _harpField;
+    private TextField _kettledrumField;
+    private TextField _percussionField;
+    private TextField _harpField;
 
     public MusicalWorkManagement(){
+    }
+
+    @Override
+    public void initialize() {
+        if(_initialize != null) {
+            _initialize.doAction(null);
+        }
+
         //Name, Komponist, Instrumentation, Alternativ
         _nameField = new TextField();
         _composerField = new TextField();
@@ -75,19 +81,13 @@ public class MusicalWorkManagement extends BorderPane {
         _percussionField = new TextField();
         _harpField = new TextField();
 
-        table = new TableView<>(MusicalWorkHelper.getMusicalWorkList());
-        table.setEditable(false);
+        _table = new TableView<>();
+        _table.setEditable(false);
 
-        TableView.TableViewSelectionModel<MusicalWorkTestData> tsm = table.getSelectionModel();
+        TableView.TableViewSelectionModel<MusicalWork> tsm = _table.getSelectionModel();
         tsm.setSelectionMode(SelectionMode.SINGLE);
 
-
-        table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
-                MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
-
-
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         GridPane newDataPane = getNewMusicalWorkDataPane();
 
@@ -96,7 +96,7 @@ public class MusicalWorkManagement extends BorderPane {
         deleteButton.setOnAction(e -> deleteMusicalWork());
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, deleteButton, table);
+        root.getChildren().addAll(newDataPane, deleteButton, _table);
         root.setSpacing(5);
         root.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -108,11 +108,57 @@ public class MusicalWorkManagement extends BorderPane {
         setCenter(root);
     }
 
-    public GridPane getNewMusicalWorkDataPane() {
+    @Override
+    public void load() {
+        if(_load != null) {
+            List<MusicalWork> resultMusicalWorkList = _load.doAction(null);
+            _table.setItems(FXCollections.observableList(resultMusicalWorkList));
+
+            // @TODO:
+            _table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
+            MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
+        }
+    }
+
+    @Override
+    public void exit() {
+    }
+
+    public void addMusicalWork() {
+        if(_create != null) {
+            MusicalWork musicalWork = new MusicalWork();
+            musicalWork.setName(_nameField.getText());
+            musicalWork.setComposer(_composerField.getText());
+            musicalWork.setInstrumentation(new Instrumentation());
+
+            MusicalWork resultMusicalWork = _create.doAction(musicalWork);
+
+            if(resultMusicalWork != null && resultMusicalWork.getMusicalWorkID() > 0) {
+                _table.getItems().add(resultMusicalWork);
+                _nameField.setText(null);
+                _composerField.setText(null);
+            }
+        }
+    }
+
+    public void deleteMusicalWork() {
+        if(_delete != null) {
+            MusicalWork musicalWork = new MusicalWork();
+
+            MusicalWork resultMusicalWork = _create.doAction(musicalWork);
+
+            if(resultMusicalWork == null) {
+                _table.getItems().remove(resultMusicalWork);
+                _nameField.setText(null);
+                _composerField.setText(null);
+            }
+        }
+    }
+
+    private GridPane getNewMusicalWorkDataPane() {
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(7);
-
 
         pane.addRow(0, new Label("Name:"), _nameField);
         pane.addRow(0, new Label("Composer:"), _composerField);
@@ -130,7 +176,6 @@ public class MusicalWorkManagement extends BorderPane {
         pane.addRow(5, new Label("Clarinet:"), _clarinetField);
         pane.addRow(6, new Label("Bassoon:"), _bassoonField);
 
-
         //Brass
         pane.addRow(3, new Label("Horn:"), _hornField);
         pane.addRow(4, new Label("Trumpet:"), _trumpetField);
@@ -141,9 +186,6 @@ public class MusicalWorkManagement extends BorderPane {
         pane.addRow(3, new Label("Kettledrum:"), _kettledrumField);
         pane.addRow(4, new Label("Percussion:"), _percussionField);
         pane.addRow(5, new Label("Harp:"), _harpField);
-
-
-
 
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_nameField);
@@ -160,9 +202,7 @@ public class MusicalWorkManagement extends BorderPane {
         });
 
         addButton.setOnAction(e -> {
-
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty()) {
-
                 validate(fields);
 
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -170,7 +210,6 @@ public class MusicalWorkManagement extends BorderPane {
                 alert.setHeaderText("Please fill in all the information in the form.");
                 alert.setContentText("You can not save this MusicalWork. Please fill in missing data!");
                 alert.showAndWait();
-
             } else {
                 addMusicalWork();
             }
@@ -186,38 +225,5 @@ public class MusicalWorkManagement extends BorderPane {
         pane.add(resetButton, 10, 7);
 
         return pane;
-    }
-
-    private void validate(ArrayList<TextField> fields) {
-        for (TextField textField : fields) {
-            if (textField.getText().isEmpty()) {
-                textField.setStyle("-fx-border-color: red");
-            } else {
-                textField.setStyle("-fx-border-color: green");
-            }
-        }
-    }
-
-
-    public void addMusicalWork() {
-        Integer currentId = 0;
-
-        // Get the next ID
-        for (MusicalWorkTestData mw : table.getItems()) {
-            if (mw.get_id() > currentId) {
-                currentId = mw.get_id();
-            }
-        }
-
-        MusicalWorkTestData musicalwork = new MusicalWorkTestData(currentId + 1, _nameField.getText(), _composerField.getText(), "");
-
-        table.getItems().add(musicalwork);
-
-        _nameField.setText(null);
-        _composerField.setText(null);
-    }
-
-    public void deleteMusicalWork(){
-
     }
 }

@@ -5,12 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import team_f.client.pages.BasePage;
+import javax.lang.model.type.NullType;
 
 
-
-public class HomeScreen extends BorderPane {
+public class HomeScreen extends BasePage<Void, NullType, NullType, NullType> {
     public HomeScreen() {
+    }
 
+    @Override
+    public void initialize() {
         Image image1 = new Image("Logo Neu.jpg");
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
 
@@ -72,6 +76,13 @@ public class HomeScreen extends BorderPane {
             loginBox.getChildren().removeAll(loginButton, usernameCombobox);
             loginBox.getChildren().addAll(usernameLabel,logoutButton);
         });
+    }
 
+    @Override
+    public void load() {
+    }
+
+    @Override
+    public void exit() {
     }
 }

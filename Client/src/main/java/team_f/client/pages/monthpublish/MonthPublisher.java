@@ -6,37 +6,37 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import team_f.client.helper.RequestResponseHelper;
-import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.ErrorList;
+import team_f.client.pages.BaseTablePage;
+import team_f.jsonconnector.entities.EventDuty;
 import team_f.jsonconnector.entities.Publish;
 import team_f.jsonconnector.enums.PublishType;
-
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public class MonthPublisher extends BorderPane {
-    private final ObservableList<Month> _data;
+public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, MonthPublishParameter> {
+    private ObservableList<Month> _data;
     private ObservableList<Integer> _year;
     private int _selectedYear;
     private Month _selectedMonth;
     private VBox _root;
-    private TableView<Event> _table;
-    private URL _baseURL;
+    private TableView<EventDuty> _table;
     TextField _selectedPath;
 
-    public MonthPublisher(URL baseURL) {
+    public MonthPublisher() {
+    }
 
-        _baseURL = baseURL;
+    @Override
+    public void initialize() {
+        if(_initialize != null) {
+            _initialize.doAction(null);
+        }
+
         _data = FXCollections.observableArrayList(
                 new Month("January", 1),
                 new Month("February", 2),
@@ -80,7 +80,6 @@ public class MonthPublisher extends BorderPane {
         comboBoxMonth.getSelectionModel().selectFirst();
         _selectedMonth = new Month(comboBoxMonth.getSelectionModel().getSelectedItem().getMonth(), comboBoxMonth.getSelectionModel().getSelectedItem().getValue());
 
-
         comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 comboBoxYear.getSelectionModel().select(arg2.intValue());
@@ -89,23 +88,22 @@ public class MonthPublisher extends BorderPane {
             }
         });
 
-
         comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {
                 comboBoxMonth.hide();
                 _selectedMonth.setMonth(arg2.getMonth());
                 _selectedMonth.setValue(arg2.getValue());
-                _table.setItems(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
+
+                loadList();
             }
         });
 
-        _table = new TableView<>(MonthPublisherHelper.getEventsList(getFullEventURL(), _selectedMonth.getValue(), _selectedYear));
+        _table = new TableView<>();
         _table.setEditable(false);
         _table.getColumns().addAll(MonthPublisherHelper.getIdColumn(), MonthPublisherHelper.getEventtypeColumn(), MonthPublisherHelper.getNameColumn(),
                 MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
                 MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn(), MonthPublisherHelper.getEventstatusColumn());
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
 
         //Button
         Button publishButton = new Button("Publish Month");
@@ -141,16 +139,18 @@ public class MonthPublisher extends BorderPane {
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-            File selectedDirectory = fileChooser.showSaveDialog(new Stage());
-            _selectedPath.setText(selectedDirectory.getAbsolutePath());
-            List<Event> items = _table.getItems();
-            String selectedValues = _selectedMonth + "/" + _selectedYear;
-            try {
-                PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _selectedPath.getText());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            File selectedFile = fileChooser.showSaveDialog(new Stage());
 
+            if(selectedFile != null) {
+                _selectedPath.setText(selectedFile.getAbsolutePath());
+                List<EventDuty> items = _table.getItems();
+                String selectedValues = _selectedMonth + "/" + _selectedYear;
+                try {
+                    PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _selectedPath.getText());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         //Title Label
@@ -165,7 +165,6 @@ public class MonthPublisher extends BorderPane {
                 "    -fx-font-weight: bold;\n" +
                 "    -fx-text-fill: #333333;\n" +
                 "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
-
 
         //Event Pane
         GridPane pane = new GridPane();
@@ -196,10 +195,20 @@ public class MonthPublisher extends BorderPane {
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
                 "-fx-border-color: blue;");
-
-
     }
 
+    @Override
+    public void load() {
+        if(_load != null) {
+            //List<EventDuty> eventDuty = _load.doAction(null);
+        }
+
+        loadList();
+    }
+
+    @Override
+    public void exit() {
+    }
 
     private void publish() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -226,40 +235,34 @@ public class MonthPublisher extends BorderPane {
             _root.getChildren().remove(box);
             return;
         } else {
-            Publish publish = new Publish();
-            publish.setPublishType(PublishType.PUBLISH);
-            publish.setMonth(_selectedMonth.getValue());
-            publish.setYear(_selectedYear);
+            if(_update != null) {
+                Publish publish = new Publish();
+                publish.setPublishType(PublishType.PUBLISH);
+                publish.setMonth(_selectedMonth.getValue());
+                publish.setYear(_selectedYear);
 
-            ErrorList requestPublish = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getFullURL(), publish, ErrorList.class);
+                boolean isSuccessful = _update.doAction(publish);
 
-            boolean isSuccessful;
+                if (isSuccessful) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setGraphic(new ImageView("check.png"));
+                    alert.setHeaderText("Successfully published selected Month");
+                    alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
+                    _root.setDisable(false);
+                    _root.getChildren().remove(box);
 
-            if (requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
-                isSuccessful = true;
-            } else {
-                isSuccessful = false;
+
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Failure");
+                    alert.setHeaderText("An ErrorList occured while publishing selected Month.\nPlease try it again later or contact your System-Administrator!");
+                    alert.setContentText("ERROR during publishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
+                    _root.setDisable(false);
+                    _root.getChildren().remove(box);
+                }
+                alert.showAndWait();
             }
-
-            if (isSuccessful) {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setGraphic(new ImageView("check.png"));
-                alert.setHeaderText("Succesfully published selected Month");
-                alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-                _root.setDisable(false);
-                _root.getChildren().remove(box);
-
-
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Failure");
-                alert.setHeaderText("An ErrorList occured while publishing selected Month.\nPlease try it again later or contact your System-Administrator!");
-                alert.setContentText("ERROR during publishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
-                _root.setDisable(false);
-                _root.getChildren().remove(box);
-            }
-            alert.showAndWait();
         }
     }
 
@@ -286,65 +289,45 @@ public class MonthPublisher extends BorderPane {
             _root.getChildren().remove(box);
             return;
         } else {
-            Publish publish = new Publish();
-            publish.setPublishType(PublishType.UNPUBLISH);
-            publish.setMonth(_selectedMonth.getValue());
-            publish.setYear(_selectedYear);
+            if(_update != null) {
+                Publish publish = new Publish();
+                publish.setPublishType(PublishType.UNPUBLISH);
+                publish.setMonth(_selectedMonth.getValue());
+                publish.setYear(_selectedYear);
 
-            ErrorList requestPublish = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getFullURL(), publish, ErrorList.class);
+                boolean isSuccessful = _update.doAction(publish);
 
-            boolean isSuccessful;
+                if (isSuccessful) {
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setGraphic(new ImageView("check.png"));
+                    alert.setHeaderText("Successfully unpublished selected Month");
+                    alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
+                    _root.setDisable(false);
+                    _root.getChildren().remove(box);
 
-            if (requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
-                isSuccessful = true;
-            } else {
-                isSuccessful = false;
-            }
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Failure");
+                    alert.setHeaderText("An ErrorList occured while unpublishing selected Month.\nPlease try it again later or contact your System-Administrator!");
+                    alert.setContentText("ERROR during unpublishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
+                    _root.setDisable(false);
+                    _root.getChildren().remove(box);
+                }
 
-            if (isSuccessful) {
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setGraphic(new ImageView("check.png"));
-                alert.setHeaderText("Succesfully unpublished selected Month");
-                alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-                _root.setDisable(false);
-                _root.getChildren().remove(box);
-
-            } else {
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Failure");
-                alert.setHeaderText("An ErrorList occured while unpublishing selected Month.\nPlease try it again later or contact your System-Administrator!");
-                alert.setContentText("ERROR during unpublishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
-                _root.setDisable(false);
-                _root.getChildren().remove(box);
+                alert.showAndWait();
             }
         }
-        alert.showAndWait();
     }
 
-    private URL getFullURL() {
-        try {
-            return new URL(_baseURL, URIList.publish);
-        } catch (MalformedURLException e) {
+    private void loadList() {
+        MonthPublishParameter eventDutySearchItem = new MonthPublishParameter();
+        eventDutySearchItem.setMonth(_selectedMonth.getValue());
+        eventDutySearchItem.setMonth(_selectedYear);
+        List<EventDuty> eventDuties = _loadList.doAction(eventDutySearchItem);
+
+        if(eventDuties != null) {
+            _table.setItems(FXCollections.observableList(eventDuties));
         }
-
-        return null;
-    }
-
-    private URL getFullEventURL() {
-        try {
-            return new URL(_baseURL, URIList.event);
-        } catch (MalformedURLException e) {
-        }
-
-        return null;
     }
 }
-
-
-
-
-
-
-
-

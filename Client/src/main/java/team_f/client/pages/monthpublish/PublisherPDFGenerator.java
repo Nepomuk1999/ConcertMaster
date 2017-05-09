@@ -15,6 +15,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
+import team_f.jsonconnector.entities.EventDuty;
 
 import java.io.File;
 import java.util.List;
@@ -23,18 +24,18 @@ import java.util.List;
 public class PublisherPDFGenerator {
 
     private static final String IMAGE = "C:\\Users\\w7pro\\IdeaProjects\\ConcertMaster1\\Client\\src\\main\\resources\\Logo2.jpg";
-    private List<Event> _list;
+    private List<EventDuty> _list;
     private final PdfFont _regular;
     private final PdfFont _bold;
     private final String _date;
 
-         public PublisherPDFGenerator(List<Event> list, String date, String directory) throws Exception {
+         public PublisherPDFGenerator(List<EventDuty> list, String date, String directory) throws Exception {
              final String DEST = parseToPath(directory);
              _regular = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
              _bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 
-             _list=list;
-             _date=date;
+             _list = list;
+             _date = date;
              File file = new File(DEST);
              file.getParentFile().mkdirs();
              manipulatePdf(DEST);
@@ -81,29 +82,64 @@ public class PublisherPDFGenerator {
             table.addHeaderCell(new Cell().setFont(_bold).add("Points"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Eventstatus"));
 
-            if(_list!=null&&!_list.isEmpty()) {
-                for (Event event : _list) {
-                    if (event.getId() != null) table.addCell(event.getId().toString());
-                    else table.addCell(" ");
-                    if (event.getEventtype() != null) table.addCell(event.getEventtype().toString());
-                    else table.addCell(" ");
-                    if (event.getName() != null) table.addCell(event.getName().toString());
-                    else table.addCell(" ");
-                    if (event.getStartdate() != null) table.addCell(event.getStartdate().toString());
-                    else table.addCell(" ");
-                    if (event.getEnddate() != null) table.addCell(event.getEnddate().toString());
-                    else table.addCell(" ");
-                    if (event.getLocation() != null) table.addCell(event.getLocation().toString());
-                    else table.addCell(" ");
-                    if (event.getConductor() != null) table.addCell(event.getConductor().toString());
-                    else table.addCell(" ");
-                    if (event.getDescription() != null) table.addCell(event.getDescription().toString());
-                    else table.addCell(" ");
-                    if (event.getPoints() != null) table.addCell(event.getPoints().toString());
-                    else table.addCell(" ");
-                    if (event.getEventstatus() != null) table.addCell(event.getEventstatus().toString());
-                    else table.addCell(" ");
+            if(_list != null && !_list.isEmpty()) {
+                for (EventDuty event : _list) {
+                    if (event.getEventDutyID() > 0) {
+                        table.addCell(String.valueOf(event.getEventDutyID()));
+                    }
+                    else {
+                        table.addCell(" ");
+                    }
 
+                    if (event.getEventType() != null) {
+                        table.addCell(event.getEventType().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (event.getName() != null) {
+                        table.addCell(event.getName().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (event.getStartTime() != null) {
+                        table.addCell(event.getStartTime().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (event.getEndTime() != null) {
+                        table.addCell(event.getEndTime().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (event.getLocation() != null) {
+                        table.addCell(event.getLocation().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (event.getConductor() != null) {
+                        table.addCell(event.getConductor().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (event.getDescription() != null) {
+                        table.addCell(event.getDescription().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    table.addCell(String.valueOf(event.getDefaultPoints()));
+
+                    if (event.getEventStatus() != null) {
+                        table.addCell(event.getEventStatus().toString());
+                    } else {
+                        table.addCell(" ");
+                    }
                 }
                 table.setMarginTop(15);
                 doc.add(table);
@@ -116,7 +152,7 @@ public class PublisherPDFGenerator {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setGraphic(new ImageView("check.png"));
-            alert.setHeaderText("Succesfully converted selected Month to PDF");
+            alert.setHeaderText("Successfully converted selected Month to PDF");
             alert.showAndWait();
 
         }

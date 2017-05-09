@@ -7,18 +7,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
+import team_f.client.pages.BasePage;
+import javax.lang.model.type.NullType;
 
 // demonstrates highlighting rows in a tableview based upon the data values in the rows.
-public class LegendTable {
+public class LegendTable extends BasePage<Void, NullType, NullType, NullType> {
     private TableView<LegendEntries> table;
 
     public LegendTable() {
+    }
+
+    @Override
+    public void initialize() {
         table = new TableView(LegendEntries.data);
         table.getColumns().addAll(makeStringColumn("Eventtype", "eventtype", 100), makeStringColumn("Code", "code", 50), makeStringColumn("Color", "color", 200));
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPrefHeight(100);
         table.setEditable(false);
-
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Schedule Explanation");
@@ -41,6 +46,14 @@ public class LegendTable {
 
         //setCenter(table);
         //setVisible(true);
+    }
+
+    @Override
+    public void load() {
+    }
+
+    @Override
+    public void exit() {
     }
 
     private TableColumn<LegendEntries, String> makeStringColumn(String columnName, String propertyName, int prefWidth) {

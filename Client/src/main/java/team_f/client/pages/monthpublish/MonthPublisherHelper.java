@@ -16,8 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MonthPublisherHelper {
-    public static ObservableList<Event> getEventsList(URL url, int month, int year) {
-        ObservableList<Event> list = FXCollections.observableArrayList();
+    public static ObservableList<EventDuty> getEventsList(URL url, int month, int year) {
+        ObservableList<EventDuty> list = FXCollections.observableArrayList();
 
         Request request = new Request();
         request.setActionType(ActionType.GET_BY_PARAMETER);
@@ -39,88 +39,84 @@ public class MonthPublisherHelper {
         EventDutyList eventDutyList = (EventDutyList) RequestResponseHelper.writeAndReadJSONObject(url, request, EventDutyList.class);
 
         if(eventDutyList != null && eventDutyList.getEventDutyList() != null) {
-            for(EventDuty eventDuty : eventDutyList.getEventDutyList()) {
-                list.add(new Event(eventDuty.getEventDutyID(), eventDuty.getName(), eventDuty.getStartTime(), eventDuty.getEndTime(),
-                                   eventDuty.getConductor(), eventDuty.getLocation(), String.valueOf(eventDuty.getDefaultPoints()),
-                                   eventDuty.getDescription(), eventDuty.getEventType().toString(), eventDuty.getEventStatus().toString()));
-            }
+            list.addAll(eventDutyList.getEventDutyList());
         }
 
         return list;
     }
 
 
-    public static TableColumn<Event, Integer> getIdColumn() {
-        TableColumn<Event, Integer> idCol = new TableColumn<>("Id");
-        PropertyValueFactory<Event, Integer> idCellValueFactory = new PropertyValueFactory<>("id");
+    public static TableColumn<EventDuty, Integer> getIdColumn() {
+        TableColumn<EventDuty, Integer> idCol = new TableColumn<>("Id");
+        PropertyValueFactory<EventDuty, Integer> idCellValueFactory = new PropertyValueFactory<>("id");
         idCol.setCellValueFactory(idCellValueFactory);
         return idCol;
     }
 
-    public static TableColumn<Event, Integer> getEventstatusColumn() {
-        TableColumn<Event, Integer> statusCol = new TableColumn<>("Eventstatus");
-        PropertyValueFactory<Event, Integer> statusCellValueFactory = new PropertyValueFactory<>("eventstatus");
+    public static TableColumn<EventDuty, Integer> getEventstatusColumn() {
+        TableColumn<EventDuty, Integer> statusCol = new TableColumn<>("Eventstatus");
+        PropertyValueFactory<EventDuty, Integer> statusCellValueFactory = new PropertyValueFactory<>("eventstatus");
         statusCol.setCellValueFactory(statusCellValueFactory);
         return statusCol;
     }
 
-    public static TableColumn<Event, String> getNameColumn() {
-        TableColumn<Event, String> nameCol = new TableColumn<>("Name");
-        PropertyValueFactory<Event, String> nameCellValueFactory = new PropertyValueFactory<>("name");
+    public static TableColumn<EventDuty, String> getNameColumn() {
+        TableColumn<EventDuty, String> nameCol = new TableColumn<>("Name");
+        PropertyValueFactory<EventDuty, String> nameCellValueFactory = new PropertyValueFactory<>("name");
         nameCol.setCellValueFactory(nameCellValueFactory);
         return nameCol;
     }
 
 
-    public static TableColumn<Event, String> getStartdateColumn() {
-        TableColumn<Event, String> startdateCol = new TableColumn<>("Start Date");
-        PropertyValueFactory<Event, String> startdateCellValueFactory = new PropertyValueFactory<>("startdate");
+    public static TableColumn<EventDuty, String> getStartdateColumn() {
+        TableColumn<EventDuty, String> startdateCol = new TableColumn<>("Start Date");
+        PropertyValueFactory<EventDuty, String> startdateCellValueFactory = new PropertyValueFactory<>("startdate");
         startdateCol.setCellValueFactory(startdateCellValueFactory);
         return startdateCol;
     }
 
 
-    public static TableColumn<Event, String> getEnddateColumn() {
-        TableColumn<Event, String> enddateCol = new TableColumn<>("End Date");
-        PropertyValueFactory<Event, String> enddateCellValueFactory = new PropertyValueFactory<>("enddate");
+    public static TableColumn<EventDuty, String> getEnddateColumn() {
+        TableColumn<EventDuty, String> enddateCol = new TableColumn<>("End Date");
+        PropertyValueFactory<EventDuty, String> enddateCellValueFactory = new PropertyValueFactory<>("enddate");
         enddateCol.setCellValueFactory(enddateCellValueFactory);
         return enddateCol;
     }
 
 
-    public static TableColumn<Event, String> getConductorColumn() {
-        TableColumn<Event, String> conductorCol = new TableColumn<>("Conductor");
-        PropertyValueFactory<Event, String> conductorCellValueFactory = new PropertyValueFactory<>("conductor");
+    public static TableColumn<EventDuty, String> getConductorColumn() {
+        TableColumn<EventDuty, String> conductorCol = new TableColumn<>("Conductor");
+        PropertyValueFactory<EventDuty, String> conductorCellValueFactory = new PropertyValueFactory<>("conductor");
         conductorCol.setCellValueFactory(conductorCellValueFactory);
         return conductorCol;
     }
 
 
-    public static TableColumn<Event, String> getLocationColumn() {
-        TableColumn<Event, String> cityCol = new TableColumn<>("Location");
-        PropertyValueFactory<Event, String> cityCellValueFactory = new PropertyValueFactory<>("location");
+    public static TableColumn<EventDuty, String> getLocationColumn() {
+        TableColumn<EventDuty, String> cityCol = new TableColumn<>("Location");
+        PropertyValueFactory<EventDuty, String> cityCellValueFactory = new PropertyValueFactory<>("location");
         cityCol.setCellValueFactory(cityCellValueFactory);
         return cityCol;
     }
 
-    public static TableColumn<Event, String> getPointsColumn() {
-        TableColumn<Event, String> pointsCol = new TableColumn<>("Points");
-        PropertyValueFactory<Event, String> pointsCellValueFactory = new PropertyValueFactory<>("points");
+    public static TableColumn<EventDuty, String> getPointsColumn() {
+        TableColumn<EventDuty, String> pointsCol = new TableColumn<>("Points");
+        PropertyValueFactory<EventDuty, String> pointsCellValueFactory = new PropertyValueFactory<>("points");
         pointsCol.setCellValueFactory(pointsCellValueFactory);
         return pointsCol;
     }
 
 
-    public static TableColumn<Event, String> getDescriptionColumn() {
-        TableColumn<Event, String> descriptionCol = new TableColumn<>("Description");
-        PropertyValueFactory<Event, String> descriptionCellValueFactory = new PropertyValueFactory<>("description");
+    public static TableColumn<EventDuty, String> getDescriptionColumn() {
+        TableColumn<EventDuty, String> descriptionCol = new TableColumn<>("Description");
+        PropertyValueFactory<EventDuty, String> descriptionCellValueFactory = new PropertyValueFactory<>("description");
         descriptionCol.setCellValueFactory(descriptionCellValueFactory);
         return descriptionCol;
     }
 
-    public static TableColumn<Event, String> getEventtypeColumn() {
-        TableColumn<Event, String> eventtypeCol = new TableColumn<>("Eventtype");
-        PropertyValueFactory<Event, String> eventtypeCellValueFactory = new PropertyValueFactory<>("eventtype");
+    public static TableColumn<EventDuty, String> getEventtypeColumn() {
+        TableColumn<EventDuty, String> eventtypeCol = new TableColumn<>("Eventtype");
+        PropertyValueFactory<EventDuty, String> eventtypeCellValueFactory = new PropertyValueFactory<>("eventtype");
         eventtypeCol.setCellValueFactory(eventtypeCellValueFactory);
         return eventtypeCol;
     }

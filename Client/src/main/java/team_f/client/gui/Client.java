@@ -14,12 +14,15 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
-import team_f.client.pages.home.TodolistHome;
-import team_f.client.pages.legende.LegendTable;
+import team_f.client.pages.BasePage;
+import team_f.client.pages.home.TodoListHome;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.WebHelper;
+import team_f.client.pages.legende.LegendTable;
 import team_f.client.singletons.BrowserSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
+import team_f.client.singletons.LegendSingleton;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -90,8 +93,9 @@ public class Client extends Application {
             Menu menuHelp = new Menu("Help");
             menuItem = new MenuItem("Show Schedule Explanation");
             menuItem.setOnAction(actionEvent -> {
-                new LegendTable();
-
+                LegendTable legendTablePage = LegendSingleton.getInstance();
+                legendTablePage.initialize();
+                legendTablePage.load();
             });
 
             menuHelp.getItems().add(menuItem);
@@ -108,9 +112,12 @@ public class Client extends Application {
 
             Menu menuTodo = new Menu("My TodoList");
             menuItem = new MenuItem("Show TodoList");
-            menuItem.setOnAction(actionEvent -> new TodolistHome());
+            menuItem.setOnAction(actionEvent -> {
+                BasePage todoListPage = new TodoListHome();
+                todoListPage.initialize();
+                todoListPage.load();
+            });
             menuTodo.getItems().add(menuItem);
-
 
             menuBar.getMenus().addAll(menuFile, menuTodo, menuHelp);
             content.setTop(menuBar);
@@ -119,7 +126,8 @@ public class Client extends Application {
         content.setCenter(mainContent);
 
         // set the sidebar
-        Sidebar sidebar = NavigationBar.getNavigationBar(mainContent, _configuration);
+        NavigationBar navigationBar = new NavigationBar(content, _configuration);
+        Sidebar sidebar = navigationBar.getNavigationBar();
         content.setLeft(sidebar);
 
         // set window

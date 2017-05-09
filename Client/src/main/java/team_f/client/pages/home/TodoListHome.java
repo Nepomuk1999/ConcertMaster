@@ -4,9 +4,15 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import team_f.client.pages.BasePage;
+import javax.lang.model.type.NullType;
 
-public class TodolistHome extends BorderPane {
-    public TodolistHome() {
+public class TodoListHome extends BasePage<Void, NullType, NullType, NullType> {
+    public TodoListHome() {
+    }
+
+    @Override
+    public void initialize() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("My TodoList");
         alert.setHeaderText("Enter new Todo's or delete solved Todo's");
@@ -76,6 +82,14 @@ public class TodolistHome extends BorderPane {
         content2.getChildren().addAll(layout);
         alert.getDialogPane().setContent(content2);
         alert.showAndWait();
+    }
+
+    @Override
+    public void load() {
+    }
+
+    @Override
+    public void exit() {
     }
 
     private void initListView(ListView<String> listView) {

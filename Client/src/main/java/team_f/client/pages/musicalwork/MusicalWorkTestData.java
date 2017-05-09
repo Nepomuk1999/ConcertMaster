@@ -1,8 +1,5 @@
 package team_f.client.pages.musicalwork;
 
-/**
- * Created by dominik on 04.05.17.
- */
 public class MusicalWorkTestData {
     private Integer _id;
     private String _musicalWorkName;
