@@ -3,6 +3,7 @@ package team_f.client.pages.musicianmanagement;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import team_f.client.entities.KeyValuePair;
@@ -159,8 +160,12 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
 
         GridPane pane = new GridPane();
+        pane.gridLinesVisibleProperty().set(false);
+        pane.getColumnConstraints().addAll( new ColumnConstraints( 160 ),new ColumnConstraints( 160 ), new ColumnConstraints( 160 ),new ColumnConstraints( 160 ),
+                new ColumnConstraints( 160 ));
         pane.setHgap(15);
         pane.setVgap(10);
+
         pane.add(titleMusician,0,0);
         pane.add(new Label("Role:"), 0,1);
         pane.add(_comboBoxRole, 0,2);
@@ -191,20 +196,6 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
         pane.addRow(7, new Label(" "));
         pane.addRow(8, new Label(" "));
-
-
-/*
-        pane.addRow(0, new Label("Role:"), _comboBoxRole);
-        pane.addRow(0, new Label("Section:"), _comboBoxSection);
-        pane.addRow(0, new Label("Instruments:"), _comboBoxInstrument);
-        pane.addRow(1, new Label("Gender:"), _comboBoxGender);
-        pane.addRow(1, new Label("First Name:"), _firstNameField);
-        pane.addRow(1, new Label("Last Name:"), _lastNameField);
-        pane.addRow(2, new Label("Street:"), _streetField);
-        pane.addRow(2, new Label("Email:"), _emailField);
-        pane.addRow(2, new Label("Phone Number:"), _phoneField);
-        pane.addRow(3, new Label(""));
-        pane.addRow(4, new Label(""));*/
 
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_firstNameField);
