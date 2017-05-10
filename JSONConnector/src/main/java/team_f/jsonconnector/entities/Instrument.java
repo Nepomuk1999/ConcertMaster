@@ -62,4 +62,9 @@ public class Instrument implements JSONObjectEntity {
     public String getDisplayName() {
         return getBrand() + " " + getModel();
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

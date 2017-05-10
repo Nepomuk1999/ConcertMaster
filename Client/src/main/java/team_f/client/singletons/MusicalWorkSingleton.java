@@ -1,11 +1,17 @@
 package team_f.client.singletons;
 
 import team_f.client.configuration.Configuration;
+import team_f.client.helper.RequestResponseHelper;
 import team_f.client.pages.PageAction;
 import team_f.client.pages.musicalwork.MusicalWorkManagement;
 import team_f.client.pages.musicalwork.MusicalWorkParameter;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.MusicalWork;
+import team_f.jsonconnector.entities.Request;
+import team_f.jsonconnector.entities.list.MusicalWorkList;
+import team_f.jsonconnector.entities.special.MusicalWorkErrorList;
+import team_f.jsonconnector.enums.request.ActionType;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,23 +28,58 @@ public class MusicalWorkSingleton {
         if (_musicalWork == null) {
             _configuration = configuration;
             _musicalWork = new MusicalWorkManagement();
-            
+
             _musicalWork.setOnLoadList(new PageAction<List<MusicalWork>, MusicalWorkParameter>() {
                 @Override
                 public List<MusicalWork> doAction(MusicalWorkParameter value) {
-                    /*Request requestObject = new Request();
-                    ErrorList request = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), requestObject, ErrorList.class);
+                    if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.GET_ALL);
 
-                    boolean isSuccessful;
+                        MusicalWorkList personList = (MusicalWorkList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkList.class);
 
-                    if (request != null && request.getKeyValueList() != null && request.getKeyValueList().size() == 0) {
-                        isSuccessful = true;
-                        // _table.getItems().add(person);
-                    } else {
-                        isSuccessful = false;
-                    }*/
+                        if(personList != null) {
+                            return personList.getMusicalWorkList();
+                        }
+                    }
 
-                    return new ArrayList<>();
+                    return null;
+                }
+            });
+
+            _musicalWork.setOnCreate(new PageAction<MusicalWorkErrorList, MusicalWork>() {
+                @Override
+                public MusicalWorkErrorList doAction(MusicalWork value) {
+                    Request request = new Request();
+                    request.setActionType(ActionType.CREATE);
+                    request.setEntity(value);
+
+                    MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
+                    return errorList;
+                }
+            });
+
+            _musicalWork.setOnDelete(new PageAction<MusicalWorkErrorList, MusicalWork>() {
+                @Override
+                public MusicalWorkErrorList doAction(MusicalWork value) {
+                    Request request = new Request();
+                    request.setActionType(ActionType.DELETE);
+                    request.setEntity(value);
+
+                    MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
+                    return errorList;
+                }
+            });
+
+            _musicalWork.setOnEdit(new PageAction<MusicalWorkErrorList, MusicalWork>() {
+                @Override
+                public MusicalWorkErrorList doAction(MusicalWork value) {
+                    Request request = new Request();
+                    request.setActionType(ActionType.UPDATE);
+                    request.setEntity(value);
+
+                    MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
+                    return errorList;
                 }
             });
         }

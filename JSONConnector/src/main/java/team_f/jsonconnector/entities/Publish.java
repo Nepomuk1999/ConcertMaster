@@ -51,4 +51,9 @@ public class Publish implements JSONObjectEntity {
     public String getDisplayName() {
         return getEntityName();
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

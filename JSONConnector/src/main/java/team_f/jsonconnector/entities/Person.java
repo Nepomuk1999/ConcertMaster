@@ -144,4 +144,9 @@ public class Person implements JSONObjectEntity {
     public String getDisplayName() {
         return getFirstname() + " " + getLastname();
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

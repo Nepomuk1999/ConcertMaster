@@ -20,6 +20,7 @@ import team_f.jsonconnector.enums.PublishType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, MonthPublishParameter> {
@@ -81,7 +82,8 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         labelMonth.setMinWidth(125);
         labelMonth.setStyle("-fx-font: 14 arial;");
         comboBoxMonth.getSelectionModel().selectFirst();
-        _selectedMonth = new Month(comboBoxMonth.getSelectionModel().getSelectedItem().getMonth(), comboBoxMonth.getSelectionModel().getSelectedItem().getValue());
+        _selectedMonth = _data.get(LocalDateTime.now().getMonth().getValue() -1);
+        comboBoxMonth.getSelectionModel().select(_selectedMonth);
 
         comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
             if (arg2 != null) {

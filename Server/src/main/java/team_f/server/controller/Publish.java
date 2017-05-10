@@ -6,7 +6,7 @@ import team_f.application.EventApplication;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
