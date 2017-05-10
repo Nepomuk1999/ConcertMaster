@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import team_f.client.helper.AlertHelper;
 import team_f.client.pages.interfaces.BasePageControl;
 import javax.lang.model.type.NullType;
 import java.util.ArrayList;
@@ -109,55 +110,14 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
     }
 
     public void showSuccessMessage(String headerText, String contentText) {
-        showMessage("Success", headerText, contentText, Alert.AlertType.INFORMATION, new ImageView("check.png"), null);
+        showSuccessMessage(headerText, contentText);
     }
 
     public void showErrorMessage(String headerText, String contentText) {
-        showMessage("Error", headerText, contentText, Alert.AlertType.ERROR, null, null);
+        AlertHelper.showErrorMessage(headerText, contentText, this);
     }
 
     public Boolean showWarningMessage(String headerText, String contentText, String okButtonLabel) {
-        ButtonType okButton = new ButtonType(okButtonLabel);
-        ButtonType cancelButton = new ButtonType("Cancel");
-        List<ButtonType> buttonList = new LinkedList<>();
-        buttonList.add(okButton);
-        buttonList.add(cancelButton);
-
-        Optional optional = showMessage("Error", headerText, contentText, Alert.AlertType.WARNING, null, buttonList);
-
-        if(optional != null) {
-            if(optional.get().equals(okButton)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        return null;
-    }
-
-    private Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList) {
-        setDisable(true);
-
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-
-        if(icon != null) {
-            alert.setGraphic(icon);
-        }
-
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
-
-        if(buttonTypeList != null) {
-            alert.getButtonTypes().setAll(buttonTypeList);
-        }
-
-        Optional optional = alert.showAndWait();
-        alert.close();
-
-        setDisable(false);
-
-        return optional;
+        return AlertHelper.showWarningMessage(headerText, contentText, okButtonLabel, this);
     }
 }
