@@ -136,13 +136,13 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
         mySlider.setMinorTickCount(1);
         mySlider.setBlockIncrement(0.1);
 
-        Scale scaleDefault = new Scale(0.8,1);
+        Scale scaleDefault = new Scale(0.82,1);
         scaleDefault.setPivotX(0);
         scaleDefault.setPivotY(0);
         borderPane.getTransforms().setAll(scaleDefault);
 
         mySlider.valueProperty().addListener((arg0, arg1, arg2) -> {
-            Scale scale = new Scale(arg2.doubleValue(), arg2.doubleValue());
+            Scale scale = new Scale(arg2.doubleValue()-0.25, arg2.doubleValue()-0.075);
             scale.setPivotX(0);
             scale.setPivotY(0);
             borderPane.getTransforms().setAll(scale);

@@ -143,7 +143,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         borderPane.getTransforms().setAll(scaleDefault);*/
 
         mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Scale scale = new Scale(newValue.doubleValue(), newValue.doubleValue());
+            Scale scale = new Scale(newValue.doubleValue()+0.018, newValue.doubleValue()+0.018);
             scale.setPivotX(0);
             scale.setPivotY(0);
             borderPane.getTransforms().setAll(scale);
