@@ -1,19 +1,12 @@
 package team_f.client.pages;
 
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import team_f.client.helper.AlertHelper;
 import team_f.client.pages.interfaces.BasePageControl;
 import javax.lang.model.type.NullType;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePageControl {
     /**
@@ -119,5 +112,13 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
 
     public Boolean showWarningMessage(String headerText, String contentText, String okButtonLabel) {
         return AlertHelper.showWarningMessage(headerText, contentText, okButtonLabel, this);
+    }
+
+    public void showValuesMissingMessage() {
+        AlertHelper.showValuesMissingMessage(this);
+    }
+
+    public void showTryAgainLaterErrorMessage() {
+        AlertHelper.showTryAgainLaterErrorMessage(this);
     }
 }

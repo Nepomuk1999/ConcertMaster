@@ -38,6 +38,14 @@ public class AlertHelper {
         return null;
     }
 
+    public static void showValuesMissingMessage(Pane pane) {
+        showMessage("Values Missing","Please fill in all the information in the form.", "You can not save. Please fill in missing data!", Alert.AlertType.WARNING, null, null, pane);
+    }
+
+    public static void showTryAgainLaterErrorMessage(Pane pane) {
+        showMessage("Error", "Please try it again later or contact your System-Administrator!", "", Alert.AlertType.ERROR, null, null, pane);
+    }
+
     private static Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList, Pane pane) {
         pane.setDisable(true);
 

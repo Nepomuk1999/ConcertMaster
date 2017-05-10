@@ -81,8 +81,6 @@ public class MonthPublisherSingleton {
 
                         if(eventDuty != null) {
                             return eventDuty.getEventDutyList();
-                        } else {
-                            // @TODO: show error
                         }
                     }
 

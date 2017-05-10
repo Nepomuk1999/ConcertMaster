@@ -160,13 +160,15 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
     public void load() {
         if(_load != null) {
             List<MusicalWork> resultMusicalWorkList = _load.doAction(null);
-            _table.setItems(FXCollections.observableList(resultMusicalWorkList));
 
-            // @TODO:
-            _table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
-            MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
+            if(resultMusicalWorkList != null) {
+                _table.setItems(FXCollections.observableList(resultMusicalWorkList));
+                // @TODO:
+                _table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
+                MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
 
-            _table.refresh();
+                _table.refresh();
+            }
         }
     }
 
@@ -215,6 +217,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
                 _percussionField.setText(null);
                 _harpField.setText(null);
                 _specialInstrumentation.setText(null);
+            } else {
+                // @TODO: show error message
             }
         }
     }
@@ -279,7 +283,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
         pane.addRow(4, _specialInstrumentation);
 
 
-
         ArrayList<TextField> fields = new ArrayList<>();
         fields.add(_nameField);
         fields.add(_composerField);
@@ -316,11 +319,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
                     || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
                 validate(fields);
 
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Values Missing");
-                alert.setHeaderText("Please fill in all the information in the form.");
-                alert.setContentText("You can not save this MusicalWork. Please fill in missing data!");
-                alert.showAndWait();
+                showValuesMissingMessage();
             } else {
                 addMusicalWork();
             }

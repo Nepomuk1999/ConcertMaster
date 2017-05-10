@@ -149,7 +149,6 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                 try {
                     PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _selectedPath.getText());
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -255,7 +254,7 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                         showErrorMessage("Error during publishing", _selectedMonth.getMonth() + " " + _selectedYear);
                     }
                 } else {
-                    showErrorMessage("Error during publishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear);
+                    showTryAgainLaterErrorMessage();
                 }
             }
         }
@@ -294,7 +293,7 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                         showErrorMessage("Error during unpublishing", _selectedMonth.getMonth() + " " + _selectedYear);
                     }
                 } else {
-                    showErrorMessage("Error during unpublishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear);
+                    showTryAgainLaterErrorMessage();
                 }
             }
         }
