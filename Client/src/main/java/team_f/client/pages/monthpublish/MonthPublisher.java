@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -175,17 +176,19 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         pane.add(comboBoxYear, 12, 6);
         pane.add(labelMonth, 13, 5);
         pane.add(comboBoxMonth, 13, 6);
-        pane.add(titlePdfConverter, 40, 4);
-        pane.add(directoryLabel, 40, 5);
-        pane.add(_selectedPath, 40, 6);
-        pane.add(pdfGeneratorButton, 41, 6);
+        pane.add(titlePdfConverter, 36, 4);
+        pane.add(directoryLabel, 36, 5);
+        pane.add(_selectedPath, 36, 6);
+        pane.add(pdfGeneratorButton, 37, 6);
 
         _root = new VBox();
         _root.getChildren().addAll(pane);
 
-        //Table
+        HBox buttonsBox=new HBox(publishButton, unpublishButton);
+        buttonsBox.setSpacing(10);
+
         VBox tableBox = new VBox();
-        tableBox.getChildren().addAll(_table, publishButton, unpublishButton);
+        tableBox.getChildren().addAll(_table, buttonsBox);
         tableBox.setSpacing(5);
         setBottom(tableBox);
         setCenter(_root);

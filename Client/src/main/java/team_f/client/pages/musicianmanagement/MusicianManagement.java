@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.transform.Scale;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.pages.BaseTablePage;
@@ -113,10 +110,19 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
         // Create the Delete Button and add Event-Handler
         Button editButton = new Button("Edit Selected Musician");
+        editButton.setMinWidth(125);
+        editButton.setStyle("-fx-font: 14 arial;");
         editButton.setOnAction(e -> editPerson());
 
+        Button deleteButton = new Button("Delete Selected Musician");
+        deleteButton.setMinWidth(125);
+        deleteButton.setStyle("-fx-font: 14 arial;");
+        deleteButton.setOnAction(e -> editPerson());
+
+        HBox buttonsBox=new HBox(editButton, deleteButton);
+        buttonsBox.setSpacing(10);
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, _table,editButton );
+        root.getChildren().addAll(newDataPane, _table, buttonsBox );
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
         borderPane.setStyle("-fx-padding: 10;" +
@@ -135,7 +141,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         mySlider.setShowTickMarks(true);
         mySlider.setMajorTickUnit(0.25);
         mySlider.setMinorTickCount(1);
-        mySlider.setBlockIncrement(0.1);
+        mySlider.setBlockIncrement(0.025);
 
         /*Scale scaleDefault = new Scale(0.8,1);
         scaleDefault.setPivotX(0);
@@ -143,7 +149,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         borderPane.getTransforms().setAll(scaleDefault);*/
 
         mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Scale scale = new Scale(newValue.doubleValue(), newValue.doubleValue());
+            Scale scale = new Scale(newValue.doubleValue()+0.018, newValue.doubleValue()+0.018);
             scale.setPivotX(0);
             scale.setPivotY(0);
             borderPane.getTransforms().setAll(scale);
@@ -238,6 +244,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         fields.add(_phoneField);
 
         Button addButton = new Button("Add Musician");
+        addButton.setStyle("-fx-font: 14 arial;");
 
         addButton.setOnAction(e -> {
             if (_firstNameField.getText().isEmpty() || _lastNameField.getText().isEmpty() || _streetField.getText().isEmpty()
