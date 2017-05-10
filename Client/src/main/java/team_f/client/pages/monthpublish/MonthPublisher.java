@@ -29,7 +29,7 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
     private Month _selectedMonth;
     private VBox _root;
     private TableView<EventDuty> _table;
-    TextField _selectedPath;
+    private TextField _selectedPath;
 
     public MonthPublisher() {
     }
