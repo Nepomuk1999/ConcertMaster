@@ -192,13 +192,6 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
                 "    -fx-text-fill: #333333;\n" +
                 "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
 
-        Label titleAccount=new Label("Create Account");
-        titleAccount.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
-
-
         GridPane pane = new GridPane();
         pane.gridLinesVisibleProperty().set(false);
         pane.getColumnConstraints().addAll( new ColumnConstraints( 160 ),new ColumnConstraints( 160 ), new ColumnConstraints( 160 ),new ColumnConstraints( 160 ),
