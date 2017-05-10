@@ -2,9 +2,12 @@ package team_f.client.helper;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -47,17 +50,25 @@ public class AlertHelper {
     }
 
     private static Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList, Pane pane) {
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
         pane.setDisable(true);
 
         Alert alert = new Alert(type);
         alert.setTitle(title);
+        alert.getDialogPane().setMaxHeight(graphicsDevice.getDisplayMode().getHeight() * 0.9);
+        alert.getDialogPane().setMaxWidth(graphicsDevice.getDisplayMode().getWidth() * 0.9);
 
         if(icon != null) {
             alert.setGraphic(icon);
         }
 
         alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
+
+        Label contentTextElement = new Label(contentText);
+        contentTextElement.setWrapText(true);
+        ScrollPane contentTextElementScrollPane = new ScrollPane(contentTextElement);
+        alert.getDialogPane().setContent(contentTextElementScrollPane);
 
         if(buttonTypeList != null) {
             alert.getButtonTypes().setAll(buttonTypeList);

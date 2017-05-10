@@ -249,9 +249,12 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                     String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
                     if(tmpErrorText.isEmpty()) {
-                        showSuccessMessage("Successfully published selected Month", _selectedMonth.getMonth() + " " + _selectedYear);
+                        showSuccessMessage("Successfully published selected Month", _selectedMonth.getMonth() + " " + _selectedYear + "\n\n" + tmpErrorText);
+
+                        // reload the table content
+                        loadList();
                     } else {
-                        showErrorMessage("Error during publishing", _selectedMonth.getMonth() + " " + _selectedYear);
+                        showErrorMessage("Error during publishing", _selectedMonth.getMonth() + " " + _selectedYear + "\n\n" + tmpErrorText);
                     }
                 } else {
                     showTryAgainLaterErrorMessage();
@@ -288,9 +291,12 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                     String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
                     if(tmpErrorText.isEmpty()) {
-                        showSuccessMessage("Successfully unpublished selected Month", _selectedMonth.getMonth() + " " + _selectedYear);
+                        showSuccessMessage("Successfully unpublished selected Month", _selectedMonth.getMonth() + " " + _selectedYear + "\n\n" + tmpErrorText);
+
+                        // reload the table content
+                        loadList();
                     } else {
-                        showErrorMessage("Error during unpublishing", _selectedMonth.getMonth() + " " + _selectedYear);
+                        showErrorMessage("Error during unpublishing", _selectedMonth.getMonth() + " " + _selectedYear + "\n\n" + tmpErrorText);
                     }
                 } else {
                     showTryAgainLaterErrorMessage();

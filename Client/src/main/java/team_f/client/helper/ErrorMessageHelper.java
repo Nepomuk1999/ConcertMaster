@@ -8,22 +8,23 @@ import java.util.List;
 
 public class ErrorMessageHelper {
     public static String getErrorMessage(List<Pair<JSONObjectEntity, List<Error>>> errorList) {
-        StringBuilder errorText = new StringBuilder();
+        StringBuilder errorTextBuilder = new StringBuilder();
 
         for(Pair<JSONObjectEntity, List<Error>> item : errorList) {
             if(item.getValue() != null && item.getValue().size() > 0) {
                 if(item.getKey() != null) {
-                    errorText.append(item.getKey().getEntityName());
+                    errorTextBuilder.append(item.getKey().getDisplayName());
                 }
 
                 for(Error error : item.getValue()) {
-                    errorText.append(error.getKey() + ": " + error.getValue());
+                    errorTextBuilder.append("\n");
+                    errorTextBuilder.append("  * " + error.getKey() + ": " + error.getValue());
                 }
 
-                errorText.append("\n");
+                errorTextBuilder.append("\n\n");
             }
         }
 
-        return errorList.toString();
+        return errorTextBuilder.toString();
     }
 }
