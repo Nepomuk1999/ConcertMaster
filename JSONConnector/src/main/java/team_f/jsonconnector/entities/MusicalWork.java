@@ -72,4 +72,9 @@ public class MusicalWork implements JSONObjectEntity {
     public String getDisplayName() {
         return getName() + " (" + getComposer() + ")";
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

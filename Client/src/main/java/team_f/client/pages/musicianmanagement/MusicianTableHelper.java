@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.client.entities.KeyValuePair;
-import team_f.jsonconnector.entities.Instrument;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.*;
 

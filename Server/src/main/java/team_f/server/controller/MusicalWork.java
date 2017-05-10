@@ -1,13 +1,13 @@
 package team_f.server.controller;
 
 import org.json.JSONArray;
-import team_f.application.PersonApplication;
+import team_f.application.MusicalWorkApplication;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.list.PersonList;
+import team_f.jsonconnector.entities.list.MusicalWorkList;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
-import team_f.server.helper.converter.PersonConverter;
+import team_f.server.helper.converter.MusicalWorkConverter;
 import team_f.server.helper.response.CommonResponse;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {URIList.person})
-public class Person extends HttpServlet {
+@WebServlet(urlPatterns = {URIList.musicalWork})
+public class MusicalWork extends HttpServlet {
     @Override
     public void init() throws ServletException {
     }
@@ -44,8 +44,8 @@ public class Person extends HttpServlet {
             team_f.jsonconnector.entities.Request request = (team_f.jsonconnector.entities.Request) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Request.class);
 
             if(request != null) {
-                PersonApplication facade = new PersonApplication();
-                team_f.jsonconnector.entities.Person person;
+                MusicalWorkApplication facade = new MusicalWorkApplication();
+                team_f.jsonconnector.entities.MusicalWork musicalWork;
                 javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
 
                 switch (request.getActionType()) {
@@ -53,51 +53,62 @@ public class Person extends HttpServlet {
                         // @TODO: add get by parameter functionality
                         break;
                     case GET_ALL:
-                        List<team_f.domain.entities.Person> personEntityList = facade.getAllMusicians();
-                        List<team_f.jsonconnector.entities.Person> personList = new LinkedList<>();
-                        PersonList persons = new PersonList();
+                        List<team_f.domain.entities.MusicalWork> musicalWorkEntityList = facade.getMusicalWorkList();
+                        List<team_f.jsonconnector.entities.MusicalWork> musicalWorkList = new LinkedList<>();
+                        MusicalWorkList musicalWorks = new MusicalWorkList();
 
-                        for(team_f.domain.entities.Person item : personEntityList) {
-                            person = PersonConverter.convertToJSON(item);
-                            personList.add(person);
+                        for(team_f.domain.entities.MusicalWork item : musicalWorkEntityList) {
+                            musicalWork = MusicalWorkConverter.convertToJSON(item);
+                            musicalWorkList.add(musicalWork);
                         }
 
-                        persons.setPersonList(personList);
+                        musicalWorks.setMusicalWorkList(musicalWorkList);
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), persons);
+                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWorks);
 
                         break;
                     case CREATE:
-                        // this is handled by the register servlet
-                        break;
-                    case UPDATE:
-                        person = (team_f.jsonconnector.entities.Person) request.getEntity();
+                        musicalWork = (team_f.jsonconnector.entities.MusicalWork) request.getEntity();
 
-                        if(person != null) {
-                            // @TODO: add update functionality
-                            /*tmpErrorList = facade.update(person);
-                            person = PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey());*/
+                        if(musicalWork != null) {
+                            // @TODO: add create functionality
+                            /*tmpErrorList = facade.addMusicalWork(musicalWork.getMusicalWorkID(), musicalWork.getName(), musicalWork.getComposer(), // insert some instrumentations);
+                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), person);
+                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWork);
+
+                        break;
+                    case UPDATE:
+                        musicalWork = (team_f.jsonconnector.entities.MusicalWork) request.getEntity();
+
+                        if(musicalWork != null) {
+                            // @TODO: add update functionality
+                            /*tmpErrorList = facade.update(musicalWork);
+                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());*/
+                        }
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
+                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWork);
 
                         break;
                     case DELETE:
-                        person = (team_f.jsonconnector.entities.Person) request.getEntity();
+                        musicalWork = (team_f.jsonconnector.entities.MusicalWork) request.getEntity();
 
-                        if(person != null) {
-                            // @TODO: add update functionality
-                            /*tmpErrorList = facade.delete(person.getPersonID());
-                            person = PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey());*/
+                        if(musicalWork != null) {
+                            // @TODO: add delete functionality
+                            /*tmpErrorList = facade.delete(musicalWork.getMusicalWorkID());
+                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), person);
+                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWork);
 
                         break;
                     default:

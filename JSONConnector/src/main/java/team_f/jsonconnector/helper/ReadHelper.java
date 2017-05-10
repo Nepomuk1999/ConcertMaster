@@ -15,6 +15,7 @@ public class ReadHelper {
             try {
                 return mapper.readValue(reader, jsonObjectEntityClass);
             } catch (IOException e) {
+                System.out.println(e);
             }
         }
 

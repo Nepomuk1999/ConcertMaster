@@ -50,4 +50,9 @@ public class SpecialInstrumentation implements JSONObjectEntity {
     public String getDisplayName() {
         return getSectionType() + " " + getSpecialInstrument();
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

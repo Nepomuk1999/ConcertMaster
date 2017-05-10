@@ -3,6 +3,7 @@ package team_f.jsonconnector.entities;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import team_f.jsonconnector.helper.TextHelper;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 import java.util.List;
@@ -214,6 +215,30 @@ public class Instrumentation implements JSONObjectEntity {
     @Override
     public String getDisplayName() {
         // @TODO: construct the string correctly
-        return "";
+        return getEntityName();
+    }
+
+    public String getWoodInstrumentationText() {
+        return "Wood: " + TextHelper.getSeparatedText('/', getFlute(), getOboe(), getClarinet(), getBassoon());
+    }
+
+    public String getStringInstrumentationText() {
+        return "String: " + TextHelper.getSeparatedText('/', getViolin1(), getViolin2(), getViola(), getViolincello(), getDoublebass());
+    }
+
+    public String getBrassInstrumentiaton() {
+        return "Brass: " + TextHelper.getSeparatedText('/', getHorn(), getTrumpet(), getTrombone(), getTube());
+    }
+
+    public String getPercussionInstrumentation() {
+        return "Percussion: " + TextHelper.getSeparatedText('/', getKettledrum(), getPercussion(), getHarp());
+    }
+
+    @Override
+    public String toString() {
+        return getWoodInstrumentationText() + "\n" +
+               getStringInstrumentationText() + "\n" +
+               getBrassInstrumentiaton() + "\n" +
+               getPercussionInstrumentation();
     }
 }

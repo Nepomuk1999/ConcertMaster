@@ -42,6 +42,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     @Override
     public void initialize() {
+        if(_initialize != null) {
+            _initialize.doAction(null);
+        }
+
         _firstNameField = new TextField();
         _lastNameField = new TextField();
         _streetField = new TextField();
@@ -187,6 +191,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     @Override
     public void exit() {
+        if(_exit != null) {
+            _exit.doAction(null);
+        }
     }
 
     @Override
@@ -194,7 +201,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     }
 
     public GridPane getNewPersonDataPane() {
-
         //Title Label
         Label titleMusician=new Label("Create Musician");
         titleMusician.setStyle(" -fx-font-size: 20px;\n" +
@@ -258,7 +264,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 showValuesMissingMessage();
             } else {
                 addPerson();
-
             }
         });
 

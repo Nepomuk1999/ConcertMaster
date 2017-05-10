@@ -2,6 +2,7 @@ package team_f.server.helper.response;
 
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
+import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.LinkedList;
 import java.util.List;

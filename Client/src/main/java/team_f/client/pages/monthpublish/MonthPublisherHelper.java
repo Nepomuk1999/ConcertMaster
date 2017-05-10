@@ -6,7 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.client.helper.RequestResponseHelper;
 import team_f.jsonconnector.entities.EventDuty;
-import team_f.jsonconnector.entities.EventDutyList;
+import team_f.jsonconnector.entities.list.EventDutyList;
 import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.Request;
 import team_f.jsonconnector.enums.request.ActionType;

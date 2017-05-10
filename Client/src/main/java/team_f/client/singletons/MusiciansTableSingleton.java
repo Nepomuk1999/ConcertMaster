@@ -7,6 +7,7 @@ import team_f.client.pages.musicianmanagement.MusicianManagement;
 import team_f.client.pages.musicianmanagement.PersonParameter;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.list.PersonList;
 import team_f.jsonconnector.entities.special.PersonErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
 import java.net.MalformedURLException;
@@ -48,6 +49,22 @@ public class MusiciansTableSingleton {
                 public PersonErrorList doAction(Person value) {
                     PersonErrorList errorList = (PersonErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, PersonErrorList.class);
                     return errorList;
+                }
+            });
+
+            _musicianTable.setOnDelete(new PageAction<PersonErrorList, Person>() {
+                @Override
+                public PersonErrorList doAction(Person value) {
+                    // @TODO: implement
+                    return null;
+                }
+            });
+
+            _musicianTable.setOnEdit(new PageAction<PersonErrorList, Person>() {
+                @Override
+                public PersonErrorList doAction(Person value) {
+                    // @TODO: implement
+                    return null;
                 }
             });
 

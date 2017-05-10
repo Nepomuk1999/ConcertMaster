@@ -19,6 +19,7 @@ public class MusicalWorkApplication {
         musicalworkfacade.closeSession();
     }
 
+    // @TODO: the servlet layer should not create a Instrumentation
     public Pair<DomainEntity, List<Pair<String, String>>> addMusicalWork(int id, String name, String composer, Instrumentation instrumentation) {
         MusicalWork musicalWork = new MusicalWork();
 

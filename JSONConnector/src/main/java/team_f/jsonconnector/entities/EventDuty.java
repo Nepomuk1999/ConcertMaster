@@ -178,4 +178,9 @@ public class EventDuty implements JSONObjectEntity {
     public String getDisplayName() {
         return getName();
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

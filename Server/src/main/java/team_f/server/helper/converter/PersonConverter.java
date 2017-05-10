@@ -13,7 +13,11 @@ public class PersonConverter {
         result.setLastname(person.getLastname());
         result.setPhoneNumber(person.getPhoneNumber());
         result.setInitials(person.getInitials());
-        result.setAccount(AccountConverter.convertToJSON(person.getAccount()));
+
+        if(person.getAccount() != null) {
+            result.setAccount(AccountConverter.convertToJSON(person.getAccount()));
+        }
+
         result.setPersonRole(PersonRole.valueOf(String.valueOf(person.getPersonRole())));
 
         if(person.getGender().equals("m")) {

@@ -62,4 +62,9 @@ public class Account implements JSONObjectEntity {
     public String getDisplayName() {
         return getUsername();
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

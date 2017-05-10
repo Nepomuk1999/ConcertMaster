@@ -1,8 +1,10 @@
-package team_f.jsonconnector.entities;
+package team_f.jsonconnector.entities.list;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import team_f.jsonconnector.entities.Error;
+import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 import java.util.List;
