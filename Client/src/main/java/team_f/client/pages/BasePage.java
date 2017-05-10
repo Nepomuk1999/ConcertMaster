@@ -108,22 +108,22 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
         }
     }
 
-    public void showSuccessMessage(String headerText, String contentText, Pane parent) {
-        showMessage("Success", headerText, contentText, Alert.AlertType.INFORMATION, new ImageView("check.png"), null, parent);
+    public void showSuccessMessage(String headerText, String contentText) {
+        showMessage("Success", headerText, contentText, Alert.AlertType.INFORMATION, new ImageView("check.png"), null);
     }
 
-    public void showErrorMessage(String headerText, String contentText, Pane parent) {
-        showMessage("Error", headerText, contentText, Alert.AlertType.ERROR, null, null, parent);
+    public void showErrorMessage(String headerText, String contentText) {
+        showMessage("Error", headerText, contentText, Alert.AlertType.ERROR, null, null);
     }
 
-    public Boolean showWarningMessage(String headerText, String contentText, String okButtonLabel, Pane parent) {
+    public Boolean showWarningMessage(String headerText, String contentText, String okButtonLabel) {
         ButtonType okButton = new ButtonType(okButtonLabel);
         ButtonType cancelButton = new ButtonType("Cancel");
         List<ButtonType> buttonList = new LinkedList<>();
         buttonList.add(okButton);
         buttonList.add(cancelButton);
 
-        Optional optional = showMessage("Error", headerText, contentText, Alert.AlertType.WARNING, null, buttonList, parent);
+        Optional optional = showMessage("Error", headerText, contentText, Alert.AlertType.WARNING, null, buttonList);
 
         if(optional != null) {
             if(optional.get().equals(okButton)) {
@@ -136,8 +136,8 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
         return null;
     }
 
-    private Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList, Pane parent) {
-        parent.setDisable(true);
+    private Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList) {
+        setDisable(true);
 
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -156,7 +156,7 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
         Optional optional = alert.showAndWait();
         alert.close();
 
-        parent.setDisable(false);
+        setDisable(false);
 
         return optional;
     }

@@ -223,19 +223,17 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
     }
 
     private void publish() {
-        Boolean warningResult = showWarningMessage("Are you sure you want to Publish the following month?\nYou are no longer able to edit the Events assigned to this month", _selectedMonth.getMonth() + " " + _selectedYear, "Publish", _root);
+        Boolean warningResult = showWarningMessage("Are you sure you want to Publish the following month?\nYou are no longer able to edit the Events assigned to this month", _selectedMonth.getMonth() + " " + _selectedYear, "Publish");
 
         ProgressIndicator pi = new ProgressIndicator();
         pi.setMinSize(100,100);
 
         VBox box = new VBox(pi);
         box.setAlignment(Pos.TOP_CENTER);
-        _root.setDisable(true);
         _root.getChildren().add(box);
         // @TODO: use a other method and a thread + runnable
 
         if (warningResult == null || warningResult == false) {
-            _root.setDisable(false);
             _root.getChildren().remove(box);
             return;
         } else {
@@ -252,12 +250,12 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                     String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
                     if(tmpErrorText.isEmpty()) {
-                        showSuccessMessage("Successfully published selected Month", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                        showSuccessMessage("Successfully published selected Month", _selectedMonth.getMonth() + " " + _selectedYear);
                     } else {
-                        showErrorMessage("Error during publishing", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                        showErrorMessage("Error during publishing", _selectedMonth.getMonth() + " " + _selectedYear);
                     }
                 } else {
-                    showErrorMessage("Error during publishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                    showErrorMessage("Error during publishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear);
                 }
             }
         }
@@ -266,12 +264,11 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
     }
 
     private void unpublish() {
-        Boolean warningResult = showWarningMessage("Are you sure you want to Unpublish the following month?", _selectedMonth.getMonth() + " " + _selectedYear, "Unpublish", _root);
+        Boolean warningResult = showWarningMessage("Are you sure you want to Unpublish the following month?", _selectedMonth.getMonth() + " " + _selectedYear, "Unpublish");
 
         ProgressIndicator pi = new ProgressIndicator();
         VBox box = new VBox(pi);
         box.setAlignment(Pos.CENTER);
-        _root.setDisable(true);
         _root.getChildren().add(box);
         // @TODO: use a other method and a thread + runnable
 
@@ -292,12 +289,12 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                     String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
                     if(tmpErrorText.isEmpty()) {
-                        showSuccessMessage("Successfully unpublished selected Month", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                        showSuccessMessage("Successfully unpublished selected Month", _selectedMonth.getMonth() + " " + _selectedYear);
                     } else {
-                        showErrorMessage("Error during unpublishing", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                        showErrorMessage("Error during unpublishing", _selectedMonth.getMonth() + " " + _selectedYear);
                     }
                 } else {
-                    showErrorMessage("Error during unpublishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                    showErrorMessage("Error during unpublishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear);
                 }
             }
         }
