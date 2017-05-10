@@ -5,9 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import team_f.client.converter.EventDutyConverter;
@@ -174,33 +176,73 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(5);
-        pane.add(titlePublisher, 12, 4);
-        pane.add(labelYear, 12, 5);
-        pane.add(comboBoxYear, 12, 6);
-        pane.add(labelMonth, 13, 5);
-        pane.add(comboBoxMonth, 13, 6);
-        pane.add(titlePdfConverter, 36, 4);
-        pane.add(directoryLabel, 36, 5);
-        pane.add(_selectedPath, 36, 6);
-        pane.add(pdfGeneratorButton, 37, 6);
-
-        _root = new VBox();
-        _root.getChildren().addAll(pane);
+        pane.add(titlePublisher, 12, 1);
+        pane.add(labelYear, 12, 2);
+        pane.add(comboBoxYear, 12, 3);
+        pane.add(labelMonth, 13, 2);
+        pane.add(comboBoxMonth, 13, 3);
+        pane.add(titlePdfConverter, 36, 1);
+        pane.add(directoryLabel, 36, 2);
+        pane.add(_selectedPath, 36, 3);
+        pane.add(pdfGeneratorButton, 37, 3);
 
         HBox buttonsBox=new HBox(publishButton, unpublishButton);
         buttonsBox.setSpacing(10);
 
-        VBox tableBox = new VBox();
+        _root = new VBox(25);
+        _root.getChildren().addAll(pane,_table,buttonsBox);
+
+       /*  VBox tableBox = new VBox();
         tableBox.getChildren().addAll(_table, buttonsBox);
         tableBox.setSpacing(5);
         setBottom(tableBox);
-        setCenter(_root);
-        setStyle("-fx-padding: 10;" +
+        //setCenter(_root);
+       setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: blue;");*/
+
+
+        BorderPane borderPane=new BorderPane();
+        borderPane.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
                 "-fx-border-color: blue;");
+
+        Slider mySlider = new Slider();
+        mySlider.setMaxWidth(100);
+        mySlider.setMin(0.5);
+        mySlider.setMax(2);
+        mySlider.setValue(1);
+        mySlider.setShowTickLabels(true);
+        mySlider.setShowTickMarks(true);
+        mySlider.setMajorTickUnit(0.25);
+        mySlider.setMinorTickCount(1);
+        mySlider.setBlockIncrement(0.025);
+
+        /*Scale scaleDefault = new Scale(0.8,1);
+        scaleDefault.setPivotX(0);
+        scaleDefault.setPivotY(0);
+        borderPane.getTransforms().setAll(scaleDefault);*/
+
+        mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            Scale scale = new Scale(newValue.doubleValue()+0.018, newValue.doubleValue()+0.018);
+            scale.setPivotX(0);
+            scale.setPivotY(0);
+            borderPane.getTransforms().setAll(scale);
+
+        });
+
+        VBox zoomTool = new VBox();
+        zoomTool.setStyle("-fx-padding: 10;");
+        zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
+        setTop(zoomTool);
+        borderPane.setCenter(_root);
+        setCenter(borderPane);
     }
 
     @Override
