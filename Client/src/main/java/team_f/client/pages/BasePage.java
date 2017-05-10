@@ -14,7 +14,7 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
      * It also separates the the action behaviour from the GUI components and does not allow to access the GUI components
      * so easily.
      *
-     * The handlers should not display any visual dialogs. Instead they should return the error messages to the GUI.
+     * The handlers should not display any visual dialogs. Instead they should return the error messages to the GUI (not an Exception)
      *
      * Can be implemented by the page which inherits from it, but it's not necessary
      * e.g. NotImplemented can be thrown (not recommend nor necessary).
@@ -22,12 +22,33 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
      * (implemented actions should be documented in JavaDoc)
      */
     protected PageAction<Void, NullType> _initialize;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<List<L>, S> _load;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<R, V> _create;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<R, V> _edit;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<R, V> _update;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<R, V> _delete;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<R, V> _save;
+    /**
+     * return null to show that an error occurred
+     */
     protected PageAction<Boolean, V> _exit;
 
     /**
@@ -105,7 +126,7 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
     }
 
     public void showSuccessMessage(String headerText, String contentText) {
-        showSuccessMessage(headerText, contentText);
+        AlertHelper.showSuccessMessage(headerText, contentText, this);
     }
 
     public void showErrorMessage(String headerText, String contentText) {

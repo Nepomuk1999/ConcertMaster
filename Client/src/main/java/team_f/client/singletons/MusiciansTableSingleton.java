@@ -7,7 +7,7 @@ import team_f.client.pages.musicianmanagement.MusicianManagement;
 import team_f.client.pages.musicianmanagement.PersonParameter;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
-import team_f.jsonconnector.entities.Error;
+import team_f.jsonconnector.entities.special.PersonErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,46 +43,17 @@ public class MusiciansTableSingleton {
                 }
             });
 
-            _musicianTable.setOnCreate(new PageAction<Person, Person>() {
+            _musicianTable.setOnCreate(new PageAction<PersonErrorList, Person>() {
                 @Override
-                public Person doAction(Person value) {
-                    ErrorList<Person> errorList = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
-
-                    if (errorList != null && errorList.getKeyValueList() != null && errorList.getKeyValueList().size() == 1) {
-                        Pair<Person, List<Error>> person = errorList.getKeyValueList().get(0);
-
-                        if(person != null && person.getValue() != null && person.getValue().size() == 0) {
-                            return person.getKey();
-                        }
-                    }
-
-                    return null;
+                public PersonErrorList doAction(Person value) {
+                    PersonErrorList errorList = (PersonErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, PersonErrorList.class);
+                    return errorList;
                 }
             });
 
-            _musicianTable.setOnEdit(new PageAction<Person, Person>() {
+            _musicianTable.setOnDelete(new PageAction<PersonErrorList, Person>() {
                 @Override
-                public Person doAction(Person value) {
-                    if(value != null) {
-                        Request request = new Request();
-                        request.setActionType(ActionType.UPDATE);
-
-                        Person person = (Person) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, Person.class);
-
-                        if(person != null) {
-                            return person;
-                        }
-
-                        return person;
-                    }
-
-                    return null;
-                }
-            });
-
-            _musicianTable.setOnDelete(new PageAction<Person, Person>() {
-                @Override
-                public Person doAction(Person value) {
+                public PersonErrorList doAction(Person value) {
                     return null;
                 }
             });

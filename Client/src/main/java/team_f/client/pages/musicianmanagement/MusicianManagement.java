@@ -6,15 +6,19 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.transform.Scale;
+import team_f.client.converter.PersonConverter;
 import team_f.client.entities.KeyValuePair;
+import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.Error;
+import team_f.jsonconnector.entities.special.PersonErrorList;
 import team_f.jsonconnector.enums.*;
-
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicianManagement extends BaseTablePage<Person, Person, Person, PersonParameter> {
+public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, Person, PersonParameter> {
     private TextField _firstNameField;
     private TextField _lastNameField;
     private TextField _streetField;
@@ -290,11 +294,22 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
 
             person.setAccount(account);
 
-            Person resultPerson = _create.doAction(person);
+            PersonErrorList resultPersonErrorList = _create.doAction(person);
 
-            if(resultPerson != null && resultPerson.getPersonID() > 0) {
-                _table.getItems().add(resultPerson);
-                update();
+            if (resultPersonErrorList != null && resultPersonErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = PersonConverter.getAbstractList(resultPersonErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if(tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1 && resultPersonErrorList.getKeyValueList().get(0).getKey() != null && resultPersonErrorList.getKeyValueList().get(0).getKey().getPersonID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _table.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
             }
         }
 
@@ -305,55 +320,24 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
         if(_edit != null) {
             Person person = new Person();
 
-            Person resultPerson = _edit.doAction(person);
+            PersonErrorList resultPersonErrorList = _edit.doAction(person);
 
-            if(resultPerson != null) {
-                _table.getItems().remove(person);
-                _table.getItems().add(resultPerson);
-                update();
+            if (resultPersonErrorList != null && resultPersonErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = PersonConverter.getAbstractList(resultPersonErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if(tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _table.getItems().remove(person);
+                    _table.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
             }
-
-            // @TODO: use setOnEdit instead of handling all the stuff in this class
-            /*TableView.TableViewSelectionModel<Person> tsm = _table.getSelectionModel();
-
-            // Check, if any rows are selected
-            if (tsm.isEmpty()) {
-                System.out.println("Select a row to delete!");
-                return;
-            }
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Delete");
-            alert.setHeaderText("The following Person will be deleted");
-            alert.setContentText(tsm.getSelectedItem().getFirstname() + " " + tsm.getSelectedItem().getLastname());
-
-            ButtonType buttonTypeOne = new ButtonType("Delete");
-            ButtonType buttonTypeCancel = new ButtonType("Cancel");
-
-            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == buttonTypeCancel) {
-                alert.close();
-                return;
-            }
-
-            // Get all selected row indices in an array
-            ObservableList<Integer> list = tsm.getSelectedIndices();
-
-            Integer[] selectedIndices = new Integer[list.size()];
-            selectedIndices = list.toArray(selectedIndices);
-
-            Arrays.sort(selectedIndices);
-
-            for (int i = selectedIndices.length - 1; i >= 0; i--) {
-                tsm.clearSelection(selectedIndices[i].intValue());
-                _table.getItems().remove(selectedIndices[i].intValue());
-            }*/
-
-            /*
-            Person person = new Person();
-            _edit.doAction(person);*/
         }
     }
 

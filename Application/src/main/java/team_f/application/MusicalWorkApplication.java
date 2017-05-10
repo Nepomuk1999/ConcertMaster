@@ -9,14 +9,10 @@ import team_f.domain.interfaces.DomainEntity;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by dominik on 09.05.17.
- */
 public class MusicalWorkApplication {
     private MusicalWorkFacade musicalworkfacade = new MusicalWorkFacade();
 
     public MusicalWorkApplication(){
-
     }
 
     public void closeSession() {

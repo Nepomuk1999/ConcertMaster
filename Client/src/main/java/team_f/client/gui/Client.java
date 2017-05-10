@@ -26,6 +26,7 @@ import team_f.client.singletons.LegendSingleton;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Locale;
 
 public class Client extends Application {
     private final static String _version = "1.0.0";
@@ -46,6 +47,9 @@ public class Client extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         _configuration = AppConfiguration.getConfiguration(this);
+
+        // @TODO: add i18n support and then set the correct language
+        Locale.setDefault(Locale.ENGLISH);
 
         if (_configuration == null) {
             Common.closeApp(primaryStage, _configuration);
