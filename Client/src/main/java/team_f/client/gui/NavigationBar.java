@@ -83,6 +83,9 @@ public class NavigationBar {
         });
         menuSectionMusician.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician List");
+        menuSectionItem.setOnMouseClicked(event -> {
+            loadPage(MusiciansListSingleton.getInstance(_configuration));
+        });
         menuSectionMusician.add(menuSectionItem);
         sidebar.add(menuSectionMusician);
         menuSectionArrayList.add(menuSectionMusician);
