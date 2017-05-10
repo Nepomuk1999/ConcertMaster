@@ -134,7 +134,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWork, MusicalWor
         mySlider.setShowTickMarks(true);
         mySlider.setMajorTickUnit(0.25);
         mySlider.setMinorTickCount(1);
-        mySlider.setBlockIncrement(0.1);
+        mySlider.setBlockIncrement(0.025);
 
         Scale scaleDefault = new Scale(0.82,1);
         scaleDefault.setPivotX(0);
