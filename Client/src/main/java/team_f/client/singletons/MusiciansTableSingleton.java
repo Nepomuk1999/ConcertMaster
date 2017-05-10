@@ -9,8 +9,6 @@ import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.enums.request.ActionType;
-import team_f.jsonconnector.interfaces.JSONObjectEntity;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -38,8 +36,6 @@ public class MusiciansTableSingleton {
 
                         if(personList != null) {
                             return personList.getPersonList();
-                        } else {
-                            // @TODO: show error
                         }
                     }
 
@@ -51,20 +47,13 @@ public class MusiciansTableSingleton {
                 @Override
                 public Person doAction(Person value) {
                     ErrorList<Person> errorList = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
-                    boolean isSuccessful;
 
                     if (errorList != null && errorList.getKeyValueList() != null && errorList.getKeyValueList().size() == 1) {
                         Pair<Person, List<Error>> person = errorList.getKeyValueList().get(0);
 
                         if(person != null && person.getValue() != null && person.getValue().size() == 0) {
-                            isSuccessful = true;
-                            return (Person) person.getKey();
-                        } else {
-                            isSuccessful = false;
+                            return person.getKey();
                         }
-                    } else {
-                        isSuccessful = false;
-                        // @TODO: show error message
                     }
 
                     return null;
@@ -82,8 +71,6 @@ public class MusiciansTableSingleton {
 
                         if(person != null) {
                             return person;
-                        } else {
-                            // @TODO: show error
                         }
 
                         return person;

@@ -76,6 +76,7 @@ public class Register extends HttpServlet {
 
                 ErrorList errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                 resp.setContentType(MediaType.APPLICATION_JSON);
+                resp.setCharacterEncoding("UTF-8");
                 WriteHelper.writeJSONObject(resp.getWriter(), errorList);
             }
         } else {

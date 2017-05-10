@@ -251,13 +251,7 @@ public class MusicianManagement extends BaseTablePage<Person, Person, Person, Pe
                     || _emailField.getText().isEmpty() || _phoneField.getText().isEmpty()) {
 
                 validate(fields);
-
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Values Missing");
-                alert.setHeaderText("Please fill in all the information in the form.");
-                alert.setContentText("You can not save the Person. Please fill in missing data!");
-                alert.showAndWait();
-
+                showValuesMissingMessage();
             } else {
                 addPerson();
 

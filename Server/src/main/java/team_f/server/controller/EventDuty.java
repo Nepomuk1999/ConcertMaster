@@ -82,6 +82,7 @@ public class EventDuty extends HttpServlet {
                             eventDutyList.setEventDutyList(tmpList);
 
                             resp.setContentType(MediaType.APPLICATION_JSON);
+                            resp.setCharacterEncoding("UTF-8");
                             WriteHelper.writeJSONObject(resp.getWriter(), eventDutyList);
                         }
 

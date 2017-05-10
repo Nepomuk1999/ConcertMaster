@@ -66,6 +66,7 @@ public class Person extends HttpServlet {
                         persons.setPersonList(personList);
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), persons);
 
                         break;
@@ -76,6 +77,7 @@ public class Person extends HttpServlet {
                         person = PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey());
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), person);*/
 
                         break;

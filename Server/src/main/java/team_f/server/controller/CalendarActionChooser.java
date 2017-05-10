@@ -27,6 +27,7 @@ public class CalendarActionChooser extends HttpServlet {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
+            resp.setCharacterEncoding("UTF-8");
             JSONObject jsonObject = CommonRequest.getParametersAsJSON(req);
             req.setAttribute("eventData", jsonObject.toString());
 

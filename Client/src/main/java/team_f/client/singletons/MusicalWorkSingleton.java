@@ -1,15 +1,11 @@
 package team_f.client.singletons;
 
 import team_f.client.configuration.Configuration;
-import team_f.client.helper.RequestResponseHelper;
 import team_f.client.pages.PageAction;
 import team_f.client.pages.musicalwork.MusicalWorkManagement;
 import team_f.client.pages.musicalwork.MusicalWorkParameter;
 import team_f.jsonconnector.common.URIList;
-import team_f.jsonconnector.entities.ErrorList;
 import team_f.jsonconnector.entities.MusicalWork;
-import team_f.jsonconnector.entities.Request;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +36,6 @@ public class MusicalWorkSingleton {
                         // _table.getItems().add(person);
                     } else {
                         isSuccessful = false;
-                        // @TODO: show error message
                     }*/
 
                     return new ArrayList<>();

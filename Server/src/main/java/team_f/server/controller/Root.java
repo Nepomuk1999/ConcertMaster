@@ -19,6 +19,7 @@ public class Root extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.TEXT_HTML);
+        resp.setCharacterEncoding("UTF-8");
         req.getRequestDispatcher(getServletContext().getContextPath() + "/views/pages/plan_overview.jsp").include(req, resp);
     }
 
