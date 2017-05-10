@@ -20,7 +20,7 @@ public class LegendTable extends BasePage<Void, NullType, NullType, NullType> {
     @Override
     public void initialize() {
         table = new TableView(LegendEntries.data);
-        table.getColumns().addAll(makeStringColumn("Eventtype", "eventtype", 100), makeStringColumn("Code", "code", 50), makeStringColumn("Color", "color", 200));
+        table.getColumns().addAll(makeStringColumn("Event Type", "eventtype", 100), makeStringColumn("Code", "code", 50), makeStringColumn("Colour", "color", 200));
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPrefHeight(100);
         table.setEditable(false);

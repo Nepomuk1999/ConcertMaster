@@ -52,7 +52,7 @@ public class MusicianTableHelper {
 
     // Returns City TableColumn
     public static TableColumn<Person, String> getPhonenumberColumn() {
-        TableColumn<Person, String> cityCol = new TableColumn<>("Phonenumber");
+        TableColumn<Person, String> cityCol = new TableColumn<>("Phone Number");
         PropertyValueFactory<Person, String> cityCellValueFactory = new PropertyValueFactory<>("phoneNumber");
         cityCol.setCellValueFactory(cityCellValueFactory);
         return cityCol;

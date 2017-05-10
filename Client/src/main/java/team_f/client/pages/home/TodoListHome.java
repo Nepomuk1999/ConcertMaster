@@ -15,7 +15,7 @@ public class TodoListHome extends BasePage<Void, NullType, NullType, NullType> {
     public void initialize() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("My TodoList");
-        alert.setHeaderText("Enter new Todo's or delete solved Todo's");
+        alert.setHeaderText("Enter new Todo's or delete completed Todo's");
 
 
         final Label title = new Label();

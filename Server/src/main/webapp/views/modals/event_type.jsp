@@ -36,9 +36,9 @@
             <div class="form-group col-xs-12 col-sm-6">
                 <c:if test="${IS_DATE}">
                     <t:ErrorMessage errorMessage="${PROBLEM_EVENT_TYPE}">
-                        <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Eventtype</label><br>
+                        <label for="${EventDutyProperty.EVENT_TYPE}" class="control-label">Event Type</label><br>
                         <select id="${EventDutyProperty.EVENT_TYPE}" class="selectpicker form-control ${EventDutyProperty.EVENT_TYPE}" data-live-search="true" name="${EventDutyProperty.EVENT_TYPE}">
-                            <option value="">Select Eventtype</option>
+                            <option value="">Select Event Type</option>
                             <c:forEach var="item" items="${EnumHelper.getBasicEventTypeList()}">
                                 <option data-divider="true"></option>
                                 <option value="${item}" ${item eq eventDuty.eventType ? "selected" : ""}>${item}</option>
@@ -163,7 +163,7 @@
                 <t:ErrorMessage errorMessage="${PROBLEM_DEFAULT_POINTS}">
                     <label for="${EventDutyProperty.DEFAULT_POINTS}" class="control-label">Standard Points</label><br>
                     <div class="controls">
-                        <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="${empty eventDuty.defaultPoints ? 0 : eventDuty.defaultPoints}" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
+                        <input id="${EventDutyProperty.DEFAULT_POINTS}" type="number" value="" name="${EventDutyProperty.DEFAULT_POINTS}" placeholder="Standard Points" value="0" class="form-control" min="0" required><br>
                         <p class="help-block"></p>
                     </div>
                 </t:ErrorMessage>

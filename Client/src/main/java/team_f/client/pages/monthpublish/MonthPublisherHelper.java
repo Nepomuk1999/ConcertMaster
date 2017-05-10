@@ -54,7 +54,7 @@ public class MonthPublisherHelper {
     }
 
     public static TableColumn<EventDuty, Integer> getEventstatusColumn() {
-        TableColumn<EventDuty, Integer> statusCol = new TableColumn<>("Eventstatus");
+        TableColumn<EventDuty, Integer> statusCol = new TableColumn<>("Event Status");
         PropertyValueFactory<EventDuty, Integer> statusCellValueFactory = new PropertyValueFactory<>("eventStatus");
         statusCol.setCellValueFactory(statusCellValueFactory);
         return statusCol;
@@ -115,7 +115,7 @@ public class MonthPublisherHelper {
     }
 
     public static TableColumn<EventDuty, String> getEventtypeColumn() {
-        TableColumn<EventDuty, String> eventtypeCol = new TableColumn<>("Eventtype");
+        TableColumn<EventDuty, String> eventtypeCol = new TableColumn<>("Event Type");
         PropertyValueFactory<EventDuty, String> eventtypeCellValueFactory = new PropertyValueFactory<>("eventType");
         eventtypeCol.setCellValueFactory(eventtypeCellValueFactory);
         return eventtypeCol;

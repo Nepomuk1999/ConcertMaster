@@ -76,7 +76,7 @@ public class NavigationBar {
         sidebar.add(menuSectionServices);
         menuSectionArrayList.add(menuSectionServices);
 
-        MenuSection menuSectionMusician = new MenuSection("Musician", "/orchestraiconM.png", toggleGroup);
+        MenuSection menuSectionMusician = new MenuSection("Musicians", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionItem.setOnMouseClicked(event -> {
             loadPage(MusiciansTableSingleton.getInstance(_configuration));
