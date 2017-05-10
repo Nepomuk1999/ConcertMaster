@@ -52,4 +52,14 @@ public class Instrument implements JSONObjectEntity {
     public void setInstrumentID(int instrumentID) {
         _instrumentID = instrumentID;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Instrument";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getBrand() + " " + getModel();
+    }
 }

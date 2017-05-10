@@ -34,20 +34,15 @@ public class MonthPublisherSingleton {
                 }
             });
 
-            _monthPublisher.setOnUpdate(new PageAction<Boolean, Publish>() {
+            _monthPublisher.setOnUpdate(new PageAction<EventDutyErrorList, Publish>() {
                 @Override
-                public Boolean doAction(Publish value) {
-                    boolean isSuccessful = false;
+                public EventDutyErrorList doAction(Publish value) {
+                    EventDutyErrorList eventDutyErrorList = null;
 
                     if(value != null) {
-                        ErrorList requestPublish = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getPublishURL(), value, ErrorList.class);
+                        eventDutyErrorList = (EventDutyErrorList) RequestResponseHelper.writeAndReadJSONObject(getPublishURL(), value, EventDutyErrorList.class);
 
-                        if (requestPublish != null && requestPublish.getKeyValueList() != null && requestPublish.getKeyValueList().size() == 0) {
-                            isSuccessful = true;
-                        } else {
-                            isSuccessful = false;
-                        }
-
+                        // do some specific tasks
                         switch (value.getPublishType()) {
                             case UNPUBLISH:
                                 break;
@@ -57,7 +52,7 @@ public class MonthPublisherSingleton {
 
                     }
 
-                    return isSuccessful;
+                    return eventDutyErrorList;
                 }
             });
 

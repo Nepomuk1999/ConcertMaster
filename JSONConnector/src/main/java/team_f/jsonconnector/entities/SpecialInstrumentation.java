@@ -40,4 +40,14 @@ public class SpecialInstrumentation implements JSONObjectEntity {
     public void setSpecialInstrumentCount(int specialInstrumentCount) {
         _specialInstrumentCount = specialInstrumentCount;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Special Instrumentation";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getSectionType() + " " + getSpecialInstrument();
+    }
 }

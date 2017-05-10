@@ -62,4 +62,14 @@ public class MusicalWork implements JSONObjectEntity {
     public void setAlternativeInstrumentationId(Instrumentation alternativeInstrumentationId) {
         _alternativeInstrumentationId = alternativeInstrumentationId;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Musical Work";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getName() + " (" + getComposer() + ")";
+    }
 }

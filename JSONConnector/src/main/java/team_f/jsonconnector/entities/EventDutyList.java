@@ -19,4 +19,14 @@ public class EventDutyList implements JSONObjectEntity {
     public void setEventDutyList(List<EventDuty> eventDutyList) {
         _eventDutyList = eventDutyList;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Events";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getEntityName();
+    }
 }

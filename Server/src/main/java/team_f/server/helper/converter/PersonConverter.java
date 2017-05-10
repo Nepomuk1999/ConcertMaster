@@ -1,6 +1,5 @@
 package team_f.server.helper.converter;
 
-import team_f.jsonconnector.entities.MusicalWork;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.InstrumentType;

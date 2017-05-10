@@ -41,4 +41,14 @@ public class Publish implements JSONObjectEntity {
     public void setYear(int year) {
         _year = year;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Publish";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getEntityName();
+    }
 }

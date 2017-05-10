@@ -50,11 +50,11 @@ public class MusiciansTableSingleton {
             _musicianTable.setOnCreate(new PageAction<Person, Person>() {
                 @Override
                 public Person doAction(Person value) {
-                    ErrorList errorList = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
+                    ErrorList<Person> errorList = (ErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), value, ErrorList.class);
                     boolean isSuccessful;
 
                     if (errorList != null && errorList.getKeyValueList() != null && errorList.getKeyValueList().size() == 1) {
-                        Pair<JSONObjectEntity, List<Error>> person = errorList.getKeyValueList().get(0);
+                        Pair<Person, List<Error>> person = errorList.getKeyValueList().get(0);
 
                         if(person != null && person.getValue() != null && person.getValue().size() == 0) {
                             isSuccessful = true;

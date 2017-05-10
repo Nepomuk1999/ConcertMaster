@@ -205,4 +205,15 @@ public class Instrumentation implements JSONObjectEntity {
     public void setHarp(int harp) {
         _harp = harp;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Instrumentation";
+    }
+
+    @Override
+    public String getDisplayName() {
+        // @TODO: construct the string correctly
+        return "";
+    }
 }

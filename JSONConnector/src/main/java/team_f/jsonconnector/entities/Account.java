@@ -52,4 +52,14 @@ public class Account implements JSONObjectEntity {
     public void setRole(AccountRole accountRole) {
         _accountRole = accountRole;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Account";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getUsername();
+    }
 }

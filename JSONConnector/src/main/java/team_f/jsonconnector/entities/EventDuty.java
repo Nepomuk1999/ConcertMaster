@@ -168,4 +168,14 @@ public class EventDuty implements JSONObjectEntity {
     public void setMaxInstrumentation(Instrumentation instrumentation) {
         _maxInstrumentation = instrumentation;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Event";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getName();
+    }
 }

@@ -134,4 +134,14 @@ public class Person implements JSONObjectEntity {
     public void setInstrumentType(InstrumentType instrumentType) {
         instrumentType = _instrumentType;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Person";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getFirstname() + " " + getLastname();
+    }
 }

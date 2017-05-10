@@ -19,4 +19,14 @@ public class PersonList implements JSONObjectEntity {
     public void setPersonList(List<Person> personList) {
         _personList = personList;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Persons";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getDisplayName();
+    }
 }

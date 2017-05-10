@@ -42,4 +42,14 @@ public class Request implements JSONObjectEntity {
     public void setEntity(JSONObjectEntity entity) {
         entity = _entity;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Request";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getEntityName();
+    }
 }

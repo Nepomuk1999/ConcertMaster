@@ -5,21 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import team_f.client.converter.EventDutyConverter;
+import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
-import team_f.jsonconnector.entities.EventDuty;
-import team_f.jsonconnector.entities.Publish;
+import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.enums.PublishType;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, MonthPublishParameter> {
+public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, MonthPublishParameter> {
     private ObservableList<Month> _data;
     private ObservableList<Integer> _year;
     private int _selectedYear;
@@ -222,13 +223,7 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
     }
 
     private void publish() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Publish  Month");
-        alert.setHeaderText("Are you sure you want to Publish the following month?\nYou are no longer able to edit the Events assigned to this month");
-        alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-
-        ButtonType buttonTypeOne = new ButtonType("Publish");
-        ButtonType buttonTypeCancel = new ButtonType("Cancel");
+        Boolean warningResult = showWarningMessage("Are you sure you want to Publish the following month?\nYou are no longer able to edit the Events assigned to this month", _selectedMonth.getMonth() + " " + _selectedYear, "Publish", _root);
 
         ProgressIndicator pi = new ProgressIndicator();
         pi.setMinSize(100,100);
@@ -237,11 +232,9 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
         box.setAlignment(Pos.TOP_CENTER);
         _root.setDisable(true);
         _root.getChildren().add(box);
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+        // @TODO: use a other method and a thread + runnable
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeCancel) {
-            alert.close();
+        if (warningResult == null || warningResult == false) {
             _root.setDisable(false);
             _root.getChildren().remove(box);
             return;
@@ -252,51 +245,37 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
                 publish.setMonth(_selectedMonth.getValue());
                 publish.setYear(_selectedYear);
 
-                boolean isSuccessful = _update.doAction(publish);
+                EventDutyErrorList eventDutyErrorList = _update.doAction(publish);
 
-                if (isSuccessful) {
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setGraphic(new ImageView("check.png"));
-                    alert.setHeaderText("Successfully published selected Month");
-                    alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-                    _root.setDisable(false);
-                    _root.getChildren().remove(box);
+                if (eventDutyErrorList != null && eventDutyErrorList.getKeyValueList() != null) {
+                    List<Pair<JSONObjectEntity, List<Error>>> errorList = EventDutyConverter.getAbstractList(eventDutyErrorList.getKeyValueList());
+                    String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
-
+                    if(tmpErrorText.isEmpty()) {
+                        showSuccessMessage("Successfully published selected Month", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                    } else {
+                        showErrorMessage("Error during publishing", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                    }
                 } else {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Failure");
-                    alert.setHeaderText("An ErrorList occured while publishing selected Month.\nPlease try it again later or contact your System-Administrator!");
-                    alert.setContentText("ERROR during publishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
-                    _root.setDisable(false);
-                    _root.getChildren().remove(box);
+                    showErrorMessage("Error during publishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear, _root);
                 }
-                alert.showAndWait();
             }
         }
+
+        _root.getChildren().remove(box);
     }
 
     private void unpublish() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Unpublish  Month");
-        alert.setHeaderText("Are you sure you want to Unpublish the following month?");
-        alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-
-        ButtonType buttonTypeOne = new ButtonType("Unpublish");
-        ButtonType buttonTypeCancel = new ButtonType("Cancel");
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+        Boolean warningResult = showWarningMessage("Are you sure you want to Unpublish the following month?", _selectedMonth.getMonth() + " " + _selectedYear, "Unpublish", _root);
 
         ProgressIndicator pi = new ProgressIndicator();
         VBox box = new VBox(pi);
         box.setAlignment(Pos.CENTER);
         _root.setDisable(true);
         _root.getChildren().add(box);
+        // @TODO: use a other method and a thread + runnable
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeCancel) {
-            alert.close();
-            _root.setDisable(false);
+        if (warningResult == null || warningResult == false) {
             _root.getChildren().remove(box);
             return;
         } else {
@@ -306,29 +285,24 @@ public class MonthPublisher extends BaseTablePage<Boolean, Publish, EventDuty, M
                 publish.setMonth(_selectedMonth.getValue());
                 publish.setYear(_selectedYear);
 
-                boolean isSuccessful = _update.doAction(publish);
+                EventDutyErrorList eventDutyErrorList = _update.doAction(publish);
 
-                if (isSuccessful) {
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setGraphic(new ImageView("check.png"));
-                    alert.setHeaderText("Successfully unpublished selected Month");
-                    alert.setContentText(_selectedMonth.getMonth() + " " + _selectedYear);
-                    _root.setDisable(false);
-                    _root.getChildren().remove(box);
+                if (eventDutyErrorList != null && eventDutyErrorList.getKeyValueList() != null) {
+                    List<Pair<JSONObjectEntity, List<Error>>> errorList = EventDutyConverter.getAbstractList(eventDutyErrorList.getKeyValueList());
+                    String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
+                    if(tmpErrorText.isEmpty()) {
+                        showSuccessMessage("Successfully unpublished selected Month", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                    } else {
+                        showErrorMessage("Error during unpublishing", _selectedMonth.getMonth() + " " + _selectedYear, _root);
+                    }
                 } else {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Failure");
-                    alert.setHeaderText("An ErrorList occured while unpublishing selected Month.\nPlease try it again later or contact your System-Administrator!");
-                    alert.setContentText("ERROR during unpublishing: " + _selectedMonth.getMonth() + " " + _selectedYear);
-                    _root.setDisable(false);
-                    _root.getChildren().remove(box);
+                    showErrorMessage("Error during unpublishing\nPlease try it again later or contact your System-Administrator!", _selectedMonth.getMonth() + " " + _selectedYear, _root);
                 }
-
-                alert.showAndWait();
             }
         }
+
+        _root.getChildren().remove(box);
     }
 
     private void loadList() {

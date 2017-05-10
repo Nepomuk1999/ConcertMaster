@@ -29,4 +29,14 @@ public class Error implements JSONObjectEntity {
     public void setValue(String value) {
         _value = value;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Error";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getKey();
+    }
 }

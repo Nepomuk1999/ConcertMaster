@@ -1,11 +1,18 @@
 package team_f.client.pages;
 
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import team_f.client.pages.interfaces.BasePageControl;
 import javax.lang.model.type.NullType;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePageControl {
     /**
@@ -99,5 +106,58 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
                 textField.setStyle("-fx-border-color: green");
             }
         }
+    }
+
+    public void showSuccessMessage(String headerText, String contentText, Pane parent) {
+        showMessage("Success", headerText, contentText, Alert.AlertType.INFORMATION, new ImageView("check.png"), null, parent);
+    }
+
+    public void showErrorMessage(String headerText, String contentText, Pane parent) {
+        showMessage("Error", headerText, contentText, Alert.AlertType.ERROR, null, null, parent);
+    }
+
+    public Boolean showWarningMessage(String headerText, String contentText, String okButtonLabel, Pane parent) {
+        ButtonType okButton = new ButtonType(okButtonLabel);
+        ButtonType cancelButton = new ButtonType("Cancel");
+        List<ButtonType> buttonList = new LinkedList<>();
+        buttonList.add(okButton);
+        buttonList.add(cancelButton);
+
+        Optional optional = showMessage("Error", headerText, contentText, Alert.AlertType.WARNING, null, buttonList, parent);
+
+        if(optional != null) {
+            if(optional.get().equals(okButton)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return null;
+    }
+
+    private Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList, Pane parent) {
+        parent.setDisable(true);
+
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+
+        if(icon != null) {
+            alert.setGraphic(icon);
+        }
+
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+
+        if(buttonTypeList != null) {
+            alert.getButtonTypes().setAll(buttonTypeList);
+        }
+
+        Optional optional = alert.showAndWait();
+        alert.close();
+
+        parent.setDisable(false);
+
+        return optional;
     }
 }

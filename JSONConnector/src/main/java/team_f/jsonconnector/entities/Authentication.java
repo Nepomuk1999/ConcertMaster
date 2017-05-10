@@ -40,4 +40,14 @@ public class Authentication implements JSONObjectEntity {
     public void setPassword(String password) {
         _password = password;
     }
+
+    @Override
+    public String getEntityName() {
+        return "Authentication";
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getUsername();
+    }
 }
