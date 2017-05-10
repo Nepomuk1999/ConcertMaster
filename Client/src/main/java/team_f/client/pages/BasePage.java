@@ -14,6 +14,8 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
      * It also separates the the action behaviour from the GUI components and does not allow to access the GUI components
      * so easily.
      *
+     * The handlers should not display any visual dialogs. Instead they should return the error messages to the GUI.
+     *
      * Can be implemented by the page which inherits from it, but it's not necessary
      * e.g. NotImplemented can be thrown (not recommend nor necessary).
      * The standard behaviour doesn't call the attached event handler when it's not implemented.

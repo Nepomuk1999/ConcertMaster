@@ -33,6 +33,7 @@ public class RehearsalFor extends HttpServlet {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
+            resp.setCharacterEncoding("UTF-8");
             CalendarRequest.getAndSetParameters(req, true);
             setAttributes(req);
 
@@ -60,12 +61,14 @@ public class RehearsalFor extends HttpServlet {
 
             if(result.getValue().size() > 0) {
                 resp.setContentType(MediaType.TEXT_HTML);
+                resp.setCharacterEncoding("UTF-8");
                 CommonResponse.setErrorParameters(req, resp, result, "eventDuty");
                 setAttributes(req);
 
                 req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/event_type.jsp").include(req, resp);
             } else {
                 resp.setContentType(MediaType.TEXT_HTML);
+                resp.setCharacterEncoding("UTF-8");
             }
         }
     }

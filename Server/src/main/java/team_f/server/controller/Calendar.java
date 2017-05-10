@@ -169,6 +169,7 @@ public class Calendar extends HttpServlet {
             resp.getWriter().close();
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
+            resp.setCharacterEncoding("UTF-8");
             req.getRequestDispatcher(getServletContext().getContextPath() + "/views/pages/plan_overview.jsp").include(req, resp);
         }
     }

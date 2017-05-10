@@ -68,6 +68,7 @@ public class Publish extends HttpServlet {
 
                 ErrorList errorList = JsonResponse.prepareErrorMessages(resultErrorList);
                 resp.setContentType(MediaType.APPLICATION_JSON);
+                resp.setCharacterEncoding("UTF-8");
                 WriteHelper.writeJSONObject(resp.getWriter(), errorList);
             }
         } else {
