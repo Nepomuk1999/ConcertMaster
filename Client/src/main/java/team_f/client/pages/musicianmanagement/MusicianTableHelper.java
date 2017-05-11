@@ -77,7 +77,7 @@ public class MusicianTableHelper {
                 new KeyValuePair("Musician", PersonRole.Musician),
                 new KeyValuePair("External Musician", PersonRole.External_musician),
                 new KeyValuePair("Manager", PersonRole.Manager),
-                new KeyValuePair("Musician Librarian", PersonRole.Music_librarian),
+                new KeyValuePair("Musical Librarian", PersonRole.Music_librarian),
                 new KeyValuePair("Facility Manager", PersonRole.Orchestral_facility_manager),
                 new KeyValuePair("Substitute", PersonRole.Substitute));
 

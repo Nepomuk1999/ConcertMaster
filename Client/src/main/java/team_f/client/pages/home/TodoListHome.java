@@ -14,12 +14,12 @@ public class TodoListHome extends BasePage<Void, NullType, NullType, NullType> {
     @Override
     public void initialize() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("My TodoList");
+        alert.setTitle("Todo-List");
         alert.setHeaderText("Enter new Todo's or delete completed Todo's");
 
 
         final Label title = new Label();
-        title.setText("TODO-List");
+        title.setText("Todo-List");
 
         final ListView<String> listView = new ListView<>();
         initListView(listView);

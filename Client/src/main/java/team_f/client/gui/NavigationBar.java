@@ -91,7 +91,7 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionMusician);
 
         MenuSection menuSectionCompositions = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("MusicalWork Management");
+        menuSectionItem = new MenuSectionItem("Musical Work Management");
         menuSectionItem.setOnMouseClicked(event -> loadPage(MusicalWorkSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
         sidebar.add(menuSectionCompositions);
