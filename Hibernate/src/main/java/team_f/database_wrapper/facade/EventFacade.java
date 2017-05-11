@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventFacade extends BaseDatabaseFacade {
+public class EventFacade extends BaseDatabaseFacade<EventDutyEntity, EventDuty> {
     public EventFacade() {
         super();
     }
@@ -248,5 +248,21 @@ public class EventFacade extends BaseDatabaseFacade {
         }
 
         return eventDutyEntity;
+    }
+
+
+    @Override
+    public int add(EventDuty value) {
+        return addEvent(value);
+    }
+
+    @Override
+    public int update(EventDuty value) {
+        return addEvent(value);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
     }
 }

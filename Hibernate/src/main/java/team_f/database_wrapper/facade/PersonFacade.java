@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PersonFacade extends BaseDatabaseFacade {
+public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
     private static AccountFacade _accountFacade = new AccountFacade();
     private static InstrumentTypeFacade _instrumentTypeFacade = new InstrumentTypeFacade();
 
@@ -173,5 +173,20 @@ public class PersonFacade extends BaseDatabaseFacade {
         }
 
         return person;
+    }
+
+    @Override
+    public int add(Person value) {
+        return register(value);
+    }
+
+    @Override
+    public int update(Person value) {
+        return 0;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
     }
 }

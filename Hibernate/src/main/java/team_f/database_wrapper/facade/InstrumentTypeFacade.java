@@ -11,7 +11,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrumentTypeFacade extends BaseDatabaseFacade {
+public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentTypeEntity, InstrumentType> {
     public InstrumentTypeFacade() {
         super();
     }
@@ -144,5 +144,20 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade {
         InstrumentType instrumentType = InstrumentType.valueOf(instrumentTypeEntity.getInstrumentType());
 
         return instrumentType;
+    }
+
+    @Override
+    public int add(InstrumentType value) {
+        return 0;
+    }
+
+    @Override
+    public int update(InstrumentType value) {
+        return 0;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
     }
 }
