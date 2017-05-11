@@ -28,7 +28,7 @@ public class AlertHelper {
         buttonList.add(okButton);
         buttonList.add(cancelButton);
 
-        Optional optional = showMessage("Error", headerText, contentText, Alert.AlertType.WARNING, null, buttonList, pane);
+        Optional optional = showMessage("Warning", headerText, contentText, Alert.AlertType.WARNING, null, buttonList, pane);
 
         if(optional != null) {
             if(optional.get().equals(okButton)) {

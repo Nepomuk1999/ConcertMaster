@@ -72,11 +72,26 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
         session.persist(accountEntity);
         int accountId = accountEntity.getAccountId();
 
+        try {
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+
+        session.getTransaction().begin();
 
         PersonEntity personEntity = convertToPersonEntity(person);
         personEntity.setAccount(accountId);
 
         session.persist(personEntity);
+
+        try {
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+
+        session.getTransaction().begin();
 
         List<MusicianPartEntity> musicianPartEntities = getMusicianPartEntityFromPerson(person);
 
@@ -118,9 +133,6 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
         entity.setGender(person.getGender());
         entity.setPhoneNumber(person.getPhoneNumber());
         entity.setPersonRole(team_f.database_wrapper.enums.PersonRole.valueOf(String.valueOf(person.getPersonRole())));
-
-        AccountEntity account = _accountFacade.convertToAccountEntity(person.getAccount());
-        entity.setAccountByAccount(account);
 
         return entity;
     }
