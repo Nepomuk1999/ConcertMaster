@@ -159,21 +159,20 @@ public class Client extends Application {
         // set window
         Scene scene = new Scene(content);
 
-        if (_configuration.getWidth() < 0 || _configuration.getHeight() < 0) {
+        if (_configuration.getWidth() <= 0 || _configuration.getHeight() < 0) {
             primaryStage.setMaximized(true);
         }
 
-        if (_configuration.getWidth() >= 0) {
+        if (_configuration.getWidth() > 0) {
             primaryStage.setWidth(_configuration.getWidth());
         }
 
-        if (_configuration.getHeight() >= 0) {
+        if (_configuration.getHeight() > 0) {
             primaryStage.setHeight(_configuration.getHeight());
         }
 
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(t -> Common.closeAppWithWarning(t, primaryStage, _configuration));
-        primaryStage.setMaximized(true);
 
         primaryStage.show();
     }
