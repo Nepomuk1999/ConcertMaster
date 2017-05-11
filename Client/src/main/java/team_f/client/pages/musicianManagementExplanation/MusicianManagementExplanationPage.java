@@ -10,11 +10,7 @@ import team_f.client.pages.legende.LegendEntries;
 
 import javax.lang.model.type.NullType;
 
-/**
- * Created by paul on 10.05.2017.
- */
 public class MusicianManagementExplanationPage extends BasePage<Void, NullType, NullType, NullType> {
-
     public MusicianManagementExplanationPage(){
 
     }

@@ -161,7 +161,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             scale.setPivotX(0);
             scale.setPivotY(0);
             borderPane.getTransforms().setAll(scale);
-
         });
 
         VBox zoomTool = new VBox();
@@ -356,6 +355,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             if(personList != null) {
                 _table.setItems(FXCollections.observableList(personList));
                 update();
+            } else {
+                showTryAgainLaterErrorMessage();
             }
         }
     }

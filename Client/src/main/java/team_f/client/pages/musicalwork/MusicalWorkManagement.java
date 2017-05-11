@@ -357,6 +357,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             if(musicalWorkList != null) {
                 _table.setItems(FXCollections.observableList(musicalWorkList));
                 update();
+            } else {
+                showTryAgainLaterErrorMessage();
             }
         }
     }
