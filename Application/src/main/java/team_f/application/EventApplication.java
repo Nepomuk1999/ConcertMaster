@@ -30,8 +30,7 @@ public class EventApplication {
     private MusicalWorkFacade musicalWorkFacade = new MusicalWorkFacade(session);
     private PersonApplication personApplication = new PersonApplication();
 
-    public EventApplication() {
-    }
+    public EventApplication() { }
 
     public void closeSession() {
         eventFacade.closeSession();

@@ -79,6 +79,8 @@ public class PersonApplication {
         // @TODO: save a hashed value to the DB
         account.setPassword(new BigInteger(130, random).toString(32));
 
+        person.setAccount(account);
+
         PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
 
         List<Pair<String, String>> errorList = personLogic.validate(person);
