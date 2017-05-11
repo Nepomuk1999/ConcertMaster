@@ -29,7 +29,7 @@ import java.util.List;
 public class ListPDFGenerator {
     private static final URL IMAGE = ClassLoader.getSystemResource("Logo2.jpg");
     private List<Person> _list;
-   /* private final PdfFont _regular;
+    private final PdfFont _regular;
     private final PdfFont _bold;
 
     public ListPDFGenerator(List<Person> list,String directory) throws Exception {
@@ -71,18 +71,21 @@ public class ListPDFGenerator {
         doc.add(p);
 
 
-        Table table = new Table(new float[]{1,1,1,1,1,1,1,1,1,1});
+        Table table = new Table(new float[]{1,1,1,1,1,1,1,1,1,1,1,1,1});
 
         table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Gender"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Start Date"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("End Date"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Location"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Conductor"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Description"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Points"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Event Status"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("First Name"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Last Name"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Username"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Address"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Phone Number"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Email"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Account Role"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Person Role"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Section"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Instruments"));
 
        if(_list != null && !_list.isEmpty()) {
             for (Person person : _list) {
@@ -93,55 +96,109 @@ public class ListPDFGenerator {
                     table.addCell(" ");
                 }
 
-                if (person.getEventType() != null) {
-                    table.addCell(person.getEventType().toString());
-                } else {
+                if (person.getInitials().toString() != null) {
+                    table.addCell(String.valueOf(person.getInitials().toString()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                if (person.getName() != null) {
-                    table.addCell(person.getName().toString());
-                } else {
+                //gender
+                if (person.getGender().toString() != null) {
+                    table.addCell(String.valueOf(person.getGender().toString()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                if (person.getStartTime() != null) {
-                    table.addCell(person.getStartTime().toString());
-                } else {
+                //firstname
+                if (person.getFirstname() != null) {
+                    table.addCell(String.valueOf(person.getFirstname()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                if (person.getEndTime() != null) {
-                    table.addCell(person.getEndTime().toString());
-                } else {
+                //lastname
+                if (person.getLastname() != null) {
+                    table.addCell(String.valueOf(person.getLastname()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                if (person.getLocation() != null) {
-                    table.addCell(event.getLocation().toString());
-                } else {
+                //username
+                if (person.getAccount().getUsername() != null) {
+                    table.addCell(String.valueOf(person.getAccount().getUsername()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                if (event.getConductor() != null) {
-                    table.addCell(event.getConductor().toString());
-                } else {
+                //address
+                if (person.getAddress() != null) {
+                    table.addCell(String.valueOf(person.getAddress()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                if (event.getDescription() != null) {
-                    table.addCell(event.getDescription().toString());
-                } else {
+                //phone number
+                if (person.getPhoneNumber() != null) {
+                    table.addCell(String.valueOf(person.getPhoneNumber()));
+                }
+                else {
                     table.addCell(" ");
                 }
 
-                table.addCell(String.valueOf(event.getDefaultPoints()));
-
-                if (event.getEventStatus() != null) {
-                    table.addCell(event.getEventStatus().toString());
-                } else {
+                if (person.getPhoneNumber() != null) {
+                    table.addCell(String.valueOf(person.getPhoneNumber()));
+                }
+                else {
                     table.addCell(" ");
                 }
+
+                if (person.getEmail() != null) {
+                    table.addCell(String.valueOf(person.getEmail()));
+                }
+                else {
+                    table.addCell(" ");
+                }
+
+                if (person.getAccount().getRole().toString() != null) {
+                    table.addCell(String.valueOf(person.getAccount().getRole().toString()));
+                }
+                else {
+                    table.addCell(" ");
+                }
+
+                //person role
+                if (person.getPersonRole().toString() != null) {
+                    table.addCell(String.valueOf(person.getPersonRole().toString()));
+                }
+                else {
+                    table.addCell(" ");
+                }
+                //section
+                if (person.getInstrumentType().name() != null) {
+                    table.addCell(String.valueOf(person.getInstrumentType().name()));
+                }
+                else {
+                    table.addCell(" ");
+                }
+
+                //instr
+                if (person.getInstrumentType().name() != null) {
+                    table.addCell(String.valueOf(person.getInstrumentType().name()));
+                }
+                else {
+                    table.addCell(" ");
+                }
+
+
+
+
+
             }
             table.setMarginTop(15);
             doc.add(table);
@@ -160,6 +217,6 @@ public class ListPDFGenerator {
     }
 
 
-}*/
-
 }
+
+

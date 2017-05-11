@@ -16,6 +16,7 @@ import java.util.List;
 
 
 public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonParameter> {
+    private Label _ID;
     private Label _firstname;
     private Label _lastname;
     private Label _username;
@@ -33,6 +34,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
 
     @Override
     public void initialize() {
+        _ID = new Label();
         _firstname = new Label();
         _lastname = new Label();
         _username = new Label();
@@ -66,6 +68,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
 
+                _ID.setText(String.valueOf(_table.getSelectionModel().getSelectedItem().getPersonID()));
                 _firstname.setText(_table.getSelectionModel().getSelectedItem().getFirstname());
                 _lastname.setText(_table.getSelectionModel().getSelectedItem().getLastname());
                 _username.setText(_table.getSelectionModel().getSelectedItem().getAccount().getUsername());
@@ -92,32 +95,34 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         gridPane.getColumnConstraints().addAll(new ColumnConstraints(160), new ColumnConstraints(160));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
-        gridPane.add(new Label("Initials:"), 0, 1);
-        gridPane.add(new Label("Gender:"), 0, 3);
-        gridPane.add(new Label("First Name:"), 0, 5);
-        gridPane.add(new Label("Last Name:"), 0, 7);
-        gridPane.add(new Label("Username:"), 0, 9);
-        gridPane.add(new Label("Address:"), 0, 11);
-        gridPane.add(new Label("Phone Number:"), 0, 13);
-        gridPane.add(new Label("Email:"), 0, 15);
-        gridPane.add(new Label("Account Role:"), 0, 17);
-        gridPane.add(new Label("Person Role:"), 0, 19);
-        gridPane.add(new Label("Section:"), 0, 21);
-        gridPane.add(new Label("Instruments:"), 0, 23);
 
+        gridPane.add(new Label("ID"), 0, 1);
+        gridPane.add(new Label("Initials:"), 0, 3);
+        gridPane.add(new Label("Gender:"), 0, 5);
+        gridPane.add(new Label("First Name:"), 0, 7);
+        gridPane.add(new Label("Last Name:"), 0, 9);
+        gridPane.add(new Label("Username:"), 0, 11);
+        gridPane.add(new Label("Address:"), 0, 13);
+        gridPane.add(new Label("Phone Number:"), 0, 15);
+        gridPane.add(new Label("Email:"), 0, 17);
+        gridPane.add(new Label("Account Role:"), 0, 19);
+        gridPane.add(new Label("Person Role:"), 0, 21);
+        gridPane.add(new Label("Section:"), 0, 23);
+        gridPane.add(new Label("Instruments:"), 0, 25);
 
-        gridPane.add(_initials, 1, 1);
-        gridPane.add(_gender, 1, 3);
-        gridPane.add(_firstname, 1, 5);
-        gridPane.add(_lastname, 1, 7);
-        gridPane.add(_username, 1, 9);
-        gridPane.add(_address, 1, 11);
-        gridPane.add(_phonenumber, 1, 13);
-        gridPane.add(_email, 1, 15);
-        gridPane.add(_accountrole, 1, 17);
-        gridPane.add(_personrole, 1, 19);
-        gridPane.add(_section, 1, 21);
-        gridPane.add(_instruments, 1, 23);
+        gridPane.add(_ID, 1, 1);
+        gridPane.add(_initials, 1, 3);
+        gridPane.add(_gender, 1, 5);
+        gridPane.add(_firstname, 1, 7);
+        gridPane.add(_lastname, 1, 9);
+        gridPane.add(_username, 1, 11);
+        gridPane.add(_address, 1, 13);
+        gridPane.add(_phonenumber, 1, 15);
+        gridPane.add(_email, 1, 17);
+        gridPane.add(_accountrole, 1, 19);
+        gridPane.add(_personrole, 1, 21);
+        gridPane.add(_section, 1, 23);
+        gridPane.add(_instruments, 1, 25);
 
         Button MusicianToPdfButton = new Button("Convert Musician to PDF");
         MusicianToPdfButton.setDisable(true);

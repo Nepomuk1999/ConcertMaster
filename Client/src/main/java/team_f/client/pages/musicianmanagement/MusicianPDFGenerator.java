@@ -75,6 +75,13 @@ public class MusicianPDFGenerator {
             p.setMarginTop(35);
             doc.add(p);
 
+            table.addCell(new Cell().setFont(_bold).add("ID"));
+            if(_person.getPersonID() > 0){
+                table.addCell(new Cell().add(String.valueOf(_person.getPersonID())));
+            } else {
+                table.addCell(" ");
+            }
+
             table.addCell(new Cell().setFont(_bold).add("Initials"));
             if(_person.getInitials()!=null){
                 table.addCell(new Cell().add(_person.getInitials()));
@@ -110,7 +117,7 @@ public class MusicianPDFGenerator {
                 table.addCell(" ");
             }
 
-            table.addCell(new Cell().setFont(_bold).add("Adress"));
+            table.addCell(new Cell().setFont(_bold).add("Address"));
             if(_person.getAddress()!=null){
                 table.addCell(new Cell().add(_person.getAddress()));
             } else {
