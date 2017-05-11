@@ -35,10 +35,10 @@ public class MusicianPDFGenerator {
         _bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 
         if(person!=null){
-       _person=person;
-        File file = new File(DEST);
-        file.getParentFile().mkdirs();
-        manipulatePdf(DEST);}
+            _person=person;
+            File file = new File(DEST);
+            file.getParentFile().mkdirs();
+            manipulatePdf(DEST);}
         else{
             return;
         }
@@ -65,8 +65,9 @@ public class MusicianPDFGenerator {
         img.setFixedPosition(600, 500);
         doc.add(img);
 
-        Table table = new Table(2);
-        table.setWidthPercent(30).setMarginBottom(10);
+        Table table = new Table(new float[]{3,6});
+        table.setWidthPercent(50).setMarginBottom(10);
+
 
         if (_person != null) {
             Paragraph p = new Paragraph("Information for: " + _person.getFirstname() + " " + _person.getLastname());
@@ -74,6 +75,13 @@ public class MusicianPDFGenerator {
             p.setFontSize(20);
             p.setMarginTop(35);
             doc.add(p);
+
+            table.addCell(new Cell().setFont(_bold).add("ID"));
+            if(_person.getPersonID() > 0){
+                table.addCell(new Cell().add(String.valueOf(_person.getPersonID())));
+            } else {
+                table.addCell(" ");
+            }
 
             table.addCell(new Cell().setFont(_bold).add("Initials"));
             if(_person.getInitials()!=null){
@@ -104,13 +112,13 @@ public class MusicianPDFGenerator {
             }
 
             table.addCell(new Cell().setFont(_bold).add("Username"));
-            if(_person.getAccount().getUsername()!=null){
+            if(_person.getAccount()!=null&&_person.getAccount().getUsername()!=null){
                 table.addCell(new Cell().add(_person.getAccount().getUsername()));
             } else {
                 table.addCell(" ");
             }
 
-            table.addCell(new Cell().setFont(_bold).add("Adress"));
+            table.addCell(new Cell().setFont(_bold).add("Address"));
             if(_person.getAddress()!=null){
                 table.addCell(new Cell().add(_person.getAddress()));
             } else {
@@ -132,7 +140,7 @@ public class MusicianPDFGenerator {
             }
 
             table.addCell(new Cell().setFont(_bold).add("Account Role"));
-            if(_person.getAccount().getRole().toString()!=null){
+            if(_person.getAccount()!=null&&_person.getAccount().getRole().toString()!=null){
                 table.addCell(new Cell().add(_person.getAccount().getRole().toString()));
             } else {
                 table.addCell(" ");
@@ -146,14 +154,14 @@ public class MusicianPDFGenerator {
             }
 
             table.addCell(new Cell().setFont(_bold).add("Section"));
-            if(_person.getInstrumentType().name()!=null){
+            if(_person.getInstrumentType()!=null&&_person.getInstrumentType().name()!=null){
                 table.addCell(new Cell().add(_person.getInstrumentType().name()));
             } else {
                 table.addCell(" ");
             }
 
             table.addCell(new Cell().setFont(_bold).add("Instruments"));
-            if(_person.getInstrumentType().name()!=null){
+            if(_person.getInstrumentType()!=null&&_person.getInstrumentType().name()!=null){
                 table.addCell(new Cell().add(_person.getInstrumentType().name()));
             } else {
                 table.addCell(" ");
@@ -161,10 +169,9 @@ public class MusicianPDFGenerator {
         }
 
 
-            table.setMarginTop(15);
-            doc.add(table);
-            doc.close();
-            pdfDoc.close();
+        doc.add(table);
+        doc.close();
+        pdfDoc.close();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");

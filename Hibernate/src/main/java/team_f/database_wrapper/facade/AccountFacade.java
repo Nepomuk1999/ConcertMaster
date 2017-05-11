@@ -17,7 +17,6 @@ public class AccountFacade extends BaseDatabaseFacade<AccountEntity, Account> {
 
     protected AccountEntity convertToAccountEntity(Account account) {
         AccountEntity entity = new AccountEntity();
-        entity.setAccountId(account.getAccountID());
         entity.setUsername(account.getUsername());
         entity.setPassword(account.getPassword());
         entity.setAccountRole(AccountRole.valueOf(String.valueOf(account.getRole())));

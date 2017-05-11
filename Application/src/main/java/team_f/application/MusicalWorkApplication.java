@@ -20,15 +20,35 @@ public class MusicalWorkApplication {
     }
 
     // @TODO: the servlet layer should not create a Instrumentation
-    public Pair<DomainEntity, List<Pair<String, String>>> addMusicalWork(int id, String name, String composer, Instrumentation instrumentation) {
+    public Pair<DomainEntity, List<Pair<String, String>>> addMusicalWork(String name, String composer, Integer violin1, Integer violin2, Integer viola, Integer violincello,
+                                                                         Integer doublebass, Integer flute, Integer oboe, Integer clarinet, Integer bassoon, Integer horn,
+                                                                         Integer trumpet, Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp) {
         MusicalWork musicalWork = new MusicalWork();
+        Instrumentation instrumentation = new Instrumentation();
 
-       musicalWork.setMusicalWorkID(id);
-       musicalWork.setName(name);
-       musicalWork.setComposer(composer);
-       musicalWork.setInstrumentation(instrumentation);
-       musicalworkfacade.addMusicalWork(musicalWork);
-       return new Pair<>(musicalWork, new LinkedList<>());
+        instrumentation.setViolin1(violin1);
+        instrumentation.setViolin2(violin2);
+        instrumentation.setViola(viola);
+        instrumentation.setViolincello(violincello);
+        instrumentation.setDoublebass(doublebass);
+        instrumentation.setFlute(flute);
+        instrumentation.setOboe(oboe);
+        instrumentation.setClarinet(clarinet);
+        instrumentation.setBassoon(bassoon);
+        instrumentation.setHorn(horn);
+        instrumentation.setTrumpet(trumpet);
+        instrumentation.setTrombone(trombone);
+        instrumentation.setTube(tube);
+        instrumentation.setKettledrum(kettledrum);
+        instrumentation.setPercussion(percussion);
+        instrumentation.setHarp(harp);
+
+        musicalWork.setName(name);
+        musicalWork.setComposer(composer);
+        musicalWork.setInstrumentation(instrumentation);
+
+        musicalworkfacade.addMusicalWork(musicalWork);
+        return new Pair<>(musicalWork, new LinkedList<>());
     }
 
     public List<MusicalWork> getMusicalWorkList(){
