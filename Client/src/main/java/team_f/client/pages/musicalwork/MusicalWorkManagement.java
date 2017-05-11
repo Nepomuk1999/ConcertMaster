@@ -17,6 +17,8 @@ import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.MusicalWorkErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
+
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -60,7 +62,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         if(_initialize != null) {
             _initialize.doAction(null);
         }
-
+        final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicalWork.css");
+        getStylesheets().add(Style.toString());
         _nameField = new TextField();
         _composerField = new TextField();
 
@@ -107,12 +110,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         root.getChildren().addAll(newDataPane, _table, deleteButton);
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
-        borderPane.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
+        borderPane.setId("borderPane");
 
         Slider mySlider = new Slider();
         mySlider.setMaxWidth(100);
@@ -138,7 +136,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         });
 
         VBox zoomTool = new VBox();
-        zoomTool.setStyle("-fx-padding: 10;");
+        zoomTool.setId("zoomTool");
         zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
         setTop(zoomTool);
         borderPane.setCenter(root);
@@ -258,10 +256,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                 new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130),new ColumnConstraints(130));
 
         Label titleMusicalWork = new Label("MusicalWork");
-        titleMusicalWork.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titleMusicalWork.setId("titleMusicalWork");
 
         pane.addRow(0,titleMusicalWork);
         pane.addRow(1, new Label("Name"), _nameField);

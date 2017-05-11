@@ -15,6 +15,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
+import sun.util.resources.cldr.ta.CurrencyNames_ta;
 import team_f.client.pages.monthpublish.FooterHandler;
 import team_f.jsonconnector.entities.Person;
 import java.io.File;
@@ -67,6 +68,7 @@ public class MusicianPDFGenerator {
 
         Table table = new Table(new float[]{3,6});
         table.setWidthPercent(50).setMarginBottom(10);
+        table.setFontSize(20);
 
 
         if (_person != null) {
@@ -91,7 +93,7 @@ public class MusicianPDFGenerator {
             }
 
             table.addCell(new Cell().setFont(_bold).add("Gender"));
-            if(_person.getGender().toString()!=null){
+            if(_person.getGender()!=null){
                 table.addCell(new Cell().add(_person.getGender().toString()));
             } else {
                 table.addCell(" ");
