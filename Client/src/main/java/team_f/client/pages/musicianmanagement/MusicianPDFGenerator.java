@@ -75,18 +75,18 @@ public class MusicianPDFGenerator {
         doc.add(p);
 
 
-        Table table = new Table(new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-
-        table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("First Name"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Last Name"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Username"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Address"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Gender"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Instruments"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Person Role"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Account Role"));
+        Table table = new Table(2);
+        table.setWidthPercent(30).setMarginBottom(10);
+        table.addHeaderCell(new Cell().setFont(_bold).add("Key"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Value"));
+        table.addCell(new Cell().setFont(_bold).add("Initials"));
+        table.addCell(new Cell().add(_person.getInitials());
+        table.addCell(new Cell().setFont(_bold).add("Gender"));
+        table.addCell(new Cell().add();
+        table.addCell(new Cell().setFont(_bold).add("Reputation"));
+        table.addCell(new Cell().add(String.valueOf();
+        table.addCell(new Cell().setFont(_bold).add("Job title"));
+        table.addCell(new Cell().add();
 
         if (_person != null) {
 
