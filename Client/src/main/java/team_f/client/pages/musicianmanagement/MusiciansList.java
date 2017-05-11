@@ -9,6 +9,8 @@ import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import team_f.client.pages.BaseTablePage;
+import team_f.client.pages.monthpublish.PublisherPDFGenerator;
+import team_f.jsonconnector.entities.EventDuty;
 import team_f.jsonconnector.entities.Person;
 
 import java.io.File;
@@ -41,13 +43,12 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _email = new Label();
         _personrole = new Label();
         _accountrole = new Label();
-        _instruments=new Label();
-        _initials=new Label();
-        _section=new Label();
-        _gender=new Label();
+        _instruments = new Label();
+        _initials = new Label();
+        _section = new Label();
+        _gender = new Label();
         _table = new TableView();
         _selectedPath = new TextField();
-
 
 
         BorderPane borderPane = new BorderPane();
@@ -59,25 +60,14 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
                 "-fx-border-color: blue;");
 
         _table.setMinHeight(450);
+        _table.setMinWidth(450);
         _table.setEditable(false);
         _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _table.getColumns().addAll(MusicianTableHelper.getFirstNameColumn(), MusicianTableHelper.getLastNameColumn());
         _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-
-                _firstname.setText(_table.getSelectionModel().getSelectedItem().getFirstname());
-                _lastname.setText(_table.getSelectionModel().getSelectedItem().getLastname());
-                _username.setText(_table.getSelectionModel().getSelectedItem().getAccount().getUsername());
-                _phonenumber.setText(_table.getSelectionModel().getSelectedItem().getPhoneNumber());
-                _address.setText(_table.getSelectionModel().getSelectedItem().getAddress());
-                _personrole.setText(_table.getSelectionModel().getSelectedItem().getPersonRole().toString());
-                _accountrole.setText(_table.getSelectionModel().getSelectedItem().getAccount().getRole().toString());
-                _instruments.setText(_table.getSelectionModel().getSelectedItem().getInstrumentType().name());
-                _initials.setText(_table.getSelectionModel().getSelectedItem().getInitials().toString());
-                _section.setText(_table.getSelectionModel().getSelectedItem().getInstrumentType().name());
-                _gender.setText(_table.getSelectionModel().getSelectedItem().getGender().toString());
-
+                setFields(_table.getSelectionModel().getSelectedItem());
             }
         });
 
@@ -129,13 +119,12 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             File selectedFile = fileChooser.showSaveDialog(new Stage());
 
             if (selectedFile != null) {
-                Person selected = _table.getSelectionModel().getSelectedItem();
+                _selectedPath.setText(selectedFile.getAbsolutePath());
                 try {
-                    MusicianPDFGenerator main = new MusicianPDFGenerator(selected, selectedFile.getAbsolutePath());
+                    MusicianPDFGenerator main = new MusicianPDFGenerator(_table.getSelectionModel().getSelectedItem(), _selectedPath.getText());
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                }else{
-                return;
             }
         });
 
@@ -159,8 +148,8 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
 
         _table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-            MusicianToPdfButton.setDisable(false);
-            }else{
+                MusicianToPdfButton.setDisable(false);
+            } else {
                 MusicianToPdfButton.setDisable(true);
             }
         });
@@ -257,6 +246,57 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
                 update();
             }
         }
+    }
+
+    public void setFields(Person person) {
+
+        /*_firstname.setText(_table.getSelectionModel().getSelectedItem().getFirstname());
+        _lastname.setText(_table.getSelectionModel().getSelectedItem().getLastname());
+        _username.setText(_table.getSelectionModel().getSelectedItem().getAccount().getUsername());
+        _phonenumber.setText(_table.getSelectionModel().getSelectedItem().getPhoneNumber());
+        _address.setText(_table.getSelectionModel().getSelectedItem().getAddress());
+        _personrole.setText(_table.getSelectionModel().getSelectedItem().getPersonRole().toString());
+        _accountrole.setText(_table.getSelectionModel().getSelectedItem().getAccount().getRole().toString());
+        _instruments.setText(_table.getSelectionModel().getSelectedItem().getInstrumentType().name());
+        _initials.setText(_table.getSelectionModel().getSelectedItem().getInitials().toString());
+        _section.setText(_table.getSelectionModel().getSelectedItem().getInstrumentType().name());
+        _gender.setText(_table.getSelectionModel().getSelectedItem().getGender().toString());*/
+
+        if (person.getFirstname() != null) {
+            _firstname.setText(person.getFirstname());
+        }
+        if (person.getLastname() != null) {
+            _lastname.setText(person.getLastname());
+        }
+        if (person.getAccount() != null && person.getAccount().getUsername() != null) {
+            _username.setText(person.getAccount().getUsername());
+        }
+        if (person.getPhoneNumber() != null) {
+            _phonenumber.setText(person.getPhoneNumber());
+        }
+        if (person.getAddress() != null) {
+            _address.setText(person.getAddress());
+        }
+        if (person.getPersonRole() != null) {
+            _personrole.setText(person.getPersonRole().toString());
+        }
+        if (person.getAccount() != null && person.getAccount().getRole() != null) {
+            _accountrole.setText(person.getAccount().getRole().toString());
+        }
+        if (person.getInstrumentType() != null) {
+            _instruments.setText(person.getInstrumentType().name());
+        }
+        if (person.getInitials() != null) {
+            _initials.setText(person.getInitials().toString());
+        }
+        if (person.getInstrumentType() != null) {
+            _section.setText(person.getInstrumentType().toString());
+        }
+        if (person.getGender() != null) {
+            _gender.setText(person.getGender().toString());
+        }
+
+
     }
 
 }
