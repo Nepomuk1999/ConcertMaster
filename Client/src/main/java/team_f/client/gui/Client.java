@@ -19,9 +19,11 @@ import team_f.client.pages.home.TodoListHome;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.WebHelper;
 import team_f.client.pages.legende.LegendTable;
+import team_f.client.pages.musicianManagementExplanation.MusicianManagementExplanationPage;
 import team_f.client.singletons.BrowserSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
 import team_f.client.singletons.LegendSingleton;
+import team_f.client.singletons.MusicianManagementExplanationSingleton;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -103,6 +105,26 @@ public class Client extends Application {
             });
 
             menuHelp.getItems().add(menuItem);
+
+            //LegendTabel-äquivalent machen mit einfach Text (= auch singelton "kopieren")
+
+            menuItem = new MenuItem("Show Musician Management Explanation"); //start
+            menuItem.setOnAction(actionEvent -> {
+                MusicianManagementExplanationPage mmep = MusicianManagementExplanationSingleton.getInstance();
+                mmep.initialize();
+                mmep.load();
+                /*
+                LegendTable legendTablePage = LegendSingleton.getInstance();
+                legendTablePage.initialize();
+                legendTablePage.load();  */
+            });
+
+            menuHelp.getItems().add(menuItem); //ende?
+
+
+
+
+
             menuItem = new MenuItem("Info");
             menuItem.setOnAction(actionEvent -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -114,8 +136,8 @@ public class Client extends Application {
 
             menuHelp.getItems().add(menuItem);
 
-            Menu menuTodo = new Menu("My TodoList");
-            menuItem = new MenuItem("Show TodoList");
+            Menu menuTodo = new Menu("Todo-List");
+            menuItem = new MenuItem("Show Todo-List");
             menuItem.setOnAction(actionEvent -> {
                 BasePage todoListPage = new TodoListHome();
                 todoListPage.initialize();

@@ -277,6 +277,43 @@ public class Instrumentation implements DomainEntity {
         return -1;
     }
 
+    public void setByInstrumentType(InstrumentType instrumentType, Integer count) {
+        switch (instrumentType) {
+            case FLUTE:
+                this.setFlute(count);
+            case OBOE:
+                this.setOboe(count);
+            case CLARINET:
+                this.setClarinet(count);
+            case BASSOON:
+                this.setBassoon(count);
+            case FIRSTVIOLIN:
+                this.setViolin1(count);
+            case SECONDVIOLIN:
+                this.setViolin2(count);
+            case VIOLA:
+                this.setViola(count);
+            case VIOLONCELLO:
+                this.setViolincello(count);
+            case DOUBLEBASS:
+                this.setDoublebass(count);
+            case HORN:
+                this.setHorn(count);
+            case TRUMPET:
+                this.setTrumpet(count);
+            case TROMBONE:
+                this.setTrombone(count);
+            case TUBE:
+                this.setTube(count);
+            case KETTLEDRUM:
+                this.setKettledrum(count);
+            case PERCUSSION:
+                this.setPercussion(count);
+            case HARP:
+                this.setHarp(count);
+        }
+    }
+
     @Override
     public int getID() {
         return getInstrumentationID();

@@ -74,15 +74,15 @@ public class PublisherPDFGenerator {
             Table table = new Table(new float[]{1,1,1,1,1,1,1,1,1,1});
 
             table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
-            table.addHeaderCell(new Cell().setFont(_bold).add("Eventtype"));
+            table.addHeaderCell(new Cell().setFont(_bold).add("Event Type"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Name"));
-            table.addHeaderCell(new Cell().setFont(_bold).add("Startdate"));
-            table.addHeaderCell(new Cell().setFont(_bold).add("Enddate"));
+            table.addHeaderCell(new Cell().setFont(_bold).add("Start Date"));
+            table.addHeaderCell(new Cell().setFont(_bold).add("End Date"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Location"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Conductor"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Description"));
             table.addHeaderCell(new Cell().setFont(_bold).add("Points"));
-            table.addHeaderCell(new Cell().setFont(_bold).add("Eventstatus"));
+            table.addHeaderCell(new Cell().setFont(_bold).add("Event Status"));
 
             if(_list != null && !_list.isEmpty()) {
                 for (EventDuty event : _list) {
