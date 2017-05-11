@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrumentationFacade extends BaseDatabaseFacade {
+public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEntity, Instrumentation> {
     public InstrumentationFacade() {
         super();
     }
@@ -52,8 +52,6 @@ public class InstrumentationFacade extends BaseDatabaseFacade {
 
         return instrumentationEntity.getInstrumentationId();
     }
-
-
 
     public Instrumentation getInstrumentationByID(int id) {
         EntityManager session = getCurrentSession();
@@ -253,5 +251,20 @@ public class InstrumentationFacade extends BaseDatabaseFacade {
         List<SpecialInstrumentationEntity> spei = query.getResultList();
 
         return spei;
+    }
+
+    @Override
+    public int add(Instrumentation value) {
+        return addInstrumentation(value);
+    }
+
+    @Override
+    public int update(Instrumentation value) {
+        return addInstrumentation(value);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
     }
 }

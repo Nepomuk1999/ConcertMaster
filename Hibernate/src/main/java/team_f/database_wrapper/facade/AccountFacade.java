@@ -2,10 +2,11 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.AccountEntity;
 import team_f.database_wrapper.enums.AccountRole;
+import team_f.database_wrapper.interfaces.Editeable;
 import team_f.domain.entities.Account;
 import javax.persistence.EntityManager;
 
-public class AccountFacade extends BaseDatabaseFacade {
+public class AccountFacade extends BaseDatabaseFacade<AccountEntity, Account> {
     public AccountFacade() {
         super();
     }
@@ -31,5 +32,21 @@ public class AccountFacade extends BaseDatabaseFacade {
         account.setRole(team_f.domain.enums.AccountRole.valueOf(accountEntity.getAccountRole().toString()));
 
         return account;
+    }
+
+
+    @Override
+    public int add(Account value) {
+        return 0;
+    }
+
+    @Override
+    public int update(Account value) {
+        return 0;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
     }
 }

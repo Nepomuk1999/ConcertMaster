@@ -3,12 +3,14 @@ package team_f.database_wrapper.facade;
 import team_f.database_wrapper.entities.EventDutyMusicalWorkEntity;
 import team_f.database_wrapper.entities.MusicalWorkEntity;
 import team_f.domain.entities.MusicalWork;
+import team_f.domain.interfaces.DomainEntity;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicalWorkFacade extends BaseDatabaseFacade {
+public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, MusicalWork> {
     public MusicalWorkFacade() {
         super();
     }
@@ -72,6 +74,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade {
 
         return musicalWorks;
     }
+
 
     public List<MusicalWork> getMusicalWorksForEvent(int eventId) {
         EntityManager session = getCurrentSession();
@@ -139,5 +142,54 @@ public class MusicalWorkFacade extends BaseDatabaseFacade {
         mwe.setName(mw.getName());
 
         return mwe;
+    }
+
+
+    @Override
+    public int add(MusicalWork value) {
+        return this.addMusicalWork(value);
+    }
+
+    @Override
+    public int update(MusicalWork value) {
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+        int returnId;
+
+        MusicalWorkEntity mwe = convertToMusicalWorkEntity(value);
+
+        if (mwe.getMusicalWorkId() > 0){
+            mwe = session.merge(mwe);
+            returnId = mwe.getMusicalWorkId();
+        }else{
+            returnId = this.add(value);
+        }
+        try {
+            session.flush();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+        return returnId;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        boolean b;
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        MusicalWork mw = getMusicalWorkById(id);
+        session.remove(convertToMusicalWorkEntity(mw));
+
+        try {
+            session.flush();
+            session.getTransaction().commit();
+            b = true;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            b = false;
+        }
+        return b;
     }
 }
