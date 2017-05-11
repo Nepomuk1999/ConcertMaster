@@ -4,11 +4,15 @@ import org.json.JSONArray;
 import team_f.application.MusicalWorkApplication;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
+import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.entities.list.MusicalWorkList;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.MusicalWorkConverter;
+import team_f.server.helper.converter.PersonConverter;
 import team_f.server.helper.response.CommonResponse;
+import team_f.server.helper.response.JsonResponse;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -71,16 +75,16 @@ public class MusicalWork extends HttpServlet {
                         break;
                     case CREATE:
                         musicalWork = (team_f.jsonconnector.entities.MusicalWork) request.getEntity();
+                        tmpErrorList = facade.addMusicalWork(musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
+                                    musicalWork.getInstrumentation().getViola(), musicalWork.getInstrumentation().getViolincello(), musicalWork.getInstrumentation().getDoublebass(), musicalWork.getInstrumentation().getFlute(),
+                                    musicalWork.getInstrumentation().getOboe(), musicalWork.getInstrumentation().getClarinet(), musicalWork.getInstrumentation().getBassoon(), musicalWork.getInstrumentation().getHorn(),
+                                    musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),
+                                    musicalWork.getInstrumentation().getPercussion(), musicalWork.getInstrumentation().getHarp());
 
-                        if(musicalWork != null) {
-                            // @TODO: add create functionality
-                            /*tmpErrorList = facade.addMusicalWork(musicalWork.getMusicalWorkID(), musicalWork.getName(), musicalWork.getComposer(), // insert some instrumentations);
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());*/
-                        }
-
+                        ErrorList errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWork);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     case UPDATE:
