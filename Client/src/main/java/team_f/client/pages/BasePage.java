@@ -117,7 +117,7 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
 
     protected void validate(ArrayList<TextField> fields) {
         for (TextField textField : fields) {
-            if (textField.getText().isEmpty()) {
+            if (!(textField.getText().isEmpty())) {
                 textField.setStyle("-fx-border-color: red");
             } else {
                 textField.setStyle("-fx-border-color: green");

@@ -10,10 +10,8 @@ import javafx.scene.transform.Scale;
 import team_f.client.converter.MusicalWorkConverter;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
+import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.Instrumentation;
-import team_f.jsonconnector.entities.MusicalWork;
-import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.special.MusicalWorkErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
@@ -25,30 +23,31 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     private TextField _composerField;
     private TableView<MusicalWork> _table;
 
-    private int[] _stringinstrumentation;
+    //String
     private TextField _firstViolinField;
     private TextField _secondViolinField;
     private TextField _violaField;
     private TextField _violoncelloField;
-    private TextField _contrabassField;
+    private TextField _doublebassField;
 
-    private int[] _woodInstrumentation;
+    //Wood
     private TextField _fluteField;
     private TextField _oboeField;
     private TextField _clarinetField;
     private TextField _bassoonField;
 
-    private int[] _brassInstrumentation;
+    //Brass
     private TextField _hornField;
     private TextField _trumpetField;
     private TextField _tromboneField;
-    private TextField _tubaField;
+    private TextField _tubeField;
 
-    private int[] _percussionInstrumentation;
+    //Percussion
     private TextField _kettledrumField;
     private TextField _percussionField;
     private TextField _harpField;
 
+    //SpecialInstrumentation
     private TextField _specialInstrumentation;
 
     public MusicalWorkManagement(){
@@ -60,11 +59,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             _initialize.doAction(null);
         }
 
-        //Name, Komponist, Instrumentation, Alternativ
         _nameField = new TextField();
         _composerField = new TextField();
 
-        _stringinstrumentation = new int[4];
         _firstViolinField = new TextField();
         _firstViolinField.setMaxWidth(40.0);
         _secondViolinField = new TextField();
@@ -73,10 +70,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _violaField.setMaxWidth(40.0);
         _violoncelloField = new TextField();
         _violoncelloField.setMaxWidth(40.0);
-        _contrabassField = new TextField();
-        _contrabassField.setMaxWidth(40.0);
+        _doublebassField = new TextField();
+        _doublebassField.setMaxWidth(40.0);
 
-        _woodInstrumentation = new int[3];
+
         _fluteField = new TextField();
         _fluteField.setMaxWidth(40.0);
         _oboeField = new TextField();
@@ -86,17 +83,15 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _bassoonField = new TextField();
         _bassoonField.setMaxWidth(40.0);
 
-        _brassInstrumentation = new int[3];
         _hornField = new TextField();
         _hornField.setMaxWidth(40.0);
         _trumpetField = new TextField();
         _trumpetField.setMaxWidth(40.0);
         _tromboneField = new TextField();
         _tromboneField.setMaxWidth(40.0);
-        _tubaField = new TextField();
-        _tubaField.setMaxWidth(40.0);
+        _tubeField = new TextField();
+        _tubeField.setMaxWidth(40.0);
 
-        _percussionInstrumentation = new int[2];
         _kettledrumField = new TextField();
         _kettledrumField.setMaxWidth(40.0);
         _percussionField = new TextField();
@@ -105,7 +100,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _harpField.setMaxWidth(40.0);
 
         _specialInstrumentation = new TextField();
-
 
         _table = new TableView<>();
         _table.setEditable(false);
@@ -194,7 +188,32 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             MusicalWork musicalWork = new MusicalWork();
             musicalWork.setName(_nameField.getText());
             musicalWork.setComposer(_composerField.getText());
-            musicalWork.setInstrumentation(new Instrumentation());
+            Instrumentation instrumentation = new Instrumentation();
+
+            instrumentation.setViolin1(Integer.parseInt(_firstViolinField.getText()));
+            instrumentation.setViolin2(Integer.parseInt(_secondViolinField.getText()));
+            instrumentation.setViola(Integer.parseInt(_violaField.getText()));
+            instrumentation.setViolincello(Integer.parseInt(_violoncelloField.getText()));
+            instrumentation.setDoublebass(Integer.parseInt(_doublebassField.getText()));
+
+            instrumentation.setFlute(Integer.parseInt(_fluteField.getText()));
+            instrumentation.setOboe(Integer.parseInt(_oboeField.getText()));
+            instrumentation.setClarinet(Integer.parseInt(_clarinetField.getText()));
+            instrumentation.setBassoon(Integer.parseInt(_bassoonField.getText()));
+
+            instrumentation.setHorn(Integer.parseInt(_hornField.getText()));
+            instrumentation.setTrumpet(Integer.parseInt(_trumpetField.getText()));
+            instrumentation.setTrombone(Integer.parseInt(_tromboneField.getText()));
+            instrumentation.setTube(Integer.parseInt(_tubeField.getText()));
+
+            instrumentation.setKettledrum(Integer.parseInt(_kettledrumField.getText()));
+            instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
+            instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
+
+
+            //instrumentation.setSpecialInstrumentation();
+
+            musicalWork.setInstrumentation(instrumentation);
 
             MusicalWorkErrorList resultMusicalWorkErrorList = _create.doAction(musicalWork);
 
@@ -266,7 +285,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.addRow(5, new Label("2. Violin:"), _secondViolinField);
         pane.addRow(6, new Label("Viola:"), _violaField);
         pane.addRow(7, new Label("Violoncello:"), _violoncelloField);
-        pane.addRow(8, new Label("Contrabass:"), _contrabassField);
+        pane.addRow(8, new Label("Doublebass:"), _doublebassField);
 
         //Wood
         pane.addRow(4, new Label("Flute:"), _fluteField);
@@ -278,7 +297,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.addRow(4, new Label("Horn:"), _hornField);
         pane.addRow(5, new Label("Trumpet:"), _trumpetField);
         pane.addRow(6, new Label("Trombone:"), _tromboneField);
-        pane.addRow(7, new Label("Tuba:"), _tubaField);
+        pane.addRow(7, new Label("Tube:"), _tubeField);
 
         //Percussion
         pane.addRow(4, new Label("Kettledrum:"), _kettledrumField);
@@ -296,7 +315,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         fields.add(_secondViolinField);
         fields.add(_violaField);
         fields.add(_violoncelloField);
-        fields.add(_contrabassField);
+        fields.add(_doublebassField);
 
         fields.add(_fluteField);
         fields.add(_oboeField);
@@ -306,7 +325,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         fields.add(_hornField);
         fields.add(_trumpetField);
         fields.add(_tromboneField);
-        fields.add(_tubaField);
+        fields.add(_tubeField);
 
         fields.add(_kettledrumField);
         fields.add(_percussionField);
@@ -319,8 +338,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
                     _firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
-                    _contrabassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
-                    _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubaField.getText().isEmpty()
+                    _doublebassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
+                    _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubeField.getText().isEmpty()
                     || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
                 validate(fields);
 

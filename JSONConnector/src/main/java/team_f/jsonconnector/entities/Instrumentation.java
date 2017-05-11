@@ -38,6 +38,14 @@ public class Instrumentation implements JSONObjectEntity {
 
     private List<SpecialInstrumentation> _special;
 
+    public List<SpecialInstrumentation> getSpecialInstrumentation() {
+        return _special;
+    }
+
+    public void setSpecialInstrumentation(List<SpecialInstrumentation> _special) {
+        this._special = _special;
+    }
+
     @JsonGetter("id")
     public int getInstrumentationID() {
         return _instrumentationID;
