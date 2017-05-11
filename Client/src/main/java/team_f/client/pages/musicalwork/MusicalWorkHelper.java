@@ -5,7 +5,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.jsonconnector.entities.MusicalWork;
 
 public class MusicalWorkHelper {
-    // Returns PersonTestData Id TableColumn
+
     public static TableColumn<MusicalWork, Integer> getIdColumn() {
         TableColumn<MusicalWork, Integer> idCol = new TableColumn<>("Id");
         PropertyValueFactory<MusicalWork, Integer> idCellValueFactory = new PropertyValueFactory<>("musicalWorkID");

@@ -1,6 +1,5 @@
 package team_f.client.pages.musicianmanagement;
 
-
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -17,12 +16,10 @@ import com.itextpdf.layout.element.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import team_f.client.pages.monthpublish.FooterHandler;
-import team_f.jsonconnector.entities.EventDuty;
 import team_f.jsonconnector.entities.Person;
-
 import java.io.File;
 import java.net.URL;
-import java.util.List;
+
 
 public class MusicianPDFGenerator {
 
@@ -68,18 +65,16 @@ public class MusicianPDFGenerator {
         img.setFixedPosition(600, 500);
         doc.add(img);
 
-        Paragraph p = new Paragraph("Information for: " + _person.getFirstname() + " " + _person.getLastname());
-        p.setFont(_bold);
-        p.setFontSize(20);
-        p.setMarginTop(35);
-        doc.add(p);
-
-
         Table table = new Table(2);
         table.setWidthPercent(30).setMarginBottom(10);
 
-
         if (_person != null) {
+            Paragraph p = new Paragraph("Information for: " + _person.getFirstname() + " " + _person.getLastname());
+            p.setFont(_bold);
+            p.setFontSize(20);
+            p.setMarginTop(35);
+            doc.add(p);
+
             table.addCell(new Cell().setFont(_bold).add("Initials"));
             if(_person.getInitials()!=null){
                 table.addCell(new Cell().add(_person.getInitials()));
@@ -168,11 +163,8 @@ public class MusicianPDFGenerator {
 
             table.setMarginTop(15);
             doc.add(table);
-
-
-
-        doc.close();
-        pdfDoc.close();
+            doc.close();
+            pdfDoc.close();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
