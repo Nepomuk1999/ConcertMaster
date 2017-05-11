@@ -85,19 +85,21 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         _selectedMonth = _data.get(LocalDateTime.now().getMonth().getValue() -1);
         comboBoxMonth.getSelectionModel().select(_selectedMonth);
 
-        comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
-                comboBoxYear.getSelectionModel().select(arg2.intValue());
+        comboBoxYear.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 comboBoxYear.hide();
-                _selectedYear = arg2.intValue();
+                comboBoxYear.getSelectionModel().select(newValue);
+                _selectedYear = newValue.intValue();
+
+                loadList();
             }
         });
 
-        comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
+        comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 comboBoxMonth.hide();
-                _selectedMonth.setMonth(arg2.getMonth());
-                _selectedMonth.setValue(arg2.getValue());
+                comboBoxMonth.getSelectionModel().select(newValue);
+                _selectedMonth.setValue(newValue.getValue());
 
                 loadList();
             }
@@ -336,6 +338,8 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
 
             if(eventDuties != null) {
                 _table.setItems(FXCollections.observableList(eventDuties));
+            } else {
+                showTryAgainLaterErrorMessage();
             }
         }
     }

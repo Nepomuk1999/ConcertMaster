@@ -1,7 +1,9 @@
 package team_f.client.pages;
 
+import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.helper.AlertHelper;
 import team_f.client.pages.interfaces.BasePageControl;
 import javax.lang.model.type.NullType;
@@ -115,13 +117,21 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
         _exit = action;
     }
 
-    protected void validate(ArrayList<TextField> fields) {
-        for (TextField textField : fields) {
-            if (!(textField.getText().isEmpty())) {
-                textField.setStyle("-fx-border-color: red");
-            } else {
-                textField.setStyle("-fx-border-color: green");
+    protected void validate(List<? extends Control> fields) {
+        for (Control field : fields) {
+            if(field instanceof TextField) {
+                validate(((TextField) field).getText(), field);
+            } else if(field instanceof BigDecimalField) {
+                validate(((BigDecimalField) field).getText(), field);
             }
+        }
+    }
+
+    protected void validate(String value, Control control) {
+        if(value == null || value.isEmpty()) {
+            control.setStyle("-fx-border-color: red");
+        } else {
+            control.setStyle("-fx-border-color: green");
         }
     }
 

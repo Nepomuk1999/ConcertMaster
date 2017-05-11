@@ -74,12 +74,13 @@ public class MusicalWork extends HttpServlet {
 
                         break;
                     case CREATE:
-                        musicalWork = (team_f.jsonconnector.entities.MusicalWork) request.getEntity();
+                        musicalWork = (team_f.jsonconnector.entities.MusicalWork) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.MusicalWork.class);
                         tmpErrorList = facade.addMusicalWork(musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
                                     musicalWork.getInstrumentation().getViola(), musicalWork.getInstrumentation().getViolincello(), musicalWork.getInstrumentation().getDoublebass(), musicalWork.getInstrumentation().getFlute(),
                                     musicalWork.getInstrumentation().getOboe(), musicalWork.getInstrumentation().getClarinet(), musicalWork.getInstrumentation().getBassoon(), musicalWork.getInstrumentation().getHorn(),
                                     musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),
                                     musicalWork.getInstrumentation().getPercussion(), musicalWork.getInstrumentation().getHarp());
+
 
                         ErrorList errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                         resp.setContentType(MediaType.APPLICATION_JSON);
