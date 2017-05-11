@@ -15,6 +15,8 @@ import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.PersonErrorList;
 import team_f.jsonconnector.enums.*;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
+
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         if(_initialize != null) {
             _initialize.doAction(null);
         }
-
+        final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianManagement.css");
+        getStylesheets().add(Style.toString());
         _firstNameField = new TextField();
         _lastNameField = new TextField();
         _streetField = new TextField();
@@ -75,7 +78,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         update();
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        _comboBoxSectionType.setStyle("-fx-font: 14 arial;");
         _comboBoxSectionType.getSelectionModel().selectFirst();
         _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue != null) {
@@ -85,12 +87,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         });
         _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(0).getValue()));
 
-        _comboBoxInstrumentType.setStyle("-fx-font: 14 arial;");
         _comboBoxInstrumentType.getSelectionModel().selectFirst();
         _comboBoxInstrumentType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
-        _comboBoxRole.setStyle("-fx-font: 14 arial;");
         _comboBoxRole.getSelectionModel().selectFirst();
         _comboBoxRole.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -104,12 +104,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         });
 
-        _comboBoxGender.setStyle("-fx-font: 14 arial;");
         _comboBoxGender.getSelectionModel().selectFirst();
         _comboBoxGender.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
-        _comboBoxAccountRole.setStyle("-fx-font: 14 arial;");
         _comboBoxAccountRole.getSelectionModel().selectFirst();
         _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
@@ -119,12 +117,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         // Create the Delete Button and add Event-Handler
         Button editButton = new Button("Edit Selected Musician");
         editButton.setMinWidth(125);
-        editButton.setStyle("-fx-font: 14 arial;");
         editButton.setOnAction(e -> editPerson());
 
         Button deleteButton = new Button("Delete Selected Musician");
         deleteButton.setMinWidth(125);
-        deleteButton.setStyle("-fx-font: 14 arial;");
         deleteButton.setOnAction(e -> editPerson());
 
         HBox buttonsBox=new HBox(editButton, deleteButton);
@@ -133,12 +129,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         root.getChildren().addAll(newDataPane, _table, buttonsBox );
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
-        borderPane.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
+        borderPane.setId("borderPane");
+
 
         Slider mySlider = new Slider();
         mySlider.setMaxWidth(100);
@@ -165,7 +157,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         });
 
         VBox zoomTool = new VBox();
-        zoomTool.setStyle("-fx-padding: 10;");
+        zoomTool.setId("zoomTool");
         zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
         setTop(zoomTool);
         borderPane.setCenter(root);
@@ -203,10 +195,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     public GridPane getNewPersonDataPane() {
         //Title Label
         Label titleMusician=new Label("Create Musician");
-        titleMusician.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titleMusician.setId("titleMusician");
 
         GridPane pane = new GridPane();
         pane.gridLinesVisibleProperty().set(false);
@@ -254,8 +243,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         fields.add(_phoneField);
 
         Button addButton = new Button("Add Musician");
-        addButton.setStyle("-fx-font: 14 arial;");
-
         addButton.setOnAction(e -> {
             if (_firstNameField.getText().isEmpty() || _lastNameField.getText().isEmpty() || _streetField.getText().isEmpty()
                     || _emailField.getText().isEmpty() || _phoneField.getText().isEmpty()) {
