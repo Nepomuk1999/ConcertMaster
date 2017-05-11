@@ -49,7 +49,11 @@ public class PersonFacade extends BaseDatabaseFacade {
             if(playedInstruments != null && playedInstruments.size() > 0) {
                 // set only the first item because musicians cannot play multiple instruments in the orchestra (is only a feature for the future)
                 for (String instrumentType: playedInstruments) {
-                    person.addPlayedInstrument(InstrumentType.valueOf(instrumentType));
+                    //person.addPlayedInstrument(InstrumentType.valueOf(instrumentType));
+                    try {
+                        person.addPlayedInstrument(InstrumentType.valueOf(instrumentType.replace(" ", "").toUpperCase()));
+                    } catch (Exception e) {
+                    }
                 }
             }
 
@@ -76,7 +80,7 @@ public class PersonFacade extends BaseDatabaseFacade {
 
         List<MusicianPartEntity> musicianPartEntities = getMusicianPartEntityFromPerson(person);
 
-        for ( MusicianPartEntity musicianPartEntity: musicianPartEntities) {
+        for (MusicianPartEntity musicianPartEntity: musicianPartEntities) {
             musicianPartEntity.setMusician(personEntity.getPersonId());
             session.persist(musicianPartEntity);
         }
@@ -132,8 +136,6 @@ public class PersonFacade extends BaseDatabaseFacade {
 
         return musicianPartEntities;
     }
-
-
 
     /**
      * Function to convert a PersonEntity object to a Person. Returns the Person after creating and setting information from PersonyEntity object.
