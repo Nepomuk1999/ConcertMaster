@@ -19,6 +19,13 @@ public class AccountLogic implements EntityLogic<Account, AccountProperty> {
         for (AccountProperty property : properties) {
 
             switch (property) {
+                case USERNAME:
+                    if (account.getUsername() == null) {
+                        resultList.add(new Pair<>(String.valueOf(property.USERNAME), "is empty"));
+                    }
+
+                    break;
+
                 // @TODO: validate the cases
                 // use AccountLogic for the account specific logic
             }

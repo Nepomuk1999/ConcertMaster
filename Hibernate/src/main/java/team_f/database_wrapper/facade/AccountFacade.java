@@ -5,6 +5,9 @@ import team_f.database_wrapper.enums.AccountRole;
 import team_f.database_wrapper.interfaces.Editeable;
 import team_f.domain.entities.Account;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountFacade extends BaseDatabaseFacade<AccountEntity, Account> {
     public AccountFacade() {
@@ -31,6 +34,24 @@ public class AccountFacade extends BaseDatabaseFacade<AccountEntity, Account> {
         account.setRole(team_f.domain.enums.AccountRole.valueOf(accountEntity.getAccountRole().toString()));
 
         return account;
+    }
+
+    public List<Account> getAllUserNames() {
+        EntityManager session = getCurrentSession();
+
+        Query query = session.createQuery("from AccountEntity");
+
+        List<AccountEntity> accountEntities = query.getResultList();
+        List<Account> accounts = new ArrayList<>();
+
+        for (AccountEntity accountEntity : accountEntities) {
+            Account account;
+            account = convertToAccount(accountEntity);
+
+            accounts.add(account);
+        }
+
+        return accounts;
     }
 
 
