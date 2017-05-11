@@ -35,7 +35,7 @@ public class MusicianTableHelper {
 
     // Returns Street TableColumn
     public static TableColumn<Person, String> getStreetColumn() {
-        TableColumn<Person, String> streetCol = new TableColumn<>("Street");
+        TableColumn<Person, String> streetCol = new TableColumn<>("Address");
         PropertyValueFactory<Person, String> streetCellValueFactory = new PropertyValueFactory<>("address");
         streetCol.setCellValueFactory(streetCellValueFactory);
         return streetCol;
