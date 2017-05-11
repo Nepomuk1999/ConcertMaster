@@ -1,6 +1,5 @@
 package team_f.client.pages.musicianmanagement;
 
-
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -17,12 +16,10 @@ import com.itextpdf.layout.element.Table;
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import team_f.client.pages.monthpublish.FooterHandler;
-import team_f.jsonconnector.entities.EventDuty;
 import team_f.jsonconnector.entities.Person;
-
 import java.io.File;
 import java.net.URL;
-import java.util.List;
+
 
 public class MusicianPDFGenerator {
 
@@ -68,55 +65,106 @@ public class MusicianPDFGenerator {
         img.setFixedPosition(600, 500);
         doc.add(img);
 
-        Paragraph p = new Paragraph("Information for: " + _person.getFirstname() + " " + _person.getLastname());
-        p.setFont(_bold);
-        p.setFontSize(20);
-        p.setMarginTop(35);
-        doc.add(p);
-
-
-        Table table = new Table(new float[]{1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
-
-        table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("First Name"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Last Name"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Username"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Address"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Gender"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Instruments"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Person Role"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Account Role"));
+        Table table = new Table(2);
+        table.setWidthPercent(30).setMarginBottom(10);
 
         if (_person != null) {
+            Paragraph p = new Paragraph("Information for: " + _person.getFirstname() + " " + _person.getLastname());
+            p.setFont(_bold);
+            p.setFontSize(20);
+            p.setMarginTop(35);
+            doc.add(p);
 
-            if (_person.getPersonID() > 0) {
-                table.addCell(String.valueOf(_person.getPersonID()));
+            table.addCell(new Cell().setFont(_bold).add("Initials"));
+            if(_person.getInitials()!=null){
+                table.addCell(new Cell().add(_person.getInitials()));
             } else {
                 table.addCell(" ");
             }
 
-            if (_person.getFirstname() != null) {
-                table.addCell(_person.getFirstname().toString());
+            table.addCell(new Cell().setFont(_bold).add("Gender"));
+            if(_person.getGender().toString()!=null){
+                table.addCell(new Cell().add(_person.getGender().toString()));
             } else {
                 table.addCell(" ");
             }
 
-            if (_person.getLastname() != null) {
-                table.addCell(_person.getLastname().toString());
+            table.addCell(new Cell().setFont(_bold).add("First Name"));
+            if(_person.getFirstname()!=null){
+                table.addCell(new Cell().add(_person.getFirstname()));
             } else {
                 table.addCell(" ");
             }
 
+            table.addCell(new Cell().setFont(_bold).add("Last Name"));
+            if(_person.getLastname()!=null){
+                table.addCell(new Cell().add(_person.getLastname()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Username"));
+            if(_person.getAccount().getUsername()!=null){
+                table.addCell(new Cell().add(_person.getAccount().getUsername()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Adress"));
+            if(_person.getAddress()!=null){
+                table.addCell(new Cell().add(_person.getAddress()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Phone Number"));
+            if(_person.getPhoneNumber()!=null){
+                table.addCell(new Cell().add(_person.getPhoneNumber()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Email"));
+            if(_person.getEmail()!=null){
+                table.addCell(new Cell().add(_person.getEmail()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Account Role"));
+            if(_person.getAccount().getRole().toString()!=null){
+                table.addCell(new Cell().add(_person.getAccount().getRole().toString()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Person Role"));
+            if(_person.getPersonRole().toString()!=null){
+                table.addCell(new Cell().add(_person.getPersonRole().toString()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Section"));
+            if(_person.getInstrumentType().name()!=null){
+                table.addCell(new Cell().add(_person.getInstrumentType().name()));
+            } else {
+                table.addCell(" ");
+            }
+
+            table.addCell(new Cell().setFont(_bold).add("Instruments"));
+            if(_person.getInstrumentType().name()!=null){
+                table.addCell(new Cell().add(_person.getInstrumentType().name()));
+            } else {
+                table.addCell(" ");
+            }
         }
+
 
             table.setMarginTop(15);
             doc.add(table);
-
-
-
-        doc.close();
-        pdfDoc.close();
+            doc.close();
+            pdfDoc.close();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");

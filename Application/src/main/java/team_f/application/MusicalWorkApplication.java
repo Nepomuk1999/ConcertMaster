@@ -27,13 +27,12 @@ public class MusicalWorkApplication {
        musicalWork.setName(name);
        musicalWork.setComposer(composer);
        musicalWork.setInstrumentation(instrumentation);
-
-        musicalworkfacade.addMusicalWork(musicalWork);
-
-        return new Pair<>(musicalWork, new LinkedList<>());
+       musicalworkfacade.addMusicalWork(musicalWork);
+       return new Pair<>(musicalWork, new LinkedList<>());
     }
 
     public List<MusicalWork> getMusicalWorkList(){
         return musicalworkfacade.getMusicalWorks();
     }
+
 }
