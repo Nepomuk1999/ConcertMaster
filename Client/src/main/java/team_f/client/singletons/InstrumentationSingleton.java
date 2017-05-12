@@ -8,6 +8,7 @@ import team_f.client.pages.instrumentationmanagement.InstrumentationParameter;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.Request;
+import team_f.jsonconnector.entities.list.InstrumentationList;
 import team_f.jsonconnector.entities.special.InstrumentationErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
 
@@ -35,8 +36,16 @@ public class InstrumentationSingleton {
                 @Override
                 public List<Instrumentation> doAction(InstrumentationParameter value) {
                     if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.GET_ALL);
 
+                        InstrumentationList instrumentationList = (InstrumentationList) RequestResponseHelper.writeAndReadJSONObject(getInstrumentationURL(), request, InstrumentationList.class);
+
+                        if(instrumentationList != null) {
+                            return instrumentationList.getInstrumentationList();
+                        }
                     }
+
                     return null;
                 }
             });
