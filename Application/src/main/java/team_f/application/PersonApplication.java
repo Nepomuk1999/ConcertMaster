@@ -1,12 +1,15 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import team_f.database_wrapper.enums.*;
 import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
+import team_f.domain.enums.AccountRole;
+import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.AccountLogic;
 import team_f.domain.logic.DomainEntityManager;
@@ -81,6 +84,7 @@ public class PersonApplication {
 
         person.setAccount(account);
 
+
         PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
 
         List<Account> accountList= accountFacade.getAllUserNames();
@@ -89,8 +93,14 @@ public class PersonApplication {
 
         AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
 
-        List<Pair<String, String>> errorList = accountLogic.validate(account);
-        errorList.addAll(personLogic.validate(person));
+        List<Pair<String, String>> errorList = personLogic.validate(person);
+
+        if(accountRole.equals(AccountRole.Musician) || accountRole.equals(AccountRole.Substitute) || accountRole.equals(AccountRole.Section_representative)){
+            List<Pair<String, String>> errorList2 = accountLogic.validate(account);
+            errorList.addAll(errorList2);
+        }
+
+
 
         for(Person p : personList){
             if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
@@ -105,6 +115,9 @@ public class PersonApplication {
             }
         }
 
+        if(instrumentTypeList == null){
+            errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "no instrument selected"));
+        }
 
         if (errorList.size() > 0) {
             return new Pair<>(person, errorList);
