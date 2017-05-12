@@ -167,9 +167,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         borderPane.setCenter(root);
         setCenter(borderPane);
     }
-    public void scale(Scale scale){
-        getTransforms().setAll(scale);
-    }
 
     @Override
     public void load() {

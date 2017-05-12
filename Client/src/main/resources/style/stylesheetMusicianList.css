@@ -1,6 +1,4 @@
-.label {
-    -fx-underline: true;
-}
+
 #gridpane{
 -fx-padding: 10;
 -fx-border-style: solid inside;
