@@ -183,7 +183,7 @@ public class Client extends Application {
 
             CustomMenuItem sliderItem = new CustomMenuItem(zoomTool);
             sliderItem.setHideOnClick(false);
-            menuSettings.getItems().add(sliderItem);
+            menuSettings.getItems().addAll( new SeparatorMenuItem(),sliderItem, new SeparatorMenuItem());
 
             menuBar.getMenus().addAll(menuFile, menuTodo, menuSettings, menuHelp);
             content.setTop(menuBar);
