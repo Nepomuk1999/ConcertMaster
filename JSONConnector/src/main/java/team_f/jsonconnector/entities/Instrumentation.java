@@ -100,6 +100,7 @@ public class Instrumentation implements JSONObjectEntity {
     public int getHorn() {
         return _horn;
     }
+
     @JsonGetter("trumpet")
     public int getTrumpet() {
         return _trumpet;
@@ -244,9 +245,14 @@ public class Instrumentation implements JSONObjectEntity {
 
     @Override
     public String toString() {
-        return getWoodInstrumentationText() + "\n" +
-               getStringInstrumentationText() + "\n" +
+        return getStringInstrumentationText() + "\n" +
+                getWoodInstrumentationText() + "\n" +
                getBrassInstrumentiaton() + "\n" +
                getPercussionInstrumentation();
     }
+
+    public String getInstrumentation(){
+        return toString();
+    }
+
 }
