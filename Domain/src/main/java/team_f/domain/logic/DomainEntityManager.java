@@ -5,6 +5,7 @@ import team_f.domain.interfaces.EntityLogic;
 
 public class DomainEntityManager {
     private static EventDutyLogic eventDutyLogic = new EventDutyLogic();
+    private static PersonLogic personLogic = new PersonLogic();
 
     public DomainEntityManager() {
     }
@@ -13,6 +14,8 @@ public class DomainEntityManager {
         switch (entity) {
             case EVENT_DUTY:
                 return eventDutyLogic;
+            case PERSON:
+                return personLogic;
             default:
                 return null;
         }

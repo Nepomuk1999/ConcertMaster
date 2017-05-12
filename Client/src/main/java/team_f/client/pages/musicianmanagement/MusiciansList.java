@@ -12,11 +12,12 @@ import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.Person;
 
 import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 
 public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonParameter> {
-    private Label _ID;
+    private Label _id;
     private Label _firstname;
     private Label _lastname;
     private Label _username;
@@ -34,7 +35,9 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
 
     @Override
     public void initialize() {
-        _ID = new Label();
+        final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianList.css");
+        getStylesheets().add(Style.toString());
+        _id = new Label();
         _firstname = new Label();
         _lastname = new Label();
         _username = new Label();
@@ -43,129 +46,107 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _email = new Label();
         _personrole = new Label();
         _accountrole = new Label();
-        _instruments=new Label();
-        _initials=new Label();
-        _section=new Label();
-        _gender=new Label();
+        _instruments = new Label();
+        _initials = new Label();
+        _section = new Label();
+        _gender = new Label();
         _table = new TableView();
         _selectedPath = new TextField();
 
 
-
         BorderPane borderPane = new BorderPane();
-        borderPane.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
+        borderPane.setId("borderPane");
+
 
         _table.setMinHeight(450);
+        _table.setMinWidth(450);
         _table.setEditable(false);
         _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _table.getColumns().addAll(MusicianTableHelper.getFirstNameColumn(), MusicianTableHelper.getLastNameColumn());
         _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-
-                _ID.setText(String.valueOf(_table.getSelectionModel().getSelectedItem().getPersonID()));
-                _firstname.setText(_table.getSelectionModel().getSelectedItem().getFirstname());
-                _lastname.setText(_table.getSelectionModel().getSelectedItem().getLastname());
-                _username.setText(_table.getSelectionModel().getSelectedItem().getAccount().getUsername());
-                _phonenumber.setText(_table.getSelectionModel().getSelectedItem().getPhoneNumber());
-                _address.setText(_table.getSelectionModel().getSelectedItem().getAddress());
-                _personrole.setText(_table.getSelectionModel().getSelectedItem().getPersonRole().toString());
-                _accountrole.setText(_table.getSelectionModel().getSelectedItem().getAccount().getRole().toString());
-                _instruments.setText(_table.getSelectionModel().getSelectedItem().getInstrumentType().name());
-                _initials.setText(_table.getSelectionModel().getSelectedItem().getInitials().toString());
-                _section.setText(_table.getSelectionModel().getSelectedItem().getInstrumentType().name());
-                _gender.setText(_table.getSelectionModel().getSelectedItem().getGender().toString());
-
+                setFields(_table.getSelectionModel().getSelectedItem());
             }
         });
 
         GridPane gridPane = new GridPane();
+        gridPane.setId("gridpane");
         gridPane.setMinHeight(450);
-        gridPane.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: grey;");
-        gridPane.getColumnConstraints().addAll(new ColumnConstraints(160), new ColumnConstraints(160));
-        gridPane.setVgap(10);
+
+        gridPane.getColumnConstraints().addAll(new ColumnConstraints(160), new ColumnConstraints(160), new ColumnConstraints(160));
+        gridPane.setVgap(5);
         gridPane.setHgap(10);
 
-        gridPane.add(new Label("ID"), 0, 1);
-        gridPane.add(new Label("Initials:"), 0, 3);
-        gridPane.add(new Label("Gender:"), 0, 5);
-        gridPane.add(new Label("First Name:"), 0, 7);
-        gridPane.add(new Label("Last Name:"), 0, 9);
-        gridPane.add(new Label("Username:"), 0, 11);
-        gridPane.add(new Label("Address:"), 0, 13);
-        gridPane.add(new Label("Phone Number:"), 0, 15);
-        gridPane.add(new Label("Email:"), 0, 17);
-        gridPane.add(new Label("Account Role:"), 0, 19);
-        gridPane.add(new Label("Person Role:"), 0, 21);
-        gridPane.add(new Label("Section:"), 0, 23);
-        gridPane.add(new Label("Instruments:"), 0, 25);
 
-        gridPane.add(_ID, 1, 1);
-        gridPane.add(_initials, 1, 3);
-        gridPane.add(_gender, 1, 5);
-        gridPane.add(_firstname, 1, 7);
-        gridPane.add(_lastname, 1, 9);
-        gridPane.add(_username, 1, 11);
-        gridPane.add(_address, 1, 13);
-        gridPane.add(_phonenumber, 1, 15);
-        gridPane.add(_email, 1, 17);
-        gridPane.add(_accountrole, 1, 19);
-        gridPane.add(_personrole, 1, 21);
-        gridPane.add(_section, 1, 23);
-        gridPane.add(_instruments, 1, 25);
+        gridPane.add(new Label("ID"), 0, 0);
+        gridPane.add(new Label("Initials:"), 0, 2);
+        gridPane.add(new Label("Gender:"), 2, 2);
+        gridPane.add(new Label("First Name:"), 0, 4);
+        gridPane.add(new Label("Last Name:"), 2, 4);
+        gridPane.add(new Label("Username:"), 0, 6);
+        gridPane.add(new Label("Address:"), 2, 6);
+        gridPane.add(new Label("Phone Number:"), 0, 8);
+        gridPane.add(new Label("Email:"), 2, 8);
+        gridPane.add(new Label("Account Role:"), 0, 10);
+        gridPane.add(new Label("Person Role:"), 2, 10);
+        gridPane.add(new Label("Section:"), 0, 12);
+        gridPane.add(new Label("Instruments:"), 2, 12);
+
+
+        gridPane.add(_id, 1, 0);
+        gridPane.add(_initials, 1, 2);
+        gridPane.add(_gender, 3, 2);
+        gridPane.add(_firstname, 1, 4);
+        gridPane.add(_lastname, 3, 4);
+        gridPane.add(_username, 1, 6);
+        gridPane.add(_address, 3, 6);
+        gridPane.add(_phonenumber, 1, 8);
+        gridPane.add(_email, 3, 8);
+        gridPane.add(_accountrole, 1, 10);
+        gridPane.add(_personrole, 3, 10);
+        gridPane.add(_section, 1, 12);
+        gridPane.add(_instruments, 3, 12);
 
         Button MusicianToPdfButton = new Button("Convert Musician to PDF");
         MusicianToPdfButton.setDisable(true);
         MusicianToPdfButton.setMinWidth(180);
-        MusicianToPdfButton.setStyle("-fx-font: 14 arial;");
         MusicianToPdfButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
             File selectedFile = fileChooser.showSaveDialog(new Stage());
 
             if (selectedFile != null) {
-                Person selected = _table.getSelectionModel().getSelectedItem();
+
                 try {
-                    MusicianPDFGenerator main = new MusicianPDFGenerator(selected, selectedFile.getAbsolutePath());
+                    MusicianPDFGenerator main = new MusicianPDFGenerator(_table.getSelectionModel().getSelectedItem(),selectedFile.getAbsolutePath());
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                }else{
-                return;
             }
         });
 
         Button ListToPdfButton = new Button("Convert Musician List to PDF");
         ListToPdfButton.setMinWidth(180);
-        ListToPdfButton.setStyle("-fx-font: 14 arial;");
         ListToPdfButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
             File selectedFile = fileChooser.showSaveDialog(new Stage());
 
             if (selectedFile != null) {
-                _selectedPath.setText(selectedFile.getAbsolutePath());
                 List<Person> items = _table.getItems();
                 try {
-                    //PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _selectedPath.getText());
+                   ListPDFGenerator main=new ListPDFGenerator(_table.getItems(),selectedFile.getAbsolutePath());
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
 
         _table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-            MusicianToPdfButton.setDisable(false);
-            }else{
+                MusicianToPdfButton.setDisable(false);
+            } else {
                 MusicianToPdfButton.setDisable(true);
             }
         });
@@ -195,19 +176,14 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         });
 
         Label titleMusician = new Label("Musician");
-        titleMusician.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titleMusician.setId("titleMusician");
 
         Label titleList = new Label("Musician List");
-        titleList.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titleList.setId("titleList");
+
 
         VBox zoomTool = new VBox();
-        zoomTool.setStyle("-fx-padding: 10;");
+        zoomTool.setId("zoomTool");
         zoomTool.getChildren().addAll(new Label("Zoom"), mySlider);
         setTop(zoomTool);
 
@@ -262,6 +238,49 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
                 update();
             }
         }
+    }
+
+    public void setFields(Person person) {
+
+        if (person.getPersonID() >0) {
+            _id.setText(String.valueOf(person.getPersonID()));
+        }
+
+        if (person.getFirstname() != null) {
+            _firstname.setText(person.getFirstname());
+        }
+        if (person.getLastname() != null) {
+            _lastname.setText(person.getLastname());
+        }
+        if (person.getAccount() != null && person.getAccount().getUsername() != null) {
+            _username.setText(person.getAccount().getUsername());
+        }
+        if (person.getPhoneNumber() != null) {
+            _phonenumber.setText(person.getPhoneNumber());
+        }
+        if (person.getAddress() != null) {
+            _address.setText(person.getAddress());
+        }
+        if (person.getPersonRole() != null) {
+            _personrole.setText(person.getPersonRole().toString());
+        }
+        if (person.getAccount() != null && person.getAccount().getRole() != null) {
+            _accountrole.setText(person.getAccount().getRole().toString());
+        }
+        if (person.getInstrumentType() != null) {
+            _instruments.setText(person.getInstrumentType().name());
+        }
+        if (person.getInitials() != null) {
+            _initials.setText(person.getInitials().toString());
+        }
+        if (person.getInstrumentType() != null) {
+            _section.setText(person.getInstrumentType().toString());
+        }
+        if (person.getGender() != null) {
+            _gender.setText(person.getGender().toString());
+        }
+
+
     }
 
 }

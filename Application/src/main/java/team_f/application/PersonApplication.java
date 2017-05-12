@@ -1,15 +1,14 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
-import team_f.domain.enums.AccountRole;
-import team_f.domain.enums.EntityType;
-import team_f.domain.enums.InstrumentType;
-import team_f.domain.enums.PersonRole;
+import team_f.domain.enums.*;
 import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.logic.AccountLogic;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.PersonLogic;
 import java.math.BigInteger;
@@ -19,6 +18,7 @@ import java.util.List;
 
 public class PersonApplication {
     private PersonFacade personFacade = new PersonFacade();
+    private AccountFacade accountFacade = new AccountFacade();
 
     public PersonApplication() {
     }
@@ -79,9 +79,32 @@ public class PersonApplication {
         // @TODO: save a hashed value to the DB
         account.setPassword(new BigInteger(130, random).toString(32));
 
+        person.setAccount(account);
+
         PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
 
-        List<Pair<String, String>> errorList = personLogic.validate(person);
+        List<Account> accountList= accountFacade.getAllUserNames();
+        List<Person> personList = getAllMusicians();
+
+
+        AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
+
+        List<Pair<String, String>> errorList = accountLogic.validate(account);
+        errorList.addAll(personLogic.validate(person));
+
+        for(Person p : personList){
+            if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
+                    && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
+                errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
+            }
+        }
+
+        for(Account ac : accountList){
+            if(ac.getUsername().equals(username.trim())){
+                errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+            }
+        }
+
 
         if (errorList.size() > 0) {
             return new Pair<>(person, errorList);

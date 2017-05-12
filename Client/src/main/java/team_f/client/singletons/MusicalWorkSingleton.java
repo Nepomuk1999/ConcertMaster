@@ -14,7 +14,6 @@ import team_f.jsonconnector.enums.request.ActionType;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MusicalWorkSingleton {
@@ -50,6 +49,7 @@ public class MusicalWorkSingleton {
             _musicalWork.setOnCreate(new PageAction<MusicalWorkErrorList, MusicalWork>() {
                 @Override
                 public MusicalWorkErrorList doAction(MusicalWork value) {
+
                     Request request = new Request();
                     request.setActionType(ActionType.CREATE);
                     request.setEntity(value);

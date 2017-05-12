@@ -28,7 +28,7 @@ public class AlertHelper {
         buttonList.add(okButton);
         buttonList.add(cancelButton);
 
-        Optional optional = showMessage("Error", headerText, contentText, Alert.AlertType.WARNING, null, buttonList, pane);
+        Optional optional = showMessage("Warning", headerText, contentText, Alert.AlertType.WARNING, null, buttonList, pane);
 
         if(optional != null) {
             if(optional.get().equals(okButton)) {
@@ -46,7 +46,7 @@ public class AlertHelper {
     }
 
     public static void showTryAgainLaterErrorMessage(Pane pane) {
-        showMessage("Error", "Please try it again later or contact your System-Administrator!", "", Alert.AlertType.ERROR, null, null, pane);
+        showMessage("Error", "The data could not be loaded.\nPlease try it again later or contact your System-Administrator!", "", Alert.AlertType.ERROR, null, null, pane);
     }
 
     private static Optional showMessage(String title, String headerText, String contentText, Alert.AlertType type, ImageView icon, List<ButtonType> buttonTypeList, Pane pane) {

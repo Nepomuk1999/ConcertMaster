@@ -21,6 +21,7 @@ import team_f.jsonconnector.entities.special.EventDutyErrorList;
 import team_f.jsonconnector.enums.PublishType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.io.File;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +43,8 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         if(_initialize != null) {
             _initialize.doAction(null);
         }
-
+        final URL Style = ClassLoader.getSystemResource("style/stylesheetMonthPublisher.css");
+        getStylesheets().add(Style.toString());
         _data = FXCollections.observableArrayList(
                 new Month("January", 1),
                 new Month("February", 2),
@@ -70,36 +72,34 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         //Comboboxes
         ComboBox<Integer> comboBoxYear = new ComboBox<>(_year);
         comboBoxYear.setMinWidth(125);
-        comboBoxYear.setStyle("-fx-font: 14 arial;");
         Label labelYear = new Label("Year:");
         labelYear.setMinWidth(125);
-        labelYear.setStyle("-fx-font: 14 arial;");
         comboBoxYear.getSelectionModel().select(1);
         _selectedYear = comboBoxYear.getSelectionModel().getSelectedItem().intValue();
 
         ComboBox<Month> comboBoxMonth = new ComboBox<>(_data);
         comboBoxMonth.setMinWidth(125);
-        comboBoxMonth.setStyle("-fx-font: 14 arial;");
         Label labelMonth = new Label("Month:");
         labelMonth.setMinWidth(125);
-        labelMonth.setStyle("-fx-font: 14 arial;");
         comboBoxMonth.getSelectionModel().selectFirst();
         _selectedMonth = _data.get(LocalDateTime.now().getMonth().getValue() -1);
         comboBoxMonth.getSelectionModel().select(_selectedMonth);
 
-        comboBoxYear.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
-                comboBoxYear.getSelectionModel().select(arg2.intValue());
+        comboBoxYear.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 comboBoxYear.hide();
-                _selectedYear = arg2.intValue();
+                comboBoxYear.getSelectionModel().select(newValue);
+                _selectedYear = newValue.intValue();
+
+                loadList();
             }
         });
 
-        comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((arg0, arg1, arg2) -> {
-            if (arg2 != null) {
+        comboBoxMonth.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
                 comboBoxMonth.hide();
-                _selectedMonth.setMonth(arg2.getMonth());
-                _selectedMonth.setValue(arg2.getValue());
+                comboBoxMonth.getSelectionModel().select(newValue);
+                _selectedMonth.setValue(newValue.getValue());
 
                 loadList();
             }
@@ -115,21 +115,18 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         //Button
         Button publishButton = new Button("Publish Month");
         publishButton.setMinWidth(125);
-        publishButton.setStyle("-fx-font: 14 arial;");
         publishButton.setOnAction(event -> {
             publish();
         });
 
         Button unpublishButton = new Button("Unpublish Month");
         unpublishButton.setMinWidth(125);
-        unpublishButton.setStyle("-fx-font: 14 arial;");
         unpublishButton.setOnAction(event -> {
             unpublish();
         });
 
         Label directoryLabel = new Label("Selected Directory:");
         directoryLabel.setMinWidth(250);
-        directoryLabel.setStyle("-fx-font: 14 arial;");
 
         _selectedPath.setDisable(true);
         _selectedPath.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -142,7 +139,6 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
 
         Button pdfGeneratorButton = new Button("Convert Schedule to PDF");
         pdfGeneratorButton.setMinWidth(180);
-        pdfGeneratorButton.setStyle("-fx-font: 14 arial;");
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -155,22 +151,18 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                 try {
                     PublisherPDFGenerator main = new PublisherPDFGenerator(items, selectedValues, _selectedPath.getText());
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
 
         //Title Label
         Label titlePublisher=new Label("Publisher");
-        titlePublisher.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titlePublisher.setId("titlePublisher");
+
 
         Label titlePdfConverter=new Label("PDF Converter");
-        titlePdfConverter.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titlePdfConverter.setId("titlePdfConverter");
 
         //Event Pane
         GridPane pane = new GridPane();
@@ -192,26 +184,8 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         _root = new VBox(25);
         _root.getChildren().addAll(pane,_table,buttonsBox);
 
-       /*  VBox tableBox = new VBox();
-        tableBox.getChildren().addAll(_table, buttonsBox);
-        tableBox.setSpacing(5);
-        setBottom(tableBox);
-        //setCenter(_root);
-       setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");*/
-
-
         BorderPane borderPane=new BorderPane();
-        borderPane.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
+        borderPane.setId("borderPane");
 
         Slider mySlider = new Slider();
         mySlider.setMaxWidth(100);
@@ -238,7 +212,7 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         });
 
         VBox zoomTool = new VBox();
-        zoomTool.setStyle("-fx-padding: 10;");
+        zoomTool.setId("zoomTool");
         zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
         setTop(zoomTool);
         borderPane.setCenter(_root);
@@ -364,6 +338,8 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
 
             if(eventDuties != null) {
                 _table.setItems(FXCollections.observableList(eventDuties));
+            } else {
+                showTryAgainLaterErrorMessage();
             }
         }
     }
