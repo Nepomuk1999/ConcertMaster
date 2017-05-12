@@ -1,5 +1,6 @@
 package team_f.jsonconnector.helper;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
@@ -10,6 +11,7 @@ public class ReadHelper {
     public static <T extends JSONObjectEntity> JSONObjectEntity readJSONObject(Reader reader, Class<T> jsonObjectEntityClass) {
         if(reader != null && jsonObjectEntityClass != null) {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
             mapper.registerModule(new JavaTimeModule());
 
             try {
@@ -25,6 +27,8 @@ public class ReadHelper {
     public static <T extends JSONObjectEntity> JSONObjectEntity readJSONObject(String content, Class<T> jsonObjectEntityClass) {
         if(content != null && jsonObjectEntityClass != null) {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
+            mapper.registerModule(new JavaTimeModule());
 
             try {
                 return mapper.readValue(content, jsonObjectEntityClass);

@@ -5,6 +5,7 @@ import team_f.application.EventApplication;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.list.EventDutyList;
 import team_f.jsonconnector.entities.Pair;
+import team_f.jsonconnector.entities.special.request.EventDutyRequest;
 import team_f.jsonconnector.enums.request.EventDutyParameter;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
@@ -42,7 +43,7 @@ public class EventDuty extends HttpServlet {
         String contentType = req.getContentType();
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
-            team_f.jsonconnector.entities.Request request = (team_f.jsonconnector.entities.Request) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Request.class);
+            EventDutyRequest request = (EventDutyRequest) ReadHelper.readJSONObject(req.getReader(), EventDutyRequest.class);
 
             if(request != null) {
                 EventApplication facade = new EventApplication();

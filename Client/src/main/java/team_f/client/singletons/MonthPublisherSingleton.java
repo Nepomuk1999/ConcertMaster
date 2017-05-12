@@ -8,7 +8,7 @@ import team_f.client.pages.monthpublish.MonthPublisher;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.list.EventDutyList;
-import team_f.jsonconnector.entities.special.EventDutyErrorList;
+import team_f.jsonconnector.entities.special.errorlist.EventDutyErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
 import team_f.jsonconnector.enums.request.EventDutyParameter;
 

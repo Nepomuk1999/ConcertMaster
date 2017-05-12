@@ -9,7 +9,7 @@ import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.MusicalWork;
 import team_f.jsonconnector.entities.Request;
 import team_f.jsonconnector.entities.list.MusicalWorkList;
-import team_f.jsonconnector.entities.special.MusicalWorkErrorList;
+import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
 
 import java.net.MalformedURLException;
@@ -49,37 +49,48 @@ public class MusicalWorkSingleton {
             _musicalWork.setOnCreate(new PageAction<MusicalWorkErrorList, MusicalWork>() {
                 @Override
                 public MusicalWorkErrorList doAction(MusicalWork value) {
+                    if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.CREATE);
+                        request.setEntity(value);
 
-                    Request request = new Request();
-                    request.setActionType(ActionType.CREATE);
-                    request.setEntity(value);
+                        MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
+                        return errorList;
+                    }
 
-                    MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
-                    return errorList;
+                    return null;
                 }
             });
 
             _musicalWork.setOnDelete(new PageAction<MusicalWorkErrorList, MusicalWork>() {
                 @Override
                 public MusicalWorkErrorList doAction(MusicalWork value) {
-                    Request request = new Request();
-                    request.setActionType(ActionType.DELETE);
-                    request.setEntity(value);
+                    if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.DELETE);
+                        request.setEntity(value);
 
-                    MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
-                    return errorList;
+                        MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
+                        return errorList;
+                    }
+
+                    return null;
                 }
             });
 
             _musicalWork.setOnEdit(new PageAction<MusicalWorkErrorList, MusicalWork>() {
                 @Override
                 public MusicalWorkErrorList doAction(MusicalWork value) {
-                    Request request = new Request();
-                    request.setActionType(ActionType.UPDATE);
-                    request.setEntity(value);
+                    if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.UPDATE);
+                        request.setEntity(value);
 
-                    MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
-                    return errorList;
+                        MusicalWorkErrorList errorList = (MusicalWorkErrorList) RequestResponseHelper.writeAndReadJSONObject(getMusicalWorkURL(), request, MusicalWorkErrorList.class);
+                        return errorList;
+                    }
+
+                    return null;
                 }
             });
         }
