@@ -30,9 +30,6 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, Mus
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-
-
-
         session.persist(mwEntity);
 
         try {
