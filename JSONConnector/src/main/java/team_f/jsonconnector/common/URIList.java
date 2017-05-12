@@ -11,5 +11,6 @@ public class URIList {
     public static final String musicalWork = "/MusicalWork";
     public static final String person = "/Person";
     public static final String register = "/Register";
+    public static final String instrumentation = "/Instrumentation";
     public static final String authenticate = "/Authenticate";
 }

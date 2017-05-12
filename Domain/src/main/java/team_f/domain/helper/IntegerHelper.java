@@ -16,4 +16,11 @@ public class IntegerHelper {
 
         return false;
     }
+
+    public static boolean isBiggerThanZero (int count) {
+        if (count > 0) {
+            return true;
+        }
+        return false;
+    }
 }

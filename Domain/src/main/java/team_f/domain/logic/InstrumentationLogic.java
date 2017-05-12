@@ -2,7 +2,9 @@ package team_f.domain.logic;
 
 import javafx.util.Pair;
 import team_f.domain.entities.Instrumentation;
+import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.InstrumentationProperty;
+import team_f.domain.helper.IntegerHelper;
 import team_f.domain.interfaces.EntityLogic;
 
 import java.util.LinkedList;
@@ -17,13 +19,20 @@ public class InstrumentationLogic implements EntityLogic<Instrumentation, Instru
     public List<Pair<String, String>> validate(Instrumentation instrumentation, InstrumentationProperty... properties) {
         List<Pair<String, String>> resultList = new LinkedList<>();
 
-        LOOP:
-        for (InstrumentationProperty property : properties) {
+        boolean allZero = true;
 
-            switch (property) {
-                // @TODO: validate the cases
-                // use AccountLogic for the account specific logic
+        for (InstrumentationProperty property : properties) {
+            if (property == null) {
+                resultList.add(new Pair<>(String.valueOf(InstrumentType.valueOf(property.toString())), "is empty"));
+            } else {
+                if (IntegerHelper.isBiggerThanZero(instrumentation.getByInstrumentType(InstrumentType.valueOf(property.toString())))) {
+                    allZero = false;
+                }
             }
+        }
+
+        if (allZero == true) {
+            resultList.add(new Pair<>("", "All inputs are 0!"));
         }
 
         return resultList;
@@ -31,8 +40,6 @@ public class InstrumentationLogic implements EntityLogic<Instrumentation, Instru
 
     @Override
     public List<Pair<String, String>> validate(Instrumentation instrumentation) {
-        List<Pair<String, String>> result = new LinkedList<>();
-
         return validate(instrumentation, InstrumentationProperty.values());
     }
 }

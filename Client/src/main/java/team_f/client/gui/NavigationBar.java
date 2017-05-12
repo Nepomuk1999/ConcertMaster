@@ -94,6 +94,9 @@ public class NavigationBar {
         menuSectionItem = new MenuSectionItem("Musical Work Management");
         menuSectionItem.setOnMouseClicked(event -> loadPage(MusicalWorkSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
+        menuSectionItem = new MenuSectionItem("Instrumentation Management");
+        menuSectionItem.setOnMouseClicked(event -> loadPage(InstrumentationSingleton.getInstance(_configuration)));
+        menuSectionCompositions.add(menuSectionItem);
         sidebar.add(menuSectionCompositions);
         menuSectionArrayList.add(menuSectionCompositions);
 
