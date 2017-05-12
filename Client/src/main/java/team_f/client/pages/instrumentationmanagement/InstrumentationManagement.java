@@ -7,10 +7,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.controls.numberfield.NumberField;
+import team_f.client.converter.InstrumentationConverter;
 import team_f.client.exceptions.NumberRangeException;
+import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
+import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.Instrumentation;
+
+import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
+import team_f.jsonconnector.interfaces.JSONObjectEntity;
+
 
 import java.net.URL;
 import java.util.LinkedList;
@@ -135,11 +142,74 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     public void addInstrumentation(){
+        if(_create != null) {
+            Instrumentation instrumentation = new Instrumentation();
 
+            instrumentation.setViolin1(Integer.parseInt(_firstViolinField.getText()));
+            instrumentation.setViolin2(Integer.parseInt(_secondViolinField.getText()));
+            instrumentation.setViola(Integer.parseInt(_violaField.getText()));
+            instrumentation.setViolincello(Integer.parseInt(_violoncelloField.getText()));
+            instrumentation.setDoublebass(Integer.parseInt(_doublebassField.getText()));
+
+            instrumentation.setFlute(Integer.parseInt(_fluteField.getText()));
+            instrumentation.setOboe(Integer.parseInt(_oboeField.getText()));
+            instrumentation.setClarinet(Integer.parseInt(_clarinetField.getText()));
+            instrumentation.setBassoon(Integer.parseInt(_bassoonField.getText()));
+
+            instrumentation.setHorn(Integer.parseInt(_hornField.getText()));
+            instrumentation.setTrumpet(Integer.parseInt(_trumpetField.getText()));
+            instrumentation.setTrombone(Integer.parseInt(_tromboneField.getText()));
+            instrumentation.setTube(Integer.parseInt(_tubeField.getText()));
+
+            instrumentation.setKettledrum(Integer.parseInt(_kettledrumField.getText()));
+            instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
+            instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
+
+            //instrumentation.setSpecialInstrumentation();
+
+            InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
+
+            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if(tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1 && resultInstrumentationErrorList.getKeyValueList().get(0).getKey() != null && resultInstrumentationErrorList.getKeyValueList().get(0).getKey().getInstrumentationID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _table.getItems().add(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+        reset();
     }
 
     public void deleteInstrumentation(){
+        if(_delete != null) {
+            Instrumentation instrumentation = new Instrumentation();
 
+            InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
+
+            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if(tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1 && resultInstrumentationErrorList.getKeyValueList().get(0).getKey() != null && resultInstrumentationErrorList.getKeyValueList().get(0).getKey().getInstrumentationID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _table.getItems().remove(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
     }
 
     private GridPane getNewInstrumentationDataPane(){
@@ -207,6 +277,20 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         Button addButton = new Button("Add Instrumentation");
         addButton.setMinWidth(130);
 
+        addButton.setOnAction(e -> {
+            if (_nameField.getText().isEmpty() ||
+                    _firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
+                    _doublebassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
+                    _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubeField.getText().isEmpty()
+                    || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
+                validate(textFields);
+                validate(decimalFields);
+                showValuesMissingMessage();
+            } else {
+                addInstrumentation();
+            }
+        });
+
         pane.add(new Label("Instrumentation:"), 0,2);
         pane.add(new Label("String:"), 0,3);
         pane.add(new Label("Wood:"),2,3);
@@ -229,5 +313,9 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                 showTryAgainLaterErrorMessage();
             }
         }
+    }
+
+    private void reset() {
+        _nameField.setText(null);
     }
 }
