@@ -15,7 +15,6 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
     public List<Pair<String, String>> validate(MusicalWork object, MusicalWorkProperty... properties) {
         List<Pair<String, String>> resultList = new LinkedList<>();
 
-        LOOP:
         for( MusicalWorkProperty property : properties){
             switch (property){
                 case CONDUCTOR:
@@ -34,7 +33,7 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
 
                 case INSTRUMENTAMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-                    List<Pair<String, String>> errorList = InstrumentationLogic.validate(object.getInstrumentation());
+                    List<Pair<String, String>> errorList = instrumentationLogic.validate(object.getInstrumentation());
 
                     break;
             }
@@ -44,6 +43,6 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
 
     @Override
     public List<Pair<String, String>> validate(MusicalWork object) {
-        return null;
+        return validate(object, MusicalWorkProperty.values());
     }
 }
