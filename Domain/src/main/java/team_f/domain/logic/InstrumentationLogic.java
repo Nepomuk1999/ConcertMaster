@@ -22,7 +22,7 @@ public class InstrumentationLogic implements EntityLogic<Instrumentation, Instru
         boolean allZero = true;
 
         for (InstrumentationProperty property : properties) {
-            if (property == null) {
+            if (instrumentation.getByInstrumentType(InstrumentType.valueOf(property.toString())) == null) {
                 resultList.add(new Pair<>(String.valueOf(InstrumentType.valueOf(property.toString())), "is empty"));
             } else {
                 if (IntegerHelper.isBiggerThanZero(instrumentation.getByInstrumentType(InstrumentType.valueOf(property.toString())))) {
@@ -31,7 +31,7 @@ public class InstrumentationLogic implements EntityLogic<Instrumentation, Instru
             }
         }
 
-        if (allZero == true) {
+        if (allZero) {
             resultList.add(new Pair<>("", "All inputs are 0!"));
         }
 

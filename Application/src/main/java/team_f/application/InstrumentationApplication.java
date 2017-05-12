@@ -50,7 +50,6 @@ public class InstrumentationApplication {
         instrumentation.setHarp(harp);
 
         InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-
         List<Pair<String, String>> errorList = instrumentationLogic.validate(instrumentation);
 
         if (errorList.size() > 0) {
