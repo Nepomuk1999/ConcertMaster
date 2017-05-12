@@ -65,8 +65,6 @@ public class PersonLogic implements EntityLogic<Person, PersonProperty> {
 
     @Override
     public List<Pair<String, String>> validate(Person person) {
-        List<Pair<String, String>> result = new LinkedList<>();
-
         return validate(person, PersonProperty.values());
     }
 }

@@ -188,8 +188,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
     @Override
     public List<Pair<String, String>> validate(EventDuty eventDuty) {
-        List<Pair<String, String>> result = new LinkedList<>();
-
         return validate(eventDuty, EventDutyProperty.values());
     }
 }

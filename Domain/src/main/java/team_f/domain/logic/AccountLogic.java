@@ -36,8 +36,6 @@ public class AccountLogic implements EntityLogic<Account, AccountProperty> {
 
     @Override
     public List<Pair<String, String>> validate(Account account) {
-        List<Pair<String, String>> result = new LinkedList<>();
-
         return validate(account, AccountProperty.values());
     }
 }
