@@ -12,6 +12,7 @@ import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,7 +57,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         if(_initialize != null) {
             _initialize.doAction(null);
         }
-
+        final URL Style = ClassLoader.getSystemResource("style/stylesheetInstrumentation.css");
+        getStylesheets().add(Style.toString());
         _nameField = new TextField();
         try {
             _firstViolinField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
@@ -101,12 +103,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         root.getChildren().addAll(newDataPane, _table, deleteButton);
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
-        borderPane.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
+        borderPane.setId("borderPane");
+
         borderPane.setCenter(root);
         setCenter(borderPane);
     }
@@ -150,10 +148,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.setVgap(10);
 
         Label titleInstrumentation = new Label("Instrumentation");
-        titleInstrumentation.setStyle(" -fx-font-size: 20px;\n" +
-                "    -fx-font-weight: bold;\n" +
-                "    -fx-text-fill: #333333;\n" +
-                "    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );");
+        titleInstrumentation.setId("titleInstrumentation");
 
         pane.addRow(0,titleInstrumentation);
         pane.addRow(1, new Label("Name"), _nameField);

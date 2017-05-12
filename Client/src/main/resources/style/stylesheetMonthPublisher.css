@@ -6,23 +6,15 @@
     -fx-border-radius: 5;
     -fx-border-color: blue;
 }
-
 .button {
     -fx-font: 14 arial;
 }
-
 .label {
     -fx-font: 14 arial;
 }
-
-#zoomTool {
-    -fx-padding: 10;
-}
-
 .combo-box {
     -fx-font: 14 arial;
 }
-
 #titlePublisher, #titlePdfConverter {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
