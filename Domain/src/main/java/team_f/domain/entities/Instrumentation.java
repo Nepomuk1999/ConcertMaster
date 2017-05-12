@@ -238,7 +238,7 @@ public class Instrumentation implements DomainEntity {
         setHarp(getHarp() + instrumentation.getHarp());
     }
 
-    public int getByInstrumentType(InstrumentType instrumentType) {
+    public Integer getByInstrumentType(InstrumentType instrumentType) {
         switch (instrumentType) {
             case FLUTE:
                 return getFlute();

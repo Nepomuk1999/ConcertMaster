@@ -10,7 +10,6 @@ import team_f.jsonconnector.entities.special.request.MusicalWorkRequest;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.MusicalWorkConverter;
-import team_f.server.helper.converter.PersonConverter;
 import team_f.server.helper.response.CommonResponse;
 import team_f.server.helper.response.JsonResponse;
 
@@ -85,7 +84,7 @@ public class MusicalWork extends HttpServlet {
                                     musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),
                                     musicalWork.getInstrumentation().getPercussion(), musicalWork.getInstrumentation().getHarp());
 
-                            errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());
+                            errorList = JsonResponse.prepareErrorMessage(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);

@@ -2,8 +2,8 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.EventDutyMusicalWorkEntity;
 import team_f.database_wrapper.entities.MusicalWorkEntity;
+import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
-import team_f.domain.interfaces.DomainEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, MusicalWork> {
+    private static InstrumentationFacade _instrumentationFacade = new InstrumentationFacade();
+
     public MusicalWorkFacade() {
         super();
     }
@@ -20,10 +22,13 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, Mus
     }
 
     public Integer addMusicalWork(MusicalWork musicalWork) {
-        EntityManager session = getCurrentSession();
-        session.getTransaction().begin();
 
         MusicalWorkEntity mwEntity = convertToMusicalWorkEntity(musicalWork);
+        Instrumentation instrumentation = musicalWork.getInstrumentation();
+        mwEntity.setInstrumentationId(_instrumentationFacade.addInstrumentation(instrumentation));
+
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
 
         session.persist(mwEntity);
 
@@ -134,10 +139,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, Mus
     protected MusicalWorkEntity convertToMusicalWorkEntity(MusicalWork mw) {
         MusicalWorkEntity mwe = new MusicalWorkEntity();
 
-        if(mw.getInstrumentation() != null) {
-            mwe.setInstrumentationId(mw.getInstrumentation().getInstrumentationID());
-        }
-
+        mwe.setMusicalWorkId(mw.getMusicalWorkID());
         mwe.setComposer(mw.getComposer());
         mwe.setName(mw.getName());
 
