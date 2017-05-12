@@ -93,14 +93,14 @@ public class PersonApplication {
         errorList.addAll(personLogic.validate(person));
 
         for(Person p : personList){
-            if(p.getFirstname().equals(firstname) && p.getLastname().equals(lastname) && p.getGender().equals(gender) && p.getAddress().equals(address)
-                    && p.getEmail().equals(email) && p.getPhoneNumber().equals(phoneNumber) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
+            if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
+                    && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
                 errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
             }
         }
 
         for(Account ac : accountList){
-            if(ac.getUsername().equals(username)){
+            if(ac.getUsername().equals(username.trim())){
                 errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
             }
         }
