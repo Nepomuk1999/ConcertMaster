@@ -9,16 +9,13 @@ import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.Request;
 import team_f.jsonconnector.entities.list.InstrumentationList;
-import team_f.jsonconnector.entities.special.InstrumentationErrorList;
+import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-/**
- * Created by dominik on 11.05.17.
- */
 public class InstrumentationSingleton {
     private static InstrumentationManagement _instrumentation;
     private static Configuration _configuration;

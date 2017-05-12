@@ -9,7 +9,7 @@ public class MusicalWorkConverter {
         result.setName(musicalWork.getName());
 
         if(musicalWork.getAlternativeInstrumentation() != null) {
-            result.setAlternativeInstrumentationId(InstrumentationConverter.convertToJSON(musicalWork.getAlternativeInstrumentation()));
+            //result.setAlternativeInstrumentationId(InstrumentationConverter.convertToJSON(musicalWork.getAlternativeInstrumentation()));
         }
 
         if(musicalWork.getInstrumentation() != null) {

@@ -12,7 +12,7 @@ import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.special.PersonErrorList;
+import team_f.jsonconnector.entities.special.errorlist.PersonErrorList;
 import team_f.jsonconnector.enums.*;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 

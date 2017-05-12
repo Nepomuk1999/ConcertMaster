@@ -8,12 +8,9 @@ import javafx.scene.layout.VBox;
 import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.controls.numberfield.NumberField;
 import team_f.client.exceptions.NumberRangeException;
-import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.Instrumentation;
-import team_f.jsonconnector.entities.Pair;
-import team_f.jsonconnector.entities.special.InstrumentationErrorList;
-import team_f.jsonconnector.interfaces.JSONObjectEntity;
+import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 
 import java.util.LinkedList;
 import java.util.List;

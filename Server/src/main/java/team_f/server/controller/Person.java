@@ -2,9 +2,9 @@ package team_f.server.controller;
 
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
-import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.list.PersonList;
+import team_f.jsonconnector.entities.special.request.PersonRequest;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.PersonConverter;
@@ -41,12 +41,11 @@ public class Person extends HttpServlet {
         String contentType = req.getContentType();
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
-            team_f.jsonconnector.entities.Request request = (team_f.jsonconnector.entities.Request) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Request.class);
+            PersonRequest request = (PersonRequest) ReadHelper.readJSONObject(req.getReader(), PersonRequest.class);
 
             if(request != null) {
                 PersonApplication facade = new PersonApplication();
                 team_f.jsonconnector.entities.Person person;
-                javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
 
                 switch (request.getActionType()) {
                     case GET_BY_PARAMETER:
@@ -73,7 +72,7 @@ public class Person extends HttpServlet {
                         // this is handled by the register servlet
                         break;
                     case UPDATE:
-                        person = (team_f.jsonconnector.entities.Person) request.getEntity();
+                        person = request.getEntity();
 
                         if(person != null) {
                             // @TODO: add update functionality
@@ -87,7 +86,7 @@ public class Person extends HttpServlet {
 
                         break;
                     case DELETE:
-                        person = (team_f.jsonconnector.entities.Person) request.getEntity();
+                        person = request.getEntity();
 
                         if(person != null) {
                             // @TODO: add update functionality

@@ -8,10 +8,10 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Request implements JSONObjectEntity {
+public class Request<T extends JSONObjectEntity> implements JSONObjectEntity {
     private ActionType _actionType;
     private List<Pair<String, String>> _parameterKeyValueList;
-    private JSONObjectEntity _entity;
+    private T _entity;
 
     @JsonGetter("action_type")
     public ActionType getActionType() {
@@ -24,7 +24,7 @@ public class Request implements JSONObjectEntity {
     }
 
     @JsonGetter("entity")
-    public JSONObjectEntity getEntity() {
+    public T getEntity() {
         return _entity;
     }
 
@@ -39,8 +39,8 @@ public class Request implements JSONObjectEntity {
     }
 
     @JsonGetter("entity")
-    public void setEntity(JSONObjectEntity entity) {
-        entity = _entity;
+    public void setEntity(T entity) {
+        _entity = entity;
     }
 
     @Override

@@ -1,12 +1,12 @@
-package team_f.jsonconnector.entities.special;
+package team_f.jsonconnector.entities.special.errorlist;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import team_f.jsonconnector.entities.list.ErrorList;
-import team_f.jsonconnector.entities.MusicalWork;
+import team_f.jsonconnector.entities.EventDuty;
 
 /**
  * maps to a specific type (required for Jackson Json API to avoid class cast exception)
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MusicalWorkErrorList extends ErrorList<MusicalWork> {
+public class EventDutyErrorList extends ErrorList<EventDuty> {
 }

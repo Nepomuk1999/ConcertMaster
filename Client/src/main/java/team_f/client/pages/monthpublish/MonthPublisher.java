@@ -17,13 +17,12 @@ import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.special.EventDutyErrorList;
+import team_f.jsonconnector.entities.special.errorlist.EventDutyErrorList;
 import team_f.jsonconnector.enums.PublishType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, MonthPublishParameter> {
