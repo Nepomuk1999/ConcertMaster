@@ -164,33 +164,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         });
 
-        Slider mySlider = new Slider();
-        mySlider.setMaxWidth(100);
-        mySlider.setMin(0.5);
-        mySlider.setMax(2);
-        mySlider.setValue(1);
-        mySlider.setShowTickLabels(true);
-        mySlider.setShowTickMarks(true);
-        mySlider.setMajorTickUnit(0.25);
-        mySlider.setMinorTickCount(1);
-        mySlider.setBlockIncrement(0.025);
-
-        /*Scale scaleDefault = new Scale(0.8,1);
-        scaleDefault.setPivotX(0);
-        scaleDefault.setPivotY(0);
-        borderPane.getTransforms().setAll(scaleDefault);*/
-
-        mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Scale scale = new Scale(newValue.doubleValue() + 0.018, newValue.doubleValue() + 0.018);
-            scale.setPivotX(0);
-            scale.setPivotY(0);
-            borderPane.getTransforms().setAll(scale);
-        });
-
-        VBox zoomTool = new VBox();
-        zoomTool.setId("zoomTool");
-        zoomTool.getChildren().addAll(new Label("Zoom"), mySlider);
-        setTop(zoomTool);
         borderPane.setCenter(root);
         setCenter(borderPane);
     }

@@ -15,9 +15,6 @@ import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by dominik on 11.05.17.
- */
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TextField _nameField;
 

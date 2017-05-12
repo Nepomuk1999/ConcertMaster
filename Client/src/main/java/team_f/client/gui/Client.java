@@ -4,17 +4,16 @@ import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
 import team_f.client.pages.BasePage;
+import team_f.client.pages.PageAction;
 import team_f.client.pages.home.TodoListHome;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.WebHelper;
@@ -25,6 +24,7 @@ import team_f.client.singletons.HomeScreenSingleton;
 import team_f.client.singletons.LegendSingleton;
 import team_f.client.singletons.MusicianManagementExplanationSingleton;
 
+import javax.lang.model.type.NullType;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -67,6 +67,11 @@ public class Client extends Application {
 
         BorderPane mainContent = new BorderPane();
         mainContent.setCenter(HomeScreenSingleton.getInstance());
+
+        // set the sidebar
+        NavigationBar navigationBar = new NavigationBar(content, _configuration);
+        Sidebar sidebar = navigationBar.getNavigationBar();
+        content.setLeft(sidebar);
 
         // set the menubar
         if (_configuration.getShowMenuBar()) {
@@ -121,10 +126,6 @@ public class Client extends Application {
 
             menuHelp.getItems().add(menuItem); //ende?
 
-
-
-
-
             menuItem = new MenuItem("Info");
             menuItem.setOnAction(actionEvent -> {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -145,16 +146,37 @@ public class Client extends Application {
             });
             menuTodo.getItems().add(menuItem);
 
-            menuBar.getMenus().addAll(menuFile, menuTodo, menuHelp);
+            Menu menuSettings = new Menu("Settings");
+            team_f.client.controls.slider.Slider slider = new team_f.client.controls.slider.Slider();
+            slider.setScaleAction(new PageAction<Boolean, Scale>() {
+                @Override
+                public Boolean doAction(Scale value) {
+                    if(value != null) {
+                        BasePage currentPage = navigationBar.getCurrentPage();
+
+                        if(currentPage != null) {
+                            return currentPage.getTransforms().setAll(value);
+                        }
+                    }
+
+                    return false;
+                }
+            });
+
+            navigationBar.setOnLoad(new PageAction<Void, NullType>() {
+                @Override
+                public Void doAction(NullType value) {
+                    slider.refresh();
+                    return null;
+                }
+            });
+
+            CustomMenuItem sliderItem = new CustomMenuItem(slider);
+            menuSettings.getItems().add(sliderItem);
+
+            menuBar.getMenus().addAll(menuFile, menuTodo, menuSettings, menuHelp);
             content.setTop(menuBar);
         }
-
-        content.setCenter(mainContent);
-
-        // set the sidebar
-        NavigationBar navigationBar = new NavigationBar(content, _configuration);
-        Sidebar sidebar = navigationBar.getNavigationBar();
-        content.setLeft(sidebar);
 
         // set window
         Scene scene = new Scene(content);

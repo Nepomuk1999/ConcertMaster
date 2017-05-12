@@ -6,7 +6,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Scale;
 import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.controls.numberfield.NumberField;
 import team_f.client.converter.MusicalWorkConverter;
@@ -112,33 +111,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         BorderPane borderPane=new BorderPane();
         borderPane.setId("borderPane");
 
-        Slider mySlider = new Slider();
-        mySlider.setMaxWidth(100);
-        mySlider.setMin(0.5);
-        mySlider.setMax(2);
-        mySlider.setValue(1);
-        mySlider.setShowTickLabels(true);
-        mySlider.setShowTickMarks(true);
-        mySlider.setMajorTickUnit(0.25);
-        mySlider.setMinorTickCount(1);
-        mySlider.setBlockIncrement(0.025);
-
-        Scale scaleDefault = new Scale(0.82,1);
-        scaleDefault.setPivotX(0);
-        scaleDefault.setPivotY(0);
-        borderPane.getTransforms().setAll(scaleDefault);
-
-        mySlider.valueProperty().addListener((arg0, arg1, arg2) -> {
-            Scale scale = new Scale(arg2.doubleValue()-0.25, arg2.doubleValue()-0.075);
-            scale.setPivotX(0);
-            scale.setPivotY(0);
-            borderPane.getTransforms().setAll(scale);
-        });
-
-        VBox zoomTool = new VBox();
-        zoomTool.setId("zoomTool");
-        zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
-        setTop(zoomTool);
         borderPane.setCenter(root);
         setCenter(borderPane);
     }
