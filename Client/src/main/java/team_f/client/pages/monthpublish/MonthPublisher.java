@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import team_f.client.converter.EventDutyConverter;
@@ -17,13 +16,12 @@ import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.special.EventDutyErrorList;
+import team_f.jsonconnector.entities.special.errorlist.EventDutyErrorList;
 import team_f.jsonconnector.enums.PublishType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, MonthPublishParameter> {
@@ -187,34 +185,6 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         BorderPane borderPane=new BorderPane();
         borderPane.setId("borderPane");
 
-        Slider mySlider = new Slider();
-        mySlider.setMaxWidth(100);
-        mySlider.setMin(0.5);
-        mySlider.setMax(2);
-        mySlider.setValue(1);
-        mySlider.setShowTickLabels(true);
-        mySlider.setShowTickMarks(true);
-        mySlider.setMajorTickUnit(0.25);
-        mySlider.setMinorTickCount(1);
-        mySlider.setBlockIncrement(0.025);
-
-        /*Scale scaleDefault = new Scale(0.8,1);
-        scaleDefault.setPivotX(0);
-        scaleDefault.setPivotY(0);
-        borderPane.getTransforms().setAll(scaleDefault);*/
-
-        mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Scale scale = new Scale(newValue.doubleValue()+0.018, newValue.doubleValue()+0.018);
-            scale.setPivotX(0);
-            scale.setPivotY(0);
-            borderPane.getTransforms().setAll(scale);
-
-        });
-
-        VBox zoomTool = new VBox();
-        zoomTool.setId("zoomTool");
-        zoomTool.getChildren().addAll(new Label("Zoom"),mySlider);
-        setTop(zoomTool);
         borderPane.setCenter(_root);
         setCenter(borderPane);
     }

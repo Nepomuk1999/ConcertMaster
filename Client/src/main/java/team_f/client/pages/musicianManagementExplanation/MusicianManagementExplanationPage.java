@@ -2,12 +2,7 @@ package team_f.client.pages.musicianManagementExplanation;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import team_f.client.pages.BasePage;
-import team_f.client.pages.legende.LegendEntries;
-
 import javax.lang.model.type.NullType;
 
 public class MusicianManagementExplanationPage extends BasePage<Void, NullType, NullType, NullType> {

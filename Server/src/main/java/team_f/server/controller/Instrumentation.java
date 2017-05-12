@@ -7,6 +7,7 @@ import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.entities.list.InstrumentationList;
+import team_f.jsonconnector.entities.special.request.InstrumentationRequest;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.InstrumentationConverter;
@@ -22,10 +23,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-/**
- * Created by dominik on 12.05.17.
- */
 
 @WebServlet(urlPatterns = {URIList.instrumentation})
 public class Instrumentation extends HttpServlet {
@@ -49,12 +46,13 @@ public class Instrumentation extends HttpServlet {
         String contentType = req.getContentType();
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
-            team_f.jsonconnector.entities.Request request = (team_f.jsonconnector.entities.Request) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Request.class);
+            InstrumentationRequest request = (InstrumentationRequest) ReadHelper.readJSONObject(req.getReader(), InstrumentationRequest.class);
 
             if(request != null) {
                 InstrumentationApplication facade = new InstrumentationApplication();
                 team_f.jsonconnector.entities.Instrumentation instrumentation;
                 javafx.util.Pair<DomainEntity, List<Pair<String, String>>> tmpErrorList;
+                ErrorList errorList = null;
 
                 switch (request.getActionType()) {
                     case GET_BY_PARAMETER:
@@ -78,43 +76,49 @@ public class Instrumentation extends HttpServlet {
 
                         break;
                     case CREATE:
-                        instrumentation = (team_f.jsonconnector.entities.Instrumentation) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Instrumentation.class);
-                        tmpErrorList = facade.addInstrumentation(instrumentation.getViolin1(), instrumentation.getViolin2(), instrumentation.getViola(), instrumentation.getViolincello(),
-                                instrumentation.getDoublebass(), instrumentation.getFlute(), instrumentation.getOboe(), instrumentation.getClarinet(), instrumentation.getBassoon(), instrumentation.getHorn(), instrumentation.getTrumpet(),
-                                instrumentation.getTrombone(), instrumentation.getTube(),instrumentation.getKettledrum(), instrumentation.getPercussion(), instrumentation.getHarp());
+                        instrumentation = request.getEntity();
 
-                        ErrorList errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());
+                        if(instrumentation != null) {
+                            tmpErrorList = facade.addInstrumentation(instrumentation.getViolin1(), instrumentation.getViolin2(), instrumentation.getViola(), instrumentation.getViolincello(),
+                                    instrumentation.getDoublebass(), instrumentation.getFlute(), instrumentation.getOboe(), instrumentation.getClarinet(), instrumentation.getBassoon(), instrumentation.getHorn(), instrumentation.getTrumpet(),
+                                    instrumentation.getTrombone(), instrumentation.getTube(),instrumentation.getKettledrum(), instrumentation.getPercussion(), instrumentation.getHarp());
+
+                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());
+                        }
+
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     case UPDATE:
-                        instrumentation = (team_f.jsonconnector.entities.Instrumentation) request.getEntity();
+                        instrumentation = request.getEntity();
 
                         if(instrumentation != null) {
                             // @TODO: add update functionality
                             /*tmpErrorList = facade.update(musicalWork);
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());*/
+                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());
+                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), instrumentation);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     case DELETE:
-                       instrumentation = (team_f.jsonconnector.entities.Instrumentation) request.getEntity();
+                        instrumentation = request.getEntity();
 
                         if(instrumentation != null) {
                             // @TODO: add delete functionality
                             /*tmpErrorList = facade.delete(musicalWork.getMusicalWorkID());
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());*/
+                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());
+                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), instrumentation);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     default:

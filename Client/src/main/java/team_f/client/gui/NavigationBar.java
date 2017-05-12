@@ -3,14 +3,15 @@ package team_f.client.gui;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import team_f.client.configuration.Configuration;
 import team_f.client.controls.sidebar.MenuSection;
 import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.pages.BasePage;
-import team_f.client.pages.home.HomeScreen;
+import team_f.client.pages.PageAction;
 import team_f.client.singletons.*;
+
+import javax.lang.model.type.NullType;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,10 +24,15 @@ public class NavigationBar {
     private Configuration _configuration;
     private BasePage _currentPage;
     private List<BasePage> _initializedPageList = new LinkedList<>();
+    private PageAction<Void, NullType> _loadPage;
 
     public NavigationBar(BorderPane pane, Configuration configuration) {
         _pane = pane;
         _configuration = configuration;
+    }
+
+    public void setOnLoad(PageAction<Void, NullType> action) {
+        _loadPage = action;
     }
 
     public Sidebar getNavigationBar() {
@@ -138,12 +144,14 @@ public class NavigationBar {
         return sidebar;
     }
 
-    private BasePage getCurrentPage() {
+    public BasePage getCurrentPage() {
         return _currentPage;
     }
 
     private void setCurrentPage(BasePage page) {
         _currentPage = page;
+
+        setPane(_currentPage);
     }
 
     private List<BasePage> getInitializedPageList() {
@@ -165,9 +173,14 @@ public class NavigationBar {
         if(page != null) {
             if(exitPage(page)) {
                 addInitializedPageListItem(page);
-                page.load();
                 setCurrentPage(page);
-                setPane(getCurrentPage());
+
+                if(_loadPage != null) {
+                    _loadPage.doAction(null);
+                }
+
+                page.load();
+
                 return true;
             }
 

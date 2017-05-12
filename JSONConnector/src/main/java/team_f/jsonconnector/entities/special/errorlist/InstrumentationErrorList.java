@@ -1,4 +1,4 @@
-package team_f.jsonconnector.entities.special;
+package team_f.jsonconnector.entities.special.errorlist;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import team_f.jsonconnector.entities.Instrumentation;

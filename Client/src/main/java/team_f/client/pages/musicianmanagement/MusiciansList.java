@@ -74,9 +74,8 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         gridPane.setId("gridpane");
         gridPane.setMinHeight(450);
 
-        gridPane.getColumnConstraints().addAll(new ColumnConstraints(160), new ColumnConstraints(160), new ColumnConstraints(160));
-        gridPane.setVgap(5);
-        gridPane.setHgap(10);
+        gridPane.getColumnConstraints().addAll(new ColumnConstraints(80), new ColumnConstraints(160), new ColumnConstraints(80), new ColumnConstraints(160));
+        gridPane.setVgap(10);
 
 
         gridPane.add(new Label("ID"), 0, 0);
@@ -86,7 +85,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         gridPane.add(new Label("Last Name:"), 2, 4);
         gridPane.add(new Label("Username:"), 0, 6);
         gridPane.add(new Label("Address:"), 2, 6);
-        gridPane.add(new Label("Phone Number:"), 0, 8);
+        gridPane.add(new Label("Phone:"), 0, 8);
         gridPane.add(new Label("Email:"), 2, 8);
         gridPane.add(new Label("Account Role:"), 0, 10);
         gridPane.add(new Label("Person Role:"), 2, 10);
@@ -151,41 +150,11 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             }
         });
 
-        Slider mySlider = new Slider();
-        mySlider.setMaxWidth(100);
-        mySlider.setMin(0.5);
-        mySlider.setMax(2);
-        mySlider.setValue(1);
-        mySlider.setShowTickLabels(true);
-        mySlider.setShowTickMarks(true);
-        mySlider.setMajorTickUnit(0.25);
-        mySlider.setMinorTickCount(1);
-        mySlider.setBlockIncrement(0.025);
-
-        /*Scale scaleDefault = new Scale(0.8,1);
-        scaleDefault.setPivotX(0);
-        scaleDefault.setPivotY(0);
-        borderPane.getTransforms().setAll(scaleDefault);*/
-
-        mySlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            Scale scale = new Scale(newValue.doubleValue() + 0.018, newValue.doubleValue() + 0.018);
-            scale.setPivotX(0);
-            scale.setPivotY(0);
-            borderPane.getTransforms().setAll(scale);
-
-        });
-
         Label titleMusician = new Label("Musician");
         titleMusician.setId("titleMusician");
 
         Label titleList = new Label("Musician List");
         titleList.setId("titleList");
-
-
-        VBox zoomTool = new VBox();
-        zoomTool.setId("zoomTool");
-        zoomTool.getChildren().addAll(new Label("Zoom"), mySlider);
-        setTop(zoomTool);
 
         VBox listBox = new VBox(20);
         listBox.setAlignment(Pos.TOP_CENTER);
@@ -279,7 +248,9 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         if (person.getGender() != null) {
             _gender.setText(person.getGender().toString());
         }
-
+        if (person.getEmail() != null) {
+            _email.setText(person.getEmail().toString());
+        }
 
     }
 

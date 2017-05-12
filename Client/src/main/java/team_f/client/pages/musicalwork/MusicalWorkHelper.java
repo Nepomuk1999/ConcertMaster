@@ -29,8 +29,8 @@ public class MusicalWorkHelper {
 
     public static TableColumn<MusicalWork, String> getInstrumentationColumn() {
         TableColumn<MusicalWork, String> instrumentationCol = new TableColumn<>("Instrumentation");
-        PropertyValueFactory<MusicalWork, String> composerCellValueFactory = new PropertyValueFactory<>("instrumentation");
-        instrumentationCol.setCellValueFactory(composerCellValueFactory);
+        PropertyValueFactory<MusicalWork, String> instrumentationCellValueFactory = new PropertyValueFactory<>("instrumentation");
+        instrumentationCol.setCellValueFactory(instrumentationCellValueFactory);
         return instrumentationCol;
     }
 }
