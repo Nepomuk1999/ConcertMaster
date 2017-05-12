@@ -12,7 +12,7 @@ public class PersonLogic implements EntityLogic<Person, PersonProperty> {
     }
 
     @Override
-    public List<Pair<String, String>> validate(Person account, PersonProperty... properties) {
+    public List<Pair<String, String>> validate(Person person, PersonProperty... properties) {
         List<Pair<String, String>> resultList = new LinkedList<>();
 
         LOOP:
@@ -21,35 +21,35 @@ public class PersonLogic implements EntityLogic<Person, PersonProperty> {
             switch (property) {
 
                 case FIRSTNAME:
-                    if (account.getFirstname() == null) {
+                    if (person.getFirstname() == null) {
                         resultList.add(new Pair<>(String.valueOf(property.FIRSTNAME), "is empty"));
                     }
 
                     break;
 
                 case LASTNAME:
-                    if(account.getLastname() == null){
+                    if(person.getLastname() == null){
                         resultList.add(new Pair<>(String.valueOf(property.LASTNAME), "is empty"));
                     }
 
                     break;
 
                 case PHONE_NUMBER:
-                    if(account.getPhoneNumber() == null){
+                    if(person.getPhoneNumber() == null){
                         new Pair<>(String.valueOf(property.PHONE_NUMBER), "is empty");
                     }
 
                     break;
 
                 case ADDRESS:
-                    if(account.getAddress() == null){
+                    if(person.getAddress() == null){
                         new Pair<>(String.valueOf(property.ADDRESS), "is empty");
                     }
 
                     break;
 
                 case EMAIL:
-                    if(account.getEmail() == null){
+                    if(person.getEmail() == null){
                         new Pair<>(String.valueOf(property.EMAIL), "is empty");
                     }
 
