@@ -3,12 +3,15 @@ package team_f.client.gui;
 import com.teamdev.jxbrowser.chromium.BrowserCore;
 import com.teamdev.jxbrowser.chromium.internal.Environment;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
@@ -171,7 +174,15 @@ public class Client extends Application {
                 }
             });
 
-            CustomMenuItem sliderItem = new CustomMenuItem(slider);
+            Label label=new Label("Zoom");
+            final URL Style = ClassLoader.getSystemResource("style/stylesheetClient.css");
+            label.getStylesheets().add(Style.toString());
+            VBox zoomTool=new VBox(label,slider);
+            zoomTool.setSpacing(10);
+            zoomTool.setAlignment(Pos.CENTER);
+
+            CustomMenuItem sliderItem = new CustomMenuItem(zoomTool);
+            sliderItem.setHideOnClick(false);
             menuSettings.getItems().add(sliderItem);
 
             menuBar.getMenus().addAll(menuFile, menuTodo, menuSettings, menuHelp);
