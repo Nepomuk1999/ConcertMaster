@@ -8,6 +8,10 @@ import team_f.client.entities.KeyValuePair;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.*;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 public class MusicianTableHelper {
     // Returns PersonTestData Id TableColumn
     public static TableColumn<Person, Integer> getIdColumn() {
@@ -175,4 +179,27 @@ public class MusicianTableHelper {
 
         return list;
     }
+    public static LinkedList<List> getSectionInstrumentPos() {
+        List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE);
+        List<InstrumentType> viola= Arrays.asList(InstrumentType.VIOLA);
+        List<InstrumentType> violin1= Arrays.asList(InstrumentType.FIRSTVIOLIN);
+        List<InstrumentType> violin2= Arrays.asList(InstrumentType.SECONDVIOLIN);
+        List<InstrumentType> woodwind= Arrays.asList(InstrumentType.FLUTE,InstrumentType.OBOE, InstrumentType.CLARINET,InstrumentType.BASSOON);
+        List<InstrumentType> doublebass= Arrays.asList(InstrumentType.DOUBLEBASS);
+        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM);
+        List<InstrumentType> violincello= Arrays.asList(InstrumentType.VIOLONCELLO);
+        LinkedList<List> sections=new LinkedList<>();
+        sections.add(brass);
+        sections.add(viola);
+        sections.add(violin1);
+        sections.add(violin2);
+        sections.add(woodwind);
+        sections.add(doublebass);
+        sections.add(percussion);
+        sections.add(violincello);
+
+        return sections;
+
+    }
+
 }

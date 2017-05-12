@@ -19,8 +19,8 @@ public class InstrumentationHelper {
 
     public static TableColumn<Instrumentation, String> getInstrumentationColumn() {
         TableColumn<Instrumentation, String> instrumentationCol = new TableColumn<>("Instrumentation");
-        PropertyValueFactory<Instrumentation, String> composerCellValueFactory = new PropertyValueFactory<>("toString");
-        instrumentationCol.setCellValueFactory(composerCellValueFactory);
+        PropertyValueFactory<Instrumentation, String> instrumentationCellValueFactory = new PropertyValueFactory<>("instrumentation");
+        instrumentationCol.setCellValueFactory(instrumentationCellValueFactory);
         return instrumentationCol;
     }
 }
