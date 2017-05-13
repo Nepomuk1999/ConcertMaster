@@ -25,7 +25,6 @@ public class MusicalWorkApplication {
                                                                          Integer trumpet, Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp) {
         MusicalWork musicalWork = new MusicalWork();
         Instrumentation instrumentation = new Instrumentation();
-
         instrumentation.setViolin1(violin1);
         instrumentation.setViolin2(violin2);
         instrumentation.setViola(viola);
@@ -47,7 +46,9 @@ public class MusicalWorkApplication {
         musicalWork.setComposer(composer);
         musicalWork.setInstrumentation(instrumentation);
 
-        musicalworkfacade.addMusicalWork(musicalWork);
+        Integer resultID = musicalworkfacade.addMusicalWork(musicalWork);
+        musicalWork.setMusicalWorkID(resultID);
+
         return new Pair<>(musicalWork, new LinkedList<>());
     }
 

@@ -123,8 +123,8 @@ public class PersonApplication {
             return new Pair<>(person, errorList);
         }
 
-        Integer id = personFacade.register(person);
-        person.setPersonID(id);
+        Integer resultID = personFacade.register(person);
+        person.setPersonID(resultID);
 
         return new Pair<>(person, new LinkedList<>());
     }
