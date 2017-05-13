@@ -84,7 +84,6 @@ public class PersonApplication {
 
         person.setAccount(account);
 
-
         PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
 
         List<Account> accountList= accountFacade.getAllUserNames();
@@ -99,7 +98,7 @@ public class PersonApplication {
             List<Pair<String, String>> errorList2 = accountLogic.validate(account);
             errorList.addAll(errorList2);
         }
-        
+
         for(Person p : personList){
             if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
                     && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){

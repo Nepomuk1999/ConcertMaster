@@ -5,7 +5,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.transform.Scale;
 import team_f.client.converter.PersonConverter;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.helper.ErrorMessageHelper;
@@ -15,7 +14,6 @@ import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.PersonErrorList;
 import team_f.jsonconnector.enums.*;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -244,10 +242,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _updateButton = new Button("Update Musician");
         _updateButton.setDisable(true);
         _updateButton.setOnAction(e -> {
-            //TODO
             _table.setDisable(false);
             editPerson();
-            showSuccessMessage("Succes", "Successfully updated: " + _table.getSelectionModel().getSelectedItem().getFirstname() + " " + _table.getSelectionModel().getSelectedItem().getFirstname());
             reset();
         });
 
@@ -315,29 +311,13 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     public void addPerson() {
         if (_create != null) {
             Person person = new Person();
-            person.setFirstname(_firstNameField.getText());
-            person.setLastname(_lastNameField.getText());
-            person.setAddress(_addressField.getText());
-            person.setEmail(_emailField.getText());
-            person.setPhoneNumber(_phoneField.getText());
-            person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
-            person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
-            //person.setInstruments();
-            //person.setInitials();
-            person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
-
-            Account account = new Account();
-            account.setUsername(_usernameField.getText());
-            account.setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
-            person.setAccount(account);
+            setPerson(person, true);
 
             PersonErrorList resultPersonErrorList = _create.doAction(person);
 
             if (resultPersonErrorList != null && resultPersonErrorList.getKeyValueList() != null) {
                 List<Pair<JSONObjectEntity, List<Error>>> errorList = PersonConverter.getAbstractList(resultPersonErrorList.getKeyValueList());
                 String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
-
-                // @TODO fix errorList
 
                 if (tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1 && resultPersonErrorList.getKeyValueList().get(0).getKey() != null && resultPersonErrorList.getKeyValueList().get(0).getKey().getPersonID() > 0) {
                     showSuccessMessage("Successful", tmpErrorText);
@@ -357,6 +337,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     public void editPerson() {
         if (_edit != null) {
             Person person = _table.getSelectionModel().getSelectedItem();
+            setPerson(person, false);
 
             PersonErrorList resultPersonErrorList = _edit.doAction(person);
 
@@ -502,6 +483,28 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             pos++;
         }
         return -1;
+
+    }
+
+    private void setPerson(Person person, boolean createAccount) {
+        person.setFirstname(_firstNameField.getText());
+        person.setLastname(_lastNameField.getText());
+        person.setAddress(_addressField.getText());
+        person.setEmail(_emailField.getText());
+        person.setPhoneNumber(_phoneField.getText());
+        person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
+        person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
+        //person.setInstruments();
+        //person.setInitials();
+        person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
+
+        if(createAccount) {
+            Account account = new Account();
+            person.setAccount(account);
+        }
+
+        person.getAccount().setUsername(_usernameField.getText());
+        person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
 
     }
 }

@@ -97,7 +97,6 @@ public class Instrumentation extends HttpServlet {
                         if(instrumentation != null) {
                             // @TODO: add update functionality
                             /*tmpErrorList = facade.update(musicalWork);
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());
                             errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
@@ -112,7 +111,6 @@ public class Instrumentation extends HttpServlet {
                         if(instrumentation != null) {
                             // @TODO: add delete functionality
                             /*tmpErrorList = facade.delete(musicalWork.getMusicalWorkID());
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());
                             errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 

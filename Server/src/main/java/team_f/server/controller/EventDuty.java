@@ -2,7 +2,10 @@ package team_f.server.controller;
 
 import org.json.JSONArray;
 import team_f.application.EventApplication;
+import team_f.domain.enums.EventType;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
+import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.entities.list.EventDutyList;
 import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.special.request.EventDutyRequest;
@@ -11,6 +14,7 @@ import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.EventDutyConverter;
 import team_f.server.helper.response.CommonResponse;
+import team_f.server.helper.response.JsonResponse;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,6 +51,9 @@ public class EventDuty extends HttpServlet {
 
             if(request != null) {
                 EventApplication facade = new EventApplication();
+                team_f.jsonconnector.entities.EventDuty eventDuty;
+                javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
+                ErrorList errorList = null;
 
                 switch (request.getActionType()) {
                     case GET_BY_PARAMETER:
@@ -71,7 +78,6 @@ public class EventDuty extends HttpServlet {
                             List<team_f.domain.entities.EventDuty> eventDuties = facade.getEventsByMonth(month, year);
                             EventDutyList eventDutyList = new EventDutyList();
                             List<team_f.jsonconnector.entities.EventDuty> tmpList = new ArrayList<>(eventDuties.size());
-                            team_f.jsonconnector.entities.EventDuty eventDuty;
 
                             for(team_f.domain.entities.EventDuty item : eventDuties) {
                                 eventDuty = EventDutyConverter.convertToJSON(item);
@@ -84,6 +90,91 @@ public class EventDuty extends HttpServlet {
                             resp.setCharacterEncoding("UTF-8");
                             WriteHelper.writeJSONObject(resp.getWriter(), eventDutyList);
                         }
+
+                        break;
+                    case GET_ALL:
+                        /*List<team_f.domain.entities.EventDuty> eventDutyEntityList = facade.getEventList();
+                        List<team_f.jsonconnector.entities.EventDuty> eventDutyList = new LinkedList<>();
+                        EventDutyList eventDuties = new EventDutyList();
+
+                        for(team_f.domain.entities.EventDuty item : eventDutyEntityList) {
+                            eventDuty = EventDutyConverter.convertToJSON(item);
+                            eventDutyList.add(eventDuty);
+                        }
+
+                        eventDuties.setEventDutyList(eventDutyList);
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
+                        WriteHelper.writeJSONObject(resp.getWriter(), eventDuties);*/
+
+                        break;
+                    case CREATE:
+                        eventDuty = request.getEntity();
+
+                        if(eventDuty != null) {
+                            int[] musicalWorkList = null;
+                            int[] alternativeInstrumentationList = null;
+                            int instrumentationID = -1;
+                            int rehearsalForID = -1;
+                            EventType eventType = null;
+
+                            if(eventDuty.getInstrumentation() != null) {
+                                instrumentationID = eventDuty.getInstrumentation().getInstrumentationID();
+                            }
+
+                            if(eventDuty.getMusicalWorkList() != null) {
+                                musicalWorkList = new int[eventDuty.getMusicalWorkList().size()];
+                                alternativeInstrumentationList = new int[musicalWorkList.length];
+                            }
+
+                            if(eventDuty.getRehearsalFor() != null) {
+                                rehearsalForID = eventDuty.getRehearsalFor().getEventDutyID();
+                            }
+
+                            try {
+                                eventType = EventType.valueOf(String.valueOf(eventDuty.getEventType()));
+                            } catch (Exception e) {
+                            }
+
+                            tmpErrorList = facade.addEvent(eventDuty.getEventDutyID(), eventDuty.getName(), eventDuty.getDescription(), eventDuty.getLocation(),
+                                                           eventDuty.getStartTime(), eventDuty.getEndTime(), eventDuty.getConductor(), eventType,
+                                                           rehearsalForID, eventDuty.getDefaultPoints(), instrumentationID, musicalWorkList, alternativeInstrumentationList);
+
+                            errorList = JsonResponse.prepareErrorMessage(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) tmpErrorList.getKey()), tmpErrorList.getValue());
+                        }
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
+
+                        break;
+                    case UPDATE:
+                        eventDuty = request.getEntity();
+
+                        if(eventDuty != null) {
+                            // @TODO: add update functionality
+                            /*tmpErrorList = facade.update(eventDuty);
+                            errorList = JsonResponse.prepareErrorMessage(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) tmpErrorList.getKey()), tmpErrorList.getValue());*/
+                        }
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
+
+                        break;
+                    case DELETE:
+                        eventDuty = request.getEntity();
+
+                        if(eventDuty != null) {
+                            // @TODO: add delete functionality
+                            /*tmpErrorList = facade.delete(eventDuty.getEventDutyID());
+                            errorList = JsonResponse.prepareErrorMessage(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) tmpErrorList.getKey()), tmpErrorList.getValue());*/
+                        }
+
+                        resp.setContentType(MediaType.APPLICATION_JSON);
+                        resp.setCharacterEncoding("UTF-8");
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     default:
