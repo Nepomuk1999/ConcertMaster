@@ -18,6 +18,7 @@ import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -373,6 +374,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _nameField.clear();
         _nameField.setStyle("-fx-border-color: transparent");
      for(BigDecimalField field:_fields){
+        field.setNumber(new BigDecimal(0));
         field.setStyle("-fx-border-color: transparent");
     }
     }

@@ -15,6 +15,7 @@ import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -384,6 +385,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _composerField.clear();
         _composerField.setStyle("-fx-border-color: transparent");
         for(BigDecimalField field:_fields){
+            field.setNumber(new BigDecimal(0));
             field.setStyle("-fx-border-color: transparent");
         }
     }
