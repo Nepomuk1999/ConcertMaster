@@ -507,7 +507,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         person.getAccount().setUsername(_usernameField.getText());
         person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
-
     }
 }
 

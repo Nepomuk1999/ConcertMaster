@@ -98,7 +98,7 @@ public class MusicalWork extends HttpServlet {
                         if(musicalWork != null) {
                             // @TODO: add update functionality
                             /*tmpErrorList = facade.update(musicalWork);
-                            errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());*/
+                            errorList = JsonResponse.prepareErrorMessage(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
@@ -112,7 +112,7 @@ public class MusicalWork extends HttpServlet {
                         if(musicalWork != null) {
                             // @TODO: add delete functionality
                             /*tmpErrorList = facade.delete(musicalWork.getMusicalWorkID());
-                            errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());*/
+                            errorList = JsonResponse.prepareErrorMessage(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
