@@ -55,6 +55,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
     //SpecialInstrumentation
     private TextField _specialInstrumentation;
+
     private Button _addButton;
     private Button _updateButton;
     private Button _editButton;
@@ -346,7 +347,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             }
         });
 
-        _editButton = new Button("Edit Selected Work");
+        _editButton = new Button("Edit Work");
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
@@ -438,6 +439,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _deleteButton.setDisable(true);
         _updateButton.setDisable(true);
         _cancelButton.setText("Reset");
+        _table.getSelectionModel().clearSelection();
         for (BigDecimalField field : _fields) {
             field.setNumber(new BigDecimal(0));
             field.setStyle("-fx-border-color: transparent");

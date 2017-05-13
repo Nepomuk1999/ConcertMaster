@@ -15,3 +15,6 @@
 .button{
     -fx-font: 14 arial;
 }
+.label {
+    -fx-font: 12 arial;
+}
