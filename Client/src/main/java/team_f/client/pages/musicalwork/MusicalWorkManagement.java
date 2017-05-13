@@ -255,7 +255,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             }
         }
 
-        reset();
     }
 
     public void deleteMusicalWork() {
