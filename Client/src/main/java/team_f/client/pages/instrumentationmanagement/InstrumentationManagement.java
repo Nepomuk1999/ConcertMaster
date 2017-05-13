@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+//TODO: name and assigned work should also be displayed
 
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TextField _nameField;
@@ -66,13 +67,16 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private Button _deleteButton;
     private Button _cancelButton;
     private Button _addAlternativeButton;
+
     private ToggleGroup _radioGroup;
     private RadioButton _worksRadio;
     private RadioButton _alternativeRadio;
     private MusicalWork _selectedWork;
+
     private GridPane _newDataPane;
 
     private List<BigDecimalField> _fields;
+    private TextField _nameFieldWork;
     private HBox _textfields;
 
     public InstrumentationManagement(){
@@ -88,9 +92,10 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         getStylesheets().add(Style.toString());
         _nameField = new TextField();
         _nameField.setMinWidth(200);
+        _nameFieldWork = new TextField();
+        _nameFieldWork.setMinWidth(200);
+        _nameFieldWork.setEditable(false);
 
-        _textfields=new HBox();
-        _textfields.getChildren().addAll(_nameField);
         _fields=new ArrayList<>();
         try {
             _firstViolinField = new NumberField(0 , 0, Integer.MAX_VALUE);
@@ -149,13 +154,11 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _specialInstrumentation = new TextField();
 
-        //TODO: name and assigned work should also be displayed
+
         _instrumentationTable = new TableView<>();
         _instrumentationTable.setEditable(false);
-
-        TableView.TableViewSelectionModel<Instrumentation> tsm = _instrumentationTable.getSelectionModel();
-        tsm.setSelectionMode(SelectionMode.SINGLE);
-
+        //TableView.TableViewSelectionModel<Instrumentation> tsm = _instrumentationTable.getSelectionModel();
+        //tsm.setSelectionMode(SelectionMode.SINGLE);
         _instrumentationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _instrumentationTable.getColumns().addListener((ListChangeListener) change -> {
             change.next();
@@ -163,7 +166,20 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                 update();
             }
         });
-        //Todo: depends on which table is displaying
+
+        _musicalWorkTable = new TableView<>();
+        _musicalWorkTable.setEditable(false);
+        TableView.TableViewSelectionModel<MusicalWork> tsm2 = _musicalWorkTable.getSelectionModel();
+        tsm2.setSelectionMode(SelectionMode.SINGLE);
+        _musicalWorkTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _musicalWorkTable.getColumns().addListener((ListChangeListener) change -> {
+            change.next();
+            if (change.wasReplaced()) {
+                update();
+            }
+        });
+
+        //Todo: disable depends on which table is displaying
         _instrumentationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _editButton.setDisable(false);
@@ -173,20 +189,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                 _editButton.setDisable(true);
                 _deleteButton.setDisable(true);
                 _addAlternativeButton.setDisable(true);
-            }
-        });
-
-        _musicalWorkTable = new TableView<>();
-        _musicalWorkTable.setEditable(false);
-
-        TableView.TableViewSelectionModel<MusicalWork> tsm2 = _musicalWorkTable.getSelectionModel();
-        tsm2.setSelectionMode(SelectionMode.SINGLE);
-
-        _musicalWorkTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        _musicalWorkTable.getColumns().addListener((ListChangeListener) change -> {
-            change.next();
-            if (change.wasReplaced()) {
-                update();
             }
         });
 
@@ -206,10 +208,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         });
 
        _newDataPane = getNewInstrumentationDataPane();
-
-        // Create the Delete Button and add Event-Handler
-
-
         HBox buttonsBox = new HBox(_addAlternativeButton,_editButton, _deleteButton);
         buttonsBox.setSpacing(10);
 
@@ -218,7 +216,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
         borderPane.setId("borderPane");
-
 
         _radioGroup.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
             root.getChildren().clear();
@@ -229,7 +226,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                     _deleteButton.setDisable(true);
                     _editButton.setDisable(true);
                     _addButton.setDisable(true);
-                    _addAlternativeButton.setDisable(true);
+                    //_addAlternativeButton.setDisable(true);
                 }
                 //Todo: show instrumentationList
                 if(_alternativeRadio.isSelected()){
@@ -318,6 +315,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         reset();
     }
 
+    //TODO: if we delete an instrumentation then we have also to delete the assigned MusicalWork
     public void deleteInstrumentation(){
         if(_delete != null) {
             Instrumentation instrumentation = new Instrumentation();
@@ -354,11 +352,17 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         titleInstrumentation.setId("titleInstrumentation");
         titleInstrumentation.setMinWidth(200);
 
-        _textfields =new HBox();
-        _textfields.setSpacing(10);
         Label nameLabel=new Label("Name:");
         nameLabel.setMinWidth(60);
-        _textfields.getChildren().addAll(nameLabel,_nameField);
+        Label workLabel=new Label("      for:");
+        workLabel.setMinWidth(60);
+        _textfields =new HBox();
+        _textfields.setSpacing(10);
+        _textfields=new HBox();
+        _textfields.getChildren().addAll(nameLabel,_nameField, workLabel, _nameFieldWork);
+        /*Label nameLabel=new Label("Name:");
+        nameLabel.setMinWidth(60);
+        _textfields.getChildren().addAll(nameLabel,_nameField);*/
 
         pane.addRow(0,titleInstrumentation);
         pane.addRow(1,_textfields);
@@ -414,8 +418,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         decimalFields.add(_harpField);
 
 
-        _addButton = new Button("Add Instrumentation");
-        _addButton.setMinWidth(160);
+        _addButton = new Button("Add");
+        _addButton.setMinWidth(100);
         _addButton.setDisable(true);
 
         _addButton.setOnAction(e -> {
@@ -437,30 +441,36 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
             _instrumentationTable.setDisable(true);
+            _musicalWorkTable.setDisable(true);
             _addButton.setDisable(true);
             _addAlternativeButton.setDisable(true);
             _updateButton.setDisable(false);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
-            _cancelButton.setText("Cancel Update");
+            _cancelButton.setText("Cancel");
             fillFields((Instrumentation) _instrumentationTable.getSelectionModel().getSelectedItem());
         });
 
         _deleteButton = new Button("Delete Instrumentation");
         _deleteButton.setDisable(true);
-        //_deleteButton.setOnAction(e -> deleteMusicalWork());
+        //_deleteButton.setOnAction(e -> deleteInstrumentation());
 
         _addAlternativeButton = new Button("Add Alternative");
         //_addAlternativeButton.setDisable(true);
         _addAlternativeButton.setOnAction(e -> {
+            if(_musicalWorkTable.getSelectionModel().getSelectedItem()!=null){
             _selectedWork=_musicalWorkTable.getSelectionModel().getSelectedItem();
+            _nameFieldWork.setText(_selectedWork.getName());
+            _musicalWorkTable.setDisable(true);
+            _instrumentationTable.setDisable(true);
             _radioGroup.selectToggle(_alternativeRadio);
             _addButton.setDisable(false);
+            }
         });
 
 
-        _updateButton = new Button("Update Instrumentation");
-        _updateButton.setMinWidth(130);
+        _updateButton = new Button("Update");
+        _updateButton.setMinWidth(100);
         _updateButton.setDisable(true);
         _updateButton.setOnAction(e -> {
             _instrumentationTable.setDisable(false);
@@ -469,7 +479,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         });
 
         _cancelButton = new Button("Reset");
-        _cancelButton.setMinWidth(125);
+        _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
             _instrumentationTable.setDisable(false);
             reset();
@@ -477,12 +487,12 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _radioGroup = new ToggleGroup();
         _worksRadio= new RadioButton("Show Works");
+        _worksRadio.setMinWidth(50);
         _worksRadio.setToggleGroup(_radioGroup);
         _worksRadio.setSelected(true);
         _alternativeRadio = new RadioButton("Show Alternatives");
         _alternativeRadio.setToggleGroup(_radioGroup);
-
-
+        _alternativeRadio.setMinWidth(50);
 
         pane.add(new Label("Instrumentation:"), 0,2);
         pane.add(new Label("String:"), 0,3);
@@ -525,10 +535,13 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             }
         }*/
     }
-
+        //TODO: adapt reset for both posibilities
     private void reset() {
         _instrumentationTable.getSelectionModel().clearSelection();
         _musicalWorkTable.getSelectionModel().clearSelection();
+        _instrumentationTable.setDisable(false);
+        _musicalWorkTable.setDisable(false);
+        _nameFieldWork.clear();
         _selectedWork=null;
             _nameField.clear();
             _nameField.setStyle("-fx-border-color: transparent");
@@ -538,6 +551,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _updateButton.setDisable(true);
+            _addButton.setDisable(true);
             _cancelButton.setText("Reset");
             for (BigDecimalField field : _fields) {
                 field.setNumber(new BigDecimal(0));

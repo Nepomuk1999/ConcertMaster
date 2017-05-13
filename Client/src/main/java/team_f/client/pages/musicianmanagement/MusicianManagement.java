@@ -149,7 +149,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             _updateButton.setDisable(false);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
-            _cancelButton.setText("Cancel Update");
+            _cancelButton.setText("Cancel");
             fillFields((Person) _table.getSelectionModel().getSelectedItem());
         });
 
@@ -240,7 +240,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.addRow(7, new Label(" "));
         pane.addRow(8, new Label(" "));
 
-        _updateButton = new Button("Update Musician");
+        _updateButton = new Button("Update");
+        _updateButton.setMinWidth(100);
         _updateButton.setDisable(true);
         _updateButton.setOnAction(e -> {
             _table.setDisable(false);
@@ -248,8 +249,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             reset();
         });
 
-        _addButton = new Button("Add Musician");
-        _addButton.setMinWidth(125);
+        _addButton = new Button("Add");
+        _addButton.setMinWidth(100);
         //Todo: usernameField should also be validated if Musician is not an external one!!!
         _addButton.setOnAction(e -> {
             ArrayList<TextField> fields = new ArrayList<>();
@@ -272,7 +273,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         });
 
         _cancelButton = new Button("Reset");
-        _cancelButton.setMinWidth(125);
+        _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
             _table.setDisable(false);
             reset();

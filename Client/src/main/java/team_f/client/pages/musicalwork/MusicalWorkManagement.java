@@ -331,7 +331,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         decimalFields.add(_harpField);
 
 
-        _addButton = new Button("Add MusicalWork");
+        _addButton = new Button("Add");
         _addButton.setMinWidth(130);
         _addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
@@ -356,7 +356,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             _updateButton.setDisable(false);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
-            _cancelButton.setText("Cancel Update");
+            _cancelButton.setText("Cancel");
             fillFields((MusicalWork) _table.getSelectionModel().getSelectedItem());
         });
 
