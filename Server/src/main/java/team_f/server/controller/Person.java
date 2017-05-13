@@ -1,8 +1,11 @@
 package team_f.server.controller;
 
+import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
+import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.entities.list.PersonList;
 import team_f.jsonconnector.entities.special.request.PersonRequest;
 import team_f.jsonconnector.helper.ReadHelper;
@@ -46,6 +49,8 @@ public class Person extends HttpServlet {
             if(request != null) {
                 PersonApplication facade = new PersonApplication();
                 team_f.jsonconnector.entities.Person person;
+                javafx.util.Pair<DomainEntity, List<Pair<String, String>>> tmpErrorList;
+                ErrorList errorList = null;
 
                 switch (request.getActionType()) {
                     case GET_BY_PARAMETER:
@@ -77,26 +82,26 @@ public class Person extends HttpServlet {
                         if(person != null) {
                             // @TODO: add update functionality
                             /*tmpErrorList = facade.update(person);
-                            person = PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey());*/
+                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), person);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     case DELETE:
                         person = request.getEntity();
 
                         if(person != null) {
-                            // @TODO: add update functionality
+                            // @TODO: add delete functionality
                             /*tmpErrorList = facade.delete(person.getPersonID());
-                            person = PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey());*/
+                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), person);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     default:

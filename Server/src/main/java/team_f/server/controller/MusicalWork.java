@@ -98,13 +98,12 @@ public class MusicalWork extends HttpServlet {
                         if(musicalWork != null) {
                             // @TODO: add update functionality
                             /*tmpErrorList = facade.update(musicalWork);
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());
                             errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWork);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     case DELETE:
@@ -113,13 +112,12 @@ public class MusicalWork extends HttpServlet {
                         if(musicalWork != null) {
                             // @TODO: add delete functionality
                             /*tmpErrorList = facade.delete(musicalWork.getMusicalWorkID());
-                            musicalWork = MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey());
                             errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());*/
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         resp.setCharacterEncoding("UTF-8");
-                        WriteHelper.writeJSONObject(resp.getWriter(), musicalWork);
+                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
                     default:
