@@ -6,6 +6,7 @@ import team_f.domain.enums.AccountProperty;
 import team_f.domain.interfaces.EntityLogic;
 import java.util.LinkedList;
 import java.util.List;
+import static team_f.domain.enums.AccountProperty.*;
 
 public class AccountLogic implements EntityLogic<Account, AccountProperty> {
     protected AccountLogic() {
@@ -21,7 +22,7 @@ public class AccountLogic implements EntityLogic<Account, AccountProperty> {
             switch (property) {
                 case USERNAME:
                     if (account.getUsername() == null) {
-                        resultList.add(new Pair<>(String.valueOf(property.USERNAME), "is empty"));
+                        resultList.add(new Pair<>(String.valueOf(USERNAME), "is empty"));
                     }
 
                     break;
