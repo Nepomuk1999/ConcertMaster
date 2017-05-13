@@ -124,7 +124,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                     _usernameField.setDisable(true);
                     _comboBoxAccountRole.setDisable(true);
                     _usernameField.clear();
-                    _usernameField.setStyle(null);
+                    _usernameField.setStyle("-fx-border-color: transparent");
                 } else {
                     _usernameField.setDisable(false);
                     _comboBoxAccountRole.setDisable(false);
@@ -211,7 +211,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.setHgap(15);
         pane.setVgap(10);
 
-        pane.add(titleMusician, 0, 0);
+        pane.addRow(0,titleMusician);
         pane.add(new Label("Role:"), 0, 1);
         pane.add(_comboBoxRole, 0, 2);
         pane.add(new Label("Section:"), 1, 1);
@@ -287,17 +287,17 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     private void reset() {
         _firstNameField.clear();
-        _firstNameField.setStyle(null);
+        _firstNameField.setStyle("-fx-border-color: transparent");
         _lastNameField.clear();
-        _lastNameField.setStyle(null);
+        _lastNameField.setStyle("-fx-border-color: transparent");
         _addressField.clear();
-        _addressField.setStyle(null);
+        _addressField.setStyle("-fx-border-color: transparent");
         _emailField.clear();
-        _emailField.setStyle(null);
+        _emailField.setStyle("-fx-border-color: transparent");
         _phoneField.clear();
-        _phoneField.setStyle(null);
+        _phoneField.setStyle("-fx-border-color: transparent");
         _usernameField.clear();
-        _usernameField.setStyle(null);
+        _usernameField.setStyle("-fx-border-color: transparent");
         _addButton.setDisable(false);
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);

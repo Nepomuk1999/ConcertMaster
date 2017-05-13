@@ -1,10 +1,9 @@
 package team_f.client.pages.instrumentationmanagement;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.controls.numberfield.NumberField;
 import team_f.client.converter.InstrumentationConverter;
@@ -20,6 +19,7 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,6 +55,9 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     //SpecialInstrumentation
     private TextField _specialInstrumentation;
 
+    private List<BigDecimalField> _fields;
+    private HBox _textfields;
+
     public InstrumentationManagement(){
 
     }
@@ -67,26 +70,61 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         final URL Style = ClassLoader.getSystemResource("style/stylesheetInstrumentation.css");
         getStylesheets().add(Style.toString());
         _nameField = new TextField();
+        _nameField.setMinWidth(130);
+        _textfields=new HBox(_nameField);
+        _fields=new ArrayList<>();
         try {
-            _firstViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _firstViolinField = new NumberField(0 , 0, Integer.MAX_VALUE);
+            _firstViolinField.setMaxWidth(60);
+            _fields.add(_firstViolinField);
             _secondViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _violaField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _secondViolinField.setMaxWidth(60);
+            _fields.add(_secondViolinField);
+            _violaField = new NumberField( 0, 0, Integer.MAX_VALUE);
+            _violaField.setMaxWidth(60);
+            _fields.add(_violaField);
             _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _doublebassField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _violoncelloField.setMaxWidth(60);
+            _fields.add(_violoncelloField);
+            _doublebassField = new NumberField( 0, 0, Integer.MAX_VALUE);
+            _doublebassField.setMaxWidth(60);
+            _fields.add(_doublebassField);
 
             _fluteField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _fluteField.setMaxWidth(60);
+            _fields.add(_fluteField);
             _oboeField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _oboeField.setMaxWidth(60);
+            _fields.add(_oboeField);
             _clarinetField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _clarinetField.setMaxWidth(60);
+            _fields.add(_clarinetField);
             _bassoonField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _bassoonField.setMaxWidth(60);
+            _fields.add(_bassoonField);
 
             _hornField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _trumpetField = new NumberField( 0,0,Integer.MAX_VALUE);
+            _hornField.setMaxWidth(60);
+            _fields.add(_hornField);
+            _trumpetField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _trumpetField.setMaxWidth(60);
+            _fields.add(_trumpetField);
             _tromboneField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _tromboneField.setMaxWidth(60);
+            _fields.add(_tromboneField);
             _tubeField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _tubeField.setMaxWidth(60);
+            _fields.add(_tubeField);
 
             _kettledrumField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _kettledrumField.setMaxWidth(60);
+            _fields.add(_kettledrumField);
             _percussionField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _percussionField.setMaxWidth(60);
+            _fields.add(_percussionField);
             _harpField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _harpField.setMaxWidth(60);
+            _fields.add(_harpField);
         } catch (NumberRangeException e) {
         }
 
@@ -99,6 +137,12 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         tsm.setSelectionMode(SelectionMode.SINGLE);
 
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _table.getColumns().addListener((ListChangeListener) change -> {
+            change.next();
+            if (change.wasReplaced()) {
+                update();
+            }
+        });
 
         GridPane newDataPane = getNewInstrumentationDataPane();
 
@@ -217,11 +261,21 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.setHgap(10);
         pane.setVgap(10);
 
+        pane.getColumnConstraints().addAll(new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90),
+                new ColumnConstraints(90),new ColumnConstraints(90),new ColumnConstraints(90),new ColumnConstraints(90),new ColumnConstraints(90),new ColumnConstraints(120));
+
         Label titleInstrumentation = new Label("Instrumentation");
         titleInstrumentation.setId("titleInstrumentation");
+        titleInstrumentation.setMinWidth(200);
+
+        _textfields =new HBox();
+        _textfields.setSpacing(10);
+        Label nameLabel=new Label("Name:");
+        nameLabel.setMinWidth(60);
+        _textfields.getChildren().addAll(nameLabel,_nameField);
 
         pane.addRow(0,titleInstrumentation);
-        pane.addRow(1, new Label("Name"), _nameField);
+        pane.addRow(1,_textfields);
 
         //Strings
         pane.addRow(4, new Label("1. Violin:"), _firstViolinField);
@@ -275,7 +329,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
 
         Button addButton = new Button("Add Instrumentation");
-        addButton.setMinWidth(130);
+        addButton.setMinWidth(160);
 
         addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() ||
@@ -297,7 +351,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.add(new Label("Brass:"),4, 3);
         pane.add(new Label("Percussion:"),6, 3);
         pane.add(new Label("Special Instruments:"),8,3);
-        pane.add(addButton, 9, 8);
+        pane.add(addButton, 8, 8);
         return pane;
     }
 
@@ -316,6 +370,10 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     private void reset() {
-        _nameField.setText(null);
+        _nameField.clear();
+        _nameField.setStyle("-fx-border-color: transparent");
+     for(BigDecimalField field:_fields){
+        field.setStyle("-fx-border-color: transparent");
+    }
     }
 }

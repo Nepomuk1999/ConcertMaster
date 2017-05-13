@@ -12,6 +12,9 @@
 .combo-box {
     -fx-font: 14 arial;
 }
+.label {
+    -fx-font: 12 arial;
+}
 #titleMusician {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
