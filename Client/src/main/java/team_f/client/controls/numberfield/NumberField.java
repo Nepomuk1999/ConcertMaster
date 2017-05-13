@@ -20,6 +20,7 @@ public class NumberField extends BigDecimalField {
 
     public NumberField(Integer value, int minValue, int maxValue) throws NumberRangeException {
         this(value);
+        setStyle("-fx-opacity: 1");
         setMinValue(new BigDecimal(minValue));
         setMaxValue(new BigDecimal(maxValue));
     }
