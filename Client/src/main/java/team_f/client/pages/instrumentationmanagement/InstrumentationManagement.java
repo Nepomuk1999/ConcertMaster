@@ -68,25 +68,25 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         getStylesheets().add(Style.toString());
         _nameField = new TextField();
         try {
-            _firstViolinField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _secondViolinField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _violaField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _violoncelloField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _doublebassField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
+            _firstViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _secondViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _violaField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _doublebassField = new NumberField(0, 0, Integer.MAX_VALUE);
 
-            _fluteField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _oboeField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _clarinetField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _bassoonField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
+            _fluteField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _oboeField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _clarinetField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _bassoonField = new NumberField(0, 0, Integer.MAX_VALUE);
 
-            _hornField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _trumpetField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _tromboneField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _tubeField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
+            _hornField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _trumpetField = new NumberField( 0,0,Integer.MAX_VALUE);
+            _tromboneField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _tubeField = new NumberField(0, 0, Integer.MAX_VALUE);
 
-            _kettledrumField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _percussionField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
-            _harpField = new NumberField((Integer) null, 0, Integer.MAX_VALUE);
+            _kettledrumField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _percussionField = new NumberField(0, 0, Integer.MAX_VALUE);
+            _harpField = new NumberField(0, 0, Integer.MAX_VALUE);
         } catch (NumberRangeException e) {
         }
 
