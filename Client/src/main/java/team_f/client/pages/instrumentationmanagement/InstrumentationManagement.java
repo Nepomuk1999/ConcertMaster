@@ -71,7 +71,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         final URL Style = ClassLoader.getSystemResource("style/stylesheetInstrumentation.css");
         getStylesheets().add(Style.toString());
         _nameField = new TextField();
-        _nameField.setMinWidth(130);
+        _nameField.setMinWidth(200);
         _textfields=new HBox(_nameField);
         _fields=new ArrayList<>();
         try {
@@ -373,6 +373,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private void reset() {
         _nameField.clear();
         _nameField.setStyle("-fx-border-color: transparent");
+        _table.getSelectionModel().clearSelection();
      for(BigDecimalField field:_fields){
         field.setNumber(new BigDecimal(0));
         field.setStyle("-fx-border-color: transparent");

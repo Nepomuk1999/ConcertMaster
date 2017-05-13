@@ -31,7 +31,6 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
     private Label _instruments;
     private Label _gender;
     private TableView<Person> _table;
-    private TextField _selectedPath;
 
     @Override
     public void initialize() {
@@ -51,12 +50,9 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _section = new Label();
         _gender = new Label();
         _table = new TableView();
-        _selectedPath = new TextField();
-
 
         BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
-
 
         _table.setMinHeight(450);
         _table.setMinWidth(450);

@@ -77,6 +77,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         _table = new TableView<>();
         _table.setEditable(false);
+        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _table.getColumns().addListener((ListChangeListener) change -> {
             change.next();
             if (change.wasReplaced()) {
@@ -271,6 +272,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         });
 
         _cancelButton = new Button("Reset");
+        _cancelButton.setMinWidth(125);
         _cancelButton.setOnAction(e -> {
             _table.setDisable(false);
             reset();
