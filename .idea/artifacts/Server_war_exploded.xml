@@ -17,6 +17,11 @@
           <element id="archive" name="domain-layer-1.0.jar">
             <element id="module-output" name="Domain" />
           </element>
+          <element id="library" level="project" name="Maven: commons-validator:commons-validator:1.6" />
+          <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.9.2" />
+          <element id="library" level="project" name="Maven: commons-digester:commons-digester:1.8.1" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+          <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
           <element id="archive" name="database-connector-1.0.jar">
             <element id="module-output" name="Hibernate" />
           </element>
