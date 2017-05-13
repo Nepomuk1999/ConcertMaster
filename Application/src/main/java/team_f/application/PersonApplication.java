@@ -94,7 +94,7 @@ public class PersonApplication {
 
         List<Pair<String, String>> errorList = personLogic.validate(person);
 
-        if(AccountRole.Musician.equals(AccountRole.Musician) || AccountRole.Substitute.equals(accountRole) || AccountRole.Section_representative.equals(accountRole)){
+        if(accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) || accountRole.equals(AccountRole.Section_representative.toString())){
             List<Pair<String, String>> errorList2 = accountLogic.validate(account);
             errorList.addAll(errorList2);
         }
