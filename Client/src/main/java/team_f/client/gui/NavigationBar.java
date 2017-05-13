@@ -10,10 +10,7 @@ import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.pages.BasePage;
 import team_f.client.pages.PageAction;
 import team_f.client.singletons.*;
-
 import javax.lang.model.type.NullType;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,23 +50,14 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionHome);
 
         MenuSection menuSectionServiceSchedule = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
-        //menuSectionServiceSchedule.setStyle("-fx-color: rgb(0,100,157);"+"-fx-text-fill: white");
 
         menuSectionItem = new MenuSectionItem("Show Schedules");
-        menuSectionItem.setOnAction(event -> {
-            try {
-                exitPage(getCurrentPage());
-                setPane(BrowserSingleton.getInstance(new URL("http://localhost:8080/Calendar")));
-            } catch (MalformedURLException e) {
-            }
-        });
+        menuSectionItem.setOnAction(event -> loadPage(CalendarSingleton.getInstance(_configuration)));
 
         menuSectionServiceSchedule.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
         //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
-        menuSectionItem.setOnMouseClicked(event -> {
-            loadPage(MonthPublisherSingleton.getInstance(_configuration));
-        });
+        menuSectionItem.setOnMouseClicked(event -> loadPage(MonthPublisherSingleton.getInstance(_configuration)));
         menuSectionServiceSchedule.add(menuSectionItem);
         sidebar.add(menuSectionServiceSchedule);
         menuSectionArrayList.add(menuSectionServiceSchedule);
