@@ -25,13 +25,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-//TODO: name and assigned work should also be displayed
-
+//TODO: name and assigned work should also be displayed (Helmut)
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TextField _nameField;
 
     private TableView<Instrumentation> _instrumentationTable;
-    //Todo:loadlist not working
+    //Todo:loadlist not working (Helmut)
     private TableView<MusicalWork> _musicalWorkTable;
 
     //String
@@ -179,7 +178,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             }
         });
 
-        //Todo: disable depends on which table is displaying
+        //Todo: disable depends on which table is displaying (Oktay)
         _instrumentationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _editButton.setDisable(false);
@@ -220,7 +219,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _radioGroup.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
             root.getChildren().clear();
             if (_radioGroup.getSelectedToggle() != null) {
-                //Todo: show musicalworkslist
                 if(_worksRadio.isSelected()){
                     root.getChildren().addAll(_newDataPane, _musicalWorkTable, buttonsBox);
                     _deleteButton.setDisable(true);
@@ -228,7 +226,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                     _addButton.setDisable(true);
                     //_addAlternativeButton.setDisable(true);
                 }
-                //Todo: show instrumentationList
                 if(_alternativeRadio.isSelected()){
                     root.getChildren().addAll(_newDataPane, _instrumentationTable, buttonsBox);
                     _deleteButton.setDisable(true);
@@ -266,7 +263,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     public void dispose() {
 
     }
-    //Todo: the Id for the selected Work should be set
+
     public void addInstrumentation(){
         if(_create != null&&_selectedWork!=null) {
             Instrumentation instrumentation = new Instrumentation();
@@ -292,7 +289,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
 
             //instrumentation.setSpecialInstrumentation();
-            //TODO: set alternative instrumentation to selected work
+            //TODO: set alternative instrumentation to selected work (Helmut)
             //_selectedWork.setAlternativeInstrumentationId(instrumentation);
             InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
 
@@ -315,7 +312,9 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         reset();
     }
 
-    //TODO: if we delete an instrumentation then we have also to delete the assigned MusicalWork
+    //TODO: if we delete an instrumentation then we have also to delete
+    // the assigned MusicalWorks alternative Instrumentation ID (Helmut) (not important)
+
     public void deleteInstrumentation(){
         if(_delete != null) {
             Instrumentation instrumentation = new Instrumentation();
@@ -522,7 +521,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                 showTryAgainLaterErrorMessage();
             }
         }
-        //TODO: not working
+        //TODO: not working (Helmut)
       /*  if(_loadList != null) {
             MusicalWorkParameter musicalWorkParameter = new MusicalWorkParameter();
             List<MusicalWork> musicalWorkList = _loadList.doAction(musicalWorkParameter);
@@ -535,7 +534,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             }
         }*/
     }
-        //TODO: adapt reset for both posibilities
+        //TODO: adapt reset for both posibilities (Oktay)
     private void reset() {
         _instrumentationTable.getSelectionModel().clearSelection();
         _musicalWorkTable.getSelectionModel().clearSelection();
