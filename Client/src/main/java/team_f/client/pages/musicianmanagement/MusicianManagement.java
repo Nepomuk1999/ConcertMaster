@@ -95,8 +95,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         });
 
-        TableView.TableViewSelectionModel tsm = _table.getSelectionModel();
-        tsm.setSelectionMode(SelectionMode.SINGLE);
+        //TableView.TableViewSelectionModel tsm = _table.getSelectionModel();
+        _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
         update();
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 

@@ -157,8 +157,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _instrumentationTable = new TableView<>();
         _instrumentationTable.setEditable(false);
-        //TableView.TableViewSelectionModel<Instrumentation> tsm = _instrumentationTable.getSelectionModel();
-        //tsm.setSelectionMode(SelectionMode.SINGLE);
+        // TableView.TableViewSelectionModel<Instrumentation> tsm = _instrumentationTable.getSelectionModel();
+         _instrumentationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         _instrumentationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _instrumentationTable.getColumns().addListener((ListChangeListener) change -> {
             change.next();
@@ -169,8 +169,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _musicalWorkTable = new TableView<>();
         _musicalWorkTable.setEditable(false);
-        TableView.TableViewSelectionModel<MusicalWork> tsm2 = _musicalWorkTable.getSelectionModel();
-        tsm2.setSelectionMode(SelectionMode.SINGLE);
+        //TableView.TableViewSelectionModel<MusicalWork> tsm2 = _musicalWorkTable.getSelectionModel();
+        _musicalWorkTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         _musicalWorkTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _musicalWorkTable.getColumns().addListener((ListChangeListener) change -> {
             change.next();
