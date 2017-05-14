@@ -486,12 +486,16 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _radioGroup = new ToggleGroup();
         _worksRadio= new RadioButton("Show Works");
-        _worksRadio.setMinWidth(50);
+        _worksRadio.setMinWidth(100);
         _worksRadio.setToggleGroup(_radioGroup);
         _worksRadio.setSelected(true);
         _alternativeRadio = new RadioButton("Show Alternatives");
         _alternativeRadio.setToggleGroup(_radioGroup);
-        _alternativeRadio.setMinWidth(50);
+        _alternativeRadio.setMinWidth(150);
+
+        HBox radiobuttons=new HBox();
+        radiobuttons.setMinWidth(400);
+        radiobuttons.getChildren().addAll(_worksRadio,_alternativeRadio);
 
         pane.add(new Label("Instrumentation:"), 0,2);
         pane.add(new Label("String:"), 0,3);
@@ -502,8 +506,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.add(_addButton, 8, 8);
         pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
-        pane.add(_worksRadio, 3, 9);
-        pane.add(_alternativeRadio, 4, 9);
+        pane.add(radiobuttons, 3, 9);
+       // pane.add(_alternativeRadio, 4, 9);
 
 
         return pane;
