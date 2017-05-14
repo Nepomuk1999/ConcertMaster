@@ -510,6 +510,21 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         musicalWork.getInstrumentation().setPercussion(Integer.parseInt(_percussionField.getText()));
         musicalWork.getInstrumentation().setHarp(Integer.parseInt(_harpField.getText()));
 
-        //musicalWork.getInstrumentation().setSpecialInstrumentation();
+        List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
+        SpecialInstrumentation specialInstrumentation;
+
+        if(_specialInstrumentation.getText() != null) {
+            String[] specialInstrumentations = _specialInstrumentation.getText().split(" ");
+
+            for(String item : specialInstrumentations) {
+                specialInstrumentation = new SpecialInstrumentation();
+                // @TODO: add special instrumentations
+                /*specialInstrumentation.setSectionType();
+                specialInstrumentation.setSpecialInstrumentCount();
+                specialInstrumentation.setSpecialInstrument();*/
+            }
+        }
+
+        musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
     }
 }

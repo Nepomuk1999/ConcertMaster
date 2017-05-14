@@ -19,11 +19,14 @@ public class MusicalWorkApplication {
         musicalworkfacade.closeSession();
     }
 
-    // @TODO: the servlet layer should not create a Instrumentation
-    public Pair<DomainEntity, List<Pair<String, String>>> addMusicalWork(String name, String composer, Integer violin1, Integer violin2, Integer viola, Integer violincello,
+    public Pair<DomainEntity, List<Pair<String, String>>> addMusicalWork(int id, String name, String composer, Integer violin1, Integer violin2, Integer viola, Integer violincello,
                                                                          Integer doublebass, Integer flute, Integer oboe, Integer clarinet, Integer bassoon, Integer horn,
                                                                          Integer trumpet, Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp) {
         MusicalWork musicalWork = new MusicalWork();
+        musicalWork.setMusicalWorkID(id);
+        musicalWork.setName(name);
+        musicalWork.setComposer(composer);
+
         Instrumentation instrumentation = new Instrumentation();
         instrumentation.setViolin1(violin1);
         instrumentation.setViolin2(violin2);
@@ -42,10 +45,7 @@ public class MusicalWorkApplication {
         instrumentation.setPercussion(percussion);
         instrumentation.setHarp(harp);
 
-        musicalWork.setName(name);
-        musicalWork.setComposer(composer);
         musicalWork.setInstrumentation(instrumentation);
-
         Integer resultID = musicalworkfacade.addMusicalWork(musicalWork);
         musicalWork.setMusicalWorkID(resultID);
 

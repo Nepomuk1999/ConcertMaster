@@ -22,15 +22,19 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, Mus
     }
 
     public Integer addMusicalWork(MusicalWork musicalWork) {
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
 
         MusicalWorkEntity mwEntity = convertToMusicalWorkEntity(musicalWork);
         Instrumentation instrumentation = musicalWork.getInstrumentation();
         mwEntity.setInstrumentationId(_instrumentationFacade.addInstrumentation(instrumentation));
 
-        EntityManager session = getCurrentSession();
-        session.getTransaction().begin();
-
-        session.persist(mwEntity);
+        if (mwEntity.getMusicalWorkId() > 0) {
+            session.merge(mwEntity);
+        } else {
+            session.persist(mwEntity);
+            session.flush();
+        }
 
         try {
             session.flush();

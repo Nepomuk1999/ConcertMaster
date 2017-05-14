@@ -78,7 +78,7 @@ public class MusicalWork extends HttpServlet {
                         musicalWork = request.getEntity();
 
                         if(musicalWork != null) {
-                            tmpErrorList = facade.addMusicalWork(musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
+                            tmpErrorList = facade.addMusicalWork(0, musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
                                     musicalWork.getInstrumentation().getViola(), musicalWork.getInstrumentation().getViolincello(), musicalWork.getInstrumentation().getDoublebass(), musicalWork.getInstrumentation().getFlute(),
                                     musicalWork.getInstrumentation().getOboe(), musicalWork.getInstrumentation().getClarinet(), musicalWork.getInstrumentation().getBassoon(), musicalWork.getInstrumentation().getHorn(),
                                     musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),
@@ -96,9 +96,13 @@ public class MusicalWork extends HttpServlet {
                         musicalWork = request.getEntity();
 
                         if(musicalWork != null) {
-                            // @TODO: add update functionality
-                            /*tmpErrorList = facade.update(musicalWork);
-                            errorList = JsonResponse.prepareErrorMessage(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()), tmpErrorList.getValue());*/
+                            tmpErrorList = facade.addMusicalWork(musicalWork.getMusicalWorkID(), musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
+                                    musicalWork.getInstrumentation().getViola(), musicalWork.getInstrumentation().getViolincello(), musicalWork.getInstrumentation().getDoublebass(), musicalWork.getInstrumentation().getFlute(),
+                                    musicalWork.getInstrumentation().getOboe(), musicalWork.getInstrumentation().getClarinet(), musicalWork.getInstrumentation().getBassoon(), musicalWork.getInstrumentation().getHorn(),
+                                    musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),
+                                    musicalWork.getInstrumentation().getPercussion(), musicalWork.getInstrumentation().getHarp());
+
+                            errorList = JsonResponse.prepareErrorMessage(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
