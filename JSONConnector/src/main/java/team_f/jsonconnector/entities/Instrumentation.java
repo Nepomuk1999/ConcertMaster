@@ -251,8 +251,16 @@ public class Instrumentation implements JSONObjectEntity {
         StringBuilder specialInstrumentation = new StringBuilder();
 
         if(_special != null) {
-            for(SpecialInstrumentation item : _special) {
-                specialInstrumentation.append("\n" + item.getDisplayName());
+            if(_special.size() > 0) {
+                specialInstrumentation.append("\n");
+            }
+
+            for(int i = 0; i < _special.size(); i++) {
+                specialInstrumentation.append(_special.get(i).getDisplayName());
+
+                if(i < _special.size()) {
+                    specialInstrumentation.append("+");
+                }
             }
         }
 
