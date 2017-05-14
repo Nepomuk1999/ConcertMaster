@@ -56,7 +56,7 @@ public class PersonApplication {
     }
 
     public Pair<DomainEntity, List<Pair<String, String>>> add(int id, String firstname, String lastname, String gender, String address,
-                                                                   String email, String phoneNumber, PersonRole personRole, String username,
+                                                                   String email, String phoneNumber, int accountID, PersonRole personRole, String username,
                                                                    AccountRole accountRole, List<InstrumentType> instrumentTypeList) {
         Person person = new Person();
         person.setPersonID(id);
@@ -75,6 +75,7 @@ public class PersonApplication {
         }
 
         Account account = new Account();
+        account.setAccountID(accountID);
         account.setUsername(username);
         account.setRole(accountRole);
 

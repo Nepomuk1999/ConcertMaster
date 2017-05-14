@@ -75,7 +75,7 @@ public class Register extends HttpServlet {
 
                     // @TODO: should we use enums for gender?
                     tmpErrorList = facade.add(0, person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
-                            person.getPhoneNumber(), personRole, username, accountRole, instrumentTypeList);
+                            person.getPhoneNumber(), 0, personRole, username, accountRole, instrumentTypeList);
 
                     errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                 }

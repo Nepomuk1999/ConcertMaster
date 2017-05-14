@@ -106,7 +106,7 @@ public class Person extends HttpServlet {
                             }
 
                             tmpErrorList = facade.add(person.getPersonID(), person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
-                                    person.getPhoneNumber(), personRole, username, accountRole, instrumentTypeList);
+                                    person.getPhoneNumber(), person.getPersonID(), personRole, username, accountRole, instrumentTypeList);
 
                             errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }
