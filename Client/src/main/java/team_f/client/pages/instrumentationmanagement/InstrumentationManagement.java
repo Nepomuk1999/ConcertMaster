@@ -16,6 +16,7 @@ import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.Pair;
+import team_f.jsonconnector.entities.SpecialInstrumentation;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
@@ -179,8 +180,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         root.setSpacing(5);
         BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
-
-
         borderPane.setCenter(root);
         setCenter(borderPane);
     }
@@ -233,6 +232,21 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             instrumentation.setKettledrum(Integer.parseInt(_kettledrumField.getText()));
             instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
             instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
+
+           /* List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
+            SpecialInstrumentation specialInstrumentation;
+
+            for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+                specialInstrumentation = new SpecialInstrumentation();
+                specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+                specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+                specialInstrumentation.setSpecialInstrumentCount(item.getSpecialInstrumentNumberField().getNumber().intValue());
+                specialInstrumentation.setSpecialInstrument(item.getSpecialInstrumentTextField().getText());
+
+                specialInstrumentationList.add(specialInstrumentation);
+            }
+
+            instrumentation.setSpecialInstrumentation(specialInstrumentationList);*/
 
             InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
 
@@ -298,9 +312,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _textfields.setSpacing(10);
         _textfields = new HBox();
         _textfields.getChildren().addAll(nameLabel, _nameField);
-        /*Label nameLabel=new Label("Name:");
-        nameLabel.setMinWidth(60);
-        _textfields.getChildren().addAll(nameLabel,_nameField);*/
 
         pane.addRow(0, titleInstrumentation);
         pane.addRow(1, _textfields);
@@ -329,8 +340,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.addRow(5, new Label("Percussion:"), _percussionField);
         pane.addRow(6, new Label("Harp:"), _harpField);
 
-
-
         List<TextField> textFields = new LinkedList();
         textFields.add(_nameField);
 
@@ -354,7 +363,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         decimalFields.add(_kettledrumField);
         decimalFields.add(_percussionField);
         decimalFields.add(_harpField);
-
 
         _addButton = new Button("Add");
         _addButton.setMinWidth(100);
@@ -435,6 +443,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _specialInstrumentationNumberField.setMaxWidth(60);
         _specialInstrumentationContent.addColumn(2, _specialInstrumentationNumberField);
         _specialInstrumentationButton = new Button("+");
+
         _specialInstrumentationButton.setOnAction(event -> {
             GridPane tmpPane = new GridPane();
 
@@ -473,7 +482,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
         _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
-
+        _specialInstrumentationPane.setMaxHeight(300);
+        _specialInstrumentationPane.setMinWidth(265);
         pane.add(_specialInstrumentationPane, 8, 3);
         pane.setRowSpan(_specialInstrumentationPane, 6);
         pane.setColumnSpan(_specialInstrumentationPane, 4);
