@@ -83,7 +83,13 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
         PersonEntity personEntity = convertToPersonEntity(person);
         personEntity.setAccount(accountId);
 
-        session.persist(personEntity);
+        if (personEntity.getPersonId() > 0){
+            session.merge(personEntity);
+        } else {
+            session.persist(personEntity);
+            session.flush();
+        }
+
 
         try {
             session.getTransaction().commit();
