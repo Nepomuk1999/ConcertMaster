@@ -155,7 +155,7 @@ public class EventApplication {
 
     public List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
         List<Pair<String, String>> errorList = new LinkedList<>();
-        List<EventDuty> eventList = new LinkedList<>();
+        List<EventDuty> eventList;
 
         eventList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
 

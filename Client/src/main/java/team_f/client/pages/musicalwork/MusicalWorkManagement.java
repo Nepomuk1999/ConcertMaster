@@ -147,7 +147,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _table = new TableView<>();
         _table.setEditable(false);
 
-       //TableView.TableViewSelectionModel<MusicalWork> tsm = _table.getSelectionModel();
+        //TableView.TableViewSelectionModel<MusicalWork> tsm = _table.getSelectionModel();
         _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
