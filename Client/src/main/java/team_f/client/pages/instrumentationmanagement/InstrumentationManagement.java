@@ -25,13 +25,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-//TODO: name and assigned work should also be displayed (Helmut)
+
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TextField _nameField;
 
     private TableView<Instrumentation> _instrumentationTable;
     //Todo:loadlist not working (Helmut)
-    private TableView<MusicalWork> _musicalWorkTable;
 
     //String
     private BigDecimalField _firstViolinField;
@@ -65,12 +64,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private Button _editButton;
     private Button _deleteButton;
     private Button _cancelButton;
-    private Button _addAlternativeButton;
 
-    private ToggleGroup _radioGroup;
-    private RadioButton _worksRadio;
-    private RadioButton _alternativeRadio;
-    private MusicalWork _selectedWork;
+
 
     private GridPane _newDataPane;
 
@@ -166,75 +161,31 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             }
         });
 
-        _musicalWorkTable = new TableView<>();
-        _musicalWorkTable.setEditable(false);
-        //TableView.TableViewSelectionModel<MusicalWork> tsm2 = _musicalWorkTable.getSelectionModel();
-        _musicalWorkTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        _musicalWorkTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        _musicalWorkTable.getColumns().addListener((ListChangeListener) change -> {
-            change.next();
-            if (change.wasReplaced()) {
-                update();
-            }
-        });
 
         //Todo: disable depends on which table is displaying (Oktay)
         _instrumentationTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _editButton.setDisable(false);
                 _deleteButton.setDisable(false);
-                _addAlternativeButton.setDisable(true);
             } else {
                 _editButton.setDisable(true);
                 _deleteButton.setDisable(true);
-                _addAlternativeButton.setDisable(true);
             }
         });
 
-        _musicalWorkTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                _editButton.setDisable(true);
-                _deleteButton.setDisable(true);
-                _addAlternativeButton.setDisable(false);
-                _addButton.setDisable(false);
-            } else {
-                _editButton.setDisable(true);
-                _deleteButton.setDisable(true);
-                _addAlternativeButton.setDisable(true);
-                _addButton.setDisable(true);
+        GridPane newDataPane = getNewInstrumentationDataPane();
+        ScrollPane pane=new ScrollPane(newDataPane);
 
-            }
-        });
-
-       _newDataPane = getNewInstrumentationDataPane();
-       ScrollPane pane=new ScrollPane(_newDataPane);
-        HBox buttonsBox = new HBox(_addAlternativeButton,_editButton, _deleteButton);
+        HBox buttonsBox = new HBox(_editButton, _deleteButton);
         buttonsBox.setSpacing(10);
 
+
         VBox root = new VBox();
-        root.getChildren().addAll(pane, _musicalWorkTable, buttonsBox);
+        root.getChildren().addAll(pane, _instrumentationTable, buttonsBox);
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
         borderPane.setId("borderPane");
 
-        _radioGroup.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
-            root.getChildren().clear();
-            if (_radioGroup.getSelectedToggle() != null) {
-                if(_worksRadio.isSelected()){
-                    root.getChildren().addAll(_newDataPane, _musicalWorkTable, buttonsBox);
-                    _deleteButton.setDisable(true);
-                    _editButton.setDisable(true);
-                    _addButton.setDisable(true);
-                    //_addAlternativeButton.setDisable(true);
-                }
-                if(_alternativeRadio.isSelected()){
-                    root.getChildren().addAll(_newDataPane, _instrumentationTable, buttonsBox);
-                    _deleteButton.setDisable(true);
-                    _editButton.setDisable(true);
-                    _addAlternativeButton.setDisable(true);
-                }
-            }
-        });
 
         borderPane.setCenter(root);
         setCenter(borderPane);
@@ -266,7 +217,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     public void addInstrumentation(){
-        if(_create != null&&_selectedWork!=null) {
+        if(_create != null) {
             Instrumentation instrumentation = new Instrumentation();
 
             instrumentation.setViolin1(Integer.parseInt(_firstViolinField.getText()));
@@ -289,9 +240,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
             instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
 
-            //instrumentation.setSpecialInstrumentation();
-            //TODO: set alternative instrumentation to selected work (Helmut)
-            //_selectedWork.setAlternativeInstrumentationId(instrumentation);
             InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
 
             if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
@@ -313,8 +261,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         reset();
     }
 
-    //TODO: if we delete an instrumentation then we have also to delete
-    // the assigned MusicalWorks alternative Instrumentation ID (Helmut) (not important)
 
     public void deleteInstrumentation(){
         if(_delete != null) {
@@ -441,9 +387,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
             _instrumentationTable.setDisable(true);
-            _musicalWorkTable.setDisable(true);
             _addButton.setDisable(true);
-            _addAlternativeButton.setDisable(true);
             _updateButton.setDisable(false);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
@@ -454,20 +398,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _deleteButton = new Button("Delete Instrumentation");
         _deleteButton.setDisable(true);
         //_deleteButton.setOnAction(e -> deleteInstrumentation());
-
-        _addAlternativeButton = new Button("Add Alternative");
-        //_addAlternativeButton.setDisable(true);
-        _addAlternativeButton.setOnAction(e -> {
-            if(_musicalWorkTable.getSelectionModel().getSelectedItem()!=null){
-            _selectedWork=_musicalWorkTable.getSelectionModel().getSelectedItem();
-            _nameFieldWork.setText(_selectedWork.getName());
-            _musicalWorkTable.setDisable(true);
-            _instrumentationTable.setDisable(true);
-            _radioGroup.selectToggle(_alternativeRadio);
-            _addButton.setDisable(false);
-            }
-        });
-
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
@@ -485,18 +415,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             reset();
         });
 
-        _radioGroup = new ToggleGroup();
-        _worksRadio= new RadioButton("Show Works");
-        _worksRadio.setMinWidth(100);
-        _worksRadio.setToggleGroup(_radioGroup);
-        _worksRadio.setSelected(true);
-        _alternativeRadio = new RadioButton("Show Alternatives");
-        _alternativeRadio.setToggleGroup(_radioGroup);
-        _alternativeRadio.setMinWidth(150);
-
-        HBox radiobuttons=new HBox();
-        radiobuttons.setMinWidth(400);
-        radiobuttons.getChildren().addAll(_worksRadio,_alternativeRadio);
 
         pane.add(new Label("Instrumentation:"), 0,2);
         pane.add(new Label("String:"), 0,3);
@@ -507,8 +425,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.add(_addButton, 8, 8);
         pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
-        pane.add(radiobuttons, 3, 9);
-       // pane.add(_alternativeRadio, 4, 9);
 
 
         return pane;
@@ -526,27 +442,13 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                 showTryAgainLaterErrorMessage();
             }
         }
-        //TODO: not working (Helmut)
-      /*  if(_loadList != null) {
-            MusicalWorkParameter musicalWorkParameter = new MusicalWorkParameter();
-            List<MusicalWork> musicalWorkList = _loadList.doAction(musicalWorkParameter);
 
-            if(musicalWorkList != null) {
-                _musicalWorkTable.setItems(FXCollections.observableList(musicalWorkList));
-                update();
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }*/
     }
-        //TODO: adapt reset for both posibilities (Oktay)
-    private void reset() {
+
+        private void reset() {
         _instrumentationTable.getSelectionModel().clearSelection();
-        _musicalWorkTable.getSelectionModel().clearSelection();
         _instrumentationTable.setDisable(false);
-        _musicalWorkTable.setDisable(false);
         _nameFieldWork.clear();
-        _selectedWork=null;
             _nameField.clear();
             _nameField.setStyle("-fx-border-color: transparent");
             //_composerField.clear();
