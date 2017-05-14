@@ -2,9 +2,7 @@ package team_f.client.pages.musicalwork;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.scene.input.InputEvent;
 import javafx.scene.layout.*;
 import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.controls.numberfield.NumberField;
@@ -410,36 +408,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _specialInstrumentationContent.addColumn(2, _specialInstrumentationNumberField);
         _specialInstrumentationButton = new Button("+");
         _specialInstrumentationButton.setOnAction(event -> {
-            GridPane tmpPane = new GridPane();
-
-            ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>(_specialInstrumentationComboBox.getItems());
-            tmpComboBox.getSelectionModel().select(_specialInstrumentationComboBox.getSelectionModel().getSelectedItem());
-            tmpPane.addColumn(0, tmpComboBox);
-
-            TextField tmpTextField = new TextField();
-            tmpTextField.setText(_specialInstrumentationTextField.getText());
-            tmpPane.addColumn(1, tmpTextField);
-
-            NumberField tmpNumberField = null;
-            try {
-                tmpNumberField = new NumberField(_specialInstrumentationNumberField.getNumber().intValue(), _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
-                tmpPane.addColumn(2, tmpNumberField);
-            } catch (NumberRangeException e) {
-            }
-
-            Button tmpButton = new Button("-");
-            tmpPane.addColumn(3, tmpButton);
-
-            _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size()+1, tmpPane);
-            _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
-            SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(0, tmpComboBox, tmpTextField, tmpNumberField);
-
-            tmpButton.setOnAction(e -> {
-                _specialInstrumentationContent.getChildren().remove(tmpPane);
-                _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
-            });
-
-            _specialInstrumentationEntityList.add(specialInstrumentationEntity);
+            addSpecialInstrumentationItem(0, _specialInstrumentationComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationTextField.getText(), _specialInstrumentationNumberField.getNumber().intValue());
         });
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
@@ -508,6 +477,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             field.setNumber(new BigDecimal(0));
             field.setStyle("-fx-border-color: transparent");
         }
+
+        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+            removeSpecialInstrumentationItem(item);
+        }
     }
 
     public void fillFields(MusicalWork musicalWork) {
@@ -539,11 +512,28 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             _percussionField.setNumber(new BigDecimal(instrumentation.getPercussion()));
             _harpField.setNumber(new BigDecimal(instrumentation.getHarp()));
 
-            // @TODO:
-            /*
+            for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+                removeSpecialInstrumentationItem(item);
+            }
+
             if (instrumentation.getSpecialInstrumentation() != null) {
-                _specialInstrumentation.setText(instrumentation.getSpecialInstrumentation().toString());
-            }*/
+                List<KeyValuePair> sectionTypeList = MusicianTableHelper.getSectionTypeList();
+                KeyValuePair keyValuePair;
+
+                for(SpecialInstrumentation specialInstrumentation : instrumentation.getSpecialInstrumentation()) {
+                    keyValuePair = null;
+
+                    for(KeyValuePair pair : sectionTypeList) {
+                        if(String.valueOf(pair.getValue()).equals(specialInstrumentation.getSectionType())) {
+                            keyValuePair = pair;
+                            break;
+                        }
+                    }
+
+                    addSpecialInstrumentationItem(specialInstrumentation.getSpecialInstrumentationID(), keyValuePair,
+                            specialInstrumentation.getSpecialInstrumentation(), specialInstrumentation.getSpecialInstrumentCount());
+                }
+            }
         }
     }
 
@@ -583,12 +573,47 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             specialInstrumentation = new SpecialInstrumentation();
             specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
             specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-            specialInstrumentation.setSpecialInstrumentCount(item.getSpecialInstrumentNumberField().getNumber().intValue());
-            specialInstrumentation.setSpecialInstrument(item.getSpecialInstrumentTextField().getText());
+            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
 
             specialInstrumentationList.add(specialInstrumentation);
         }
 
         musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
+    }
+
+    private void addSpecialInstrumentationItem(int id, KeyValuePair sectionType, String specialInstrumentation, int specialInstrumentationCount) {
+        GridPane tmpPane = new GridPane();
+
+        ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>(_specialInstrumentationComboBox.getItems());
+        tmpComboBox.getSelectionModel().select(sectionType);
+        tmpPane.addColumn(0, tmpComboBox);
+
+        TextField tmpTextField = new TextField();
+        tmpTextField.setText(specialInstrumentation);
+        tmpPane.addColumn(1, tmpTextField);
+
+        NumberField tmpNumberField = null;
+        try {
+            tmpNumberField = new NumberField(specialInstrumentationCount, _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
+            tmpPane.addColumn(2, tmpNumberField);
+        } catch (NumberRangeException e) {
+        }
+
+        Button tmpButton = new Button("-");
+        tmpPane.addColumn(3, tmpButton);
+
+        _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size()+1, tmpPane);
+        _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
+        SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(id, tmpComboBox, tmpTextField, tmpNumberField, tmpPane);
+
+        tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
+
+        _specialInstrumentationEntityList.add(specialInstrumentationEntity);
+    }
+
+    private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
+        _specialInstrumentationContent.getChildren().remove(specialInstrumentationEntity.getPane());
+        _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
     }
 }
