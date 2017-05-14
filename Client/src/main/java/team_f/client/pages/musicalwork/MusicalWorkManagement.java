@@ -159,7 +159,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         });
 
         GridPane newDataPane = getNewMusicalWorkDataPane();
-
+        ScrollPane pane=new ScrollPane(newDataPane);
         // Create the Delete Button and add Event-Handler
         _deleteButton = new Button("Delete Selected Work");
         _deleteButton.setDisable(true);
@@ -170,7 +170,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         buttonsBox.setSpacing(10);
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, _table, buttonsBox);
+        root.getChildren().addAll(pane, _table, buttonsBox);
         root.setSpacing(5);
         BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");

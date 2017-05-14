@@ -207,11 +207,12 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         });
 
        _newDataPane = getNewInstrumentationDataPane();
+       ScrollPane pane=new ScrollPane(_newDataPane);
         HBox buttonsBox = new HBox(_addAlternativeButton,_editButton, _deleteButton);
         buttonsBox.setSpacing(10);
 
         VBox root = new VBox();
-        root.getChildren().addAll(_newDataPane, _musicalWorkTable, buttonsBox);
+        root.getChildren().addAll(pane, _musicalWorkTable, buttonsBox);
         root.setSpacing(5);
         BorderPane borderPane=new BorderPane();
         borderPane.setId("borderPane");
