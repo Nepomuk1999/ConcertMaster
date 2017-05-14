@@ -77,6 +77,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         _table = new TableView<>();
         _table.setEditable(false);
+        _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _table.getColumns().addListener((ListChangeListener) change -> {
             change.next();
@@ -84,6 +85,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 update();
             }
         });
+
+        update();
 
         _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -94,13 +97,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 _deleteButton.setDisable(true);
             }
         });
-
-        //TableView.TableViewSelectionModel tsm = _table.getSelectionModel();
-        _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        update();
-        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
 
         _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -498,8 +494,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         person.setPhoneNumber(_phoneField.getText());
         person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
         person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
-        //person.setInstruments();
-        //person.setInitials();
         person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
 
         if(createAccount) {
