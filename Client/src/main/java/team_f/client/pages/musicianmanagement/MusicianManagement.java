@@ -24,7 +24,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     private TextField _addressField;
     private TextField _emailField;
     private TextField _phoneField;
-    private TableView<Person> _table;
+    private TableView<Person> _musicianTable;
     private ComboBox<KeyValuePair> _comboBoxSectionType;
     private ComboBox<KeyValuePair> _comboBoxInstrumentType;
     private ComboBox<KeyValuePair> _comboBoxRole;
@@ -75,11 +75,11 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _comboBoxRole.getSelectionModel().selectFirst();
 
 
-        _table = new TableView<>();
-        _table.setEditable(false);
-        _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        _table.getColumns().addListener((ListChangeListener) change -> {
+        _musicianTable = new TableView<>();
+        _musicianTable.setEditable(false);
+        _musicianTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        _musicianTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _musicianTable.getColumns().addListener((ListChangeListener) change -> {
             change.next();
             if (change.wasReplaced()) {
                 update();
@@ -88,7 +88,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         update();
 
-        _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        _musicianTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _editButton.setDisable(false);
                 _deleteButton.setDisable(false);
@@ -141,13 +141,13 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
-            _table.setDisable(true);
+            _musicianTable.setDisable(true);
             _addButton.setDisable(true);
             _updateButton.setDisable(false);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
-            fillFields((Person) _table.getSelectionModel().getSelectedItem());
+            fillFields((Person) _musicianTable.getSelectionModel().getSelectedItem());
         });
 
         _deleteButton = new Button("Delete Selected Musician");
@@ -159,7 +159,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         buttonsBox.setSpacing(10);
         VBox root = new VBox();
         GridPane newDataPane = getNewPersonDataPane();
-        root.getChildren().addAll(newDataPane, _table, buttonsBox);
+        root.getChildren().addAll(newDataPane, _musicianTable, buttonsBox);
         root.setSpacing(5);
         BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
@@ -177,8 +177,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     @Override
     public void update() {
-        _table.getColumns().clear();
-        _table.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
+        _musicianTable.getColumns().clear();
+        _musicianTable.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
                 MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
                 MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
                 MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getInstrumentColumn());
@@ -241,7 +241,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _updateButton.setMinWidth(100);
         _updateButton.setDisable(true);
         _updateButton.setOnAction(e -> {
-            _table.setDisable(false);
+            _musicianTable.setDisable(false);
             editPerson();
             reset();
         });
@@ -272,7 +272,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _cancelButton = new Button("Reset");
         _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
-            _table.setDisable(false);
+            _musicianTable.setDisable(false);
             reset();
         });
         pane.add(_addButton, 4, 6);
@@ -305,7 +305,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _comboBoxSectionType.getSelectionModel().selectFirst();
         _comboBoxInstrumentType.getSelectionModel().selectFirst();
         _comboBoxAccountRole.getSelectionModel().selectFirst();
-        _table.getSelectionModel().clearSelection();
+        _musicianTable.getSelectionModel().clearSelection();
     }
 
     public void addPerson() {
@@ -322,7 +322,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 if (tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1 && resultPersonErrorList.getKeyValueList().get(0).getKey() != null && resultPersonErrorList.getKeyValueList().get(0).getKey().getPersonID() > 0) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                    _table.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    _musicianTable.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
                     update();
                 } else {
                     showErrorMessage("Error", tmpErrorText);
@@ -336,7 +336,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     public void editPerson() {
         if (_edit != null) {
-            Person person = _table.getSelectionModel().getSelectedItem();
+            Person person = _musicianTable.getSelectionModel().getSelectedItem();
             setPerson(person, false);
 
             PersonErrorList resultPersonErrorList = _edit.doAction(person);
@@ -348,8 +348,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 if (tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                    _table.getItems().remove(person);
-                    _table.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    _musicianTable.getItems().remove(person);
+                    _musicianTable.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
                     update();
                 } else {
                     showErrorMessage("Error", tmpErrorText);
@@ -366,7 +366,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             List<Person> personList = _loadList.doAction(personParameter);
 
             if (personList != null) {
-                _table.setItems(FXCollections.observableList(personList));
+                _musicianTable.setItems(FXCollections.observableList(personList));
                 update();
             } else {
                 showTryAgainLaterErrorMessage();
