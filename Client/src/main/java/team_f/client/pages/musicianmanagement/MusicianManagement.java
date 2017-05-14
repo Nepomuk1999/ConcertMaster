@@ -501,8 +501,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             person.setAccount(account);
         }
 
-        person.getAccount().setUsername(_usernameField.getText());
-        person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
+        if(person.getAccount() != null) {
+            person.getAccount().setUsername(_usernameField.getText());
+            person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
+        }
     }
 }
 

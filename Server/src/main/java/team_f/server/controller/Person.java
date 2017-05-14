@@ -3,6 +3,9 @@ package team_f.server.controller;
 import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
+import team_f.domain.enums.AccountRole;
+import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.list.ErrorList;
@@ -12,6 +15,8 @@ import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.PersonConverter;
 import team_f.server.helper.response.CommonResponse;
+import team_f.server.helper.response.JsonResponse;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,11 +84,31 @@ public class Person extends HttpServlet {
                         break;
                     case UPDATE:
                         person = request.getEntity();
+                        PersonRole personRole = null;
+                        String username = null;
+                        AccountRole accountRole = null;
 
                         if(person != null) {
-                            // @TODO: add update functionality
-                            /*tmpErrorList = facade.update(person);
-                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());*/
+                            try {
+                                personRole = PersonRole.valueOf(String.valueOf(person.getPersonRole()));
+                            } catch (Exception e) {
+                            }
+
+                            if(person.getAccount() != null) {
+                                username = person.getAccount().getUsername();
+                                accountRole = AccountRole.valueOf(String.valueOf(person.getAccount().getRole()));
+                            }
+
+                            List<InstrumentType> instrumentTypeList = new ArrayList<>();
+
+                            if(person.getInstrumentType() != null) {
+                                instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(person.getInstrumentType())));
+                            }
+
+                            tmpErrorList = facade.add(person.getPersonID(), person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
+                                    person.getPhoneNumber(), personRole, username, accountRole, instrumentTypeList);
+
+                            errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);

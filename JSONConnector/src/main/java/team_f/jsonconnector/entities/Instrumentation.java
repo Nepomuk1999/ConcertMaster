@@ -259,7 +259,7 @@ public class Instrumentation implements JSONObjectEntity {
                 specialInstrumentation.append(_special.get(i).getDisplayName());
 
                 if(i < _special.size()) {
-                    specialInstrumentation.append("+");
+                    specialInstrumentation.append(" + ");
                 }
             }
         }

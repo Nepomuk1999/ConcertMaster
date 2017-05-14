@@ -90,7 +90,6 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
             session.flush();
         }
 
-
         try {
             session.getTransaction().commit();
         } catch (Exception e) {

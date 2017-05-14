@@ -14,10 +14,8 @@ import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicalwork.MusicalWorkHelper;
 import team_f.client.pages.musicalwork.SpecialInstrumentationEntity;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
+import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.Instrumentation;
-import team_f.jsonconnector.entities.Pair;
-import team_f.jsonconnector.entities.SpecialInstrumentation;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
@@ -30,8 +28,6 @@ import java.util.List;
 
 
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, InstrumentationParameter> {
-    private TextField _nameField;
-
     private TableView<Instrumentation> _instrumentationTable;
     private List<SpecialInstrumentationEntity> _specialInstrumentationEntityList;
 
@@ -89,8 +85,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         }
         final URL Style = ClassLoader.getSystemResource("style/stylesheetInstrumentation.css");
         getStylesheets().add(Style.toString());
-        _nameField = new TextField();
-        _nameField.setMinWidth(200);
         _specialInstrumentationEntityList = new LinkedList();
 
         _fields = new ArrayList<>();
@@ -213,41 +207,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     public void addInstrumentation() {
         if (_create != null) {
             Instrumentation instrumentation = new Instrumentation();
-
-            instrumentation.setViolin1(Integer.parseInt(_firstViolinField.getText()));
-            instrumentation.setViolin2(Integer.parseInt(_secondViolinField.getText()));
-            instrumentation.setViola(Integer.parseInt(_violaField.getText()));
-            instrumentation.setViolincello(Integer.parseInt(_violoncelloField.getText()));
-            instrumentation.setDoublebass(Integer.parseInt(_doublebassField.getText()));
-
-            instrumentation.setFlute(Integer.parseInt(_fluteField.getText()));
-            instrumentation.setOboe(Integer.parseInt(_oboeField.getText()));
-            instrumentation.setClarinet(Integer.parseInt(_clarinetField.getText()));
-            instrumentation.setBassoon(Integer.parseInt(_bassoonField.getText()));
-
-            instrumentation.setHorn(Integer.parseInt(_hornField.getText()));
-            instrumentation.setTrumpet(Integer.parseInt(_trumpetField.getText()));
-            instrumentation.setTrombone(Integer.parseInt(_tromboneField.getText()));
-            instrumentation.setTube(Integer.parseInt(_tubeField.getText()));
-
-            instrumentation.setKettledrum(Integer.parseInt(_kettledrumField.getText()));
-            instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
-            instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
-
-           /* List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
-            SpecialInstrumentation specialInstrumentation;
-
-            for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-                specialInstrumentation = new SpecialInstrumentation();
-                specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-                specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-                specialInstrumentation.setSpecialInstrumentCount(item.getSpecialInstrumentNumberField().getNumber().intValue());
-                specialInstrumentation.setSpecialInstrument(item.getSpecialInstrumentTextField().getText());
-
-                specialInstrumentationList.add(specialInstrumentation);
-            }
-
-            instrumentation.setSpecialInstrumentation(specialInstrumentationList);*/
+            setInstrumentation(instrumentation);
 
             InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
 
@@ -270,6 +230,31 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         reset();
     }
 
+    public void editInstrumentation() {
+        if (_edit != null) {
+            Instrumentation instrumentation = _instrumentationTable.getSelectionModel().getSelectedItem();
+            setInstrumentation(instrumentation);
+
+            InstrumentationErrorList resultInstrumentationErrorList = _edit.doAction(instrumentation);
+
+            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _instrumentationTable.getItems().remove(instrumentation);
+                    _instrumentationTable.getItems().add(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+    }
 
     public void deleteInstrumentation() {
         if (_delete != null) {
@@ -307,15 +292,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         titleInstrumentation.setId("titleInstrumentation");
         titleInstrumentation.setMinWidth(200);
 
-        Label nameLabel = new Label("Name:");
-        nameLabel.setMinWidth(60);
-        _textfields = new HBox();
-        _textfields.setSpacing(10);
-        _textfields = new HBox();
-        _textfields.getChildren().addAll(nameLabel, _nameField);
-
         pane.addRow(0, titleInstrumentation);
-        pane.addRow(1, _textfields);
 
         //Strings
         pane.addRow(4, new Label("1. Violin:"), _firstViolinField);
@@ -342,7 +319,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.addRow(6, new Label("Harp:"), _harpField);
 
         List<TextField> textFields = new LinkedList();
-        textFields.add(_nameField);
 
         List<BigDecimalField> decimalFields = new LinkedList<>();
         decimalFields.add(_firstViolinField);
@@ -370,8 +346,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _addButton.setDisable(false);
 
         _addButton.setOnAction(e -> {
-            if (_nameField.getText().isEmpty() ||
-                    _firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
+            if (_firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
                     _doublebassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
                     _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubeField.getText().isEmpty()
                     || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
@@ -393,7 +368,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
-            fillFields((Instrumentation) _instrumentationTable.getSelectionModel().getSelectedItem());
+             fillFields(_instrumentationTable.getSelectionModel().getSelectedItem());
         });
 
         _deleteButton = new Button("Delete Instrumentation");
@@ -405,7 +380,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _updateButton.setDisable(true);
         _updateButton.setOnAction(e -> {
             _instrumentationTable.setDisable(false);
-            //editWork();
+            editInstrumentation();
             reset();
         });
 
@@ -417,7 +392,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         });
 
 
-        pane.add(new Label("Instrumentation:"), 0, 2);
         pane.add(new Label("String:"), 0, 3);
         pane.add(new Label("Wood:"), 2, 3);
         pane.add(new Label("Brass:"), 4, 3);
@@ -511,8 +485,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private void reset() {
         _instrumentationTable.getSelectionModel().clearSelection();
         _instrumentationTable.setDisable(false);
-        _nameField.clear();
-        _nameField.setStyle("-fx-border-color: transparent");
         _instrumentationTable.getSelectionModel().clearSelection();
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
@@ -614,5 +586,42 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
         _specialInstrumentationContent.getChildren().remove(specialInstrumentationEntity.getPane());
         _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
+    }
+
+    private void setInstrumentation(Instrumentation instrumentation) {
+        instrumentation.setViolin1(Integer.parseInt(_firstViolinField.getText()));
+        instrumentation.setViolin2(Integer.parseInt(_secondViolinField.getText()));
+        instrumentation.setViola(Integer.parseInt(_violaField.getText()));
+        instrumentation.setViolincello(Integer.parseInt(_violoncelloField.getText()));
+        instrumentation.setDoublebass(Integer.parseInt(_doublebassField.getText()));
+
+        instrumentation.setFlute(Integer.parseInt(_fluteField.getText()));
+        instrumentation.setOboe(Integer.parseInt(_oboeField.getText()));
+        instrumentation.setClarinet(Integer.parseInt(_clarinetField.getText()));
+        instrumentation.setBassoon(Integer.parseInt(_bassoonField.getText()));
+
+        instrumentation.setHorn(Integer.parseInt(_hornField.getText()));
+        instrumentation.setTrumpet(Integer.parseInt(_trumpetField.getText()));
+        instrumentation.setTrombone(Integer.parseInt(_tromboneField.getText()));
+        instrumentation.setTube(Integer.parseInt(_tubeField.getText()));
+
+        instrumentation.setKettledrum(Integer.parseInt(_kettledrumField.getText()));
+        instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
+        instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
+
+        List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
+        SpecialInstrumentation specialInstrumentation;
+
+        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+            specialInstrumentation = new SpecialInstrumentation();
+            specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+            specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
+
+            specialInstrumentationList.add(specialInstrumentation);
+        }
+
+        instrumentation.setSpecialInstrumentation(specialInstrumentationList);
     }
 }

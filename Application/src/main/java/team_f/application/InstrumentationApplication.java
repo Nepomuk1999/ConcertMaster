@@ -29,11 +29,12 @@ public class InstrumentationApplication {
         return instrumentationFacade.getInstrumentations();
     }
 
-    public Pair<DomainEntity, List<Pair<String, String>>> addInstrumentation (Integer violin1, Integer violin2, Integer viola, Integer violincello,
+    public Pair<DomainEntity, List<Pair<String, String>>> addInstrumentation (int id, Integer violin1, Integer violin2, Integer viola, Integer violincello,
                                                                               Integer doublebass, Integer flute, Integer oboe, Integer clarinet, Integer bassoon, Integer horn, Integer trumpet,
                                                                               Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp,
                                                                               List<SpecialInstrumentation> specialInstrumentationList) {
         Instrumentation instrumentation = new Instrumentation();
+        instrumentation.setInstrumentationID(id);
         instrumentation.setViolin1(violin1);
         instrumentation.setViolin2(violin2);
         instrumentation.setViola(viola);

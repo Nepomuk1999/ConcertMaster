@@ -20,7 +20,6 @@ public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEnt
 
 
     public Integer addInstrumentation(Instrumentation instrumentation) {
-
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 

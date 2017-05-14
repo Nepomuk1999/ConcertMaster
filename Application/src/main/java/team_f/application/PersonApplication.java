@@ -55,11 +55,11 @@ public class PersonApplication {
         return list;
     }
 
-    public Pair<DomainEntity, List<Pair<String, String>>> register(String firstname, String lastname, String gender, String address,
+    public Pair<DomainEntity, List<Pair<String, String>>> add(int id, String firstname, String lastname, String gender, String address,
                                                                    String email, String phoneNumber, PersonRole personRole, String username,
                                                                    AccountRole accountRole, List<InstrumentType> instrumentTypeList) {
-
         Person person = new Person();
+        person.setPersonID(id);
         person.setFirstname(firstname);
         person.setLastname(lastname);
         person.setGender(gender);
@@ -91,7 +91,6 @@ public class PersonApplication {
 
 
         AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
-
         List<Pair<String, String>> errorList = personLogic.validate(person);
 
         if(accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) || accountRole.equals(AccountRole.Section_representative.toString())){
@@ -99,16 +98,19 @@ public class PersonApplication {
             errorList.addAll(errorList2);
         }
 
-        for(Person p : personList){
-            if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
-                    && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
-                errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
+        // do not check if it exists when we updating the person and the account
+        if(person.getPersonID() <= 0) {
+            for(Person p : personList){
+                if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
+                        && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
+                    errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
+                }
             }
-        }
 
-        for(Account ac : accountList){
-            if(ac.getUsername().equals(username.trim())){
-                errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+            for(Account ac : accountList){
+                if(ac.getUsername().equals(username.trim())){
+                    errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+                }
             }
         }
 
@@ -120,10 +122,9 @@ public class PersonApplication {
             return new Pair<>(person, errorList);
         }
 
-        Integer resultID = personFacade.register(person);
+        Integer resultID = personFacade.add(person);
         person.setPersonID(resultID);
 
         return new Pair<>(person, new LinkedList<>());
     }
-
 }
