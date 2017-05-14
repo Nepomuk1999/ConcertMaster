@@ -1,28 +1,31 @@
 package team_f.client.gui;
-
-import com.teamdev.jxbrowser.chromium.*;
-import com.teamdev.jxbrowser.chromium.internal.PrintDialogModel;
-import com.teamdev.jxbrowser.chromium.javafx.DefaultPrintHandler;
-import com.teamdev.jxbrowser.chromium.swing.internal.PrintDialog;
-
+import javafx.scene.Parent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import java.net.URL;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Webbrowser {
-    public static Browser getBrowser(URL initialURL) {
-        Browser browser = new Browser();
+    private static boolean _initialized = false;
 
-        addListeners(browser);
-        browser.loadURL(initialURL.toExternalForm());
+    public static Parent getBrowser(URL initialURL) {
+        /*if(!_initialized) {
+            if (Environment.isMac()) {
+                BrowserCore.initialize();
+                _initialized = true;
+            }
+        }*/
 
-        return browser;
+        WebView _browserView = new WebView();
+        _browserView.getEngine().load(initialURL.toExternalForm());
+        addListeners(_browserView.getEngine());
+        _browserView.getEngine().load(initialURL.toExternalForm());
+
+        return _browserView;
     }
 
-    private static void addListeners(Browser browser) {
+    private static void addListeners(WebEngine engine) {
         // @TODO: add feature
-        /*browser.setPrintHandler(printJob -> {
+        /*engine.setPrintHandler(printJob -> {
             PrintSettings printSettings = printJob.getPrintSettings();
             printSettings.setLandscape(true);
             printSettings.setPrintBackgrounds(false);

@@ -7,6 +7,7 @@ import team_f.client.pages.musicianmanagement.MusicianManagement;
 import team_f.client.pages.musicianmanagement.PersonParameter;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.entities.list.PersonList;
 import team_f.jsonconnector.entities.special.errorlist.PersonErrorList;
 import team_f.jsonconnector.enums.request.ActionType;
@@ -56,18 +57,18 @@ public class MusiciansTableSingleton {
                 }
             });
 
-            _musicianTable.setOnDelete(new PageAction<PersonErrorList, Person>() {
-                @Override
-                public PersonErrorList doAction(Person value) {
-                    // @TODO: implement
-                    return null;
-                }
-            });
-
             _musicianTable.setOnEdit(new PageAction<PersonErrorList, Person>() {
                 @Override
                 public PersonErrorList doAction(Person value) {
-                    // @TODO: implement
+                    if(value != null) {
+                        Request request = new Request();
+                        request.setActionType(ActionType.UPDATE);
+                        request.setEntity(value);
+
+                        PersonErrorList errorList = (PersonErrorList) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, PersonErrorList.class);
+                        return errorList;
+                    }
+
                     return null;
                 }
             });
@@ -75,6 +76,7 @@ public class MusiciansTableSingleton {
             _musicianTable.setOnDelete(new PageAction<PersonErrorList, Person>() {
                 @Override
                 public PersonErrorList doAction(Person value) {
+                    // @TODO: implement
                     return null;
                 }
             });

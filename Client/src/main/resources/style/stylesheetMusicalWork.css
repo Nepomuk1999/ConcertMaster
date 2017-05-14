@@ -15,6 +15,6 @@
 .button{
     -fx-font: 14 arial;
 }
-#zoomTool{
-    -fx-padding: 10;
+.label {
+    -fx-font: 12 arial;
 }

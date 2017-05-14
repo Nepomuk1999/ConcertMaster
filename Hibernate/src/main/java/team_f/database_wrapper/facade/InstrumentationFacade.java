@@ -5,6 +5,8 @@ import team_f.domain.entities.Instrumentation;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEntity, Instrumentation> {
@@ -260,11 +262,84 @@ public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEnt
 
     @Override
     public int update(Instrumentation value) {
-        return addInstrumentation(value);
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+        int returnId;
+
+        InstrumentationEntity ie = convertToInstrumentationEntity(value);
+
+        if (ie.getInstrumentationId() > 0){
+            ie = session.merge(ie);
+            returnId = ie.getInstrumentationId();
+        }else{
+            returnId = this.add(value);
+        }
+        try {
+            session.flush();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+        }
+        return returnId;
+    }
+
+    private InstrumentationEntity convertToInstrumentationEntity(Instrumentation value) {
+        InstrumentationEntity ie = new InstrumentationEntity();
+
+        ie.setInstrumentationId(value.getInstrumentationID());
+
+        StringInstrumentationEntity stringIE = new StringInstrumentationEntity();
+        stringIE.setViolin1(value.getViolin1());
+        stringIE.setViolin2(value.getViolin2());
+        stringIE.setViola(value.getViola());
+        stringIE.setViolincello(value.getViolincello());
+        stringIE.setDoublebass(value.getDoublebass());
+        ie.setStringInstrumentationByStringInstrumentation(stringIE);
+
+        WoodInstrumentationEntity woodIE = new WoodInstrumentationEntity();
+        woodIE.setFlute(value.getFlute());
+        woodIE.setOboe(value.getOboe());
+        woodIE.setClarinet(value.getClarinet());
+        woodIE.setBassoon(value.getBassoon());
+        ie.setWoodInstrumentationByWoodInstrumentation(woodIE);
+
+        BrassInstrumentationEntity brassIE = new BrassInstrumentationEntity();
+        brassIE.setHorn(value.getHorn());
+        brassIE.setTrumpet(value.getTrumpet());
+        brassIE.setTrombone(value.getTrombone());
+        brassIE.setTube(value.getTube());
+        ie.setBrassInstrumentationByBrassInstrumentation(brassIE);
+
+        PercussionInstrumentationEntity percussionIE = new PercussionInstrumentationEntity();
+        percussionIE.setKettledrum(value.getKettledrum());
+        percussionIE.setPercussion(value.getPercussion());
+        percussionIE.setHarp(value.getHarp());
+        ie.setPercussionInstrumentationByPercussionInstrumentation(percussionIE);
+
+        //SpecialInstrumentationEntity specialIE = new SpecialInstrumentationEntity();
+        //specialIE.setSpecialInstrument(value.getSpecialInstrumentation());
+
+        return ie;
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        boolean b;
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        Instrumentation instrumentation = getInstrumentationByID(id);
+        session.remove(convertToInstrumentationEntity(instrumentation));
+
+        try {
+            session.flush();
+            session.getTransaction().commit();
+            b = true;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            b = false;
+        }
+        return b;
+
     }
 }

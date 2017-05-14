@@ -84,7 +84,6 @@ public class PersonApplication {
 
         person.setAccount(account);
 
-
         PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
 
         List<Account> accountList= accountFacade.getAllUserNames();
@@ -95,12 +94,10 @@ public class PersonApplication {
 
         List<Pair<String, String>> errorList = personLogic.validate(person);
 
-        if(accountRole.equals(AccountRole.Musician) || accountRole.equals(AccountRole.Substitute) || accountRole.equals(AccountRole.Section_representative)){
+        if(accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) || accountRole.equals(AccountRole.Section_representative.toString())){
             List<Pair<String, String>> errorList2 = accountLogic.validate(account);
             errorList.addAll(errorList2);
         }
-
-
 
         for(Person p : personList){
             if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
@@ -123,8 +120,8 @@ public class PersonApplication {
             return new Pair<>(person, errorList);
         }
 
-        Integer id = personFacade.register(person);
-        person.setPersonID(id);
+        Integer resultID = personFacade.register(person);
+        person.setPersonID(resultID);
 
         return new Pair<>(person, new LinkedList<>());
     }

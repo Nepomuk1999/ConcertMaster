@@ -6,16 +6,16 @@
     -fx-border-radius: 5;
     -fx-border-color: blue;
 }
+
 .button {
     -fx-font: 14 arial;
 }
-.combo-box {
-    -fx-font: 14 arial;
-}
+
 .label {
     -fx-font: 12 arial;
 }
-#titleMusician {
+
+#titleInstrumentation {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #333333;

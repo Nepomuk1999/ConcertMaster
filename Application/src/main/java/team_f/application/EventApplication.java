@@ -113,7 +113,8 @@ public class EventApplication {
             eventMusicalList.add(mE);
         }
 
-        eventFacade.addEvent(eventDuty);
+        Integer resultID = eventFacade.addEvent(eventDuty);
+        eventDuty.setEventDutyID(resultID);
 
         return new Pair<>(eventDuty, new LinkedList<>());
     }

@@ -1,7 +1,5 @@
 package team_f.client.gui;
 
-import com.teamdev.jxbrowser.chromium.BrowserCore;
-import com.teamdev.jxbrowser.chromium.internal.Environment;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,7 +8,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -22,7 +19,7 @@ import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.WebHelper;
 import team_f.client.pages.legende.LegendTable;
 import team_f.client.pages.musicianManagementExplanation.MusicianManagementExplanationPage;
-import team_f.client.singletons.BrowserSingleton;
+import team_f.client.singletons.CalendarSingleton;
 import team_f.client.singletons.HomeScreenSingleton;
 import team_f.client.singletons.LegendSingleton;
 import team_f.client.singletons.MusicianManagementExplanationSingleton;
@@ -41,14 +38,6 @@ public class Client extends Application {
         launch(args);
     }
 
-    /*@Override
-     public void init() throws Exception {
-        // On Mac OS X Chromium engine must be initialized in non-UI thread.
-        if (Environment.isMac()) {
-            BrowserCore.initialize();
-        }
-    } */
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         _configuration = AppConfiguration.getConfiguration(this);
@@ -61,7 +50,7 @@ public class Client extends Application {
         }
 
         // load the webbrowser instance at the startup to avoid unnecessary lags for the user
-        BrowserSingleton.getInstance(new URL(_configuration.getStartURI()));
+        CalendarSingleton.getInstance(_configuration);
 
         primaryStage.setTitle(_configuration.getAppName());
         primaryStage.getIcons().add(AppConfiguration.getAppIcon());
