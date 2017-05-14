@@ -367,7 +367,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _addButton = new Button("Add");
         _addButton.setMinWidth(100);
-        _addButton.setDisable(true);
+        _addButton.setDisable(false);
 
         _addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() ||
@@ -517,7 +517,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
         _updateButton.setDisable(true);
-        _addButton.setDisable(true);
+        _addButton.setDisable(false);
         _cancelButton.setText("Reset");
         for (BigDecimalField field : _fields) {
             field.setNumber(new BigDecimal(0));
