@@ -7,9 +7,15 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SpecialInstrumentation implements JSONObjectEntity {
+    private int _specialInstrumentationID;
     private String _sectionType;
     private String _specialInstrument;
     private int _specialInstrumentCount;
+
+    @JsonGetter("id")
+    public int getSpecialInstrumentationID() {
+        return _specialInstrumentationID;
+    }
 
     @JsonGetter("section_type")
     public String getSectionType() {
@@ -24,6 +30,11 @@ public class SpecialInstrumentation implements JSONObjectEntity {
     @JsonGetter("special_instrumentation_count")
     public int getSpecialInstrumentCount() {
         return _specialInstrumentCount;
+    }
+
+    @JsonSetter("id")
+    public void setSpecialInstrumentationID(int id) {
+        _specialInstrumentationID = id;
     }
 
     @JsonSetter("section_type")
