@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import team_f.application.InstrumentationApplication;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
+import team_f.jsonconnector.entities.SpecialInstrumentation;
 import team_f.jsonconnector.entities.list.ErrorList;
 import team_f.jsonconnector.entities.list.InstrumentationList;
 import team_f.jsonconnector.entities.special.request.InstrumentationRequest;
@@ -79,9 +80,25 @@ public class Instrumentation extends HttpServlet {
                         instrumentation = request.getEntity();
 
                         if(instrumentation != null) {
+                            List<team_f.application.entities.SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
+                            team_f.application.entities.SpecialInstrumentation specialInstrumentation;
+
+                            if(instrumentation.getSpecialInstrumentation() != null) {
+                                for(SpecialInstrumentation item : instrumentation.getSpecialInstrumentation()) {
+                                    specialInstrumentation = new team_f.application.entities.SpecialInstrumentation();
+                                    specialInstrumentation.setID(item.getSpecialInstrumentationID());
+                                    specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentation());
+                                    specialInstrumentation.setSectionType(item.getSectionType());
+                                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentCount());
+
+                                    specialInstrumentationList.add(specialInstrumentation);
+                                }
+                            }
+
                             tmpErrorList = facade.addInstrumentation(instrumentation.getViolin1(), instrumentation.getViolin2(), instrumentation.getViola(), instrumentation.getViolincello(),
                                     instrumentation.getDoublebass(), instrumentation.getFlute(), instrumentation.getOboe(), instrumentation.getClarinet(), instrumentation.getBassoon(), instrumentation.getHorn(), instrumentation.getTrumpet(),
-                                    instrumentation.getTrombone(), instrumentation.getTube(),instrumentation.getKettledrum(), instrumentation.getPercussion(), instrumentation.getHarp());
+                                    instrumentation.getTrombone(), instrumentation.getTube(),instrumentation.getKettledrum(), instrumentation.getPercussion(), instrumentation.getHarp(),
+                                    specialInstrumentationList);
 
                             errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }

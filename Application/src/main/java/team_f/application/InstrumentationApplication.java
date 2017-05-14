@@ -1,6 +1,7 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import team_f.application.entities.SpecialInstrumentation;
 import team_f.database_wrapper.facade.InstrumentationFacade;
 import team_f.database_wrapper.facade.SessionFactory;
 import team_f.domain.entities.Instrumentation;
@@ -30,7 +31,8 @@ public class InstrumentationApplication {
 
     public Pair<DomainEntity, List<Pair<String, String>>> addInstrumentation (Integer violin1, Integer violin2, Integer viola, Integer violincello,
                                                                               Integer doublebass, Integer flute, Integer oboe, Integer clarinet, Integer bassoon, Integer horn, Integer trumpet,
-                                                                              Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp) {
+                                                                              Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp,
+                                                                              List<SpecialInstrumentation> specialInstrumentationList) {
         Instrumentation instrumentation = new Instrumentation();
         instrumentation.setViolin1(violin1);
         instrumentation.setViolin2(violin2);
@@ -48,6 +50,12 @@ public class InstrumentationApplication {
         instrumentation.setKettledrum(kettledrum);
         instrumentation.setPercussion(percussion);
         instrumentation.setHarp(harp);
+
+        if(specialInstrumentationList != null) {
+            for(SpecialInstrumentation item : specialInstrumentationList) {
+                instrumentation.addToSpecial(item.getID(), item.getSpecialInstrumentation(), item.getspecialInstrumentationCount(), item.getSectionType());
+            }
+        }
 
         InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
         List<Pair<String, String>> errorList = instrumentationLogic.validate(instrumentation);

@@ -1,6 +1,7 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import team_f.application.entities.SpecialInstrumentation;
 import team_f.database_wrapper.facade.MusicalWorkFacade;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
@@ -21,7 +22,8 @@ public class MusicalWorkApplication {
 
     public Pair<DomainEntity, List<Pair<String, String>>> addMusicalWork(int id, String name, String composer, Integer violin1, Integer violin2, Integer viola, Integer violincello,
                                                                          Integer doublebass, Integer flute, Integer oboe, Integer clarinet, Integer bassoon, Integer horn,
-                                                                         Integer trumpet, Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp) {
+                                                                         Integer trumpet, Integer trombone, Integer tube, Integer kettledrum, Integer percussion, Integer harp,
+                                                                         List<SpecialInstrumentation> specialInstrumentationList) {
         MusicalWork musicalWork = new MusicalWork();
         musicalWork.setMusicalWorkID(id);
         musicalWork.setName(name);
@@ -44,6 +46,12 @@ public class MusicalWorkApplication {
         instrumentation.setKettledrum(kettledrum);
         instrumentation.setPercussion(percussion);
         instrumentation.setHarp(harp);
+
+        if(specialInstrumentationList != null) {
+            for(SpecialInstrumentation item : specialInstrumentationList) {
+                instrumentation.addToSpecial(item.getID(), item.getSpecialInstrumentation(), item.getspecialInstrumentationCount(), item.getSectionType());
+            }
+        }
 
         musicalWork.setInstrumentation(instrumentation);
         Integer resultID = musicalworkfacade.addMusicalWork(musicalWork);

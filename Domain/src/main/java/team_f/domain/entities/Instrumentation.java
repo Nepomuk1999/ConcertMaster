@@ -3,6 +3,8 @@ package team_f.domain.entities;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.helper.TextHelper;
 import team_f.domain.interfaces.DomainEntity;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class Instrumentation implements DomainEntity {
@@ -33,7 +35,7 @@ public class Instrumentation implements DomainEntity {
     private int _harp;
 
     // specialInstrumentation
-    private List<SpecialInstrumentation> special;
+    private List<SpecialInstrumentation> special = new LinkedList<>();
 
     public int getInstrumentationID() {
         return _instrumentationID;
@@ -208,10 +210,11 @@ public class Instrumentation implements DomainEntity {
         return text.toString();
     }
 
-    public void addToSpecial(String instrument, int instrumentCount, String section) {
+    public void addToSpecial(int id, String instrumentation, int instrumentationCount, String section) {
         SpecialInstrumentation specialInstrumentation = new SpecialInstrumentation();
-        specialInstrumentation.setSpecialInstrument(instrument);
-        specialInstrumentation.setSpecialInstrumentCount(instrumentCount);
+        specialInstrumentation.setSpecialInstrumentationID(id);
+        specialInstrumentation.setSpecialInstrument(instrumentation);
+        specialInstrumentation.setSpecialInstrumentCount(instrumentationCount);
         specialInstrumentation.setSectionType(section);
         special.add(specialInstrumentation);
     }
