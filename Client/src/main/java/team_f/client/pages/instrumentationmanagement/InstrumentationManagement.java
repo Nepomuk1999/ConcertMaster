@@ -470,7 +470,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
             _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size()+1, tmpPane);
             _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
-            SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(0, tmpComboBox, tmpTextField, tmpNumberField);
+            SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(0, tmpComboBox, tmpTextField, tmpNumberField, tmpPane);
 
             tmpButton.setOnAction(e -> {
                 _specialInstrumentationContent.getChildren().remove(tmpPane);

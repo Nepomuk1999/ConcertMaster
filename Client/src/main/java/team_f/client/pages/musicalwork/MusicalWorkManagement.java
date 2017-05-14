@@ -392,7 +392,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(_cancelButton, 0, 9);
 
         _specialInstrumentationContent = new GridPane();
-        _specialInstrumentationComboBox = new ComboBox<>(MusicianTableHelper.getSectionTypeList());
+        _specialInstrumentationComboBox = new ComboBox<>(MusicalWorkHelper.getSectionGroupTypeList());
         _specialInstrumentationComboBox.getSelectionModel().selectFirst();
         _specialInstrumentationContent.addColumn(0, _specialInstrumentationComboBox);
         _specialInstrumentationTextField = new TextField();
