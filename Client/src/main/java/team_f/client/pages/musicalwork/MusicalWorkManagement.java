@@ -386,17 +386,18 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(new Label("Wood:"), 2, 3);
         pane.add(new Label("Brass:"), 4, 3);
         pane.add(new Label("Percussion:"), 6, 3);
-        pane.add(new Label("Special Instruments:"), 8, 3);
-        pane.add(_addButton, 8, 8);
-        pane.add(_updateButton, 8, 9);
+        pane.add(new Label("Special Instruments:"), 8, 2);
+        pane.add(_addButton, 8, 9);
+        pane.add(_updateButton, 9, 9);
         pane.add(_cancelButton, 0, 9);
 
         _specialInstrumentationContent = new GridPane();
         _specialInstrumentationComboBox = new ComboBox<>(MusicalWorkHelper.getSectionGroupTypeList());
+        _specialInstrumentationComboBox.setMaxWidth(80);
         _specialInstrumentationComboBox.getSelectionModel().selectFirst();
         _specialInstrumentationContent.addColumn(0, _specialInstrumentationComboBox);
         _specialInstrumentationTextField = new TextField();
-        _specialInstrumentationTextField.setMinWidth(200);
+        _specialInstrumentationTextField.setMaxWidth(80);
         _specialInstrumentationContent.addColumn(1, _specialInstrumentationTextField);
 
         try {
@@ -404,7 +405,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         } catch (NumberRangeException e) {
         }
 
-        _specialInstrumentationNumberField.setMinWidth(60);
+        _specialInstrumentationNumberField.setMaxWidth(60);
         _specialInstrumentationContent.addColumn(2, _specialInstrumentationNumberField);
         _specialInstrumentationButton = new Button("+");
         _specialInstrumentationButton.setOnAction(event -> {
@@ -413,8 +414,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
         _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
+        _specialInstrumentationPane.setMaxHeight(300);
+        _specialInstrumentationPane.setMinWidth(265);
 
-        pane.add(_specialInstrumentationPane, 8, 2);
+        pane.add(_specialInstrumentationPane, 8, 3);
         pane.setRowSpan(_specialInstrumentationPane, 6);
         pane.setColumnSpan(_specialInstrumentationPane, 4);
 
@@ -587,9 +590,11 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>(_specialInstrumentationComboBox.getItems());
         tmpComboBox.getSelectionModel().select(sectionType);
+        tmpComboBox.setMaxWidth(80);
         tmpPane.addColumn(0, tmpComboBox);
 
         TextField tmpTextField = new TextField();
+        tmpTextField.setMaxWidth(80);
         tmpTextField.setText(specialInstrumentation);
         tmpPane.addColumn(1, tmpTextField);
 
@@ -597,6 +602,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         try {
             tmpNumberField = new NumberField(specialInstrumentationCount, _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
             tmpPane.addColumn(2, tmpNumberField);
+            tmpNumberField.setMaxWidth(60);
         } catch (NumberRangeException e) {
         }
 
