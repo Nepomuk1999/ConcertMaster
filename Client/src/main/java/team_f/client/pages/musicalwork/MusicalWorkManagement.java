@@ -332,7 +332,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
 
         _addButton = new Button("Add");
-        _addButton.setMinWidth(130);
+        _addButton.setMinWidth(100);
         _addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
                     _firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
@@ -360,8 +360,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             fillFields((MusicalWork) _table.getSelectionModel().getSelectedItem());
         });
 
-        _updateButton = new Button("Update Work");
-        _updateButton.setMinWidth(130);
+        _updateButton = new Button("Update");
+        _updateButton.setMinWidth(100);
         _updateButton.setDisable(true);
         _updateButton.setOnAction(e -> {
             _table.setDisable(false);
@@ -370,7 +370,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         });
 
         _cancelButton = new Button("Reset");
-        _cancelButton.setMinWidth(125);
+        _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
             _table.setDisable(false);
             reset();
