@@ -71,11 +71,6 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionServices);
 
         MenuSection menuSectionMusician = new MenuSection("Musicians", "/orchestraiconM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSectionItem.setOnMouseClicked(event -> {
-            loadPage(MusiciansTableSingleton.getInstance(_configuration));
-        });
-        menuSectionMusician.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician List");
         menuSectionItem.setOnMouseClicked(event -> {
             loadPage(MusiciansListSingleton.getInstance(_configuration));
@@ -115,6 +110,9 @@ public class NavigationBar {
         menuSectionAdministration.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionAdministration.add(menuSectionItem);
+        menuSectionItem.setOnMouseClicked(event -> {
+            loadPage(MusiciansTableSingleton.getInstance(_configuration));
+        });
         sidebar.add(menuSectionAdministration);
         menuSectionArrayList.add(menuSectionAdministration);
 

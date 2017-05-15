@@ -204,7 +204,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     public GridPane getNewPersonDataPane() {
 
-        Label titleMusician = new Label("Create Musician");
+        Label titleMusician = new Label("Create Employee");
         titleMusician.setId("titleMusician");
 
         GridPane pane = new GridPane();
@@ -317,7 +317,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _comboBoxAccountRole.getSelectionModel().selectFirst();
         _musicianTable.getSelectionModel().clearSelection();
     }
-//TODO:correct: if external than no account???
+
     public void addPerson() {
         if (_create != null) {
             Person person = new Person();
