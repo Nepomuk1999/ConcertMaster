@@ -113,7 +113,7 @@ public class EventApplication {
             eventMusicalList.add(mE);
         }
 
-        Integer resultID = eventFacade.addEvent(eventDuty);
+        Integer resultID = eventFacade.add(eventDuty);
         eventDuty.setEventDutyID(resultID);
 
         return new Pair<>(eventDuty, new LinkedList<>());
@@ -239,7 +239,7 @@ public class EventApplication {
             event.setEventStatus(EventStatus.Published);
 
             try {
-                eventFacade.addEvent(event);
+                eventFacade.add(event);
             } catch (Exception e) {
                 List<Pair<String, String>> errorList = new LinkedList<>();
                 errorList.add(new Pair<>("", "could not publish"));
@@ -265,7 +265,7 @@ public class EventApplication {
 
             if(tmpErrorList.size() == 0) {
                 try {
-                    eventFacade.addEvent(event);
+                    eventFacade.add(event);
                 } catch (Exception e) {
                     errorList = new LinkedList<>();
                     errorList.add(new Pair<>("", "could not unpublish"));
