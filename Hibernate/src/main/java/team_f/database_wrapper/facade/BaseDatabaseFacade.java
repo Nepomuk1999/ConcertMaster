@@ -2,11 +2,9 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.interfaces.Editeable;
 import team_f.database_wrapper.interfaces.Session;
-import team_f.domain.interfaces.DomainEntity;
-
 import javax.persistence.EntityManager;
 
-public abstract class BaseDatabaseFacade<R ,V> implements Session, Editeable<R, V> {
+public abstract class BaseDatabaseFacade<V> implements Session, Editeable<V> {
     private EntityManager _session;
 
     public BaseDatabaseFacade() {

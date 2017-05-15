@@ -23,9 +23,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-/**
- * Created by w7pro on 11.05.2017.
- */
 public class ListPDFGenerator {
     private static final URL IMAGE = ClassLoader.getSystemResource("Logo2.jpg");
     private List<Person> _list;

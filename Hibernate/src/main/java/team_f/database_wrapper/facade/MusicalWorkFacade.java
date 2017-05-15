@@ -4,13 +4,12 @@ import team_f.database_wrapper.entities.EventDutyMusicalWorkEntity;
 import team_f.database_wrapper.entities.MusicalWorkEntity;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWorkEntity, MusicalWork> {
+public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
     private static InstrumentationFacade _instrumentationFacade = new InstrumentationFacade();
 
     public MusicalWorkFacade() {

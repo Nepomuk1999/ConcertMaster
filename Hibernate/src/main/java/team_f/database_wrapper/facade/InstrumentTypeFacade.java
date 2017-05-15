@@ -5,13 +5,12 @@ import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PartEntity;
 import team_f.database_wrapper.entities.PartTypeEntity;
 import team_f.domain.enums.InstrumentType;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentTypeEntity, InstrumentType> {
+public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
     public InstrumentTypeFacade() {
         super();
     }
