@@ -414,7 +414,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
         _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
-        _specialInstrumentationPane.setMaxHeight(300);
+        _specialInstrumentationPane.setMaxHeight(250);
         _specialInstrumentationPane.setMinWidth(265);
 
         pane.add(_specialInstrumentationPane, 8, 3);
