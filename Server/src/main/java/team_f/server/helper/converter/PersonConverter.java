@@ -14,8 +14,10 @@ public class PersonConverter {
         result.setPhoneNumber(person.getPhoneNumber());
         result.setInitials(person.getInitials());
 
-        if(person.getAccount() != null) {
-            result.setAccount(AccountConverter.convertToJSON(person.getAccount()));
+        if (!person.getPersonRole().equals(team_f.domain.enums.PersonRole.External_musician)) {
+            if (person.getAccount() != null) {
+                result.setAccount(AccountConverter.convertToJSON(person.getAccount()));
+            }
         }
 
         result.setPersonRole(PersonRole.valueOf(String.valueOf(person.getPersonRole())));

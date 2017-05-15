@@ -1,19 +1,17 @@
 package team_f.application;
 
 import javafx.util.Pair;
-import team_f.database_wrapper.enums.*;
 import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
-import team_f.domain.enums.AccountRole;
-import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.AccountLogic;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.PersonLogic;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.LinkedList;
@@ -94,9 +92,11 @@ public class PersonApplication {
         AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
         List<Pair<String, String>> errorList = personLogic.validate(person);
 
-        if(accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) || accountRole.equals(AccountRole.Section_representative.toString())){
-            List<Pair<String, String>> errorList2 = accountLogic.validate(account);
-            errorList.addAll(errorList2);
+        if (!personRole.equals(PersonRole.External_musician)) {
+            if (accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) ||accountRole.equals(AccountRole.Section_representative.toString())) {
+                List<Pair<String, String>> errorList2 = accountLogic.validate(account);
+                errorList.addAll(errorList2);
+            }
         }
 
         // do not check if it exists when we updating the person and the account
@@ -107,7 +107,7 @@ public class PersonApplication {
                     errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
                 }
             }
-
+            if (!personRole.equals(PersonRole.External_musician))
             for(Account ac : accountList){
                 if(ac.getUsername().equals(username.trim())){
                     errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
