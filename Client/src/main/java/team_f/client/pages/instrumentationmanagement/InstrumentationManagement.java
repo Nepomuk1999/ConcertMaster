@@ -357,7 +357,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             }
         });
 
-        _editButton = new Button("Edit Instrumentation");
+        _editButton = new Button("Edit");
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
@@ -370,7 +370,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
              fillFields(_instrumentationTable.getSelectionModel().getSelectedItem());
         });
 
-        _deleteButton = new Button("Delete Instrumentation");
+        _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
         //_deleteButton.setOnAction(e -> deleteInstrumentation());
 

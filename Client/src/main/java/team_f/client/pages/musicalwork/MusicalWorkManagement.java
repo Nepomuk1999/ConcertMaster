@@ -169,7 +169,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         Pane newDataPane = getNewMusicalWorkDataPane();
 
         // Create the Delete Button and add Event-Handler
-        _deleteButton = new Button("Delete Selected Work");
+        _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
         _deleteButton.setOnAction(e -> deleteMusicalWork());
 
@@ -352,7 +352,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             }
         });
 
-        _editButton = new Button("Edit Work");
+        _editButton = new Button("Edit");
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
