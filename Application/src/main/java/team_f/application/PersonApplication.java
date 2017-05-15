@@ -66,7 +66,11 @@ public class PersonApplication {
         person.setPhoneNumber(phoneNumber);
         person.setPersonRole(personRole);
         //person.addInstrument(instrument);
-        person.setPlayedInstruments(instrumentTypeList);
+        if (!(person.getPersonRole().equals(PersonRole.Manager)||
+                person.getPersonRole().equals(PersonRole.Music_librarian))||
+                person.getPersonRole().equals(PersonRole.Orchestral_facility_manager)) {
+            person.setPlayedInstruments(instrumentTypeList);
+        }
 
         if(firstname != null && lastname != null && firstname.length() > 0 && lastname.length() > 0) {
             person.setInitials("" + firstname.charAt(0) + lastname.charAt(0));
@@ -93,10 +97,8 @@ public class PersonApplication {
         List<Pair<String, String>> errorList = personLogic.validate(person);
 
         if (!personRole.equals(PersonRole.External_musician)) {
-            if (accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) ||accountRole.equals(AccountRole.Section_representative.toString())) {
-                List<Pair<String, String>> errorList2 = accountLogic.validate(account);
-                errorList.addAll(errorList2);
-            }
+            List<Pair<String, String>> errorList2 = accountLogic.validate(account);
+            errorList.addAll(errorList2);
         }
 
         // do not check if it exists when we updating the person and the account
@@ -107,10 +109,11 @@ public class PersonApplication {
                     errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
                 }
             }
-            if (!personRole.equals(PersonRole.External_musician))
-            for(Account ac : accountList){
-                if(ac.getUsername().equals(username.trim())){
-                    errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+            if (!personRole.equals(PersonRole.External_musician)) {
+                for (Account ac : accountList) {
+                    if (ac.getUsername().equals(username.trim())) {
+                        errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+                    }
                 }
             }
         }
