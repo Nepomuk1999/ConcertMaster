@@ -1,6 +1,7 @@
 package team_f.client.pages.monthpublish;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -109,6 +110,13 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
                 MonthPublisherHelper.getStartdateColumn(), MonthPublisherHelper.getEnddateColumn(),
                 MonthPublisherHelper.getConductorColumn(), MonthPublisherHelper.getLocationColumn(), MonthPublisherHelper.getDescriptionColumn(), MonthPublisherHelper.getPointsColumn(), MonthPublisherHelper.getEventstatusColumn());
         _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _table.getColumns().addListener((ListChangeListener) change -> {
+            change.next();
+            if (change.wasReplaced()) {
+                update();
+            }
+        });
+
 
         //Button
         Button publishButton = new Button("Publish Month");
@@ -135,7 +143,7 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
             }
         });
 
-        Button pdfGeneratorButton = new Button("Convert Schedule to PDF");
+        Button pdfGeneratorButton = new Button("Convert");
         pdfGeneratorButton.setMinWidth(180);
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
@@ -166,15 +174,15 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(5);
-        pane.add(titlePublisher, 12, 1);
-        pane.add(labelYear, 12, 2);
-        pane.add(comboBoxYear, 12, 3);
-        pane.add(labelMonth, 13, 2);
-        pane.add(comboBoxMonth, 13, 3);
-        pane.add(titlePdfConverter, 36, 1);
-        pane.add(directoryLabel, 36, 2);
-        pane.add(_selectedPath, 36, 3);
-        pane.add(pdfGeneratorButton, 37, 3);
+        pane.add(titlePublisher, 0, 1);
+        pane.add(labelYear, 0, 2);
+        pane.add(comboBoxYear, 0, 3);
+        pane.add(labelMonth, 1, 2);
+        pane.add(comboBoxMonth, 1, 3);
+        pane.add(titlePdfConverter, 10, 1);
+        pane.add(directoryLabel, 10, 2);
+        pane.add(_selectedPath, 10, 3);
+        pane.add(pdfGeneratorButton, 11, 3);
 
         HBox buttonsBox=new HBox(publishButton, unpublishButton);
         buttonsBox.setSpacing(10);

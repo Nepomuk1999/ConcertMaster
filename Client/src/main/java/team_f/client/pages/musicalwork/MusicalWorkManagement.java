@@ -278,9 +278,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _textfields = new HBox();
         _textfields.setMinWidth(600);
         _textfields.setSpacing(10);
-        Label nameLabel = new Label("Name:");
+        Label nameLabel = new Label("Name:*");
         nameLabel.setMinWidth(60);
-        Label composerLabel = new Label("Composer:");
+        Label composerLabel = new Label("Composer:*");
         composerLabel.setMinWidth(60);
         _textfields.getChildren().addAll(nameLabel, _nameField, composerLabel, _composerField);
         pane.addRow(0, titleMusicalWork);
@@ -337,6 +337,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
 
         _addButton = new Button("Add");
+        _addButton.setVisible(true);
         _addButton.setMinWidth(100);
         _addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
@@ -357,8 +358,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
             _table.setDisable(true);
-            _addButton.setDisable(true);
-            _updateButton.setDisable(false);
+            _addButton.setVisible(false);
+            _updateButton.setVisible(true);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
@@ -367,7 +368,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
-        _updateButton.setDisable(true);
+        _updateButton.setVisible(false);
         _updateButton.setOnAction(e -> {
             _table.setDisable(false);
             editWork();
@@ -388,7 +389,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(new Label("Percussion:"), 6, 3);
         pane.add(new Label("Special Instruments:"), 8, 2);
         pane.add(_addButton, 8, 9);
-        pane.add(_updateButton, 9, 9);
+        pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
 
         _specialInstrumentationContent = new GridPane();
@@ -470,10 +471,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _composerField.clear();
         _composerField.setStyle("-fx-border-color: transparent");
         _table.getSelectionModel().clearSelection();
-        _addButton.setDisable(false);
+        _addButton.setVisible(true);
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
-        _updateButton.setDisable(true);
+        _updateButton.setVisible(false);
         _cancelButton.setText("Reset");
         _table.getSelectionModel().clearSelection();
         for (BigDecimalField field : _fields) {

@@ -52,13 +52,20 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         }
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianManagement.css");
         getStylesheets().add(Style.toString());
+
         //textfields
         _firstNameField = new TextField();
+        _firstNameField.setPromptText("Required");
         _lastNameField = new TextField();
+        _lastNameField.setPromptText("Required");
         _addressField = new TextField();
+        _addressField.setPromptText("Required");
         _emailField = new TextField();
+        _emailField.setPromptText("Required");
         _phoneField = new TextField();
+        _phoneField.setPromptText("Required");
         _usernameField = new TextField();
+        _usernameField.setPromptText("Required");
 
         //comboboxes
         _comboBoxSectionType = new ComboBox<>(_sectionTypeList);
@@ -142,8 +149,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
             _musicianTable.setDisable(true);
-            _addButton.setDisable(true);
-            _updateButton.setDisable(false);
+            _addButton.setVisible(false);
+            _updateButton.setVisible(true);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
@@ -208,30 +215,30 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.setVgap(10);
 
         pane.addRow(0,titleMusician);
-        pane.add(new Label("Role:"), 0, 1);
+        pane.add(new Label("Orchestra Role:*"), 0, 1);
         pane.add(_comboBoxRole, 0, 2);
-        pane.add(new Label("Section:"), 1, 1);
+        pane.add(new Label("Section:*"), 1, 1);
         pane.add(_comboBoxSectionType, 1, 2);
-        pane.add(new Label("Instruments:"), 2, 1);
+        pane.add(new Label("Instruments:*"), 2, 1);
         pane.add(_comboBoxInstrumentType, 2, 2);
 
-        pane.add(new Label("Gender:"), 0, 3);
+        pane.add(new Label("Gender:*"), 0, 3);
         pane.add(_comboBoxGender, 0, 4);
-        pane.add(new Label("First Name:"), 1, 3);
+        pane.add(new Label("First Name:*"), 1, 3);
         pane.add(_firstNameField, 1, 4);
-        pane.add(new Label("Last Name:"), 2, 3);
+        pane.add(new Label("Last Name:*"), 2, 3);
         pane.add(_lastNameField, 2, 4);
 
-        pane.add(new Label("Street:"), 0, 5);
+        pane.add(new Label("Street:*"), 0, 5);
         pane.add(_addressField, 0, 6);
-        pane.add(new Label("Phone Number:"), 1, 5);
+        pane.add(new Label("Phone Number:*"), 1, 5);
         pane.add(_phoneField, 1, 6);
-        pane.add(new Label("Email:"), 2, 5);
+        pane.add(new Label("Email:*"), 2, 5);
         pane.add(_emailField, 2, 6);
 
-        pane.add(new Label("Username:"), 3, 3);
+        pane.add(new Label("Username:*"), 3, 3);
         pane.add(_usernameField, 3, 4);
-        pane.add(new Label("Account Role:"), 3, 5);
+        pane.add(new Label("Account Role:*"), 3, 5);
         pane.add(_comboBoxAccountRole, 3, 6);
 
         pane.addRow(7, new Label(" "));
@@ -239,7 +246,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
-        _updateButton.setDisable(true);
+        _updateButton.setVisible(false);
         _updateButton.setOnAction(e -> {
             _musicianTable.setDisable(false);
             editPerson();
@@ -248,6 +255,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         _addButton = new Button("Add");
         _addButton.setMinWidth(100);
+        _addButton.setVisible(true);
         //Todo: usernameField should also be validated if Musician is not an external one!!!
         _addButton.setOnAction(e -> {
             ArrayList<TextField> fields = new ArrayList<>();
@@ -275,7 +283,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             _musicianTable.setDisable(false);
             reset();
         });
-        pane.add(_addButton, 4, 6);
+        pane.add(_addButton, 4, 7);
         pane.add(_updateButton, 4, 7);
         pane.add(_cancelButton, 0, 7);
         return pane;
@@ -294,10 +302,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _phoneField.setStyle("-fx-border-color: transparent");
         _usernameField.clear();
         _usernameField.setStyle("-fx-border-color: transparent");
-        _addButton.setDisable(false);
+        _addButton.setVisible(true);
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
-        _updateButton.setDisable(true);
+        _updateButton.setVisible(false);
         _comboBoxAccountRole.setDisable(false);
         _usernameField.setDisable(false);
         _cancelButton.setText("Reset");

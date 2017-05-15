@@ -342,7 +342,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _addButton = new Button("Add");
         _addButton.setMinWidth(100);
-        _addButton.setDisable(false);
+        _addButton.setVisible(true);
 
         _addButton.setOnAction(e -> {
             if (_firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
@@ -362,8 +362,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
             _instrumentationTable.setDisable(true);
-            _addButton.setDisable(true);
-            _updateButton.setDisable(false);
+            _addButton.setVisible(false);
+            _updateButton.setVisible(true);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
@@ -376,7 +376,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
-        _updateButton.setDisable(true);
+        _updateButton.setVisible(false);
         _updateButton.setOnAction(e -> {
             _instrumentationTable.setDisable(false);
             editInstrumentation();
@@ -397,7 +397,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.add(new Label("Percussion:"), 6, 3);
         pane.add(new Label("Special Instruments:"), 8, 2);
         pane.add(_addButton, 8, 9);
-        pane.add(_updateButton, 9, 9);
+        pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
 
         _specialInstrumentationContent = new GridPane();
@@ -487,8 +487,8 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _instrumentationTable.getSelectionModel().clearSelection();
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
-        _updateButton.setDisable(true);
-        _addButton.setDisable(false);
+        _updateButton.setVisible(false);
+        _addButton.setVisible(true);
         _cancelButton.setText("Reset");
         for (BigDecimalField field : _fields) {
             field.setNumber(new BigDecimal(0));
