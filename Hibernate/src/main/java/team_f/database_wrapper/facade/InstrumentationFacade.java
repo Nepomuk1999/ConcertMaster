@@ -16,8 +16,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         super(session);
     }
 
-
-    public Integer addInstrumentation(Instrumentation instrumentation) {
+    private Integer addInstrumentation(Instrumentation instrumentation) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
@@ -321,7 +320,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
 
     @Override
     public boolean delete(int id) {
-        boolean b;
+        boolean result;
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
@@ -331,12 +330,12 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         try {
             session.flush();
             session.getTransaction().commit();
-            b = true;
+            result = true;
         } catch (Exception e) {
             session.getTransaction().rollback();
-            b = false;
+            result = false;
         }
-        return b;
 
+        return result;
     }
 }

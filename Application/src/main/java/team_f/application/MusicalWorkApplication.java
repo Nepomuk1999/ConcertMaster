@@ -54,7 +54,7 @@ public class MusicalWorkApplication {
         }
 
         musicalWork.setInstrumentation(instrumentation);
-        Integer resultID = musicalworkfacade.addMusicalWork(musicalWork);
+        Integer resultID = musicalworkfacade.add(musicalWork);
         musicalWork.setMusicalWorkID(resultID);
 
         return new Pair<>(musicalWork, new LinkedList<>());

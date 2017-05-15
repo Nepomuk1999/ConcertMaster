@@ -20,13 +20,13 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         super(session);
     }
 
-    public Integer addMusicalWork(MusicalWork musicalWork) {
+    private Integer addMusicalWork(MusicalWork musicalWork) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
         MusicalWorkEntity mwEntity = convertToMusicalWorkEntity(musicalWork);
         Instrumentation instrumentation = musicalWork.getInstrumentation();
-        mwEntity.setInstrumentationId(_instrumentationFacade.addInstrumentation(instrumentation));
+        mwEntity.setInstrumentationId(_instrumentationFacade.add(instrumentation));
 
         if (mwEntity.getMusicalWorkId() > 0) {
             session.merge(mwEntity);
@@ -180,7 +180,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
 
     @Override
     public boolean delete(int id) {
-        boolean b;
+        boolean result;
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
@@ -190,11 +190,11 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         try {
             session.flush();
             session.getTransaction().commit();
-            b = true;
+            result = true;
         } catch (Exception e) {
             session.getTransaction().rollback();
-            b = false;
+            result = false;
         }
-        return b;
+        return result;
     }
 }

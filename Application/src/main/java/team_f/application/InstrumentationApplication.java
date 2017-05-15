@@ -65,7 +65,7 @@ public class InstrumentationApplication {
             return new Pair<>(instrumentation, errorList);
         }
 
-        Integer resultID = instrumentationFacade.addInstrumentation(instrumentation);
+        Integer resultID = instrumentationFacade.add(instrumentation);
         instrumentation.setInstrumentationID(resultID);
 
         return new Pair<>(instrumentation, new LinkedList<>());

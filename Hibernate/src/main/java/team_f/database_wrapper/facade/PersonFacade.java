@@ -62,7 +62,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         return musicians;
     }
 
-    public Integer register(Person person) {
+    private Integer register(Person person) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
