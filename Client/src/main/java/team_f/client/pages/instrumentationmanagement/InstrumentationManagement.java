@@ -372,7 +372,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
-        //_deleteButton.setOnAction(e -> deleteInstrumentation());
+        _deleteButton.setOnAction(e -> deleteInstrumentation());
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
