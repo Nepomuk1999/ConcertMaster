@@ -204,7 +204,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     public GridPane getNewPersonDataPane() {
 
-        Label titleMusician = new Label("Create Employee");
+        Label titleMusician = new Label("Add Employee");
         titleMusician.setId("titleMusician");
         titleMusician.setMinWidth(200);
 
