@@ -206,6 +206,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         Label titleMusician = new Label("Create Employee");
         titleMusician.setId("titleMusician");
+        titleMusician.setMinWidth(200);
 
         GridPane pane = new GridPane();
         pane.gridLinesVisibleProperty().set(false);
@@ -286,6 +287,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.add(_addButton, 4, 7);
         pane.add(_updateButton, 4, 7);
         pane.add(_cancelButton, 0, 7);
+        Label labelRequired=new Label("*...Required Fields");
+        labelRequired.setMinWidth(100);
+        pane.add(labelRequired, 0, 8);
         return pane;
     }
 

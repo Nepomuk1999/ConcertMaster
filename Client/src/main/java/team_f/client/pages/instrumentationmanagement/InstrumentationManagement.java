@@ -390,7 +390,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             reset();
         });
 
-
         pane.add(new Label("String:"), 0, 3);
         pane.add(new Label("Wood:"), 2, 3);
         pane.add(new Label("Brass:"), 4, 3);
@@ -399,6 +398,9 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.add(_addButton, 8, 9);
         pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
+        Label labelRequired=new Label("*...Required Fields");
+        labelRequired.setMinWidth(100);
+        pane.add(labelRequired, 0, 10);
 
         _specialInstrumentationContent = new GridPane();
         _specialInstrumentationComboBox = new ComboBox<>(MusicalWorkHelper.getSectionGroupTypeList());
