@@ -89,58 +89,44 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _fields = new ArrayList<>();
         try {
             _firstViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _firstViolinField.setMaxWidth(60);
             _fields.add(_firstViolinField);
             _secondViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _secondViolinField.setMaxWidth(60);
             _fields.add(_secondViolinField);
             _violaField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _violaField.setMaxWidth(60);
             _fields.add(_violaField);
-            _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _violoncelloField.setMaxWidth(60);
+            _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);;
             _fields.add(_violoncelloField);
             _doublebassField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _doublebassField.setMaxWidth(60);
             _fields.add(_doublebassField);
 
             _fluteField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fluteField.setMaxWidth(60);
             _fields.add(_fluteField);
             _oboeField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _oboeField.setMaxWidth(60);
             _fields.add(_oboeField);
             _clarinetField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _clarinetField.setMaxWidth(60);
             _fields.add(_clarinetField);
             _bassoonField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _bassoonField.setMaxWidth(60);
             _fields.add(_bassoonField);
 
             _hornField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _hornField.setMaxWidth(60);
             _fields.add(_hornField);
             _trumpetField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _trumpetField.setMaxWidth(60);
             _fields.add(_trumpetField);
             _tromboneField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _tromboneField.setMaxWidth(60);
             _fields.add(_tromboneField);
             _tubeField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _tubeField.setMaxWidth(60);
             _fields.add(_tubeField);
 
             _kettledrumField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _kettledrumField.setMaxWidth(60);
             _fields.add(_kettledrumField);
             _percussionField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _percussionField.setMaxWidth(60);
             _fields.add(_percussionField);
             _harpField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _harpField.setMaxWidth(60);
             _fields.add(_harpField);
         } catch (NumberRangeException e) {
         }
+
+        setNumberfieldWidth();
 
         _instrumentationTable = new TableView<>();
         _instrumentationTable.setEditable(false);
@@ -372,6 +358,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
+        _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> deleteInstrumentation());
 
         _updateButton = new Button("Update");
@@ -491,7 +478,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _deleteButton.setDisable(true);
         _updateButton.setVisible(false);
         _addButton.setVisible(true);
-        _cancelButton.setText("Reset");
+        _cancelButton.setText("Clear");
         for (BigDecimalField field : _fields) {
             field.setNumber(new BigDecimal(0));
             field.setStyle("-fx-border-color: transparent");
@@ -624,5 +611,11 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         }
 
         instrumentation.setSpecialInstrumentation(specialInstrumentationList);
+    }
+
+    private void setNumberfieldWidth(){
+        for(BigDecimalField field:_fields){
+            field.setMaxWidth(60);
+        }
     }
 }
