@@ -2,14 +2,13 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.AccountEntity;
 import team_f.database_wrapper.enums.AccountRole;
-import team_f.database_wrapper.interfaces.Editeable;
 import team_f.domain.entities.Account;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountFacade extends BaseDatabaseFacade<AccountEntity, Account> {
+public class AccountFacade extends BaseDatabaseFacade<Account> {
     public AccountFacade() {
         super();
     }

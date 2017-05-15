@@ -8,9 +8,6 @@ import team_f.jsonconnector.entities.Error;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dominik on 12.05.17.
- */
 public class InstrumentationConverter {
     public static List<Pair<JSONObjectEntity, List<Error>>> getAbstractList(List<Pair<Instrumentation, List<Error>>> errorList) {
         List<Pair<JSONObjectEntity, List<Error>>> resultErrorList = new ArrayList<>(errorList.size());

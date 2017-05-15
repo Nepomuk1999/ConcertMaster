@@ -5,11 +5,9 @@ import team_f.domain.entities.Instrumentation;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEntity, Instrumentation> {
+public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
     public InstrumentationFacade() {
         super();
     }

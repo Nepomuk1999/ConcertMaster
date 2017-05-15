@@ -2,9 +2,6 @@ package team_f.client.pages.instrumentationmanagement;
 
 import team_f.jsonconnector.entities.Instrumentation;
 
-/**
- * Created by dominik on 11.05.17.
- */
 public class InstrumentationParameter {
     private Instrumentation _instrumentation;
 

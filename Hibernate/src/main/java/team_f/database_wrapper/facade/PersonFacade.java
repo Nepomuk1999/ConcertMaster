@@ -7,7 +7,6 @@ import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
+public class PersonFacade extends BaseDatabaseFacade<Person> {
     private static AccountFacade _accountFacade = new AccountFacade();
     private static InstrumentTypeFacade _instrumentTypeFacade = new InstrumentTypeFacade();
 

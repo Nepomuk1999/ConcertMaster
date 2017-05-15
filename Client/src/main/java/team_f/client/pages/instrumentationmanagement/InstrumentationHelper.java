@@ -4,9 +4,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.jsonconnector.entities.Instrumentation;
 
-/**
- * Created by dominik on 11.05.17.
- */
 public class InstrumentationHelper {
 
 

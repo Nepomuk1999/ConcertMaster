@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventFacade extends BaseDatabaseFacade<EventDutyEntity, EventDuty> {
+public class EventFacade extends BaseDatabaseFacade<EventDuty> {
     public EventFacade() {
         super();
     }

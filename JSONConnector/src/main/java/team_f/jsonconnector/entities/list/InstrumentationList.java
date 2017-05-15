@@ -8,9 +8,6 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 import java.util.List;
 
-/**
- * Created by dominik on 12.05.17.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InstrumentationList implements JSONObjectEntity {
     private List<Instrumentation> _instrumentationList;
