@@ -72,7 +72,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
     private GridPane _newDataPane;
     private List<BigDecimalField> _fields;
-    private HBox _textfields;
 
     public InstrumentationManagement() {
 
