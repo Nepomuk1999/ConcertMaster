@@ -85,8 +85,6 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
 
         session.getTransaction().begin();
 
-
-
         if (personEntity.getPersonId() > 0){
             session.merge(personEntity);
         } else {

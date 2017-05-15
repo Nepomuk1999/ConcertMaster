@@ -226,7 +226,6 @@ public class EventApplication {
                     errorList.add(new Pair<>(String.valueOf(EventDutyProperty.REHEARSAL_FOR), "you have already a rehearsal for this event"));
                 }
             }
-
         }
         return errorList;
     }

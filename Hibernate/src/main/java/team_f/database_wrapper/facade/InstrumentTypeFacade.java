@@ -104,27 +104,27 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentTypeEntit
         } else if (instrumentType.equals(InstrumentType.DOUBLEBASS)) {
             partId = 5;
         } else if (instrumentType.equals(InstrumentType.FLUTE)) {
-            partId = 8;
+            partId = 17;
         } else if (instrumentType.equals(InstrumentType.OBOE)) {
-            partId = 10;
-        } else if (instrumentType.equals(InstrumentType.CLARINET)) {
-            partId = 11;
-        } else if (instrumentType.equals(InstrumentType.BASSOON)) {
-            partId = 13;
-        } else if (instrumentType.equals(InstrumentType.HORN)) {
-            partId = 23;
-        } else if (instrumentType.equals(InstrumentType.TRUMPET)) {
-            partId = 18;
-        } else if (instrumentType.equals(InstrumentType.TROMBONE)) {
             partId = 19;
-        } else if (instrumentType.equals(InstrumentType.TUBE)) {
+        } else if (instrumentType.equals(InstrumentType.CLARINET)) {
+            partId = 20;
+        } else if (instrumentType.equals(InstrumentType.BASSOON)) {
             partId = 22;
+        } else if (instrumentType.equals(InstrumentType.HORN)) {
+            partId = 26;
+        } else if (instrumentType.equals(InstrumentType.TRUMPET)) {
+            partId = 9;
+        } else if (instrumentType.equals(InstrumentType.TROMBONE)) {
+            partId = 10;
+        } else if (instrumentType.equals(InstrumentType.TUBE)) {
+            partId = 13;
         } else if (instrumentType.equals(InstrumentType.KETTLEDRUM)) {
-            partId = 27;
+            partId = 14;
         } else if (instrumentType.equals(InstrumentType.PERCUSSION)) {
-            partId = 28;
+            partId = 15;
         } else if (instrumentType.equals(InstrumentType.HARP)) {
-            partId = 29;
+            partId = 16;
         } else {
             partId = -1;
         }

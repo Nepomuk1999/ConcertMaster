@@ -31,10 +31,10 @@ public class PersonConverter {
         result.setEmail(person.getEmail());
         result.setAddress(person.getAddress());
 
-        if(person.getInstruments() != null) {
+        if(person.getPlayedInstruments() != null) {
             // use only the first one
-            if(person.getInstruments().size() > 0) {
-                result.setInstrumentType(InstrumentType.valueOf(String.valueOf(person.getInstruments().get(0).getInstrumentType())));
+            if(person.getPlayedInstruments().size() > 0) {
+                result.setInstrumentType(InstrumentType.valueOf(String.valueOf(person.getPlayedInstruments().get(0))));
             }
         }
 
