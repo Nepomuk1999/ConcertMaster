@@ -34,6 +34,7 @@ public class EventDuty extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
@@ -45,6 +46,7 @@ public class EventDuty extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             EventDutyRequest request = (EventDutyRequest) ReadHelper.readJSONObject(req.getReader(), EventDutyRequest.class);
@@ -87,7 +89,6 @@ public class EventDuty extends HttpServlet {
                             eventDutyList.setEventDutyList(tmpList);
 
                             resp.setContentType(MediaType.APPLICATION_JSON);
-                            resp.setCharacterEncoding("UTF-8");
                             WriteHelper.writeJSONObject(resp.getWriter(), eventDutyList);
                         }
 
@@ -105,7 +106,6 @@ public class EventDuty extends HttpServlet {
                         eventDuties.setEventDutyList(eventDutyList);
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), eventDuties);*/
 
                         break;
@@ -145,7 +145,6 @@ public class EventDuty extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
@@ -159,7 +158,6 @@ public class EventDuty extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
@@ -173,7 +171,6 @@ public class EventDuty extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;

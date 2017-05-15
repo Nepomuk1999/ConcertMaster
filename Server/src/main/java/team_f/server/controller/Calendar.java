@@ -38,6 +38,7 @@ public class Calendar extends HttpServlet {
         String contentType = req.getContentType();
         String headerTypeAccept = req.getHeader("accept");
         String headerTypeXMsCookieURIrequested = req.getHeader("x-ms-cookieuri-requested");
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             JSONArray jsonArray = new JSONArray();
@@ -169,7 +170,6 @@ public class Calendar extends HttpServlet {
             resp.getWriter().close();
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
-            resp.setCharacterEncoding("UTF-8");
             req.getRequestDispatcher(getServletContext().getContextPath() + "/views/pages/plan_overview.jsp").include(req, resp);
         }
     }

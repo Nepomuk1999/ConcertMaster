@@ -33,6 +33,7 @@ public class MusicalWork extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
@@ -44,6 +45,7 @@ public class MusicalWork extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             MusicalWorkRequest request = (MusicalWorkRequest) ReadHelper.readJSONObject(req.getReader(), MusicalWorkRequest.class);
@@ -71,7 +73,6 @@ public class MusicalWork extends HttpServlet {
                         musicalWorks.setMusicalWorkList(musicalWorkList);
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), musicalWorks);
 
                         break;
@@ -104,7 +105,6 @@ public class MusicalWork extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
@@ -137,7 +137,6 @@ public class MusicalWork extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
@@ -151,7 +150,6 @@ public class MusicalWork extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;

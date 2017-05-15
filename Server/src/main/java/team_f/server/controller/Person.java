@@ -37,6 +37,7 @@ public class Person extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
@@ -48,6 +49,7 @@ public class Person extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             PersonRequest request = (PersonRequest) ReadHelper.readJSONObject(req.getReader(), PersonRequest.class);
@@ -75,7 +77,6 @@ public class Person extends HttpServlet {
                         persons.setPersonList(personList);
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), persons);
 
                         break;
@@ -112,7 +113,6 @@ public class Person extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
@@ -126,7 +126,6 @@ public class Person extends HttpServlet {
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        resp.setCharacterEncoding("UTF-8");
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;

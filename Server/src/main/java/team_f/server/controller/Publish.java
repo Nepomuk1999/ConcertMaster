@@ -33,6 +33,7 @@ public class Publish extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
@@ -44,6 +45,7 @@ public class Publish extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             team_f.jsonconnector.entities.Publish request = (team_f.jsonconnector.entities.Publish) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Publish.class);
@@ -75,7 +77,6 @@ public class Publish extends HttpServlet {
                 }
 
                 resp.setContentType(MediaType.APPLICATION_JSON);
-                resp.setCharacterEncoding("UTF-8");
                 WriteHelper.writeJSONObject(resp.getWriter(), errorList);
             }
         } else {
