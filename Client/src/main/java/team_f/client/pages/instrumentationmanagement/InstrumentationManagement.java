@@ -287,7 +287,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.getColumnConstraints().addAll(new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90),
                 new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(120));
 
-        Label titleInstrumentation = new Label("Instrumentation");
+        Label titleInstrumentation = new Label("Add Instrumentation");
         titleInstrumentation.setId("titleInstrumentation");
         titleInstrumentation.setMinWidth(200);
 

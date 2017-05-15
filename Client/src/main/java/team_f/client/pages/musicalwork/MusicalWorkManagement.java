@@ -271,7 +271,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.getColumnConstraints().addAll(new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90),
                 new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(120));
 
-        Label titleMusicalWork = new Label("MusicalWork");
+        Label titleMusicalWork = new Label("Add Musical Work");
         titleMusicalWork.setId("titleMusicalWork");
         titleMusicalWork.setMinWidth(200);
 
