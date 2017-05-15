@@ -374,7 +374,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             reset();
         });
 
-        _cancelButton = new Button("Reset");
+        _cancelButton = new Button("Clear");
         _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
             _table.setDisable(false);

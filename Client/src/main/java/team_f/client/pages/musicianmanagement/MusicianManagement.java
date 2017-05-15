@@ -269,7 +269,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         });
 
-        _cancelButton = new Button("Reset");
+        _cancelButton = new Button("Clear");
         _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
             _musicianTable.setDisable(false);
