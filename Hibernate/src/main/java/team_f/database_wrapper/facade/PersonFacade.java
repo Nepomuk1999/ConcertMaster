@@ -69,7 +69,7 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
 
         PersonEntity personEntity = convertToPersonEntity(person);
 
-        if (!person.getPersonRole().equals(PersonRole.External_musician)) {
+        if (!(person.getPersonRole().equals(PersonRole.External_musician) || personEntity.getPersonId()> 0)) {
             Account account = person.getAccount();
             AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
             session.persist(accountEntity);

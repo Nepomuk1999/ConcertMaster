@@ -137,7 +137,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         });
 
-        _editButton = new Button("Edit Selected Musician");
+        _editButton = new Button("Edit");
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
@@ -150,7 +150,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             fillFields((Person) _musicianTable.getSelectionModel().getSelectedItem());
         });
 
-        _deleteButton = new Button("Delete Selected Musician");
+        _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
         _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> editPerson());
@@ -298,6 +298,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
         _updateButton.setDisable(true);
+        _comboBoxAccountRole.setDisable(false);
+        _usernameField.setDisable(false);
         _cancelButton.setText("Reset");
         _comboBoxRole.getSelectionModel().selectFirst();
         _comboBoxAccountRole.getSelectionModel().selectFirst();
@@ -398,6 +400,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         if (person.getAccount() != null && person.getAccount().getUsername() != null) {
             _usernameField.setText(person.getAccount().getUsername());
         }
+
+        if(person.getAccount().getRole()!=null){
+            _comboBoxAccountRole.getSelectionModel().select(getAccountPos(person.getAccount().getRole()));
+        }
         if (person.getPersonRole() != null) {
             if (getRolePos(person.getPersonRole()) >= 0) {
                 _comboBoxRole.getSelectionModel().select(getRolePos(person.getPersonRole()));
@@ -428,11 +434,14 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         }
 
-        if (person.getAccount() != null && person.getAccount().getRole() != null) {
+        /*if (person.getAccount() != null && person.getAccount().getRole() != null) {
             if (getAccountPos(person.getAccount().getRole()) >= 0) {
                 _comboBoxAccountRole.getSelectionModel().select(getAccountPos(person.getAccount().getRole()));
             }
-        }
+        }*/
+
+        _comboBoxAccountRole.setDisable(true);
+        _usernameField.setDisable(true);
 
     }
 
@@ -461,14 +470,15 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     }
 
+    //Todo: change names
     public int[] getSectionPos(InstrumentType instrumentType) {
         List sections = MusicianTableHelper.getSectionInstrumentPos();
-        int sectionPos = -1;
-        int instrumentPos = -1;
+        int sectionPos = 0;
+        int instrumentPos = 0;
         for (int i = 0; i < sections.size(); i++) {
             List instruments = (List) sections.get(i);
             for (int j = 0; j < instruments.size(); j++) {
-                if (instruments.get(j).equals(instrumentType)) {
+                if (instruments.get(j).toString().equals(instrumentType.toString())) {
                     sectionPos = i;
                     instrumentPos = j;
                 }
@@ -497,18 +507,24 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         person.setEmail(_emailField.getText());
         person.setPhoneNumber(_phoneField.getText());
         person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
-        person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
+        if (!_comboBoxInstrumentType.isDisable()) {
+            person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
+        }
         person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
 
-        if(createAccount) {
-            Account account = new Account();
-            person.setAccount(account);
+        if (!_comboBoxAccountRole.isDisable() && !_usernameField.isDisable()) {
+            if (createAccount) {
+                Account account = new Account();
+                person.setAccount(account);
+            }
+
+            if (person.getAccount() != null) {
+                person.getAccount().setUsername(_usernameField.getText());
+                person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
+            }
         }
 
-        if(person.getAccount() != null) {
-            person.getAccount().setUsername(_usernameField.getText());
-            person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
-        }
     }
+
 }
 
