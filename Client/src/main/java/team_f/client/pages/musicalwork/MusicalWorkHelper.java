@@ -1,8 +1,13 @@
 package team_f.client.pages.musicalwork;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import team_f.client.entities.KeyValuePair;
 import team_f.jsonconnector.entities.MusicalWork;
+import team_f.jsonconnector.enums.SectionGroupType;
+import team_f.jsonconnector.enums.SectionType;
 
 public class MusicalWorkHelper {
 
@@ -32,6 +37,16 @@ public class MusicalWorkHelper {
         PropertyValueFactory<MusicalWork, String> instrumentationCellValueFactory = new PropertyValueFactory<>("instrumentation");
         instrumentationCol.setCellValueFactory(instrumentationCellValueFactory);
         return instrumentationCol;
+    }
+
+    public static ObservableList<KeyValuePair> getSectionGroupTypeList() {
+        ObservableList<KeyValuePair> list = FXCollections.observableArrayList(
+                new KeyValuePair("String", SectionGroupType.STRING),
+                new KeyValuePair("Wood", SectionGroupType.WOOD),
+                new KeyValuePair("Brass", SectionGroupType.BRASS),
+                new KeyValuePair("Percussion", SectionGroupType.PERCUSSION));
+
+        return list;
     }
 }
 

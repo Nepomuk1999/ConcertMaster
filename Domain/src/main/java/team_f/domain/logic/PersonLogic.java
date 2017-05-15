@@ -1,6 +1,7 @@
 package team_f.domain.logic;
 
 import javafx.util.Pair;
+import org.apache.commons.validator.routines.EmailValidator;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.PersonProperty;
 import team_f.domain.interfaces.EntityLogic;
@@ -56,10 +57,7 @@ public class PersonLogic implements EntityLogic<Person, PersonProperty> {
                     if(person.getEmail() == null){
                         resultList.add(new Pair<>(String.valueOf(EMAIL), "is empty"));
                     } else {
-                        Pattern ptr = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-                        Matcher matcher = ptr.matcher(person.getEmail());
-
-                        if(!matcher.matches()){
+                        if(!EmailValidator.getInstance().isValid(person.getEmail())) {
                             resultList.add(new Pair<>(String.valueOf(EMAIL), "is not valid"));
                         }
                     }

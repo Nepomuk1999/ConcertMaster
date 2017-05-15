@@ -38,14 +38,6 @@ public class Instrumentation implements JSONObjectEntity {
 
     private List<SpecialInstrumentation> _special;
 
-    public List<SpecialInstrumentation> getSpecialInstrumentation() {
-        return _special;
-    }
-
-    public void setSpecialInstrumentation(List<SpecialInstrumentation> _special) {
-        this._special = _special;
-    }
-
     @JsonGetter("id")
     public int getInstrumentationID() {
         return _instrumentationID;
@@ -129,6 +121,11 @@ public class Instrumentation implements JSONObjectEntity {
     @JsonGetter("harp")
     public int getHarp() {
         return _harp;
+    }
+
+    @JsonGetter("special_instrumentation")
+    public List<SpecialInstrumentation> getSpecialInstrumentation() {
+        return _special;
     }
 
     @JsonSetter("id")
@@ -216,6 +213,12 @@ public class Instrumentation implements JSONObjectEntity {
         _harp = harp;
     }
 
+    @JsonSetter("special_instrumentation")
+    public void setSpecialInstrumentation(List<SpecialInstrumentation> _special) {
+        this._special = _special;
+    }
+
+
     @Override
     public String getEntityName() {
         return "Instrumentation";
@@ -245,10 +248,28 @@ public class Instrumentation implements JSONObjectEntity {
 
     @Override
     public String toString() {
+        StringBuilder specialInstrumentation = new StringBuilder();
+
+        if(_special != null) {
+            if(_special.size() > 0) {
+                specialInstrumentation.append("\n");
+            }
+
+            for(int i = 0; i < _special.size(); i++) {
+                specialInstrumentation.append(_special.get(i).getDisplayName());
+
+                if(i < _special.size()) {
+                    specialInstrumentation.append(" + ");
+                }
+            }
+        }
+
         return getStringInstrumentationText() + "\n" +
-                getWoodInstrumentationText() + "\n" +
+               getWoodInstrumentationText() + "\n" +
                getBrassInstrumentiaton() + "\n" +
-               getPercussionInstrumentation();
+               getPercussionInstrumentation() +
+               specialInstrumentation.toString();
+
     }
 
     public String getInstrumentation(){

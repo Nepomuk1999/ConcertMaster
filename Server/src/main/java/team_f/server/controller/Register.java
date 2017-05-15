@@ -31,6 +31,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
@@ -42,6 +43,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             PersonRequest request = (PersonRequest) ReadHelper.readJSONObject(req.getReader(), PersonRequest.class);
@@ -74,14 +76,13 @@ public class Register extends HttpServlet {
                     }
 
                     // @TODO: should we use enums for gender?
-                    tmpErrorList = facade.register(person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
-                            person.getPhoneNumber(), personRole, username, accountRole, instrumentTypeList);
+                    tmpErrorList = facade.add(0, person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
+                            person.getPhoneNumber(), 0, personRole, username, accountRole, instrumentTypeList);
 
                     errorList = JsonResponse.prepareErrorMessage(PersonConverter.convertToJSON((Person) tmpErrorList.getKey()), tmpErrorList.getValue());
                 }
 
                 resp.setContentType(MediaType.APPLICATION_JSON);
-                resp.setCharacterEncoding("UTF-8");
                 WriteHelper.writeJSONObject(resp.getWriter(), errorList);
             }
         } else {

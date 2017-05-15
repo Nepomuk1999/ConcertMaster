@@ -7,23 +7,34 @@ import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SpecialInstrumentation implements JSONObjectEntity {
+    private int _specialInstrumentationID;
     private String _sectionType;
-    private String _specialInstrument;
-    private int _specialInstrumentCount;
+    private String _specialInstrumentation;
+    private int _specialInstrumentationCount;
+
+    @JsonGetter("id")
+    public int getSpecialInstrumentationID() {
+        return _specialInstrumentationID;
+    }
 
     @JsonGetter("section_type")
     public String getSectionType() {
         return _sectionType;
     }
 
-    @JsonGetter("special_instrument")
-    public String getSpecialInstrument() {
-        return _specialInstrument;
+    @JsonGetter("special_instrumentation")
+    public String getSpecialInstrumentation() {
+        return _specialInstrumentation;
     }
 
     @JsonGetter("special_instrumentation_count")
     public int getSpecialInstrumentCount() {
-        return _specialInstrumentCount;
+        return _specialInstrumentationCount;
+    }
+
+    @JsonSetter("id")
+    public void setSpecialInstrumentationID(int id) {
+        _specialInstrumentationID = id;
     }
 
     @JsonSetter("section_type")
@@ -31,14 +42,14 @@ public class SpecialInstrumentation implements JSONObjectEntity {
         _sectionType = sectionType;
     }
 
-    @JsonSetter("special_instrument")
-    public void setSpecialInstrument(String specialInstrument) {
-        _specialInstrument = specialInstrument;
+    @JsonSetter("special_instrumentation")
+    public void setSpecialInstrumentation(String specialInstrumentation) {
+        _specialInstrumentation = specialInstrumentation;
     }
 
     @JsonSetter("special_instrumentation_count")
-    public void setSpecialInstrumentCount(int specialInstrumentCount) {
-        _specialInstrumentCount = specialInstrumentCount;
+    public void setSpecialInstrumentationCount(int specialInstrumentCount) {
+        _specialInstrumentationCount = specialInstrumentCount;
     }
 
     @Override
@@ -48,7 +59,15 @@ public class SpecialInstrumentation implements JSONObjectEntity {
 
     @Override
     public String getDisplayName() {
-        return getSectionType() + " " + getSpecialInstrument();
+        String text;
+
+        if(getSpecialInstrumentation() != null && getSpecialInstrumentation().length() >= 3) {
+            text = getSpecialInstrumentation().substring(0, 3);
+        } else {
+            text = getSpecialInstrumentation();
+        }
+
+        return text + "(" + getSpecialInstrumentCount() + ")";
     }
 
     @Override

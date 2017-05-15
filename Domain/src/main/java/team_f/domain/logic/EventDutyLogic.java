@@ -146,9 +146,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                         }
                         if (DateTimeHelper.compareRehearsalDate(eventDuty.getRehearsalFor().getStartTime(), eventDuty.getEndTime())) {
                             resultList.add(new Pair<>(String.valueOf(REHEARSAL_FOR), "can not be after Event"));
-
                         }
-
                     }
 
                     break;
@@ -174,14 +172,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     break;
             }
         }
-
-        /*@TODO: Validation for
-        INSTRUMENTATION,
-        MUSICAL_WORK_LIST,
-        DISPOSITION_LIST,
-        SECTION_DUTY_ROSTER_LIST,
-        REQUEST_LIST
-        */
 
         return resultList;
     }

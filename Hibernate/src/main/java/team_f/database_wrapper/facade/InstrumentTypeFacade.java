@@ -5,13 +5,12 @@ import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PartEntity;
 import team_f.database_wrapper.entities.PartTypeEntity;
 import team_f.domain.enums.InstrumentType;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentTypeEntity, InstrumentType> {
+public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
     public InstrumentTypeFacade() {
         super();
     }
@@ -104,27 +103,27 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentTypeEntit
         } else if (instrumentType.equals(InstrumentType.DOUBLEBASS)) {
             partId = 5;
         } else if (instrumentType.equals(InstrumentType.FLUTE)) {
-            partId = 8;
+            partId = 17;
         } else if (instrumentType.equals(InstrumentType.OBOE)) {
-            partId = 10;
-        } else if (instrumentType.equals(InstrumentType.CLARINET)) {
-            partId = 11;
-        } else if (instrumentType.equals(InstrumentType.BASSOON)) {
-            partId = 13;
-        } else if (instrumentType.equals(InstrumentType.HORN)) {
-            partId = 23;
-        } else if (instrumentType.equals(InstrumentType.TRUMPET)) {
-            partId = 18;
-        } else if (instrumentType.equals(InstrumentType.TROMBONE)) {
             partId = 19;
-        } else if (instrumentType.equals(InstrumentType.TUBE)) {
+        } else if (instrumentType.equals(InstrumentType.CLARINET)) {
+            partId = 20;
+        } else if (instrumentType.equals(InstrumentType.BASSOON)) {
             partId = 22;
+        } else if (instrumentType.equals(InstrumentType.HORN)) {
+            partId = 26;
+        } else if (instrumentType.equals(InstrumentType.TRUMPET)) {
+            partId = 9;
+        } else if (instrumentType.equals(InstrumentType.TROMBONE)) {
+            partId = 10;
+        } else if (instrumentType.equals(InstrumentType.TUBE)) {
+            partId = 13;
         } else if (instrumentType.equals(InstrumentType.KETTLEDRUM)) {
-            partId = 27;
+            partId = 14;
         } else if (instrumentType.equals(InstrumentType.PERCUSSION)) {
-            partId = 28;
+            partId = 15;
         } else if (instrumentType.equals(InstrumentType.HARP)) {
-            partId = 29;
+            partId = 16;
         } else {
             partId = -1;
         }

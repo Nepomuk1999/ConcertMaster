@@ -27,12 +27,12 @@ public class RehearsalFor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
             resp.setContentType(MediaType.TEXT_HTML);
-            resp.setCharacterEncoding("UTF-8");
             CalendarRequest.getAndSetParameters(req, true);
             setAttributes(req);
 
@@ -43,6 +43,7 @@ public class RehearsalFor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String contentType = req.getContentType();
+        resp.setCharacterEncoding("UTF-8");
 
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
@@ -60,14 +61,12 @@ public class RehearsalFor extends HttpServlet {
 
             if(result.getValue().size() > 0) {
                 resp.setContentType(MediaType.TEXT_HTML);
-                resp.setCharacterEncoding("UTF-8");
                 CommonResponse.setErrorParameters(req, resp, result, "eventDuty");
                 setAttributes(req);
 
                 req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/event_type.jsp").include(req, resp);
             } else {
                 resp.setContentType(MediaType.TEXT_HTML);
-                resp.setCharacterEncoding("UTF-8");
             }
         }
     }

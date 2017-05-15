@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventFacade extends BaseDatabaseFacade<EventDutyEntity, EventDuty> {
+public class EventFacade extends BaseDatabaseFacade<EventDuty> {
     public EventFacade() {
         super();
     }
@@ -27,7 +27,7 @@ public class EventFacade extends BaseDatabaseFacade<EventDutyEntity, EventDuty> 
      *
      * @return EventDutyId      int         returns the primary key of the event
      */
-    public Integer addEvent(EventDuty event) {
+    private Integer addEvent(EventDuty event) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 

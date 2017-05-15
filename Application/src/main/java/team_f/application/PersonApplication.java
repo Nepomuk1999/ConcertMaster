@@ -1,19 +1,17 @@
 package team_f.application;
 
 import javafx.util.Pair;
-import team_f.database_wrapper.enums.*;
 import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
-import team_f.domain.enums.AccountRole;
-import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.AccountLogic;
 import team_f.domain.logic.DomainEntityManager;
 import team_f.domain.logic.PersonLogic;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.LinkedList;
@@ -55,11 +53,11 @@ public class PersonApplication {
         return list;
     }
 
-    public Pair<DomainEntity, List<Pair<String, String>>> register(String firstname, String lastname, String gender, String address,
-                                                                   String email, String phoneNumber, PersonRole personRole, String username,
+    public Pair<DomainEntity, List<Pair<String, String>>> add(int id, String firstname, String lastname, String gender, String address,
+                                                                   String email, String phoneNumber, int accountID, PersonRole personRole, String username,
                                                                    AccountRole accountRole, List<InstrumentType> instrumentTypeList) {
-
         Person person = new Person();
+        person.setPersonID(id);
         person.setFirstname(firstname);
         person.setLastname(lastname);
         person.setGender(gender);
@@ -68,13 +66,18 @@ public class PersonApplication {
         person.setPhoneNumber(phoneNumber);
         person.setPersonRole(personRole);
         //person.addInstrument(instrument);
-        person.setPlayedInstruments(instrumentTypeList);
+        if (!(person.getPersonRole().equals(PersonRole.Manager)||
+                person.getPersonRole().equals(PersonRole.Music_librarian))||
+                person.getPersonRole().equals(PersonRole.Orchestral_facility_manager)) {
+            person.setPlayedInstruments(instrumentTypeList);
+        }
 
         if(firstname != null && lastname != null && firstname.length() > 0 && lastname.length() > 0) {
             person.setInitials("" + firstname.charAt(0) + lastname.charAt(0));
         }
 
         Account account = new Account();
+        account.setAccountID(accountID);
         account.setUsername(username);
         account.setRole(accountRole);
 
@@ -91,24 +94,27 @@ public class PersonApplication {
 
 
         AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
-
         List<Pair<String, String>> errorList = personLogic.validate(person);
 
-        if(accountRole.equals(AccountRole.Musician.toString()) || accountRole.equals(AccountRole.Substitute.toString()) || accountRole.equals(AccountRole.Section_representative.toString())){
+        if (!personRole.equals(PersonRole.External_musician)) {
             List<Pair<String, String>> errorList2 = accountLogic.validate(account);
             errorList.addAll(errorList2);
         }
 
-        for(Person p : personList){
-            if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
-                    && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
-                errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
+        // do not check if it exists when we updating the person and the account
+        if(person.getPersonID() <= 0) {
+            for(Person p : personList){
+                if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
+                        && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
+                    errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
+                }
             }
-        }
-
-        for(Account ac : accountList){
-            if(ac.getUsername().equals(username.trim())){
-                errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+            if (!personRole.equals(PersonRole.External_musician)) {
+                for (Account ac : accountList) {
+                    if (ac.getUsername().equals(username.trim())) {
+                        errorList.add(new Pair<>(String.valueOf(AccountProperty.USERNAME), "username already exists"));
+                    }
+                }
             }
         }
 
@@ -120,7 +126,7 @@ public class PersonApplication {
             return new Pair<>(person, errorList);
         }
 
-        Integer resultID = personFacade.register(person);
+        Integer resultID = personFacade.add(person);
         person.setPersonID(resultID);
 
         return new Pair<>(person, new LinkedList<>());

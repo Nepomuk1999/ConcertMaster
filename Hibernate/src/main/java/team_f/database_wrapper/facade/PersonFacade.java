@@ -7,7 +7,6 @@ import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
+public class PersonFacade extends BaseDatabaseFacade<Person> {
     private static AccountFacade _accountFacade = new AccountFacade();
     private static InstrumentTypeFacade _instrumentTypeFacade = new InstrumentTypeFacade();
 
@@ -63,14 +62,19 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
         return musicians;
     }
 
-    public Integer register(Person person) {
+    private Integer register(Person person) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        Account account = person.getAccount();
-        AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
-        session.persist(accountEntity);
-        int accountId = accountEntity.getAccountId();
+        PersonEntity personEntity = convertToPersonEntity(person);
+
+        if (!(person.getPersonRole().equals(PersonRole.External_musician) || personEntity.getPersonId()> 0)) {
+            Account account = person.getAccount();
+            AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
+            session.persist(accountEntity);
+
+            personEntity.setAccount(accountEntity.getAccountId());
+        }
 
         try {
             session.getTransaction().commit();
@@ -80,10 +84,12 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
 
         session.getTransaction().begin();
 
-        PersonEntity personEntity = convertToPersonEntity(person);
-        personEntity.setAccount(accountId);
-
-        session.persist(personEntity);
+        if (personEntity.getPersonId() > 0){
+            session.merge(personEntity);
+        } else {
+            session.persist(personEntity);
+            session.flush();
+        }
 
         try {
             session.getTransaction().commit();

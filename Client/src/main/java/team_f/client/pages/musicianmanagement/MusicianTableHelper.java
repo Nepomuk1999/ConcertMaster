@@ -179,6 +179,9 @@ public class MusicianTableHelper {
 
         return list;
     }
+
+    //TODO: bring lists in order
+    //Same order likeGetSectionTypeList
     public static LinkedList<List> getSectionInstrumentPos() {
         List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE);
         List<InstrumentType> viola= Arrays.asList(InstrumentType.VIOLA);
@@ -190,17 +193,15 @@ public class MusicianTableHelper {
         List<InstrumentType> violincello= Arrays.asList(InstrumentType.VIOLONCELLO);
         LinkedList<List> sections=new LinkedList<>();
         sections.add(brass);
+        sections.add(doublebass);
+        sections.add(percussion);
         sections.add(viola);
         sections.add(violin1);
         sections.add(violin2);
-        sections.add(woodwind);
-        sections.add(doublebass);
-        sections.add(percussion);
         sections.add(violincello);
+        sections.add(woodwind);
 
         return sections;
 
     }
-
-
 }

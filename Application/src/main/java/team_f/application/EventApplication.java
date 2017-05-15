@@ -113,7 +113,7 @@ public class EventApplication {
             eventMusicalList.add(mE);
         }
 
-        Integer resultID = eventFacade.addEvent(eventDuty);
+        Integer resultID = eventFacade.add(eventDuty);
         eventDuty.setEventDutyID(resultID);
 
         return new Pair<>(eventDuty, new LinkedList<>());
@@ -155,7 +155,7 @@ public class EventApplication {
 
     public List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
         List<Pair<String, String>> errorList = new LinkedList<>();
-        List<EventDuty> eventList = new LinkedList<>();
+        List<EventDuty> eventList;
 
         eventList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
 
@@ -226,7 +226,6 @@ public class EventApplication {
                     errorList.add(new Pair<>(String.valueOf(EventDutyProperty.REHEARSAL_FOR), "you have already a rehearsal for this event"));
                 }
             }
-
         }
         return errorList;
     }
@@ -240,7 +239,7 @@ public class EventApplication {
             event.setEventStatus(EventStatus.Published);
 
             try {
-                eventFacade.addEvent(event);
+                eventFacade.add(event);
             } catch (Exception e) {
                 List<Pair<String, String>> errorList = new LinkedList<>();
                 errorList.add(new Pair<>("", "could not publish"));
@@ -266,7 +265,7 @@ public class EventApplication {
 
             if(tmpErrorList.size() == 0) {
                 try {
-                    eventFacade.addEvent(event);
+                    eventFacade.add(event);
                 } catch (Exception e) {
                     errorList = new LinkedList<>();
                     errorList.add(new Pair<>("", "could not unpublish"));

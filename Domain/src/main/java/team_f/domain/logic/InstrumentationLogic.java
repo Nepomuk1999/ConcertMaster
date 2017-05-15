@@ -10,9 +10,6 @@ import team_f.domain.interfaces.EntityLogic;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Christoph on 09.05.2017.
- */
 public class InstrumentationLogic implements EntityLogic<Instrumentation, InstrumentationProperty> {
 
     @Override

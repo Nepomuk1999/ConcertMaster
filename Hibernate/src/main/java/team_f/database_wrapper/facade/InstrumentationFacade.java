@@ -5,11 +5,9 @@ import team_f.domain.entities.Instrumentation;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEntity, Instrumentation> {
+public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
     public InstrumentationFacade() {
         super();
     }
@@ -18,9 +16,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEnt
         super(session);
     }
 
-
-    public Integer addInstrumentation(Instrumentation instrumentation) {
-
+    private Integer addInstrumentation(Instrumentation instrumentation) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
@@ -324,7 +320,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEnt
 
     @Override
     public boolean delete(int id) {
-        boolean b;
+        boolean result;
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
@@ -334,12 +330,12 @@ public class InstrumentationFacade extends BaseDatabaseFacade<InstrumentationEnt
         try {
             session.flush();
             session.getTransaction().commit();
-            b = true;
+            result = true;
         } catch (Exception e) {
             session.getTransaction().rollback();
-            b = false;
+            result = false;
         }
-        return b;
 
+        return result;
     }
 }

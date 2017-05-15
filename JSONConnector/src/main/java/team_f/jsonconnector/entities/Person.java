@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.enums.PersonRole;
-import team_f.jsonconnector.enums.SectionType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
-import java.util.LinkedList;
-import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person implements JSONObjectEntity {
@@ -132,7 +129,7 @@ public class Person implements JSONObjectEntity {
 
     @JsonSetter("instrument_type")
     public void setInstrumentType(InstrumentType instrumentType) {
-        instrumentType = _instrumentType;
+        _instrumentType = instrumentType;
     }
 
     @Override
