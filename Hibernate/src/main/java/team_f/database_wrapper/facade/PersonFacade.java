@@ -67,10 +67,15 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        Account account = person.getAccount();
-        AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
-        session.persist(accountEntity);
-        int accountId = accountEntity.getAccountId();
+        PersonEntity personEntity = convertToPersonEntity(person);
+
+        if (!person.getPersonRole().equals(PersonRole.External_musician)) {
+            Account account = person.getAccount();
+            AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
+            session.persist(accountEntity);
+
+            personEntity.setAccount(accountEntity.getAccountId());
+        }
 
         try {
             session.getTransaction().commit();
@@ -80,8 +85,7 @@ public class PersonFacade extends BaseDatabaseFacade<PersonEntity, Person> {
 
         session.getTransaction().begin();
 
-        PersonEntity personEntity = convertToPersonEntity(person);
-        personEntity.setAccount(accountId);
+
 
         if (personEntity.getPersonId() > 0){
             session.merge(personEntity);
