@@ -204,4 +204,58 @@ public class MusicianTableHelper {
         return sections;
 
     }
+
+    public static int getRolePos(PersonRole personRole ) {
+        int pos = 0;
+        for (KeyValuePair role : getPersonRoleList()) {
+            if (role.getValue().equals(personRole)) {
+                return pos;
+            }
+            pos++;
+        }
+        return -1;
+
+    }
+
+    public static int getGenderPos(Gender personGender) {
+        int pos = 0;
+        for (KeyValuePair gender : getGenderList()) {
+            if (gender.getValue().equals(personGender)) {
+                return pos;
+            }
+            pos++;
+        }
+        return -1;
+
+    }
+
+    //Todo: change names
+    public static int[] getSectionPos(InstrumentType instrumentType) {
+        List sections = getSectionInstrumentPos();
+        int sectionPos = 0;
+        int instrumentPos = 0;
+        for (int i = 0; i < sections.size(); i++) {
+            List instruments = (List) sections.get(i);
+            for (int j = 0; j < instruments.size(); j++) {
+                if (instruments.get(j).toString().equals(instrumentType.toString())) {
+                    sectionPos = i;
+                    instrumentPos = j;
+                }
+            }
+        }
+        return new int[]{sectionPos, instrumentPos};
+
+    }
+
+    public static int getAccountPos(AccountRole accountRole) {
+        int pos = 0;
+        for (KeyValuePair role : getAccountRoleList()) {
+            if (role.getValue().equals(accountRole)) {
+                return pos;
+            }
+            pos++;
+        }
+        return -1;
+
+    }
 }

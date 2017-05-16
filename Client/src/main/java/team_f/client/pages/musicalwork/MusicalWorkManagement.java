@@ -87,60 +87,49 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _composerField.setMinWidth(200);
         _specialInstrumentationEntityList = new LinkedList();
 
+        _fields = new ArrayList<>();
         try {
             _firstViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _firstViolinField.setMaxWidth(60);
             _fields.add(_firstViolinField);
             _secondViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _secondViolinField.setMaxWidth(60);
             _fields.add(_secondViolinField);
             _violaField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _violaField.setMaxWidth(60);
             _fields.add(_violaField);
-            _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _violoncelloField.setMaxWidth(60);
+            _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);;
             _fields.add(_violoncelloField);
             _doublebassField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _doublebassField.setMaxWidth(60);
             _fields.add(_doublebassField);
 
             _fluteField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fluteField.setMaxWidth(60);
             _fields.add(_fluteField);
             _oboeField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _oboeField.setMaxWidth(60);
             _fields.add(_oboeField);
             _clarinetField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _clarinetField.setMaxWidth(60);
             _fields.add(_clarinetField);
             _bassoonField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _bassoonField.setMaxWidth(60);
             _fields.add(_bassoonField);
 
             _hornField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _hornField.setMaxWidth(60);
             _fields.add(_hornField);
             _trumpetField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _trumpetField.setMaxWidth(60);
             _fields.add(_trumpetField);
             _tromboneField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _tromboneField.setMaxWidth(60);
             _fields.add(_tromboneField);
             _tubeField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _tubeField.setMaxWidth(60);
             _fields.add(_tubeField);
 
             _kettledrumField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _kettledrumField.setMaxWidth(60);
             _fields.add(_kettledrumField);
             _percussionField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _percussionField.setMaxWidth(60);
             _fields.add(_percussionField);
             _harpField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _harpField.setMaxWidth(60);
             _fields.add(_harpField);
         } catch (NumberRangeException e) {
         }
+
+        setNumberfieldWidth();
+
+        setNumberfieldWidth();
 
         _table = new TableView<>();
         _table.setEditable(false);
@@ -171,6 +160,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         // Create the Delete Button and add Event-Handler
         _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
+        _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> deleteMusicalWork());
 
 
@@ -271,16 +261,16 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.getColumnConstraints().addAll(new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90),
                 new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(90), new ColumnConstraints(120));
 
-        Label titleMusicalWork = new Label("MusicalWork");
+        Label titleMusicalWork = new Label("Add Musical Work");
         titleMusicalWork.setId("titleMusicalWork");
         titleMusicalWork.setMinWidth(200);
 
         _textfields = new HBox();
         _textfields.setMinWidth(600);
         _textfields.setSpacing(10);
-        Label nameLabel = new Label("Name:");
+        Label nameLabel = new Label("Name:*");
         nameLabel.setMinWidth(60);
-        Label composerLabel = new Label("Composer:");
+        Label composerLabel = new Label("Composer:*");
         composerLabel.setMinWidth(60);
         _textfields.getChildren().addAll(nameLabel, _nameField, composerLabel, _composerField);
         pane.addRow(0, titleMusicalWork);
@@ -337,6 +327,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
 
         _addButton = new Button("Add");
+        _addButton.setVisible(true);
         _addButton.setMinWidth(100);
         _addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
@@ -357,8 +348,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
             _table.setDisable(true);
-            _addButton.setDisable(true);
-            _updateButton.setDisable(false);
+            _addButton.setVisible(false);
+            _updateButton.setVisible(true);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
@@ -367,14 +358,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
-        _updateButton.setDisable(true);
+        _updateButton.setVisible(false);
         _updateButton.setOnAction(e -> {
             _table.setDisable(false);
             editWork();
             reset();
         });
 
-        _cancelButton = new Button("Reset");
+        _cancelButton = new Button("Clear");
         _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
             _table.setDisable(false);
@@ -388,8 +379,11 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(new Label("Percussion:"), 6, 3);
         pane.add(new Label("Special Instruments:"), 8, 2);
         pane.add(_addButton, 8, 9);
-        pane.add(_updateButton, 9, 9);
+        pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
+        Label labelRequired=new Label("*...Required Fields");
+        labelRequired.setMinWidth(100);
+        pane.add(labelRequired, 0, 10);
 
         _specialInstrumentationContent = new GridPane();
         _specialInstrumentationComboBox = new ComboBox<>(MusicalWorkHelper.getSectionGroupTypeList());
@@ -470,11 +464,11 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _composerField.clear();
         _composerField.setStyle("-fx-border-color: transparent");
         _table.getSelectionModel().clearSelection();
-        _addButton.setDisable(false);
+        _addButton.setVisible(true);
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
-        _updateButton.setDisable(true);
-        _cancelButton.setText("Reset");
+        _updateButton.setVisible(false);
+        _cancelButton.setText("Clear");
         _table.getSelectionModel().clearSelection();
         for (BigDecimalField field : _fields) {
             field.setNumber(new BigDecimal(0));
@@ -621,5 +615,11 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
         _specialInstrumentationContent.getChildren().remove(specialInstrumentationEntity.getPane());
         _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
+    }
+
+    private void setNumberfieldWidth(){
+        for(BigDecimalField field:_fields){
+            field.setMaxWidth(60);
+        }
     }
 }
