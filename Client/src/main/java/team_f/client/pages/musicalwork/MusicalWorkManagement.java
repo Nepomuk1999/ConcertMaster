@@ -2,6 +2,7 @@ package team_f.client.pages.musicalwork;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import jfxtras.labs.scene.control.BigDecimalField;
@@ -12,6 +13,7 @@ import team_f.client.exceptions.NumberRangeException;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
+import team_f.domain.enums.MusicalWorkProperty;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.Pair;
@@ -27,7 +29,7 @@ import java.util.List;
 public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, MusicalWork, MusicalWork, MusicalWorkParameter> {
     private TextField _nameField;
     private TextField _composerField;
-    private TableView<MusicalWork> _table;
+    private TableView<MusicalWork> _workTable;
     private List<SpecialInstrumentationEntity> _specialInstrumentationEntityList;
 
     //String
@@ -69,6 +71,11 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     private Button _editButton;
     private Button _deleteButton;
     private Button _cancelButton;
+
+    private ObservableList<MusicalWork> _masterData = FXCollections.observableArrayList();
+    private ObservableList<MusicalWork> _filteredData = FXCollections.observableArrayList();
+    private TextField _filterField;
+
 
     public MusicalWorkManagement() {
     }
@@ -131,21 +138,34 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         setNumberfieldWidth();
 
-        _table = new TableView<>();
-        _table.setEditable(false);
-
-        //TableView.TableViewSelectionModel<MusicalWork> tsm = _table.getSelectionModel();
-        _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        _table.getColumns().addListener((ListChangeListener) change -> {
+        _workTable = new TableView<>();
+        _workTable.setEditable(false);
+        _workTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        _workTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _workTable.getColumns().addListener((ListChangeListener) change -> {
             change.next();
             if (change.wasReplaced()) {
                 update();
             }
         });
 
-        _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        _workTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                _editButton.setDisable(false);
+                _deleteButton.setDisable(false);
+            } else {
+                _editButton.setDisable(true);
+                _deleteButton.setDisable(true);
+            }
+        });
+
+        update();
+
+        _filteredData.addAll(_masterData);
+        _workTable.setItems(_filteredData);
+        _masterData.addListener((ListChangeListener<MusicalWork>) change -> updateFilteredData());
+
+        _workTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _editButton.setDisable(false);
                 _deleteButton.setDisable(false);
@@ -157,100 +177,32 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         Pane newDataPane = getNewMusicalWorkDataPane();
 
-        // Create the Delete Button and add Event-Handler
         _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
         _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> deleteMusicalWork());
 
+        _filterField =new TextField();
+        _filterField.setPromptText("Name- or Composer");
+        _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.trim().isEmpty()) {
+                updateFilteredData();
+            }else{
+                updateFilteredData();
+            }
+        });
 
-        HBox buttonsBox = new HBox(_editButton, _deleteButton);
+        HBox buttonsBox = new HBox(_editButton, _deleteButton, new Label("Search:"),_filterField);
         buttonsBox.setSpacing(10);
 
         VBox root = new VBox();
-        root.getChildren().addAll(newDataPane, _table, buttonsBox);
+        root.getChildren().addAll(newDataPane, _workTable, buttonsBox);
         root.setSpacing(5);
         BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
 
         borderPane.setCenter(root);
         setCenter(borderPane);
-    }
-
-    @Override
-    public void load() {
-        if (_load != null) {
-        }
-
-        loadList();
-    }
-
-    @Override
-    public void update() {
-        _table.getColumns().clear();
-        _table.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
-                MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
-    }
-
-    @Override
-    public void exit() {
-        if (_exit != null) {
-            _exit.doAction(null);
-        }
-    }
-
-    @Override
-    public void dispose() {
-    }
-
-    public void addMusicalWork() {
-        if (_create != null) {
-            MusicalWork musicalWork = new MusicalWork();
-            setMusicalWork(musicalWork, true);
-
-            MusicalWorkErrorList resultMusicalWorkErrorList = _create.doAction(musicalWork);
-
-            if (resultMusicalWorkErrorList != null && resultMusicalWorkErrorList.getKeyValueList() != null) {
-                List<Pair<JSONObjectEntity, List<Error>>> errorList = MusicalWorkConverter.getAbstractList(resultMusicalWorkErrorList.getKeyValueList());
-                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
-
-                if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1 && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey() != null && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey().getMusicalWorkID() > 0) {
-                    showSuccessMessage("Successful", tmpErrorText);
-
-                    _table.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
-                    update();
-                } else {
-                    showErrorMessage("Error", tmpErrorText);
-                }
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }
-
-    }
-
-    public void deleteMusicalWork() {
-        if (_delete != null) {
-            MusicalWork musicalWork = new MusicalWork();
-
-            MusicalWorkErrorList resultMusicalWorkErrorList = _create.doAction(musicalWork);
-
-            if (resultMusicalWorkErrorList != null && resultMusicalWorkErrorList.getKeyValueList() != null) {
-                List<Pair<JSONObjectEntity, List<Error>>> errorList = MusicalWorkConverter.getAbstractList(resultMusicalWorkErrorList.getKeyValueList());
-                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
-
-                if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1 && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey() != null && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey().getMusicalWorkID() > 0) {
-                    showSuccessMessage("Successful", tmpErrorText);
-
-                    _table.getItems().remove(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
-                    update();
-                } else {
-                    showErrorMessage("Error", tmpErrorText);
-                }
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }
     }
 
     private Pane getNewMusicalWorkDataPane() {
@@ -347,28 +299,27 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
-            _table.setDisable(true);
+            _workTable.setDisable(true);
             _addButton.setVisible(false);
             _updateButton.setVisible(true);
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
-            fillFields(_table.getSelectionModel().getSelectedItem());
+            fillFields(_workTable.getSelectionModel().getSelectedItem());
         });
 
         _updateButton = new Button("Update");
         _updateButton.setMinWidth(100);
         _updateButton.setVisible(false);
         _updateButton.setOnAction(e -> {
-            _table.setDisable(false);
+            _workTable.setDisable(false);
             editWork();
-            reset();
         });
 
         _cancelButton = new Button("Clear");
         _cancelButton.setMinWidth(100);
         _cancelButton.setOnAction(e -> {
-            _table.setDisable(false);
+            _workTable.setDisable(false);
             reset();
         });
 
@@ -418,23 +369,39 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         return pane;
     }
 
-    private void loadList() {
-        if (_loadList != null) {
-            MusicalWorkParameter musicalWorkParameter = new MusicalWorkParameter();
-            List<MusicalWork> musicalWorkList = _loadList.doAction(musicalWorkParameter);
 
-            if (musicalWorkList != null) {
-                _table.setItems(FXCollections.observableList(musicalWorkList));
-                update();
+    public void addMusicalWork() {
+        if (_create != null) {
+            MusicalWork musicalWork = new MusicalWork();
+            setMusicalWork(musicalWork, true);
+
+            MusicalWorkErrorList resultMusicalWorkErrorList = _create.doAction(musicalWork);
+
+            if (resultMusicalWorkErrorList != null && resultMusicalWorkErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = MusicalWorkConverter.getAbstractList(resultMusicalWorkErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1 && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey() != null && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey().getMusicalWorkID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                   // _table.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    _masterData.add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                    reset();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                    markInvalidFields(errorList);
+                }
             } else {
                 showTryAgainLaterErrorMessage();
             }
         }
+
     }
 
     public void editWork() {
         if (_edit != null) {
-            MusicalWork musicalWork = _table.getSelectionModel().getSelectedItem();
+            MusicalWork musicalWork = _workTable.getSelectionModel().getSelectedItem();
             setMusicalWork(musicalWork, false);
 
             MusicalWorkErrorList resultMusicalWorkErrorList = _edit.doAction(musicalWork);
@@ -446,9 +413,13 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                 if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                    _table.getItems().remove(musicalWork);
-                    _table.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    //_table.getItems().remove(musicalWork);
+                    //_table.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    _masterData.remove(musicalWork);
+                    _masterData.add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    markInvalidFields(errorList);
                     update();
+                    reset();
                 } else {
                     showErrorMessage("Error", tmpErrorText);
                 }
@@ -458,26 +429,155 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
     }
 
-    private void reset() {
-        _nameField.clear();
-        _nameField.setStyle("-fx-border-color: transparent");
-        _composerField.clear();
-        _composerField.setStyle("-fx-border-color: transparent");
-        _table.getSelectionModel().clearSelection();
-        _addButton.setVisible(true);
-        _editButton.setDisable(true);
-        _deleteButton.setDisable(true);
-        _updateButton.setVisible(false);
-        _cancelButton.setText("Clear");
-        _table.getSelectionModel().clearSelection();
-        for (BigDecimalField field : _fields) {
-            field.setNumber(new BigDecimal(0));
-            field.setStyle("-fx-border-color: transparent");
+    public void deleteMusicalWork() {
+        if (_delete != null) {
+            MusicalWork musicalWork = new MusicalWork();
+
+            MusicalWorkErrorList resultMusicalWorkErrorList = _create.doAction(musicalWork);
+
+            if (resultMusicalWorkErrorList != null && resultMusicalWorkErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = MusicalWorkConverter.getAbstractList(resultMusicalWorkErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1 && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey() != null && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey().getMusicalWorkID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                   // _table.getItems().remove(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    _masterData.remove(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                    return;
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                    markInvalidFields(errorList);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+    }
+
+    private void addSpecialInstrumentationItem(int id, KeyValuePair sectionType, String specialInstrumentation, int specialInstrumentationCount) {
+        GridPane tmpPane = new GridPane();
+
+        ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>(_specialInstrumentationComboBox.getItems());
+        tmpComboBox.getSelectionModel().select(sectionType);
+        tmpComboBox.setMaxWidth(80);
+        tmpPane.addColumn(0, tmpComboBox);
+
+        TextField tmpTextField = new TextField();
+        tmpTextField.setMaxWidth(80);
+        tmpTextField.setText(specialInstrumentation);
+        tmpPane.addColumn(1, tmpTextField);
+
+        NumberField tmpNumberField = null;
+        try {
+            tmpNumberField = new NumberField(specialInstrumentationCount, _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
+            tmpPane.addColumn(2, tmpNumberField);
+            tmpNumberField.setMaxWidth(60);
+        } catch (NumberRangeException e) {
         }
 
-        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            removeSpecialInstrumentationItem(item);
+        Button tmpButton = new Button("-");
+        tmpPane.addColumn(3, tmpButton);
+
+        _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size()+1, tmpPane);
+        _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
+        SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(id, tmpComboBox, tmpTextField, tmpNumberField, tmpPane);
+
+        tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
+
+        _specialInstrumentationEntityList.add(specialInstrumentationEntity);
+    }
+
+    private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
+        _specialInstrumentationContent.getChildren().remove(specialInstrumentationEntity.getPane());
+        _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
+    }
+
+    private void setMusicalWork(MusicalWork musicalWork, boolean createInstrumentation) {
+        musicalWork.setName(_nameField.getText());
+        musicalWork.setComposer(_composerField.getText());
+
+        if(createInstrumentation) {
+            Instrumentation instrumentation = new Instrumentation();
+            musicalWork.setInstrumentation(instrumentation);
         }
+
+        musicalWork.getInstrumentation().setViolin1(Integer.parseInt(_firstViolinField.getText()));
+        musicalWork.getInstrumentation().setViolin2(Integer.parseInt(_secondViolinField.getText()));
+        musicalWork.getInstrumentation().setViola(Integer.parseInt(_violaField.getText()));
+        musicalWork.getInstrumentation().setViolincello(Integer.parseInt(_violoncelloField.getText()));
+        musicalWork.getInstrumentation().setDoublebass(Integer.parseInt(_doublebassField.getText()));
+
+        musicalWork.getInstrumentation().setFlute(Integer.parseInt(_fluteField.getText()));
+        musicalWork.getInstrumentation().setOboe(Integer.parseInt(_oboeField.getText()));
+        musicalWork.getInstrumentation().setClarinet(Integer.parseInt(_clarinetField.getText()));
+        musicalWork.getInstrumentation().setBassoon(Integer.parseInt(_bassoonField.getText()));
+
+        musicalWork.getInstrumentation().setHorn(Integer.parseInt(_hornField.getText()));
+        musicalWork.getInstrumentation().setTrumpet(Integer.parseInt(_trumpetField.getText()));
+        musicalWork.getInstrumentation().setTrombone(Integer.parseInt(_tromboneField.getText()));
+        musicalWork.getInstrumentation().setTube(Integer.parseInt(_tubeField.getText()));
+
+        musicalWork.getInstrumentation().setKettledrum(Integer.parseInt(_kettledrumField.getText()));
+        musicalWork.getInstrumentation().setPercussion(Integer.parseInt(_percussionField.getText()));
+        musicalWork.getInstrumentation().setHarp(Integer.parseInt(_harpField.getText()));
+
+        List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
+        SpecialInstrumentation specialInstrumentation;
+
+        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+            specialInstrumentation = new SpecialInstrumentation();
+            specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+            specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
+
+            specialInstrumentationList.add(specialInstrumentation);
+        }
+
+        musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
+    }
+
+    private void loadList() {
+        if (_loadList != null) {
+            MusicalWorkParameter musicalWorkParameter = new MusicalWorkParameter();
+            List<MusicalWork> musicalWorkList = _loadList.doAction(musicalWorkParameter);
+
+            if (musicalWorkList != null) {
+                //_table.setItems(FXCollections.observableList(musicalWorkList));
+                _masterData.setAll(musicalWorkList);
+                update();
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+    }
+
+    @Override
+    public void load() {
+        if (_load != null) {
+        }
+
+        loadList();
+    }
+
+    @Override
+    public void update() {
+        _workTable.getColumns().clear();
+        _workTable.getColumns().addAll(MusicalWorkHelper.getIdColumn(), MusicalWorkHelper.getMusicalWorkNameColumn(),
+                MusicalWorkHelper.getComposerColumn(), MusicalWorkHelper.getInstrumentationColumn());
+    }
+
+    @Override
+    public void exit() {
+        if (_exit != null) {
+            _exit.doAction(null);
+        }
+    }
+
+    @Override
+    public void dispose() {
     }
 
     public void fillFields(MusicalWork musicalWork) {
@@ -534,87 +634,57 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
     }
 
-    private void setMusicalWork(MusicalWork musicalWork, boolean createInstrumentation) {
-        musicalWork.setName(_nameField.getText());
-        musicalWork.setComposer(_composerField.getText());
+    private void reset() {
+        _workTable.getSelectionModel().clearSelection();
+        _nameField.setStyle("-fx-border-color: transparent");
+        _composerField.setStyle("-fx-border-color: transparent");
+        _nameField.clear();
+        _composerField.clear();
+        _addButton.setVisible(true);
+        _editButton.setDisable(true);
+        _deleteButton.setDisable(true);
+        _updateButton.setVisible(false);
+        _cancelButton.setText("Clear");
 
-        if(createInstrumentation) {
-            Instrumentation instrumentation = new Instrumentation();
-            musicalWork.setInstrumentation(instrumentation);
+        for (BigDecimalField field : _fields) {
+            field.setNumber(new BigDecimal(0));
+            field.setStyle("-fx-border-color: transparent");
         }
-
-        musicalWork.getInstrumentation().setViolin1(Integer.parseInt(_firstViolinField.getText()));
-        musicalWork.getInstrumentation().setViolin2(Integer.parseInt(_secondViolinField.getText()));
-        musicalWork.getInstrumentation().setViola(Integer.parseInt(_violaField.getText()));
-        musicalWork.getInstrumentation().setViolincello(Integer.parseInt(_violoncelloField.getText()));
-        musicalWork.getInstrumentation().setDoublebass(Integer.parseInt(_doublebassField.getText()));
-
-        musicalWork.getInstrumentation().setFlute(Integer.parseInt(_fluteField.getText()));
-        musicalWork.getInstrumentation().setOboe(Integer.parseInt(_oboeField.getText()));
-        musicalWork.getInstrumentation().setClarinet(Integer.parseInt(_clarinetField.getText()));
-        musicalWork.getInstrumentation().setBassoon(Integer.parseInt(_bassoonField.getText()));
-
-        musicalWork.getInstrumentation().setHorn(Integer.parseInt(_hornField.getText()));
-        musicalWork.getInstrumentation().setTrumpet(Integer.parseInt(_trumpetField.getText()));
-        musicalWork.getInstrumentation().setTrombone(Integer.parseInt(_tromboneField.getText()));
-        musicalWork.getInstrumentation().setTube(Integer.parseInt(_tubeField.getText()));
-
-        musicalWork.getInstrumentation().setKettledrum(Integer.parseInt(_kettledrumField.getText()));
-        musicalWork.getInstrumentation().setPercussion(Integer.parseInt(_percussionField.getText()));
-        musicalWork.getInstrumentation().setHarp(Integer.parseInt(_harpField.getText()));
-
-        List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
-        SpecialInstrumentation specialInstrumentation;
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            specialInstrumentation = new SpecialInstrumentation();
-            specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-            specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
-            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
-
-            specialInstrumentationList.add(specialInstrumentation);
+            removeSpecialInstrumentationItem(item);
         }
-
-        musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
     }
 
-    private void addSpecialInstrumentationItem(int id, KeyValuePair sectionType, String specialInstrumentation, int specialInstrumentationCount) {
-        GridPane tmpPane = new GridPane();
-
-        ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>(_specialInstrumentationComboBox.getItems());
-        tmpComboBox.getSelectionModel().select(sectionType);
-        tmpComboBox.setMaxWidth(80);
-        tmpPane.addColumn(0, tmpComboBox);
-
-        TextField tmpTextField = new TextField();
-        tmpTextField.setMaxWidth(80);
-        tmpTextField.setText(specialInstrumentation);
-        tmpPane.addColumn(1, tmpTextField);
-
-        NumberField tmpNumberField = null;
-        try {
-            tmpNumberField = new NumberField(specialInstrumentationCount, _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
-            tmpPane.addColumn(2, tmpNumberField);
-            tmpNumberField.setMaxWidth(60);
-        } catch (NumberRangeException e) {
+    private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
+    setBorder();
+    String error;
+    List<Error> errorList=occuredErrors.get(0).getValue();
+             for(int x=0;x<errorList.size();x++) {
+        error = errorList.get(x).getKey().toString();
+        if (error.equals(MusicalWorkProperty.CONDUCTOR.toString())) {
+            _composerField.setStyle("-fx-border-color: red");
+        }
+        if (error.equals(MusicalWorkProperty.TITLE.toString())) {
+            _nameField.setStyle("-fx-border-color: red");
+        }
+        if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+            for (BigDecimalField field : _fields) {
+                field.setStyle("-fx-border-color: red");
+            }
         }
 
-        Button tmpButton = new Button("-");
-        tmpPane.addColumn(3, tmpButton);
-
-        _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size()+1, tmpPane);
-        _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
-        SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(id, tmpComboBox, tmpTextField, tmpNumberField, tmpPane);
-
-        tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
-
-        _specialInstrumentationEntityList.add(specialInstrumentationEntity);
     }
 
-    private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
-        _specialInstrumentationContent.getChildren().remove(specialInstrumentationEntity.getPane());
-        _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
+}
+
+    private void setBorder() {
+       _nameField.setStyle("-fx-border-color: green");
+        _composerField.setStyle("-fx-border-color: green");
+
+        for (BigDecimalField field : _fields) {
+                field.setStyle("-fx-border-color: green");
+        }
     }
 
     private void setNumberfieldWidth(){
@@ -622,4 +692,42 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             field.setMaxWidth(60);
         }
     }
+
+    private void updateFilteredData() {
+        _filteredData.clear();
+
+        for (MusicalWork m : _masterData) {
+            if (matchesFilter(m)) {
+                _filteredData.add(m);
+            }
+        }
+        _workTable.setItems(_filteredData);
+        reapplyTableSortOrder();
+    }
+
+
+    private boolean matchesFilter(MusicalWork musicalWork) {
+        String filterString = _filterField.getText();
+        if (filterString == null || filterString.isEmpty()) {
+            // No filter --> Add all.
+            return true;
+        }
+
+        String lowerCaseFilterString = filterString.toLowerCase();
+
+        if (musicalWork.getName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        } else if (musicalWork.getComposer().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void reapplyTableSortOrder() {
+        ArrayList<TableColumn<MusicalWork, ?>> sortOrder = new ArrayList<>(_workTable.getSortOrder());
+        _workTable.getSortOrder().clear();
+        _workTable.getSortOrder().addAll(sortOrder);
+    }
+
 }

@@ -14,6 +14,7 @@ import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicalwork.MusicalWorkHelper;
 import team_f.client.pages.musicalwork.SpecialInstrumentationEntity;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
+import team_f.domain.enums.MusicalWorkProperty;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
@@ -162,107 +163,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         borderPane.setId("borderPane");
         borderPane.setCenter(root);
         setCenter(borderPane);
-    }
-
-    @Override
-    public void load() {
-        if (_load != null) {
-        }
-        loadList();
-    }
-
-    @Override
-    public void update() {
-        _instrumentationTable.getColumns().clear();
-        _instrumentationTable.getColumns().addAll(InstrumentationHelper.getIdColumn(), InstrumentationHelper.getInstrumentationColumn());
-    }
-
-    @Override
-    public void exit() {
-        if (_exit != null) {
-            _exit.doAction(null);
-        }
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    public void addInstrumentation() {
-        if (_create != null) {
-            Instrumentation instrumentation = new Instrumentation();
-            setInstrumentation(instrumentation);
-
-            InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
-
-            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
-                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
-                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
-
-                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1 && resultInstrumentationErrorList.getKeyValueList().get(0).getKey() != null && resultInstrumentationErrorList.getKeyValueList().get(0).getKey().getInstrumentationID() > 0) {
-                    showSuccessMessage("Successful", tmpErrorText);
-
-                    _instrumentationTable.getItems().add(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
-                    update();
-                } else {
-                    showErrorMessage("Error", tmpErrorText);
-                }
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }
-        reset();
-    }
-
-    public void editInstrumentation() {
-        if (_edit != null) {
-            Instrumentation instrumentation = _instrumentationTable.getSelectionModel().getSelectedItem();
-            setInstrumentation(instrumentation);
-
-            InstrumentationErrorList resultInstrumentationErrorList = _edit.doAction(instrumentation);
-
-            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
-                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
-                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
-
-                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1) {
-                    showSuccessMessage("Successful", tmpErrorText);
-
-                    _instrumentationTable.getItems().remove(instrumentation);
-                    _instrumentationTable.getItems().add(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
-                    update();
-                } else {
-                    showErrorMessage("Error", tmpErrorText);
-                }
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }
-    }
-
-    public void deleteInstrumentation() {
-        if (_delete != null) {
-            Instrumentation instrumentation = new Instrumentation();
-
-            InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
-
-            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
-                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
-                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
-
-                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1 && resultInstrumentationErrorList.getKeyValueList().get(0).getKey() != null && resultInstrumentationErrorList.getKeyValueList().get(0).getKey().getInstrumentationID() > 0) {
-                    showSuccessMessage("Successful", tmpErrorText);
-
-                    _instrumentationTable.getItems().remove(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
-                    update();
-                } else {
-                    showErrorMessage("Error", tmpErrorText);
-                }
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }
     }
 
     private GridPane getNewInstrumentationDataPane() {
@@ -455,89 +355,85 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         return pane;
     }
 
-    private void loadList() {
-        if (_loadList != null) {
-            InstrumentationParameter instrumentationParameter = new InstrumentationParameter();
-            List<Instrumentation> instrumentationList = _loadList.doAction(instrumentationParameter);
+    public void addInstrumentation() {
+        if (_create != null) {
+            Instrumentation instrumentation = new Instrumentation();
+            setInstrumentation(instrumentation);
 
-            if (instrumentationList != null) {
-                _instrumentationTable.setItems(FXCollections.observableList(instrumentationList));
-                update();
+            InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
+
+            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1 && resultInstrumentationErrorList.getKeyValueList().get(0).getKey() != null && resultInstrumentationErrorList.getKeyValueList().get(0).getKey().getInstrumentationID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _instrumentationTable.getItems().add(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                    reset();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                    markInvalidFields(errorList);
+                }
             } else {
                 showTryAgainLaterErrorMessage();
             }
         }
-
     }
 
-    private void reset() {
-        _instrumentationTable.getSelectionModel().clearSelection();
-        _instrumentationTable.setDisable(false);
-        _instrumentationTable.getSelectionModel().clearSelection();
-        _editButton.setDisable(true);
-        _deleteButton.setDisable(true);
-        _updateButton.setVisible(false);
-        _addButton.setVisible(true);
-        _cancelButton.setText("Clear");
-        for (BigDecimalField field : _fields) {
-            field.setNumber(new BigDecimal(0));
-            field.setStyle("-fx-border-color: transparent");
-        }
-        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            removeSpecialInstrumentationItem(item);
-        }
-    }
+    public void editInstrumentation() {
+        if (_edit != null) {
+            Instrumentation instrumentation = _instrumentationTable.getSelectionModel().getSelectedItem();
+            setInstrumentation(instrumentation);
 
+            InstrumentationErrorList resultInstrumentationErrorList = _edit.doAction(instrumentation);
 
-    public void fillFields(Instrumentation instrumentation) {
-        /*if (instrumentation.getName() != null) {
-            _nameField.setText(instrumentation.getName());
-        }*/
-        if (instrumentation != null) {
-            _firstViolinField.setNumber(new BigDecimal(instrumentation.getViolin1()));
-            _secondViolinField.setNumber(new BigDecimal(instrumentation.getViolin2()));
-            _violaField.setNumber(new BigDecimal(instrumentation.getViola()));
-            _violoncelloField.setNumber(new BigDecimal(instrumentation.getViolincello()));
-            _doublebassField.setNumber(new BigDecimal(instrumentation.getDoublebass()));
+            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
 
-            _fluteField.setNumber(new BigDecimal(instrumentation.getFlute()));
-            _oboeField.setNumber(new BigDecimal(instrumentation.getOboe()));
-            _clarinetField.setNumber(new BigDecimal(instrumentation.getClarinet()));
-            _bassoonField.setNumber(new BigDecimal(instrumentation.getBassoon()));
+                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1) {
+                    showSuccessMessage("Successful", tmpErrorText);
 
-            _hornField.setNumber(new BigDecimal(instrumentation.getHorn()));
-            _trumpetField.setNumber(new BigDecimal(instrumentation.getTrumpet()));
-            _tromboneField.setNumber(new BigDecimal(instrumentation.getTrombone()));
-            _tubeField.setNumber(new BigDecimal(instrumentation.getTube()));
-
-            _kettledrumField.setNumber(new BigDecimal(instrumentation.getKettledrum()));
-            _percussionField.setNumber(new BigDecimal(instrumentation.getPercussion()));
-            _harpField.setNumber(new BigDecimal(instrumentation.getHarp()));
-
-            for (SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-                removeSpecialInstrumentationItem(item);
-            }
-
-            if (instrumentation.getSpecialInstrumentation() != null) {
-                List<KeyValuePair> sectionTypeList = MusicianTableHelper.getSectionTypeList();
-                KeyValuePair keyValuePair;
-
-                for (SpecialInstrumentation specialInstrumentation : instrumentation.getSpecialInstrumentation()) {
-                    keyValuePair = null;
-
-                    for (KeyValuePair pair : sectionTypeList) {
-                        if (String.valueOf(pair.getValue()).equals(specialInstrumentation.getSectionType())) {
-                            keyValuePair = pair;
-                            break;
-                        }
-                    }
-
-                    addSpecialInstrumentationItem(specialInstrumentation.getSpecialInstrumentationID(), keyValuePair,
-                            specialInstrumentation.getSpecialInstrumentation(), specialInstrumentation.getSpecialInstrumentCount());
+                    _instrumentationTable.getItems().remove(instrumentation);
+                    _instrumentationTable.getItems().add(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                    reset();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                    markInvalidFields(errorList);
                 }
+            } else {
+                showTryAgainLaterErrorMessage();
             }
         }
     }
+
+    public void deleteInstrumentation() {
+        if (_delete != null) {
+            Instrumentation instrumentation = new Instrumentation();
+
+            InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
+
+            if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {
+                List<Pair<JSONObjectEntity, List<Error>>> errorList = InstrumentationConverter.getAbstractList(resultInstrumentationErrorList.getKeyValueList());
+                String tmpErrorText = ErrorMessageHelper.getErrorMessage(errorList);
+
+                if (tmpErrorText.isEmpty() && resultInstrumentationErrorList.getKeyValueList().size() == 1 && resultInstrumentationErrorList.getKeyValueList().get(0).getKey() != null && resultInstrumentationErrorList.getKeyValueList().get(0).getKey().getInstrumentationID() > 0) {
+                    showSuccessMessage("Successful", tmpErrorText);
+
+                    _instrumentationTable.getItems().remove(resultInstrumentationErrorList.getKeyValueList().get(0).getKey());
+                    update();
+                } else {
+                    showErrorMessage("Error", tmpErrorText);
+                }
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+    }
+
     private void addSpecialInstrumentationItem(int id, KeyValuePair sectionType, String specialInstrumentation, int specialInstrumentationCount) {
         GridPane tmpPane = new GridPane();
 
@@ -613,9 +509,139 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         instrumentation.setSpecialInstrumentation(specialInstrumentationList);
     }
 
+    private void loadList() {
+        if (_loadList != null) {
+            InstrumentationParameter instrumentationParameter = new InstrumentationParameter();
+            List<Instrumentation> instrumentationList = _loadList.doAction(instrumentationParameter);
+
+            if (instrumentationList != null) {
+                _instrumentationTable.setItems(FXCollections.observableList(instrumentationList));
+                update();
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+
+    }
+
+    @Override
+    public void load() {
+        if (_load != null) {
+        }
+        loadList();
+    }
+
+    @Override
+    public void update() {
+        _instrumentationTable.getColumns().clear();
+        _instrumentationTable.getColumns().addAll(InstrumentationHelper.getIdColumn(), InstrumentationHelper.getInstrumentationColumn());
+    }
+
+    @Override
+    public void exit() {
+        if (_exit != null) {
+            _exit.doAction(null);
+        }
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    public void fillFields(Instrumentation instrumentation) {
+        /*if (instrumentation.getName() != null) {
+            _nameField.setText(instrumentation.getName());
+        }*/
+        if (instrumentation != null) {
+            _firstViolinField.setNumber(new BigDecimal(instrumentation.getViolin1()));
+            _secondViolinField.setNumber(new BigDecimal(instrumentation.getViolin2()));
+            _violaField.setNumber(new BigDecimal(instrumentation.getViola()));
+            _violoncelloField.setNumber(new BigDecimal(instrumentation.getViolincello()));
+            _doublebassField.setNumber(new BigDecimal(instrumentation.getDoublebass()));
+
+            _fluteField.setNumber(new BigDecimal(instrumentation.getFlute()));
+            _oboeField.setNumber(new BigDecimal(instrumentation.getOboe()));
+            _clarinetField.setNumber(new BigDecimal(instrumentation.getClarinet()));
+            _bassoonField.setNumber(new BigDecimal(instrumentation.getBassoon()));
+
+            _hornField.setNumber(new BigDecimal(instrumentation.getHorn()));
+            _trumpetField.setNumber(new BigDecimal(instrumentation.getTrumpet()));
+            _tromboneField.setNumber(new BigDecimal(instrumentation.getTrombone()));
+            _tubeField.setNumber(new BigDecimal(instrumentation.getTube()));
+
+            _kettledrumField.setNumber(new BigDecimal(instrumentation.getKettledrum()));
+            _percussionField.setNumber(new BigDecimal(instrumentation.getPercussion()));
+            _harpField.setNumber(new BigDecimal(instrumentation.getHarp()));
+
+            for (SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+                removeSpecialInstrumentationItem(item);
+            }
+
+            if (instrumentation.getSpecialInstrumentation() != null) {
+                List<KeyValuePair> sectionTypeList = MusicianTableHelper.getSectionTypeList();
+                KeyValuePair keyValuePair;
+
+                for (SpecialInstrumentation specialInstrumentation : instrumentation.getSpecialInstrumentation()) {
+                    keyValuePair = null;
+
+                    for (KeyValuePair pair : sectionTypeList) {
+                        if (String.valueOf(pair.getValue()).equals(specialInstrumentation.getSectionType())) {
+                            keyValuePair = pair;
+                            break;
+                        }
+                    }
+
+                    addSpecialInstrumentationItem(specialInstrumentation.getSpecialInstrumentationID(), keyValuePair,
+                            specialInstrumentation.getSpecialInstrumentation(), specialInstrumentation.getSpecialInstrumentCount());
+                }
+            }
+        }
+    }
+
+    private void reset() {
+        _instrumentationTable.getSelectionModel().clearSelection();
+        _instrumentationTable.setDisable(false);
+        _editButton.setDisable(true);
+        _deleteButton.setDisable(true);
+        _updateButton.setVisible(false);
+        _addButton.setVisible(true);
+        _cancelButton.setText("Clear");
+        for (BigDecimalField field : _fields) {
+            field.setNumber(new BigDecimal(0));
+            field.setStyle("-fx-border-color: transparent");
+        }
+        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+            removeSpecialInstrumentationItem(item);
+        }
+    }
+
+    private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
+        setBorder();
+        String error;
+        List<Error> errorList=occuredErrors.get(0).getValue();
+        for(int x=0;x<errorList.size();x++) {
+            error = errorList.get(x).getKey().toString();
+            if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+                for (BigDecimalField field : _fields) {
+                    field.setStyle("-fx-border-color: red");
+                }
+            }
+
+        }
+
+    }
+
+    private void setBorder() {
+        for (BigDecimalField field : _fields) {
+            field.setStyle("-fx-border-color: green");
+        }
+    }
+
     private void setNumberfieldWidth(){
         for(BigDecimalField field:_fields){
             field.setMaxWidth(60);
         }
     }
+
 }

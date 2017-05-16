@@ -53,6 +53,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     private List<TextField> _fieldsList;
     private List<ComboBox> _comboboxList;
 
+    private ObservableList<Person> _masterData = FXCollections.observableArrayList();
+    private ObservableList<Person> _filteredData = FXCollections.observableArrayList();
+    private TextField _filterField;
+
     @Override
     public void initialize() {
         if (_initialize != null) {
@@ -115,6 +119,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         });
 
+        _musicianTable.getItems().addListener((ListChangeListener<Person>) change -> updateFilteredData());
         _musicianTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _editButton.setDisable(false);
@@ -125,6 +130,20 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         });
         update();
+
+        _filteredData.addAll(_masterData);
+        _musicianTable.setItems(_filteredData);
+        _masterData.addListener((ListChangeListener<Person>) change -> updateFilteredData());
+
+        _musicianTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                _editButton.setDisable(false);
+                _deleteButton.setDisable(false);
+            } else {
+                _editButton.setDisable(true);
+                _deleteButton.setDisable(true);
+            }
+        });
 
         _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -183,9 +202,17 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> editPerson());
 
+        _filterField =new TextField();
+        _filterField.setPromptText("First- or Lastname");
+        _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.trim().isEmpty()) {
+                updateFilteredData();
+            }else{
+                updateFilteredData();
+            }
+        });
 
-
-        HBox buttonsBox = new HBox(_editButton, _deleteButton);
+        HBox buttonsBox = new HBox(_editButton, _deleteButton,new Label("Search:"), _filterField);
         buttonsBox.setSpacing(10);
         VBox root = new VBox();
         GridPane newDataPane = getNewPersonDataPane();
@@ -306,7 +333,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 if (tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1 && resultPersonErrorList.getKeyValueList().get(0).getKey() != null && resultPersonErrorList.getKeyValueList().get(0).getKey().getPersonID() > 0) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                    _musicianTable.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    //_musicianTable.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    _masterData.add(resultPersonErrorList.getKeyValueList().get(0).getKey());
                     update();
                     reset();
                 } else {
@@ -335,28 +363,16 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 if (tmpErrorText.isEmpty() && resultPersonErrorList.getKeyValueList().size() == 1) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                    _musicianTable.getItems().remove(person);
-                    _musicianTable.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    // _musicianTable.getItems().remove(person);
+                    //_musicianTable.getItems().add(resultPersonErrorList.getKeyValueList().get(0).getKey());
+                    _masterData.remove(person);
+                    _masterData.add(resultPersonErrorList.getKeyValueList().get(0).getKey());
                     update();
                     reset();
                 } else {
                     showErrorMessage("Error", tmpErrorText);
                     markInvalidFields(errorList);
                 }
-            } else {
-                showTryAgainLaterErrorMessage();
-            }
-        }
-    }
-
-    private void loadList() {
-        if (_loadList != null) {
-            PersonParameter personParameter = new PersonParameter();
-            List<Person> personList = _loadList.doAction(personParameter);
-
-            if (personList != null) {
-                _musicianTable.setItems(FXCollections.observableList(personList));
-                update();
             } else {
                 showTryAgainLaterErrorMessage();
             }
@@ -389,6 +405,49 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     }
 
+    private void loadList() {
+        if (_loadList != null) {
+            PersonParameter personParameter = new PersonParameter();
+            List<Person> personList = _loadList.doAction(personParameter);
+
+            if (personList != null) {
+                //_musicianTable.setItems(FXCollections.observableList(personList));
+                _masterData.setAll(personList);
+                update();
+            } else {
+                showTryAgainLaterErrorMessage();
+            }
+        }
+    }
+
+    @Override
+    public void load() {
+        if (_load != null) {
+        }
+
+        loadList();
+    }
+
+    @Override
+    public void update() {
+        _musicianTable.getColumns().clear();
+        _musicianTable.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
+                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
+                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
+                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getInstrumentColumn());
+    }
+
+    @Override
+    public void exit() {
+        if (_exit != null) {
+            _exit.doAction(null);
+        }
+    }
+
+    @Override
+    public void dispose() {
+    }
+
     public void fillFields(Person person) {
         if (person.getFirstname() != null) {
             _firstNameField.setText(person.getFirstname());
@@ -405,13 +464,15 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         if (person.getPhoneNumber() != null) {
             _phoneField.setText(person.getPhoneNumber());
         }
+
         if (person.getAccount() != null && person.getAccount().getUsername() != null) {
-            _usernameField.setText(person.getAccount().getUsername());
+            _usernameField.setText(person.getAccount().getUsername().toString());
         }
 
         if(person.getAccount()!=null&&person.getAccount().getRole()!=null){
             _comboBoxAccountRole.getSelectionModel().select(MusicianTableHelper.getAccountPos(person.getAccount().getRole()));
         }
+
         if (person.getPersonRole() != null) {
             if (MusicianTableHelper.getRolePos(person.getPersonRole()) >= 0) {
                 _comboBoxRole.getSelectionModel().select(MusicianTableHelper.getRolePos(person.getPersonRole()));
@@ -448,43 +509,43 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         }
 
-
+        _usernameField.setDisable(true);
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
         setBorder();
         String error;
         List<Error> errorList=occuredErrors.get(0).getValue();
-             for(int x=0;x<errorList.size();x++) {
-                 error = errorList.get(x).getKey().toString();
-                 if (error.equals(AccountProperty.USERNAME.toString())) {
-                     _usernameField.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(AccountProperty.ACCOUNT_ROLE.toString())) {
-                     _comboBoxAccountRole.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.FIRSTNAME.toString())) {
-                     _firstNameField.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.LASTNAME.toString())) {
-                     _lastNameField.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.ADDRESS.toString())) {
-                     _addressField.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.PHONE_NUMBER.toString())) {
-                     _phoneField.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.EMAIL.toString())) {
-                     _emailField.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.GENDER.toString())) {
-                     _comboBoxGender.setStyle("-fx-border-color: red");
-                 }
-                 if (error.equals(PersonProperty.PERSON_ROLE.toString())) {
-                     _comboBoxRole.setStyle("-fx-border-color: red");
-                 }
-             }
+        for(int x=0;x<errorList.size();x++) {
+            error = errorList.get(x).getKey().toString();
+            if (error.equals(AccountProperty.USERNAME.toString())) {
+                _usernameField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(AccountProperty.ACCOUNT_ROLE.toString())) {
+                _comboBoxAccountRole.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.FIRSTNAME.toString())) {
+                _firstNameField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.LASTNAME.toString())) {
+                _lastNameField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.ADDRESS.toString())) {
+                _addressField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.PHONE_NUMBER.toString())) {
+                _phoneField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.EMAIL.toString())) {
+                _emailField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.GENDER.toString())) {
+                _comboBoxGender.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(PersonProperty.PERSON_ROLE.toString())) {
+                _comboBoxRole.setStyle("-fx-border-color: red");
+            }
+        }
 
     }
 
@@ -504,17 +565,17 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         for(TextField field:_fieldsList){
             field.clear();
             field.setStyle("-fx-border-color: transparent");
+            field.setDisable(false);
         }
         for(ComboBox comboBox:_comboboxList){
             comboBox.setStyle("-fx-border-color: transparent");
             comboBox.getSelectionModel().selectFirst();
+            comboBox.setDisable(false);
         }
         _addButton.setVisible(true);
         _editButton.setDisable(true);
         _deleteButton.setDisable(true);
         _updateButton.setVisible(false);
-        _comboBoxAccountRole.setDisable(false);
-        _usernameField.setDisable(false);
         _cancelButton.setText("Clear");
         _musicianTable.getSelectionModel().clearSelection();
     }
@@ -540,32 +601,43 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         }
     }
 
-    @Override
-    public void load() {
-        if (_load != null) {
+    private void updateFilteredData() {
+        _filteredData.clear();
+
+        for (Person p : _masterData) {
+            if (matchesFilter(p)) {
+                _filteredData.add(p);
+            }
+        }
+        _musicianTable.setItems(_filteredData);
+        reapplyTableSortOrder();
+    }
+
+
+    private boolean matchesFilter(Person person) {
+        String filterString = _filterField.getText();
+        if (filterString == null || filterString.isEmpty()) {
+            // No filter --> Add all.
+            return true;
         }
 
-        loadList();
-    }
+        String lowerCaseFilterString = filterString.toLowerCase();
 
-    @Override
-    public void update() {
-        _musicianTable.getColumns().clear();
-        _musicianTable.getColumns().addAll(MusicianTableHelper.getIdColumn(), MusicianTableHelper.getFirstNameColumn(),
-                MusicianTableHelper.getLastNameColumn(), MusicianTableHelper.getStreetColumn(),
-                MusicianTableHelper.getZipCodeColumn(), MusicianTableHelper.getPhonenumberColumn(),
-                MusicianTableHelper.getRoleColumn(), MusicianTableHelper.getInstrumentColumn());
-    }
-
-    @Override
-    public void exit() {
-        if (_exit != null) {
-            _exit.doAction(null);
+        if (person.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        } else if (person.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
         }
+
+        return false;
     }
 
-    @Override
-    public void dispose() {
+    private void reapplyTableSortOrder() {
+        ArrayList<TableColumn<Person, ?>> sortOrder = new ArrayList<>(_musicianTable.getSortOrder());
+        _musicianTable.getSortOrder().clear();
+        _musicianTable.getSortOrder().addAll(sortOrder);
     }
+
+
 }
 
