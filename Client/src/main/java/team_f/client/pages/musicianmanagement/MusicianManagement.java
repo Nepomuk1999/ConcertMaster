@@ -78,7 +78,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             add(_phoneField);
             add(_usernameField);
         }};
+
         addListener();
+
         //comboboxes
         _comboBoxSectionType = new ComboBox<>(_sectionTypeList);
         _comboBoxInstrumentType = new ComboBox<>();
@@ -484,16 +486,18 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                  }
              }
 
-        _comboBoxInstrumentType.setStyle("-fx-border-color: green");
-        _comboBoxSectionType.setStyle("-fx-border-color: green");
     }
 
     private void setBorder() {
         for (TextField field : _fieldsList) {
-            field.setStyle("-fx-border-color: green");
+            if(!field.isDisable()){
+                field.setStyle("-fx-border-color: green");
+            }
         }
         for (ComboBox comboBox : _comboboxList) {
-            comboBox.setStyle("-fx-border-color: green");
+            if(!comboBox.isDisable()){
+                comboBox.setStyle("-fx-border-color: green");
+            }
         }
     }
     private void reset() {
