@@ -655,9 +655,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+            item.getSpecialInstrumentationTextField().clear();
+            item.getSpecialInstrumentationNumberField().setNumber(BigDecimal.ZERO);
+            item.getSectionTypeComboBox().getSelectionModel().selectFirst();
             _specialInstrumentationContent.getChildren().remove(item.getPane());
         }
         _specialInstrumentationEntityList.clear();
+        SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0,_specialInstrumentationComboBox,_specialInstrumentationTextField,_specialInstrumentationNumberField,_specialInstrumentationContent);
+        _specialInstrumentationEntityList.add(instrumentationEntityDefault);
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {

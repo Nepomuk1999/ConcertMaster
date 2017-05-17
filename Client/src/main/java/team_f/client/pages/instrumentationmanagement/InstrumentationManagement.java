@@ -470,6 +470,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
                 if ((!item.getSpecialInstrumentationTextField().getText().trim().isEmpty()) && (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0)) {
+                   System.out.println(item.getSpecialInstrumentationTextField().getText());
                     specialInstrumentation = new SpecialInstrumentation();
                     specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
                     specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
@@ -586,9 +587,14 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         }
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
+            item.getSpecialInstrumentationTextField().clear();
+            item.getSpecialInstrumentationNumberField().setNumber(BigDecimal.ZERO);
+            item.getSectionTypeComboBox().getSelectionModel().selectFirst();
             _specialInstrumentationContent.getChildren().remove(item.getPane());
         }
         _specialInstrumentationEntityList.clear();
+        SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0,_specialInstrumentationComboBox,_specialInstrumentationTextField,_specialInstrumentationNumberField,_specialInstrumentationContent);
+        _specialInstrumentationEntityList.add(instrumentationEntityDefault);
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
