@@ -7,6 +7,8 @@ import team_f.domain.entities.Account;
 import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
+import team_f.domain.enums.properties.AccountProperty;
+import team_f.domain.enums.properties.PersonProperty;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.AccountLogic;
 import team_f.domain.logic.DomainEntityManager;

@@ -3,7 +3,7 @@ package team_f.domain.logic;
 import javafx.util.Pair;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.enums.InstrumentType;
-import team_f.domain.enums.InstrumentationProperty;
+import team_f.domain.enums.properties.InstrumentationProperty;
 import team_f.domain.helper.IntegerHelper;
 import team_f.domain.interfaces.EntityLogic;
 

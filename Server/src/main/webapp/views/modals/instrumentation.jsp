@@ -1,4 +1,4 @@
-<%@ page import="team_f.domain.enums.EventDutyProperty" %>
+<%@ page import="team_f.domain.enums.properties.EventDutyProperty" %>
 <%@ page import="team_f.domain.helper.EnumHelper" %>
 <%@ page import="team_f.domain.enums.EventType" %>
 <%@ page import="team_f.domain.enums.EventStatus" %>

@@ -9,15 +9,14 @@ import team_f.client.converter.PersonConverter;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
-import team_f.client.singletons.MusiciansListSingleton;
-import team_f.domain.enums.AccountProperty;
-import team_f.domain.enums.PersonProperty;
 import team_f.jsonconnector.entities.Account;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.entities.special.errorlist.PersonErrorList;
 import team_f.jsonconnector.enums.*;
+import team_f.jsonconnector.enums.properties.AccountProperty;
+import team_f.jsonconnector.enums.properties.PersonProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 import java.net.URL;

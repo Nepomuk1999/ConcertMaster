@@ -1,8 +1,6 @@
-package team_f.domain.enums;
+package team_f.jsonconnector.enums.properties;
 
-import team_f.domain.interfaces.DomainEntityProperty;
-
-public enum EventDutyProperty implements DomainEntityProperty {
+public enum EventDutyProperty {
     ID,
     NAME,
     DESCRIPTION,

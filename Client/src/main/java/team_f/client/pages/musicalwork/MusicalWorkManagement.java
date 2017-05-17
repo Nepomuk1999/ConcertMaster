@@ -13,11 +13,11 @@ import team_f.client.exceptions.NumberRangeException;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
-import team_f.domain.enums.MusicalWorkProperty;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
+import team_f.jsonconnector.enums.properties.MusicalWorkProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 import java.math.BigDecimal;

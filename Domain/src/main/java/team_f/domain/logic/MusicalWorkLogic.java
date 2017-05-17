@@ -3,7 +3,7 @@ package team_f.domain.logic;
 import javafx.util.Pair;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
-import team_f.domain.enums.MusicalWorkProperty;
+import team_f.domain.enums.properties.MusicalWorkProperty;
 import team_f.domain.interfaces.EntityLogic;
 
 import java.util.LinkedList;

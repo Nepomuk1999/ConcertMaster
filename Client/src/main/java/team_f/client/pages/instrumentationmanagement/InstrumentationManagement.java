@@ -14,10 +14,10 @@ import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicalwork.MusicalWorkHelper;
 import team_f.client.pages.musicalwork.SpecialInstrumentationEntity;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
-import team_f.domain.enums.MusicalWorkProperty;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
+import team_f.jsonconnector.enums.properties.MusicalWorkProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
 
