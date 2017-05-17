@@ -9,6 +9,7 @@ import team_f.client.converter.PersonConverter;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
+import team_f.client.singletons.MusiciansListSingleton;
 import team_f.domain.enums.AccountProperty;
 import team_f.domain.enums.PersonProperty;
 import team_f.jsonconnector.entities.Account;
@@ -194,6 +195,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
+            _filterField.setDisable(true);
             fillFields((Person) _musicianTable.getSelectionModel().getSelectedItem());
         });
 
@@ -245,7 +247,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.add(new Label("Instruments:*"), 2, 1);
         pane.add(_comboBoxInstrumentType, 2, 2);
 
-        pane.add(new Label("Gender:*"), 0, 3);
+        pane.add(new Label("Sex:*"), 0, 3);
         pane.add(_comboBoxGender, 0, 4);
         pane.add(new Label("First Name:*"), 1, 3);
         pane.add(_firstNameField, 1, 4);
@@ -340,6 +342,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 } else {
                     showErrorMessage("Error", tmpErrorText);
                     markInvalidFields(errorList);
+                    update();
                 }
             } else {
                 showTryAgainLaterErrorMessage();
@@ -372,6 +375,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 } else {
                     showErrorMessage("Error", tmpErrorText);
                     markInvalidFields(errorList);
+                    update();
                 }
             } else {
                 showTryAgainLaterErrorMessage();
@@ -413,6 +417,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             if (personList != null) {
                 //_musicianTable.setItems(FXCollections.observableList(personList));
                 _masterData.setAll(personList);
+                if(_filterField!=null){
+                    _filterField.clear();
+                }
                 update();
             } else {
                 showTryAgainLaterErrorMessage();
@@ -577,6 +584,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _deleteButton.setDisable(true);
         _updateButton.setVisible(false);
         _cancelButton.setText("Clear");
+        _filterField.setDisable(false);
         _musicianTable.getSelectionModel().clearSelection();
     }
 
@@ -587,16 +595,15 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                     field.setStyle("-fx-border-color: red");
                 } else {
                     field.setStyle("-fx-border-color: green");
-
                 }
-                field.textProperty().addListener((observable1, oldValue1, newValue1) -> {
-                    if (newValue1.trim().isEmpty()) {
-                        field.setStyle("-fx-border-color: red");
-                    } else {
-                        field.setStyle("-fx-border-color: green");
-                    }
+            });
 
-                });
+            field.textProperty().addListener((observable1, oldValue1, newValue1) -> {
+                if (newValue1.trim().isEmpty()) {
+                    field.setStyle("-fx-border-color: red");
+                } else {
+                    field.setStyle("-fx-border-color: green");
+                }
             });
         }
     }
