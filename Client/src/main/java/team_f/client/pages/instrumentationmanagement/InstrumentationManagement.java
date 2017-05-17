@@ -304,55 +304,26 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         }
 
         _specialInstrumentationNumberField.setMaxWidth(60);
+        _specialInstrumentationNumberField.setStyle("-fx-opacity: 1");
         _specialInstrumentationContent.addColumn(2, _specialInstrumentationNumberField);
         _specialInstrumentationButton = new Button("+");
 
-        _specialInstrumentationButton.setOnAction(event -> {
-            GridPane tmpPane = new GridPane();
-
-            ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>(_specialInstrumentationComboBox.getItems());
-            tmpComboBox.getSelectionModel().select(_specialInstrumentationComboBox.getSelectionModel().getSelectedItem());
-            tmpComboBox.setMaxWidth(80);
-            tmpPane.addColumn(0, tmpComboBox);
-
-            TextField tmpTextField = new TextField();
-            tmpTextField.setMaxWidth(80);
-            tmpTextField.setText(_specialInstrumentationTextField.getText());
-            tmpPane.addColumn(1, tmpTextField);
-
-            NumberField tmpNumberField = null;
-            try {
-                tmpNumberField = new NumberField(_specialInstrumentationNumberField.getNumber().intValue(), _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
-                tmpPane.addColumn(2, tmpNumberField);
-                tmpNumberField.setMaxWidth(60);
-            } catch (NumberRangeException e) {
-            }
-
-            Button tmpButton = new Button("-");
-            tmpPane.addColumn(3, tmpButton);
-
-            _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size() + 1, tmpPane);
-            _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
-            SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(0, tmpComboBox, tmpTextField, tmpNumberField, tmpPane);
-
-            tmpButton.setOnAction(e -> {
-                _specialInstrumentationContent.getChildren().remove(tmpPane);
-                _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
+            SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0,_specialInstrumentationComboBox,_specialInstrumentationTextField,_specialInstrumentationNumberField,_specialInstrumentationContent);
+            _specialInstrumentationEntityList.add(instrumentationEntityDefault);
+            _specialInstrumentationButton.setOnAction(event -> {
+                addSpecialInstrumentationItem(0, _specialInstrumentationComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationTextField.getText(), _specialInstrumentationNumberField.getNumber().intValue());
             });
 
-            _specialInstrumentationEntityList.add(specialInstrumentationEntity);
-        });
+            _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
+            _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
+            _specialInstrumentationPane.setMaxHeight(250);
+            _specialInstrumentationPane.setMinWidth(265);
 
-        _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
-        _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
-        _specialInstrumentationPane.setMaxHeight(250);
-        _specialInstrumentationPane.setMinWidth(265);
+            pane.add(_specialInstrumentationPane, 8, 3);
+            pane.setRowSpan(_specialInstrumentationPane, 6);
+            pane.setColumnSpan(_specialInstrumentationPane, 4);
 
-        pane.add(_specialInstrumentationPane, 8, 3);
-        pane.setRowSpan(_specialInstrumentationPane, 6);
-        pane.setColumnSpan(_specialInstrumentationPane, 4);
-
-        return pane;
+           return pane;
     }
 
     public void addInstrumentation() {
@@ -452,6 +423,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             tmpNumberField = new NumberField(specialInstrumentationCount, _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
             tmpPane.addColumn(2, tmpNumberField);
             tmpNumberField.setMaxWidth(60);
+            tmpNumberField.setStyle("-fx-opacity: 1");
         } catch (NumberRangeException e) {
         }
 
@@ -497,13 +469,14 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         SpecialInstrumentation specialInstrumentation;
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            specialInstrumentation = new SpecialInstrumentation();
-            specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-            specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
-            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
-
-            specialInstrumentationList.add(specialInstrumentation);
+                if ((!item.getSpecialInstrumentationTextField().getText().trim().isEmpty()) && (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0)) {
+                    specialInstrumentation = new SpecialInstrumentation();
+                    specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+                    specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+                    specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
+                    specialInstrumentationList.add(specialInstrumentation);
+            }
         }
 
         instrumentation.setSpecialInstrumentation(specialInstrumentationList);

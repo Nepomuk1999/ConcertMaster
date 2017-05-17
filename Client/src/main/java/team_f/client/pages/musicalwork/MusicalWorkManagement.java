@@ -353,9 +353,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _specialInstrumentationNumberField.setMaxWidth(60);
         _specialInstrumentationContent.addColumn(2, _specialInstrumentationNumberField);
         _specialInstrumentationButton = new Button("+");
-        _specialInstrumentationButton.setOnAction(event -> {
-            addSpecialInstrumentationItem(0, _specialInstrumentationComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationTextField.getText(), _specialInstrumentationNumberField.getNumber().intValue());
-        });
+        SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0,_specialInstrumentationComboBox,_specialInstrumentationTextField,_specialInstrumentationNumberField,_specialInstrumentationContent);
+        _specialInstrumentationEntityList.add(instrumentationEntityDefault);
+        _specialInstrumentationButton.setOnAction(event ->
+                addSpecialInstrumentationItem(0, _specialInstrumentationComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationTextField.getText(), _specialInstrumentationNumberField.getNumber().intValue()));
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
         _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
@@ -486,7 +487,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
 
-        _specialInstrumentationEntityList.add(specialInstrumentationEntity);
+         _specialInstrumentationEntityList.add(specialInstrumentationEntity);
     }
 
     private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
@@ -527,13 +528,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         SpecialInstrumentation specialInstrumentation;
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            specialInstrumentation = new SpecialInstrumentation();
-            specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-            specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
-            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
-            System.out.println(item.getSpecialInstrumentationTextField().getText());
-            specialInstrumentationList.add(specialInstrumentation);
+                if ((!item.getSpecialInstrumentationTextField().getText().trim().isEmpty()) && (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0)) {
+                    specialInstrumentation = new SpecialInstrumentation();
+                    specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+                    specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+                    specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
+                    specialInstrumentationList.add(specialInstrumentation);
+                }
         }
 
         musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
