@@ -13,6 +13,7 @@ import team_f.client.exceptions.NumberRangeException;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
+import team_f.domain.enums.InstrumentationProperty;
 import team_f.domain.enums.MusicalWorkProperty;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.*;
@@ -677,7 +678,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         if (error.equals(MusicalWorkProperty.TITLE.toString())) {
             _nameField.setStyle("-fx-border-color: red");
         }
-        if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+        if (error.equals(InstrumentationProperty.ALLZERO.toString())) {
             for (BigDecimalField field : _fields) {
                 field.setStyle("-fx-border-color: red");
             }
@@ -691,9 +692,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
        _nameField.setStyle("-fx-border-color: green");
         _composerField.setStyle("-fx-border-color: green");
 
-        for (BigDecimalField field : _fields) {
+       /* for (BigDecimalField field : _fields) {
                 field.setStyle("-fx-border-color: green");
-        }
+        }*/
     }
 
     private void setNumberfieldWidth(){

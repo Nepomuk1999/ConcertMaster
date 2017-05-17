@@ -14,6 +14,7 @@ import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicalwork.MusicalWorkHelper;
 import team_f.client.pages.musicalwork.SpecialInstrumentationEntity;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
+import team_f.domain.enums.InstrumentationProperty;
 import team_f.domain.enums.MusicalWorkProperty;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
@@ -598,12 +599,12 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
-        setBorder();
+        //setBorder();
         String error;
         List<Error> errorList=occuredErrors.get(0).getValue();
         for(int x=0;x<errorList.size();x++) {
             error = errorList.get(x).getKey().toString();
-            if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+            if (error.equals(InstrumentationProperty.ALLZERO.toString())) {
                 for (BigDecimalField field : _fields) {
                     field.setStyle("-fx-border-color: red");
                 }

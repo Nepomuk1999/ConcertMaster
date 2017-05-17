@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.InstrumentationProperty;
+import team_f.domain.enums.MusicalWorkProperty;
 import team_f.domain.helper.IntegerHelper;
 import team_f.domain.interfaces.EntityLogic;
 
@@ -29,7 +30,7 @@ public class InstrumentationLogic implements EntityLogic<Instrumentation, Instru
         }
 
         if (allZero) {
-            resultList.add(new Pair<>("", "All inputs are 0!"));
+            resultList.add(new Pair<>(String.valueOf(InstrumentationProperty.ALLZERO.toString()), "All inputs are 0!"));
         }
 
         return resultList;
