@@ -65,7 +65,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianManagement.css");
         getStylesheets().add(Style.toString());
 
-        _fieldsList=new ArrayList<>();
+        _fieldsList = new ArrayList<>();
         //textfields
         _firstNameField = new TextField();
         _lastNameField = new TextField();
@@ -74,7 +74,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _phoneField = new TextField();
         _usernameField = new TextField();
 
-        _fieldsList=new ArrayList(){{
+        _fieldsList = new ArrayList(){{
             add(_firstNameField);
             add(_lastNameField);
             add(_addressField);
@@ -93,7 +93,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _comboBoxAccountRole = new ComboBox<>(_accountRoleList);
         _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(0).getValue()));
 
-        _comboboxList=new ArrayList(){{
+        _comboboxList = new ArrayList(){{
             add(_comboBoxSectionType);
             add(_comboBoxAccountRole);
             add(_comboBoxGender);
@@ -203,7 +203,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> editPerson());
 
-        _filterField =new TextField();
+        _filterField = new TextField();
         _filterField.setPromptText("First- or Lastname");
         _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue.trim().isEmpty()) {
@@ -309,7 +309,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.add(_addButton, 4, 7);
         pane.add(_updateButton, 4, 7);
         pane.add(_cancelButton, 0, 7);
-        Label labelRequired=new Label("*...Required Fields");
+        Label labelRequired = new Label("*...Required Fields");
         labelRequired.setMinWidth(100);
         pane.add(labelRequired, 0, 8);
         return pane;

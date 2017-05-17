@@ -16,7 +16,7 @@ public class HomeScreen extends BasePage<Void, NullType, NullType, NullType> {
     @Override
     public void initialize() {
         Image image1 = new Image("Logo Neu.jpg");
-        BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
+        BackgroundSize bSize = new BackgroundSize(100, 100, true, true, true, false);
 
         this.setBackground(new Background(new BackgroundImage(image1,
                 BackgroundRepeat.NO_REPEAT,

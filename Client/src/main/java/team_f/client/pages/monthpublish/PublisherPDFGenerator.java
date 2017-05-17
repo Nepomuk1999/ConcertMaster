@@ -44,7 +44,7 @@ public class PublisherPDFGenerator {
          }
 
         protected String parseToPath(String directory){
-             StringBuilder finalPath=new StringBuilder();
+             StringBuilder finalPath = new StringBuilder();
              for(int i=0; i<directory.length();i++){
                  if (directory.charAt(i)=='\\') {
                      finalPath.append('/');
@@ -64,7 +64,7 @@ public class PublisherPDFGenerator {
             img.setFixedPosition(600 , 500 );
             doc.add(img);
 
-            Paragraph p=new Paragraph("Schedule for:"+" "+_date);
+            Paragraph p = new Paragraph("Schedule for:"+" "+_date);
             p.setFont(_bold);
             p.setFontSize(20);
             p.setMarginTop(35);

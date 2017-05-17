@@ -285,7 +285,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.add(_addButton, 8, 9);
         pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
-        Label labelRequired=new Label("*...Required Fields");
+        Label labelRequired = new Label("*...Required Fields");
         labelRequired.setMinWidth(100);
         pane.add(labelRequired, 0, 10);
 
@@ -550,9 +550,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     public void fillFields(Instrumentation instrumentation) {
-        /*if (instrumentation.getName() != null) {
-            _nameField.setText(instrumentation.getName());
-        }*/
         if (instrumentation != null) {
             _firstViolinField.setNumber(new BigDecimal(instrumentation.getViolin1()));
             _secondViolinField.setNumber(new BigDecimal(instrumentation.getViolin2()));

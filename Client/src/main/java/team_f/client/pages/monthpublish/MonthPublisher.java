@@ -163,11 +163,11 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         });
 
         //Title Label
-        Label titlePublisher=new Label("Publisher");
+        Label titlePublisher = new Label("Publisher");
         titlePublisher.setId("titlePublisher");
 
 
-        Label titlePdfConverter=new Label("PDF Converter");
+        Label titlePdfConverter = new Label("PDF Converter");
         titlePdfConverter.setId("titlePdfConverter");
 
         //Event Pane
@@ -184,13 +184,13 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         pane.add(_selectedPath, 10, 3);
         pane.add(pdfGeneratorButton, 11, 3);
 
-        HBox buttonsBox=new HBox(publishButton, unpublishButton);
+        HBox buttonsBox = new HBox(publishButton, unpublishButton);
         buttonsBox.setSpacing(10);
 
         _root = new VBox(25);
         _root.getChildren().addAll(pane,_table,buttonsBox);
 
-        BorderPane borderPane=new BorderPane();
+        BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
 
         borderPane.setCenter(_root);

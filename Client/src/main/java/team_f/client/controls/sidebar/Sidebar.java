@@ -1,17 +1,16 @@
 package team_f.client.controls.sidebar;
 
 import javafx.scene.control.Accordion;
-import javafx.scene.layout.Pane;
-
+import javafx.scene.control.ScrollPane;
 import java.util.Collection;
 
-public class Sidebar extends Pane {
+public class Sidebar extends ScrollPane {
     private Accordion _accordion;
 
     public Sidebar() {
         _accordion = new Accordion();
         _accordion.setStyle("-fx-background-color: #e0e0d1");
-        getChildren().add(_accordion);
+        setContent(_accordion);
     }
 
     public boolean add(MenuSection menuSection) {

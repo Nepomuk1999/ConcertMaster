@@ -46,7 +46,7 @@ public class MusicianPDFGenerator {
     }
 
     protected String parseToPath(String directory){
-        StringBuilder finalPath=new StringBuilder();
+        StringBuilder finalPath = new StringBuilder();
         for(int i=0; i<directory.length();i++){
             if (directory.charAt(i)=='\\') {
                 finalPath.append('/');

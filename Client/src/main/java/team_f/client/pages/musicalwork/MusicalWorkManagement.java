@@ -182,7 +182,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _deleteButton.setMinWidth(125);
         _deleteButton.setOnAction(e -> deleteMusicalWork());
 
-        _filterField =new TextField();
+        _filterField = new TextField();
         _filterField.setPromptText("Name- or Composer");
         _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue.trim().isEmpty()) {
@@ -333,7 +333,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(_addButton, 8, 9);
         pane.add(_updateButton, 8, 9);
         pane.add(_cancelButton, 0, 9);
-        Label labelRequired=new Label("*...Required Fields");
+        Label labelRequired = new Label("*...Required Fields");
         labelRequired.setMinWidth(100);
         pane.add(labelRequired, 0, 10);
 
@@ -659,26 +659,24 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
-    setBorder();
-    String error;
-    List<Error> errorList=occuredErrors.get(0).getValue();
-             for(int x=0;x<errorList.size();x++) {
-        error = errorList.get(x).getKey().toString();
-        if (error.equals(MusicalWorkProperty.CONDUCTOR.toString())) {
-            _composerField.setStyle("-fx-border-color: red");
-        }
-        if (error.equals(MusicalWorkProperty.TITLE.toString())) {
-            _nameField.setStyle("-fx-border-color: red");
-        }
-        if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
-            for (BigDecimalField field : _fields) {
-                field.setStyle("-fx-border-color: red");
+        setBorder();
+        String error;
+        List<Error> errorList=occuredErrors.get(0).getValue();
+        for(int x=0;x<errorList.size();x++) {
+            error = errorList.get(x).getKey().toString();
+            if (error.equals(MusicalWorkProperty.CONDUCTOR.toString())) {
+                _composerField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(MusicalWorkProperty.TITLE.toString())) {
+                _nameField.setStyle("-fx-border-color: red");
+            }
+            if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+                for (BigDecimalField field : _fields) {
+                    field.setStyle("-fx-border-color: red");
+                }
             }
         }
-
     }
-
-}
 
     private void setBorder() {
        _nameField.setStyle("-fx-border-color: green");
@@ -731,5 +729,4 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _workTable.getSortOrder().clear();
         _workTable.getSortOrder().addAll(sortOrder);
     }
-
 }

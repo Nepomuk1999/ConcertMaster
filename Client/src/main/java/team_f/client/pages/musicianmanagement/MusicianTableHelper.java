@@ -191,7 +191,7 @@ public class MusicianTableHelper {
         List<InstrumentType> doublebass= Arrays.asList(InstrumentType.DOUBLEBASS);
         List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM);
         List<InstrumentType> violincello= Arrays.asList(InstrumentType.VIOLONCELLO);
-        LinkedList<List> sections=new LinkedList<>();
+        LinkedList<List> sections = new LinkedList<>();
         sections.add(brass);
         sections.add(doublebass);
         sections.add(percussion);

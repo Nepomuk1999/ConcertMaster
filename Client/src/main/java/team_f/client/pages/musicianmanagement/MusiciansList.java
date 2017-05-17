@@ -59,7 +59,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _section = new Label();
         _gender = new Label();
 
-        _labelList=new ArrayList<Label>() {{
+        _labelList = new ArrayList<Label>() {{
             add(_id);
             add(_firstname);
             add(_lastname);
@@ -161,7 +161,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             if (selectedFile != null) {
                 List<Person> items = _musicianList.getItems();
                 try {
-                   ListPDFGenerator main=new ListPDFGenerator(_musicianList.getItems(),selectedFile.getAbsolutePath());
+                   ListPDFGenerator main = new ListPDFGenerator(_musicianList.getItems(),selectedFile.getAbsolutePath());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -182,7 +182,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         Label titleList = new Label("Musician List");
         titleList.setId("titleList");
 
-        _filterField =new TextField();
+        _filterField = new TextField();
         _filterField.setMaxWidth(200);
         _filterField.setPromptText("First- or Lastname");
         _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -201,7 +201,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         listBox.setAlignment(Pos.TOP_CENTER);
         listBox.getChildren().addAll(titleList, searchField, _musicianList, ListToPdfButton);
 
-        TextField space=new TextField(" ");
+        TextField space = new TextField(" ");
         space.setVisible(false);
 
         VBox personBox = new VBox(20);

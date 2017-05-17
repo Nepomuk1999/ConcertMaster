@@ -41,7 +41,7 @@ public class ListPDFGenerator {
     }
 
     protected String parseToPath(String directory){
-        StringBuilder finalPath=new StringBuilder();
+        StringBuilder finalPath = new StringBuilder();
         for(int i=0; i<directory.length();i++){
             if (directory.charAt(i)=='\\') {
                 finalPath.append('/');
@@ -61,7 +61,7 @@ public class ListPDFGenerator {
         img.setFixedPosition(600 , 500 );
         doc.add(img);
 
-        Paragraph p=new Paragraph("Musician List");
+        Paragraph p = new Paragraph("Musician List");
         p.setFont(_bold);
         p.setFontSize(20);
         p.setMarginTop(35);
