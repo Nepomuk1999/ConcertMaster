@@ -106,7 +106,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
 
         gridPane.add(new Label("ID"), 0, 0);
         gridPane.add(new Label("Initials:"), 0, 2);
-        gridPane.add(new Label("Gender:"), 2, 2);
+        gridPane.add(new Label("Sex:"), 2, 2);
         gridPane.add(new Label("First Name:"), 0, 4);
         gridPane.add(new Label("Last Name:"), 2, 4);
         gridPane.add(new Label("Username:"), 0, 6);

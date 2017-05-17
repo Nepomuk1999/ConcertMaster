@@ -247,7 +247,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         pane.add(new Label("Instruments:*"), 2, 1);
         pane.add(_comboBoxInstrumentType, 2, 2);
 
-        pane.add(new Label("Gender:*"), 0, 3);
+        pane.add(new Label("Sex:*"), 0, 3);
         pane.add(_comboBoxGender, 0, 4);
         pane.add(new Label("First Name:*"), 1, 3);
         pane.add(_firstNameField, 1, 4);

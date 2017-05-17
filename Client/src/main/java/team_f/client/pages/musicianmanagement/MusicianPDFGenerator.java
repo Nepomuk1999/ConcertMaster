@@ -92,7 +92,7 @@ public class MusicianPDFGenerator {
                 table.addCell(" ");
             }
 
-            table.addCell(new Cell().setFont(_bold).add("Gender"));
+            table.addCell(new Cell().setFont(_bold).add("Sex"));
             if(_person.getGender()!=null){
                 table.addCell(new Cell().add(_person.getGender().toString()));
             } else {

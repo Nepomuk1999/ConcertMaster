@@ -72,7 +72,7 @@ public class ListPDFGenerator {
 
         table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Gender"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Sex"));
         table.addHeaderCell(new Cell().setFont(_bold).add("First Name"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Last Name"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Address"));
