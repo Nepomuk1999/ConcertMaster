@@ -29,7 +29,7 @@ public class InstrumentationLogic implements EntityLogic<Instrumentation, Instru
         }
 
         if (allZero) {
-            resultList.add(new Pair<>("", "All inputs are 0!"));
+            resultList.add(new Pair<>(String.valueOf(InstrumentationProperty.ALLZERO.toString()), "All inputs are 0!"));
         }
 
         return resultList;

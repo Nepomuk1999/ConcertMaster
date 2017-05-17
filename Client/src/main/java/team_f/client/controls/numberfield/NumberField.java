@@ -3,6 +3,7 @@ package team_f.client.controls.numberfield;
 import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.exceptions.NumberRangeException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.*;
 
 public class NumberField extends BigDecimalField {
@@ -61,6 +62,7 @@ public class NumberField extends BigDecimalField {
     @Override
     public String getUserAgentStylesheet() {
         // workaround for jfxtras
-        return BigDecimalField.class.getResource("/jfxtras/labs/internal/scene/control/" + BigDecimalField.class.getSimpleName() + ".css").toExternalForm();
+        final String Style = ClassLoader.getSystemResource("style/BigDecimalField.css").toExternalForm();
+        return Style;
     }
 }

@@ -16,5 +16,7 @@ public enum InstrumentationProperty {
     TUBE,
     KETTLEDRUM,
     PERCUSSION,
-    HARP
+    HARP,
+
+    ALLZERO
 }

@@ -15,7 +15,6 @@ import team_f.client.pages.BaseTablePage;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
-import team_f.jsonconnector.entities.Pair;
 import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
 import team_f.jsonconnector.enums.properties.MusicalWorkProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
@@ -354,9 +353,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _specialInstrumentationNumberField.setMaxWidth(60);
         _specialInstrumentationContent.addColumn(2, _specialInstrumentationNumberField);
         _specialInstrumentationButton = new Button("+");
-        _specialInstrumentationButton.setOnAction(event -> {
-            addSpecialInstrumentationItem(0, _specialInstrumentationComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationTextField.getText(), _specialInstrumentationNumberField.getNumber().intValue());
-        });
+        SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0,_specialInstrumentationComboBox,_specialInstrumentationTextField,_specialInstrumentationNumberField,_specialInstrumentationContent);
+        _specialInstrumentationEntityList.add(instrumentationEntityDefault);
+        _specialInstrumentationButton.setOnAction(event ->
+                addSpecialInstrumentationItem(0, _specialInstrumentationComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationTextField.getText(), _specialInstrumentationNumberField.getNumber().intValue()));
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
         _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
@@ -487,7 +487,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
 
         tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
 
-        _specialInstrumentationEntityList.add(specialInstrumentationEntity);
+         _specialInstrumentationEntityList.add(specialInstrumentationEntity);
     }
 
     private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
@@ -528,13 +528,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         SpecialInstrumentation specialInstrumentation;
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            specialInstrumentation = new SpecialInstrumentation();
-            specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-            specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-            specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
-            specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
-
-            specialInstrumentationList.add(specialInstrumentation);
+                if ((!item.getSpecialInstrumentationTextField().getText().trim().isEmpty()) && (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0)) {
+                    specialInstrumentation = new SpecialInstrumentation();
+                    specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+                    specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+                    specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
+                    specialInstrumentationList.add(specialInstrumentation);
+                }
         }
 
         musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
@@ -654,8 +655,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            removeSpecialInstrumentationItem(item);
+            item.getSpecialInstrumentationTextField().clear();
+            item.getSpecialInstrumentationNumberField().setNumber(BigDecimal.ZERO);
+            item.getSectionTypeComboBox().getSelectionModel().selectFirst();
+            _specialInstrumentationContent.getChildren().remove(item.getPane());
         }
+        _specialInstrumentationEntityList.clear();
+        SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0,_specialInstrumentationComboBox,_specialInstrumentationTextField,_specialInstrumentationNumberField,_specialInstrumentationContent);
+        _specialInstrumentationEntityList.add(instrumentationEntityDefault);
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
@@ -682,9 +689,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
        _nameField.setStyle("-fx-border-color: green");
         _composerField.setStyle("-fx-border-color: green");
 
-        for (BigDecimalField field : _fields) {
+       /* for (BigDecimalField field : _fields) {
                 field.setStyle("-fx-border-color: green");
-        }
+        }*/
     }
 
     private void setNumberfieldWidth(){

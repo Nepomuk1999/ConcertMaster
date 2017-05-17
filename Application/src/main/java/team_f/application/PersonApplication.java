@@ -4,7 +4,6 @@ import javafx.util.Pair;
 import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
-import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
 import team_f.domain.enums.properties.AccountProperty;
@@ -42,8 +41,8 @@ public class PersonApplication {
             Pair<InstrumentType, List<Person>> pair = new Pair<>(instrumentType, instrumentList);
 
             for (Person person : persons) {
-                for(Instrument instrument : person.getInstruments()) {
-                    if(instrument.getInstrumentType() == instrumentType) {
+                for(InstrumentType instrument : person.getPlayedInstruments()) {
+                    if(instrument == instrumentType) {
                         instrumentList.add(person);
                     }
                 }
