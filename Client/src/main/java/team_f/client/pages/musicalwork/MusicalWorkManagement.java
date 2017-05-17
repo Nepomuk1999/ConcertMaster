@@ -384,7 +384,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                 if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1 && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey() != null && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey().getMusicalWorkID() > 0) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                   // _table.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                   // _workTable.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
                     _masterData.add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
                     update();
                     reset();
@@ -413,8 +413,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                 if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                    //_table.getItems().remove(musicalWork);
-                    //_table.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                    //_workTable.getItems().remove(musicalWork);
+                    //_workTable.getItems().add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
                     _masterData.remove(musicalWork);
                     _masterData.add(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
                     markInvalidFields(errorList);
@@ -442,7 +442,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                 if (tmpErrorText.isEmpty() && resultMusicalWorkErrorList.getKeyValueList().size() == 1 && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey() != null && resultMusicalWorkErrorList.getKeyValueList().get(0).getKey().getMusicalWorkID() > 0) {
                     showSuccessMessage("Successful", tmpErrorText);
 
-                   // _table.getItems().remove(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
+                   // _workTable.getItems().remove(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
                     _masterData.remove(resultMusicalWorkErrorList.getKeyValueList().get(0).getKey());
                     update();
                     return;
@@ -545,7 +545,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             List<MusicalWork> musicalWorkList = _loadList.doAction(musicalWorkParameter);
 
             if (musicalWorkList != null) {
-                //_table.setItems(FXCollections.observableList(musicalWorkList));
+                //_workTable.setItems(FXCollections.observableList(musicalWorkList));
                 _masterData.setAll(musicalWorkList);
                 update();
             } else {

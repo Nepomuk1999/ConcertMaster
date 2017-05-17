@@ -1,11 +1,12 @@
 package team_f.client.pages.musicianmanagement;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import team_f.client.pages.BaseTablePage;
@@ -13,6 +14,7 @@ import team_f.jsonconnector.entities.Person;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,12 +32,19 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
     private Label _accountrole;
     private Label _instruments;
     private Label _gender;
-    private TableView<Person> _table;
+
+    private TableView<Person> _musicianList;
+    private List<Label> _labelList;
+
+    private ObservableList<Person> _masterData = FXCollections.observableArrayList();
+    private ObservableList<Person> _filteredData = FXCollections.observableArrayList();
+    private TextField _filterField;
 
     @Override
     public void initialize() {
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianList.css");
         getStylesheets().add(Style.toString());
+
         _id = new Label();
         _firstname = new Label();
         _lastname = new Label();
@@ -49,22 +58,43 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _initials = new Label();
         _section = new Label();
         _gender = new Label();
-        _table = new TableView();
+
+        _labelList=new ArrayList<Label>() {{
+            add(_id);
+            add(_firstname);
+            add(_lastname);
+            add(_username);
+            add(_phonenumber);
+            add(_address);
+            add(_email);
+            add(_personrole);
+            add(_accountrole);
+            add(_instruments);
+            add(_initials);
+            add(_section);
+            add(_gender);
+        }};
 
         BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
 
-        _table.setMinHeight(450);
-        _table.setMinWidth(450);
-        _table.setEditable(false);
-        _table.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        _table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        _table.getColumns().addAll(MusicianTableHelper.getFirstNameColumn(), MusicianTableHelper.getLastNameColumn());
-        _table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        _musicianList = new TableView();
+        _musicianList.setMinHeight(450);
+        _musicianList.setMinWidth(450);
+        _musicianList.setEditable(false);
+        _musicianList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        _musicianList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _musicianList.getColumns().addAll(MusicianTableHelper.getFirstNameColumn(), MusicianTableHelper.getLastNameColumn());
+        _musicianList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                setFields(_table.getSelectionModel().getSelectedItem());
+                reset();
+                setFields(_musicianList.getSelectionModel().getSelectedItem());
             }
         });
+
+        _filteredData.addAll(_masterData);
+        _musicianList.setItems(_filteredData);
+        _masterData.addListener((ListChangeListener<Person>) change -> updateFilteredData());
 
         GridPane gridPane = new GridPane();
         gridPane.setId("gridpane");
@@ -114,7 +144,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             if (selectedFile != null) {
 
                 try {
-                    MusicianPDFGenerator main = new MusicianPDFGenerator(_table.getSelectionModel().getSelectedItem(),selectedFile.getAbsolutePath());
+                    MusicianPDFGenerator main = new MusicianPDFGenerator(_musicianList.getSelectionModel().getSelectedItem(),selectedFile.getAbsolutePath());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,16 +159,16 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             File selectedFile = fileChooser.showSaveDialog(new Stage());
 
             if (selectedFile != null) {
-                List<Person> items = _table.getItems();
+                List<Person> items = _musicianList.getItems();
                 try {
-                   ListPDFGenerator main=new ListPDFGenerator(_table.getItems(),selectedFile.getAbsolutePath());
+                   ListPDFGenerator main=new ListPDFGenerator(_musicianList.getItems(),selectedFile.getAbsolutePath());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        _table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        _musicianList.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 MusicianToPdfButton.setDisable(false);
             } else {
@@ -152,14 +182,31 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         Label titleList = new Label("Musician List");
         titleList.setId("titleList");
 
+        _filterField =new TextField();
+        _filterField.setMaxWidth(200);
+        _filterField.setPromptText("First- or Lastname");
+        _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.trim().isEmpty()) {
+                updateFilteredData();
+            }else{
+                updateFilteredData();
+            }
+        });
+
+        HBox searchField = new HBox(20);
+        searchField.setAlignment(Pos.TOP_CENTER);
+        searchField.getChildren().addAll(new Label("Search:"), _filterField);
+
         VBox listBox = new VBox(20);
         listBox.setAlignment(Pos.TOP_CENTER);
-        listBox.getChildren().addAll(titleList, _table, ListToPdfButton);
+        listBox.getChildren().addAll(titleList, searchField, _musicianList, ListToPdfButton);
+
+        TextField space=new TextField(" ");
+        space.setVisible(false);
 
         VBox personBox = new VBox(20);
         personBox.setAlignment(Pos.TOP_CENTER);
-        personBox.getChildren().addAll(titleMusician, gridPane, MusicianToPdfButton);
-
+        personBox.getChildren().addAll(titleMusician, space, gridPane, MusicianToPdfButton);
 
         HBox root = new HBox(20);
         root.getChildren().addAll(listBox, personBox);
@@ -179,8 +226,8 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
 
     @Override
     public void update() {
-        _table.getColumns().clear();
-        _table.getColumns().addAll(MusicianTableHelper.getFirstNameColumn(), MusicianTableHelper.getLastNameColumn());
+        _musicianList.getColumns().clear();
+        _musicianList.getColumns().addAll(MusicianTableHelper.getFirstNameColumn(), MusicianTableHelper.getLastNameColumn());
     }
 
     @Override
@@ -199,7 +246,8 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             List<Person> personList = _loadList.doAction(personParameter);
 
             if (personList != null) {
-                _table.setItems(FXCollections.observableList(personList));
+               // _musicianList.setItems(FXCollections.observableList(personList));
+                _masterData.setAll(personList);
                 update();
             }
         }
@@ -248,6 +296,47 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             _email.setText(person.getEmail().toString());
         }
 
+    }
+
+    private void reset(){
+        for(Label label:_labelList){
+            label.setText(" ");
+        }
+    }
+
+    private void updateFilteredData() {
+        _filteredData.clear();
+
+        for (Person p : _masterData) {
+            if (matchesFilter(p)) {
+                _filteredData.add(p);
+            }
+        }
+        _musicianList.setItems(_filteredData);
+        reapplyTableSortOrder();
+    }
+    private boolean matchesFilter(Person person) {
+        String filterString = _filterField.getText();
+        if (filterString == null || filterString.isEmpty()) {
+            // No filter --> Add all.
+            return true;
+        }
+
+        String lowerCaseFilterString = filterString.toLowerCase();
+
+        if (person.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        } else if (person.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void reapplyTableSortOrder() {
+        ArrayList<TableColumn<Person, ?>> sortOrder = new ArrayList<>(_musicianList.getSortOrder());
+        _musicianList.getSortOrder().clear();
+        _musicianList.getSortOrder().addAll(sortOrder);
     }
 
 }

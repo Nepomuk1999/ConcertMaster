@@ -9,6 +9,7 @@ import team_f.client.converter.PersonConverter;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
+import team_f.client.singletons.MusiciansListSingleton;
 import team_f.domain.enums.AccountProperty;
 import team_f.domain.enums.PersonProperty;
 import team_f.jsonconnector.entities.Account;
@@ -340,6 +341,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 } else {
                     showErrorMessage("Error", tmpErrorText);
                     markInvalidFields(errorList);
+                    update();
                 }
             } else {
                 showTryAgainLaterErrorMessage();
@@ -372,6 +374,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 } else {
                     showErrorMessage("Error", tmpErrorText);
                     markInvalidFields(errorList);
+                    update();
                 }
             } else {
                 showTryAgainLaterErrorMessage();
@@ -587,16 +590,15 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                     field.setStyle("-fx-border-color: red");
                 } else {
                     field.setStyle("-fx-border-color: green");
-
                 }
-                field.textProperty().addListener((observable1, oldValue1, newValue1) -> {
-                    if (newValue1.trim().isEmpty()) {
-                        field.setStyle("-fx-border-color: red");
-                    } else {
-                        field.setStyle("-fx-border-color: green");
-                    }
+            });
 
-                });
+            field.textProperty().addListener((observable1, oldValue1, newValue1) -> {
+                if (newValue1.trim().isEmpty()) {
+                    field.setStyle("-fx-border-color: red");
+                } else {
+                    field.setStyle("-fx-border-color: green");
+                }
             });
         }
     }
