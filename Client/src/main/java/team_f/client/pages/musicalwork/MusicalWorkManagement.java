@@ -532,7 +532,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
             specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
             specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentationTextField().getText());
-
+            System.out.println(item.getSpecialInstrumentationTextField().getText());
             specialInstrumentationList.add(specialInstrumentation);
         }
 

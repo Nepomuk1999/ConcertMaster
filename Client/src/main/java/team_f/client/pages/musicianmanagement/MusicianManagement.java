@@ -1,5 +1,4 @@
 package team_f.client.pages.musicianmanagement;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -647,4 +646,3 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
 
 }
-
