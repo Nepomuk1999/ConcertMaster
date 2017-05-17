@@ -30,11 +30,11 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
 
         List<InstrumentTypeEntity> instrumentTypeEntities = query.getResultList();
         List<InstrumentType> instrumentTypes = new ArrayList<>(instrumentTypeEntities.size());
-        InstrumentType instrument;
+        InstrumentType instrumentType;
 
         for (InstrumentTypeEntity entity : instrumentTypeEntities) {
-            instrument = convertToInstrumentType(entity);
-            instrumentTypes.add(instrument);
+            instrumentType = convertToInstrumentType(entity);
+            instrumentTypes.add(instrumentType);
         }
 
         return instrumentTypes;
