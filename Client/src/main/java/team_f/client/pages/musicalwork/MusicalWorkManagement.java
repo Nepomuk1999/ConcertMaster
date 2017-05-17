@@ -305,6 +305,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
+            _filterField.setDisable(true);
             fillFields(_workTable.getSelectionModel().getSelectedItem());
         });
 
@@ -645,6 +646,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _deleteButton.setDisable(true);
         _updateButton.setVisible(false);
         _cancelButton.setText("Clear");
+        _filterField.setDisable(false);
 
         for (BigDecimalField field : _fields) {
             field.setNumber(new BigDecimal(0));

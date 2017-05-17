@@ -195,6 +195,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             _editButton.setDisable(true);
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
+            _filterField.setDisable(true);
             fillFields((Person) _musicianTable.getSelectionModel().getSelectedItem());
         });
 
@@ -416,6 +417,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             if (personList != null) {
                 //_musicianTable.setItems(FXCollections.observableList(personList));
                 _masterData.setAll(personList);
+                if(_filterField!=null){
+                    _filterField.clear();
+                }
                 update();
             } else {
                 showTryAgainLaterErrorMessage();
@@ -580,6 +584,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _deleteButton.setDisable(true);
         _updateButton.setVisible(false);
         _cancelButton.setText("Clear");
+        _filterField.setDisable(false);
         _musicianTable.getSelectionModel().clearSelection();
     }
 
