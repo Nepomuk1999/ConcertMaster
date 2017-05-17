@@ -653,8 +653,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            removeSpecialInstrumentationItem(item);
+            _specialInstrumentationContent.getChildren().remove(item.getPane());
         }
+        _specialInstrumentationEntityList.clear();
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {

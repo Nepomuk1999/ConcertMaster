@@ -611,9 +611,11 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
             field.setNumber(new BigDecimal(0));
             field.setStyle("-fx-border-color: transparent");
         }
+
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            removeSpecialInstrumentationItem(item);
+            _specialInstrumentationContent.getChildren().remove(item.getPane());
         }
+        _specialInstrumentationEntityList.clear();
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
