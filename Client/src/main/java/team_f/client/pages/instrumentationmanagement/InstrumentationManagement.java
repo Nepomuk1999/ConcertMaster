@@ -54,7 +54,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private NumberField _percussionField;
     private NumberField _harpField;
 
-    //SpecialInstrumentationriv
+    //SpecialInstrumentation
     private ScrollPane _specialInstrumentationPane;
     private GridPane _specialInstrumentationContent;
     private ComboBox<KeyValuePair> _specialInstrumentationComboBox;
