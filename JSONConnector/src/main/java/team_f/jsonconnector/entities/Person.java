@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.*;
+import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.List;
 
@@ -144,5 +145,18 @@ public class Person implements JSONObjectEntity {
     @Override
     public String toString() {
         return getDisplayName();
+    }
+
+    public String getListToString() {
+        StringBuilder sb = new StringBuilder();
+        if(_instrumentTypeList != null) {
+            for (InstrumentType instrumentType : _instrumentTypeList) {
+                if(!sb.toString().isEmpty()) {
+                    sb.append(", ");
+                }
+                sb.append(instrumentType);
+            }
+        }
+        return sb.toString();
     }
 }

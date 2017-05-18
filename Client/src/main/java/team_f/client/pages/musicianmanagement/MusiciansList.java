@@ -282,11 +282,11 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         }
 
         // @TODO: fix issues
-        /*
-        if (person.getInstrumentType() != null) {
-            _instruments.setText(person.getInstrumentType().name());
+
+        if (person.getListToString() != null) {
+            _instruments.setText(person.getListToString());
         }
-        */
+
 
         if (person.getInitials() != null) {
             _initials.setText(person.getInitials().toString());

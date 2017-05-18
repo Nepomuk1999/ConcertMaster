@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.client.entities.KeyValuePair;
+import team_f.jsonconnector.entities.Instrument;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.*;
 
@@ -71,7 +72,7 @@ public class MusicianTableHelper {
 
     public static TableColumn<Person, String> getInstrumentColumn() {
         TableColumn<Person, String> countryCol = new TableColumn<>("Instrument Type");
-        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrumentType");
+        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("listToString");
         countryCol.setCellValueFactory(countryCellValueFactory);
         return countryCol;
     }
@@ -153,7 +154,6 @@ public class MusicianTableHelper {
                         new KeyValuePair("Basstrombone", InstrumentType.BASSTROMBONE),
                         new KeyValuePair("Bassethorn", InstrumentType.BASSETHORN),
                         new KeyValuePair("French Horn", InstrumentType.FRENCHHORN),
-
                         new KeyValuePair("English Horn", InstrumentType.ENGLISHHORN)
                 );
 
@@ -209,13 +209,18 @@ public class MusicianTableHelper {
     //TODO: bring lists in order
     //Same order likeGetSectionTypeList
     public static LinkedList<List> getSectionInstrumentPos() {
-        List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE);
+        List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE,
+                InstrumentType.CIMBASSO, InstrumentType.WAGNERTUBA, InstrumentType.EUPHONIUM, InstrumentType.SAXOPHONE);
         List<InstrumentType> viola= Arrays.asList(InstrumentType.VIOLA);
         List<InstrumentType> violin1= Arrays.asList(InstrumentType.FIRSTVIOLIN);
         List<InstrumentType> violin2= Arrays.asList(InstrumentType.SECONDVIOLIN);
-        List<InstrumentType> woodwind= Arrays.asList(InstrumentType.FLUTE,InstrumentType.OBOE, InstrumentType.CLARINET,InstrumentType.BASSOON);
+        List<InstrumentType> woodwind= Arrays.asList(InstrumentType.FLUTE,InstrumentType.OBOE, InstrumentType.CLARINET,InstrumentType.BASSOON,
+                InstrumentType.CONTRABASSOON, InstrumentType.HECKELPHONE, InstrumentType.BASSCLARINET, InstrumentType.PICCOLO, InstrumentType.CONTRABASSTROMBONE,
+                InstrumentType.BASSTROMBONE, InstrumentType.BASSETHORN, InstrumentType.FRENCHHORN, InstrumentType.ENGLISHHORN);
         List<InstrumentType> doublebass= Arrays.asList(InstrumentType.DOUBLEBASS);
-        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM);
+        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM, InstrumentType.KETTLEDRUM, InstrumentType.PIANO,
+                InstrumentType.CELESTA, InstrumentType.ORGAN, InstrumentType.CEMBALO, InstrumentType.ACCORDEON, InstrumentType.KEYBOARD, InstrumentType.BANDONEON,
+                InstrumentType.GUITAR, InstrumentType.MANDOLIN);
         List<InstrumentType> violincello= Arrays.asList(InstrumentType.VIOLONCELLO);
         LinkedList<List> sections = new LinkedList<>();
         sections.add(brass);
@@ -256,7 +261,7 @@ public class MusicianTableHelper {
     }
 
     //Todo: change names
-    public static int[] getSectionPos(InstrumentType instrumentType) {
+    public static int[] getFirstInstrumentPos(InstrumentType instrumentType) {
         List sections = getSectionInstrumentPos();
         int sectionPos = 0;
         int instrumentPos = 0;
@@ -272,6 +277,7 @@ public class MusicianTableHelper {
         return new int[]{sectionPos, instrumentPos};
 
     }
+
 
     public static int getAccountPos(AccountRole accountRole) {
         int pos = 0;
