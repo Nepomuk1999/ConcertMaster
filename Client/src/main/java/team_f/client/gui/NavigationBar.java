@@ -100,8 +100,8 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionUserScreen);
 
         MenuSection menuSectionAdministration = new MenuSection("Administration", "/settingsM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Section Management");
-        menuSectionAdministration.add(menuSectionItem);
+        /*menuSectionItem = new MenuSectionItem("Section Management");
+        menuSectionAdministration.add(menuSectionItem);*/
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionAdministration.add(menuSectionItem);
         menuSectionItem.setOnMouseClicked(event -> {

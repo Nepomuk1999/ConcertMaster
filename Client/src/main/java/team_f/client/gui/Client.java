@@ -204,6 +204,7 @@ public class Client extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(t -> Common.closeAppWithWarning(t, primaryStage, _configuration));
+        primaryStage.setMaximized(true);
 
         primaryStage.show();
     }

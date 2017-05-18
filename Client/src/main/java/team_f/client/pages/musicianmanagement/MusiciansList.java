@@ -30,7 +30,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
     private Label _personrole;
     private Label _initials;
     private Label _accountrole;
-    private Label _instruments;
+    private TextArea _instruments;
     private Label _gender;
 
     private TableView<Person> _musicianList;
@@ -54,11 +54,12 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         _email = new Label();
         _personrole = new Label();
         _accountrole = new Label();
-        _instruments = new Label();
+        _instruments = new TextArea();
         _initials = new Label();
         _section = new Label();
         _gender = new Label();
 
+        _instruments.setEditable(false);
         _labelList = new ArrayList<Label>() {{
             add(_id);
             add(_firstname);
@@ -69,7 +70,6 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
             add(_email);
             add(_personrole);
             add(_accountrole);
-            add(_instruments);
             add(_initials);
             add(_section);
             add(_gender);
@@ -281,23 +281,13 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
             _accountrole.setText(person.getAccount().getRole().toString());
         }
 
-        // @TODO: fix issues
-
         if (person.getListToString() != null) {
-            _instruments.setText(person.getListToString());
+            _instruments.setText(person.getInstrumentsForList());
         }
-
 
         if (person.getInitials() != null) {
             _initials.setText(person.getInitials().toString());
         }
-
-        // @TODO: fix issues
-        /*
-        if (person.getInstrumentType() != null) {
-            _section.setText(person.getInstrumentType().toString());
-        }
-        */
 
         if (person.getGender() != null) {
             _gender.setText(person.getGender().toString());
@@ -312,6 +302,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         for(Label label:_labelList){
             label.setText(" ");
         }
+        _instruments.clear();
     }
 
     private void updateFilteredData() {

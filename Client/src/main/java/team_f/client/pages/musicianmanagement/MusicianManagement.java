@@ -71,7 +71,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianManagement.css");
         getStylesheets().add(Style.toString());
 
-        _fieldsList = new ArrayList<>();
         //textfields
         _firstNameField = new TextField();
         _lastNameField = new TextField();
@@ -90,6 +89,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             add(_usernameField);
         }};
 
+        //listener for marking inputfields
         addListener();
 
         //comboboxes
@@ -138,6 +138,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 _deleteButton.setDisable(true);
             }
         });
+
         update();
 
         _filteredData.addAll(_masterData);
@@ -158,17 +159,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             if (newValue != null) {
                 _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) newValue.getValue()));
                     _comboBoxInstrumentType.getSelectionModel().selectFirst();
-                    removeInstruments();
+                    clearInstrumentsComboboxes();
 
             }
-        });
-
-        //unused Listener
-        _comboBoxGender.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        });
-        _comboBoxAccountRole.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        });
-        _comboBoxInstrumentType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
         //if Role equals External-Musician-->Account fields are disabled
@@ -206,7 +199,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             _deleteButton.setDisable(true);
             _cancelButton.setText("Cancel");
             _filterField.setDisable(true);
-            fillFields((Person) _musicianTable.getSelectionModel().getSelectedItem());
+            fillFields(_musicianTable.getSelectionModel().getSelectedItem());
         });
 
         _deleteButton = new Button("Delete");
@@ -234,19 +227,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         borderPane.setId("borderPane");
         borderPane.setCenter(root);
         setCenter(borderPane);
-    }
-
-    private void removeInstruments() {
-        for(MusicianInstrumentEntity item : _playedInstrumentsList) {
-            _instrumentContent.getChildren().remove(item.getPane());
-        }
-        _playedInstrumentsList.clear();
-        _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(_comboBoxSectionType.getSelectionModel().getSelectedIndex()).getValue()));
-        _comboBoxInstrumentType.getSelectionModel().selectFirst();
-        MusicianInstrumentEntity instrumentationEntityDefault=new MusicianInstrumentEntity(0,_comboBoxInstrumentType, _instrumentContent);
-        _playedInstrumentsList.add(instrumentationEntityDefault);
-
-
     }
 
     public GridPane getNewPersonDataPane() {
@@ -338,7 +318,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         _instrumentContent = new GridPane();
         _instrumentContent.setMaxHeight(140);
-        _instrumentContent.setMaxHeight(180);
+        _instrumentContent.setMaxWidth(180);
         _instrumentContent.add( _comboBoxInstrumentType,0,2);
          _addAnotherInstrumentButton = new Button("+");
 
@@ -348,7 +328,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 if(_comboBoxInstrumentType.getItems().size()<=1){
                     return;
                 }
-                addSpecialInstrumentationItem(0, _comboBoxInstrumentType.getSelectionModel().getSelectedItem());});
+                addInstruments(0, _comboBoxInstrumentType.getSelectionModel().getSelectedItem());});
 
         _instrumentContent.add(_addAnotherInstrumentButton,2,2 );
         _instrumentContent.add(new Label("Instruments:*"),0,0);
@@ -363,14 +343,13 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         return pane;
     }
 
-    private void addSpecialInstrumentationItem(int id, KeyValuePair sectionType) {
+    private void addInstruments(int id, KeyValuePair sectionType) {
         GridPane tmpPane = new GridPane();
 
 
         ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>();
         tmpComboBox.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(_comboBoxSectionType.getSelectionModel().getSelectedIndex()).getValue()));
         tmpComboBox.getSelectionModel().selectFirst();
-        //tmpComboBox.getSelectionModel().select(sectionType);
         tmpComboBox.setMaxWidth(130);
         tmpComboBox.setMinWidth(130);
         tmpPane.addColumn(0, tmpComboBox);
@@ -382,12 +361,12 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _instrumentContent.setColumnSpan(tmpPane, 4);
         MusicianInstrumentEntity specialInstrumentationEntity = new MusicianInstrumentEntity(id, tmpComboBox, tmpPane);
 
-        tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
+        tmpButton.setOnAction(e -> removeInstrumentsComboBoxes(specialInstrumentationEntity));
 
         _playedInstrumentsList.add(specialInstrumentationEntity);
     }
 
-    private void removeSpecialInstrumentationItem(MusicianInstrumentEntity specialInstrumentationEntity) {
+    private void removeInstrumentsComboBoxes(MusicianInstrumentEntity specialInstrumentationEntity) {
         _instrumentContent.getChildren().remove(specialInstrumentationEntity.getPane());
         _playedInstrumentsList.remove(specialInstrumentationEntity);
     }
@@ -470,7 +449,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             for(MusicianInstrumentEntity item : _playedInstrumentsList) {
                 if(!instrumentsList.contains(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getValue())){
                 instrumentsList.add((InstrumentType)item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getValue());
-                System.out.println(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getKey().toString());
                 }
             }
             person.setInstrumentTypeList(instrumentsList);
@@ -483,7 +461,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 Account account = new Account();
                 person.setAccount(account);
             }
-
             if (person.getAccount() != null) {
                 person.getAccount().setUsername(_usernameField.getText());
                 person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
@@ -516,8 +493,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             PersonReturnValue personReturnValue = _load.doAction(personParameter);
 
             if(personReturnValue != null) {
-                // @TODO: use the instrument type list
-                // @TODO: fix issues (shouldn't we use the part table instead of the instrumentType table?)
                 personReturnValue.getInstrumentTypeList();
             }
         }
@@ -595,7 +570,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             List<InstrumentType> instruments = person.getInstrumentTypeList();
             for (int i = 1; i < instruments.size(); i++) {
                 int[] positions2 = MusicianTableHelper.getFirstInstrumentPos(person.getInstrumentTypeList().get(i));
-                addSpecialInstrumentationItem(0, _comboBoxSectionType.getSelectionModel().getSelectedItem());
+                addInstruments(0, _comboBoxSectionType.getSelectionModel().getSelectedItem());
                 _playedInstrumentsList.get(i).getSectionTypeComboBox().getSelectionModel().select(positions2[1]);
                 System.out.println(instruments.get(i).toString());
                 System.out.println(positions2[1]);
@@ -618,6 +593,16 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _usernameField.setDisable(true);
     }
 
+    private void clearInstrumentsComboboxes() {
+        for(MusicianInstrumentEntity item : _playedInstrumentsList) {
+            _instrumentContent.getChildren().remove(item.getPane());
+        }
+        _playedInstrumentsList.clear();
+        _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(_comboBoxSectionType.getSelectionModel().getSelectedIndex()).getValue()));
+        _comboBoxInstrumentType.getSelectionModel().selectFirst();
+        MusicianInstrumentEntity instrumentationEntityDefault=new MusicianInstrumentEntity(0,_comboBoxInstrumentType, _instrumentContent);
+        _playedInstrumentsList.add(instrumentationEntityDefault);
+    }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
         setBorder();
@@ -689,10 +674,11 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _instrumentContent.setDisable(false);
 
         for(MusicianInstrumentEntity item : _playedInstrumentsList) {
-            item.getSectionTypeComboBox().getSelectionModel().selectFirst();
             _instrumentContent.getChildren().remove(item.getPane());
         }
         _playedInstrumentsList.clear();
+        _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(_comboBoxSectionType.getSelectionModel().getSelectedIndex()).getValue()));
+        _comboBoxInstrumentType.getSelectionModel().selectFirst();
         MusicianInstrumentEntity instrumentationEntityDefault=new MusicianInstrumentEntity(0,_comboBoxInstrumentType, _instrumentContent);
         _playedInstrumentsList.add(instrumentationEntityDefault);
 
@@ -718,6 +704,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         }
     }
 
+    //Search Filter methods
     private void updateFilteredData() {
         _filteredData.clear();
 
