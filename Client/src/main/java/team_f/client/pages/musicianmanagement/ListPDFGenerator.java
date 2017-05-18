@@ -68,7 +68,7 @@ public class ListPDFGenerator {
         doc.add(p);
 
 
-        Table table = new Table(new float[]{1,1,1,2,2,2,2,2,2,2,2});
+        Table table = new Table(new float[]{1,1,1,2,2,2,2,2,2,2,2,2});
 
         table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
@@ -80,6 +80,7 @@ public class ListPDFGenerator {
         table.addHeaderCell(new Cell().setFont(_bold).add("Phone Number"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Email"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Person Role"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Account Role"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Instruments"));
 
 
@@ -144,6 +145,12 @@ public class ListPDFGenerator {
 
                     if (person.getPersonRole().toString() != null) {
                         table.addCell(new Cell().add(person.getPersonRole().toString()));
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (person.getAccount()!=null && person.getAccount().getRole()!=null) {
+                        table.addCell(new Cell().add(person.getAccount().getRole().toString()));
                     } else {
                         table.addCell(" ");
                     }
