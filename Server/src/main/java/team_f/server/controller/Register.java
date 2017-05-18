@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import team_f.application.PersonApplication;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.AccountRole;
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
@@ -79,12 +80,12 @@ public class Register extends HttpServlet {
                         }
                     }*/
 
-                    List<InstrumentType> instrumentTypeList = new ArrayList<>();
+                    List<AllInstrumentTypes> instrumentTypeList = new ArrayList<>();
 
                     if(person.getInstrumentTypeList() != null) {
                         for(team_f.jsonconnector.enums.InstrumentType instrumentType : person.getInstrumentTypeList()) {
                             try {
-                                instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(instrumentType)));
+                                instrumentTypeList.add(AllInstrumentTypes.valueOf(String.valueOf(instrumentType)));
                             } catch (Exception e) {
                             }
                         }

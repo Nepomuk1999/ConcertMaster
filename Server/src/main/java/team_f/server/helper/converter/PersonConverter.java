@@ -1,5 +1,6 @@
 package team_f.server.helper.converter;
 
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.InstrumentType;
@@ -37,7 +38,7 @@ public class PersonConverter {
         if(person.getPlayedInstruments() != null) {
             List<InstrumentType> instrumentTypeList = new ArrayList<>(person.getPlayedInstruments().size());
 
-            for(team_f.domain.enums.InstrumentType instrumentType : person.getPlayedInstruments()) {
+            for(AllInstrumentTypes instrumentType : person.getPlayedInstruments()) {
                 try {
                     instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(person.getPlayedInstruments().get(0))));
                 } catch (Exception e) {
