@@ -169,8 +169,6 @@ public class MusicianTableHelper {
                         new KeyValuePair("Percussion", InstrumentType.PERCUSSION),
                         new KeyValuePair("Harp", InstrumentType.HARP),
                         new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM),
-
-
                         new KeyValuePair("Piano", InstrumentType.PIANO),
                         new KeyValuePair("Celesta", InstrumentType.CELESTA),
                         new KeyValuePair("Organ", InstrumentType.ORGAN),
