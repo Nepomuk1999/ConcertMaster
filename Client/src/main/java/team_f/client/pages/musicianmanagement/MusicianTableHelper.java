@@ -112,16 +112,6 @@ public class MusicianTableHelper {
 
         switch (sectionType) {
 
-            case STRING:
-                list.addAll(
-                        new KeyValuePair("1. Violin", InstrumentType.FIRSTVIOLIN),
-                        new KeyValuePair("2. Violin", InstrumentType.SECONDVIOLIN),
-                        new KeyValuePair("Viola", InstrumentType.VIOLA),
-                        new KeyValuePair("Violincello", InstrumentType.VIOLONCELLO),
-                        new KeyValuePair("Double Bass", InstrumentType.DOUBLEBASS)
-
-                ); break;
-
             case BRASS:
                 list.addAll(
                         new KeyValuePair("Horn", InstrumentType.HORN),
@@ -129,13 +119,34 @@ public class MusicianTableHelper {
                         new KeyValuePair("Trumpet", InstrumentType.TRUMPET),
                         new KeyValuePair("Tube", InstrumentType.TUBE));
                 break;
-
+            case VIOLA:
+                list.addAll(
+                        new KeyValuePair("Viola", InstrumentType.VIOLA)
+                );
+                break;
+            case VIOLIN1:
+                list.addAll(
+                        new KeyValuePair("1. Violin", InstrumentType.FIRSTVIOLIN)
+                );
+                break;
+            case VIOLIN2:
+                list.addAll(
+                        new KeyValuePair("2. Violin", InstrumentType.SECONDVIOLIN)
+                );
+                break;
             case WOODWIND:
                 list.addAll(
                         new KeyValuePair("Flute", InstrumentType.FLUTE),
                         new KeyValuePair("Oboe", InstrumentType.OBOE),
                         new KeyValuePair("Clarinet", InstrumentType.CLARINET),
                         new KeyValuePair("Bassoon", InstrumentType.BASSOON));
+
+                break;
+            case DOUBLEBASS:
+                list.addAll(
+                        new KeyValuePair("Double Bass", InstrumentType.DOUBLEBASS)
+                );
+
                 break;
             case PERCUSSION:
                 list.addAll(
@@ -145,7 +156,14 @@ public class MusicianTableHelper {
                 );
 
                 break;
+            case VIOLINCELLO:
+                list.addAll(
+                        new KeyValuePair("Violincello", InstrumentType.VIOLONCELLO)
+                );
+
+                break;
         }
+
         return list;
     }
 
@@ -158,8 +176,7 @@ public class MusicianTableHelper {
                 new KeyValuePair("Violin 1", SectionType.VIOLIN1),
                 new KeyValuePair("Violin 2", SectionType.VIOLIN2),
                 new KeyValuePair("Violincello", SectionType.VIOLINCELLO),
-                new KeyValuePair("Woodwind", SectionType.WOODWIND),
-                new KeyValuePair("String", SectionType.STRING));
+                new KeyValuePair("Woodwind", SectionType.WOODWIND));
 
         return list;
     }

@@ -8,7 +8,6 @@ public enum SectionType {
     DOUBLEBASS ,
     WOODWIND,
     BRASS,
-    PERCUSSION,
-    STRING
+    PERCUSSION
 }
 
