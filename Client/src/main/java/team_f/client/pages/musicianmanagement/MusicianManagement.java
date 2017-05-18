@@ -184,10 +184,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 }
                 if (newValue.getValue().equals(PersonRole.Manager) || newValue.getValue().equals(PersonRole.Music_librarian)
                         || newValue.getValue().equals(PersonRole.Orchestral_facility_manager)) {
-                    _comboBoxInstrumentType.setDisable(true);
+                    _instrumentContent.setDisable(true);
                     _comboBoxSectionType.setDisable(true);
                 } else {
-                    _comboBoxInstrumentType.setDisable(false);
+                    _instrumentContent.setDisable(false);
                     _comboBoxSectionType.setDisable(false);
                 }
             }
@@ -576,10 +576,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                     _comboBoxAccountRole.setDisable(true);
                 }
                 if (person.getPersonRole().equals(PersonRole.Manager) || person.getPersonRole().equals(PersonRole.Orchestral_facility_manager) || person.getPersonRole().equals(PersonRole.Music_librarian)) {
-                    _comboBoxInstrumentType.setDisable(true);
+                    _instrumentContent.setDisable(true);
                     _comboBoxSectionType.setDisable(true);
                 } else {
-                    _comboBoxInstrumentType.setDisable(false);
+                    _instrumentContent.setDisable(false);
                     _comboBoxSectionType.setDisable(false);
                 }
             }
@@ -676,6 +676,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _cancelButton.setText("Clear");
         _filterField.setDisable(false);
         _musicianTable.getSelectionModel().clearSelection();
+        _instrumentContent.setDisable(false);
 
         for(MusicianInstrumentEntity item : _playedInstrumentsList) {
             item.getSectionTypeComboBox().getSelectionModel().selectFirst();
