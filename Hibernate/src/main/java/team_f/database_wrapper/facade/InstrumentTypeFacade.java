@@ -5,6 +5,7 @@ import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PartEntity;
 import team_f.database_wrapper.entities.PartTypeEntity;
 import team_f.domain.enums.InstrumentType;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -141,6 +142,10 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
         //InstrumentType.setInstrumentTypeID(instrumentTypeEntity.getInstrumentTypeId());
 
         InstrumentType instrumentType = InstrumentType.valueOf(instrumentTypeEntity.getInstrumentType());
+
+        /*InstrumentType instrumentType = new InstrumentType();
+        instrumentType.setID(instrumentTypeEntity.getInstrumentTypeId());
+        instrumentType.setName(instrumentTypeEntity.getInstrumentType());*/
 
         return instrumentType;
     }

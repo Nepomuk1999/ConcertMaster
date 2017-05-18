@@ -70,6 +70,7 @@ public class PersonApplication {
         if (!(person.getPersonRole().equals(PersonRole.Manager)||
                 person.getPersonRole().equals(PersonRole.Music_librarian))||
                 person.getPersonRole().equals(PersonRole.Orchestral_facility_manager)) {
+            // @TODO: use the id instead of the string
             person.setPlayedInstruments(instrumentTypeList);
         }
 

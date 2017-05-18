@@ -156,18 +156,22 @@ public class MusicianPDFGenerator {
             }
 
             table.addCell(new Cell().setFont(_bold).add("Section"));
+            // @TODO: fix issues
+            /*
             if(_person.getInstrumentType()!=null&&_person.getInstrumentType().name()!=null){
                 table.addCell(new Cell().add(_person.getInstrumentType().name()));
             } else {
                 table.addCell(" ");
-            }
+            }*/
 
             table.addCell(new Cell().setFont(_bold).add("Instruments"));
+            // @TODO: fix issues
+            /*
             if(_person.getInstrumentType()!=null&&_person.getInstrumentType().name()!=null){
                 table.addCell(new Cell().add(_person.getInstrumentType().name()));
             } else {
                 table.addCell(" ");
-            }
+            }*/
         }
 
 

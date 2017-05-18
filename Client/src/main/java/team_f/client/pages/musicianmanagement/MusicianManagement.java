@@ -1,4 +1,5 @@
 package team_f.client.pages.musicianmanagement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,12 +18,11 @@ import team_f.jsonconnector.enums.*;
 import team_f.jsonconnector.enums.properties.AccountProperty;
 import team_f.jsonconnector.enums.properties.PersonProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, Person, PersonParameter> {
+public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, Person, PersonReturnValue, PersonParameter> {
     private TextField _firstNameField;
     private TextField _lastNameField;
     private TextField _addressField;
@@ -349,7 +349,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     }
 
-
     public void editPerson() {
         if (_edit != null) {
             Person person = _musicianTable.getSelectionModel().getSelectedItem();
@@ -389,7 +388,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         person.setPhoneNumber(_phoneField.getText());
         person.setGender((Gender) _comboBoxGender.getSelectionModel().getSelectedItem().getValue());
         if (!_comboBoxInstrumentType.isDisable()) {
-            person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
+            // @TODO: fix issues
+            //person.setInstrumentType((InstrumentType) _comboBoxInstrumentType.getSelectionModel().getSelectedItem().getValue());
         }
         person.setPersonRole((PersonRole) _comboBoxRole.getSelectionModel().getSelectedItem().getValue());
 
@@ -404,7 +404,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 person.getAccount().setRole((AccountRole) _comboBoxAccountRole.getSelectionModel().getSelectedItem().getValue());
             }
         }
-
     }
 
     private void loadList() {
@@ -428,6 +427,14 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     @Override
     public void load() {
         if (_load != null) {
+            PersonParameter personParameter = new PersonParameter();
+            PersonReturnValue personReturnValue = _load.doAction(personParameter);
+
+            if(personReturnValue != null) {
+                // @TODO: use the instrument type list
+                // @TODO: fix issues (shouldn't we use the part table instead of the instrumentType table?)
+                personReturnValue.getInstrumentTypeList();
+            }
         }
 
         loadList();
@@ -494,12 +501,13 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         }
 
-        if (person.getInstrumentType() != null) {
-            int[] positions = MusicianTableHelper.getSectionPos(person.getInstrumentType());
+        if (person.getInstrumentTypeList() != null) {
+            // @TODO: fix issues
+            /*int[] positions = MusicianTableHelper.getSectionPos(person.getInstrumentType());
             if (positions[0] >= 0 && (positions[1] >= 0)) {
                 _comboBoxSectionType.getSelectionModel().select(positions[0]);
                 _comboBoxInstrumentType.getSelectionModel().select(positions[1]);
-            }
+            }*/
         }
 
         if (person.getGender() != null) {
@@ -551,7 +559,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 _comboBoxRole.setStyle("-fx-border-color: red");
             }
         }
-
     }
 
     private void setBorder() {
@@ -642,6 +649,4 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _musicianTable.getSortOrder().clear();
         _musicianTable.getSortOrder().addAll(sortOrder);
     }
-
-
 }

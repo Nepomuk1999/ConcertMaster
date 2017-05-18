@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonParameter> {
+public class MusiciansList extends BaseTablePage<Person, Person, Person, Person, PersonParameter> {
     private Label _id;
     private Label _firstname;
     private Label _lastname;
@@ -280,15 +280,25 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         if (person.getAccount() != null && person.getAccount().getRole() != null) {
             _accountrole.setText(person.getAccount().getRole().toString());
         }
+
+        // @TODO: fix issues
+        /*
         if (person.getInstrumentType() != null) {
             _instruments.setText(person.getInstrumentType().name());
         }
+        */
+
         if (person.getInitials() != null) {
             _initials.setText(person.getInitials().toString());
         }
+
+        // @TODO: fix issues
+        /*
         if (person.getInstrumentType() != null) {
             _section.setText(person.getInstrumentType().toString());
         }
+        */
+
         if (person.getGender() != null) {
             _gender.setText(person.getGender().toString());
         }

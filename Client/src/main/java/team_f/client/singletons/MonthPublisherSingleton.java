@@ -29,13 +29,6 @@ public class MonthPublisherSingleton {
             _configuration = configuration;
             _monthPublisher = new MonthPublisher();
 
-            _monthPublisher.setOnLoad(new PageAction<List<EventDuty>, MonthPublishParameter>() {
-                @Override
-                public List<EventDuty> doAction(MonthPublishParameter value) {
-                    return null;
-                }
-            });
-
             _monthPublisher.setOnUpdate(new PageAction<EventDutyErrorList, Publish>() {
                 @Override
                 public EventDutyErrorList doAction(Publish value) {

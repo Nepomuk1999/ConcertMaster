@@ -17,7 +17,7 @@ import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
-import team_f.jsonconnector.enums.properties.InstrumentationProperty;
+import team_f.jsonconnector.enums.errors.InstrumentationError;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, InstrumentationParameter> {
+public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TableView<Instrumentation> _instrumentationTable;
     private List<SpecialInstrumentationEntity> _specialInstrumentationEntityList;
 
@@ -598,7 +598,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         List<Error> errorList=occuredErrors.get(0).getValue();
         for(int x=0;x<errorList.size();x++) {
             error = errorList.get(x).getKey().toString();
-            if (error.equals(InstrumentationProperty.ALLZERO.toString())) {
+            if (error.equals(InstrumentationError.ALLZERO.toString())) {
                 for (BigDecimalField field : _fields) {
                     field.setStyle("-fx-border-color: red");
                 }

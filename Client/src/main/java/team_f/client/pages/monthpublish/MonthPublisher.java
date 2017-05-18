@@ -25,7 +25,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, MonthPublishParameter> {
+public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, EventDuty, MonthPublishParameter> {
     private ObservableList<Month> _data;
     private ObservableList<Integer> _year;
     private int _selectedYear;

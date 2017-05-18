@@ -27,7 +27,7 @@ import static team_f.domain.enums.properties.EventDutyProperty.START_DATE;
 public class EventApplication {
     private EntityManager session = SessionFactory.getSession();
     private EventFacade eventFacade = new EventFacade(session);
-    InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
+    private InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
     private MusicalWorkFacade musicalWorkFacade = new MusicalWorkFacade(session);
     private PersonApplication personApplication = new PersonApplication();
 

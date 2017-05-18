@@ -3,10 +3,9 @@ package team_f.jsonconnector.entities;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import team_f.jsonconnector.enums.Gender;
-import team_f.jsonconnector.enums.InstrumentType;
-import team_f.jsonconnector.enums.PersonRole;
+import team_f.jsonconnector.enums.*;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person implements JSONObjectEntity {
@@ -20,7 +19,7 @@ public class Person implements JSONObjectEntity {
     private String _phoneNumber;
     private PersonRole _personRole;
     private Account _account;
-    private InstrumentType _instrumentType;
+    private List<team_f.jsonconnector.enums.InstrumentType> _instrumentTypeList;
 
     @JsonGetter("id")
     public int getPersonID() {
@@ -72,9 +71,9 @@ public class Person implements JSONObjectEntity {
         return _account;
     }
 
-    @JsonGetter("instrument_type")
-    public InstrumentType getInstrumentType() {
-        return _instrumentType;
+    @JsonGetter("instrument_types")
+    public List<team_f.jsonconnector.enums.InstrumentType> getInstrumentTypeList() {
+        return _instrumentTypeList;
     }
 
     @JsonSetter("id")
@@ -127,9 +126,9 @@ public class Person implements JSONObjectEntity {
         _account = account;
     }
 
-    @JsonSetter("instrument_type")
-    public void setInstrumentType(InstrumentType instrumentType) {
-        _instrumentType = instrumentType;
+    @JsonSetter("instrument_types")
+    public void setInstrumentTypeList(List<team_f.jsonconnector.enums.InstrumentType> instrumentTypeList) {
+        _instrumentTypeList = instrumentTypeList;
     }
 
     @Override

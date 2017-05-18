@@ -17,6 +17,5 @@ public enum InstrumentationProperty implements DomainEntityProperty {
     TUBE,
     KETTLEDRUM,
     PERCUSSION,
-    HARP,
-    ALLZERO
+    HARP
 }

@@ -141,6 +141,8 @@ public class ListPDFGenerator {
                         table.addCell(" ");
                     }
 
+                    // @TODO: fix issues
+                    /*
                     if (person.getInstrumentType() != null && person.getInstrumentType().name() != null) {
                         table.addCell(new Cell().add(person.getInstrumentType().name()));
                     } else {
@@ -151,7 +153,7 @@ public class ListPDFGenerator {
                         table.addCell(new Cell().add(person.getInstrumentType().name()));
                     } else {
                         table.addCell(" ");
-                    }
+                    }*/
                 }
             }
 
