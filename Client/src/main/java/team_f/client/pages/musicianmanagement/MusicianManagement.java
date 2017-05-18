@@ -449,7 +449,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             for(MusicianInstrumentEntity item : _playedInstrumentsList) {
                 if(!instrumentsList.contains(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getValue())){
                 instrumentsList.add((InstrumentType)item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getValue());
-                System.out.println(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getKey().toString());
                 }
             }
             person.setInstrumentTypeList(instrumentsList);
