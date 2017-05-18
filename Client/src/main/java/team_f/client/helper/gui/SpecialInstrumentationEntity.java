@@ -1,4 +1,4 @@
-package team_f.client.pages.musicalwork;
+package team_f.client.helper.gui;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;

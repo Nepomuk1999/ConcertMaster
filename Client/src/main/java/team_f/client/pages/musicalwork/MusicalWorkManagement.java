@@ -11,15 +11,15 @@ import team_f.client.converter.MusicalWorkConverter;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.exceptions.NumberRangeException;
 import team_f.client.helper.ErrorMessageHelper;
+import team_f.client.helper.gui.InstrumentationHelper;
+import team_f.client.helper.gui.SpecialInstrumentationEntity;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
 import team_f.jsonconnector.enums.SectionGroupType;
-import team_f.jsonconnector.enums.SectionType;
 import team_f.jsonconnector.enums.properties.MusicalWorkProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
-
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
@@ -338,11 +338,12 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(labelRequired, 0, 10);
 
         _specialInstrumentationContent = new GridPane();
-        _specialInstrumentationSectionGroupComboBox = new ComboBox<>(MusicalWorkHelper.getSectionGroupTypeList());
+        _specialInstrumentationSectionGroupComboBox = new ComboBox<>(InstrumentationHelper.getSectionGroupTypeList());
         _specialInstrumentationSectionGroupComboBox.setMaxWidth(80);
         _specialInstrumentationSectionGroupComboBox.getSelectionModel().selectFirst();
         _specialInstrumentationContent.addColumn(0, _specialInstrumentationSectionGroupComboBox);
-        _specialInstrumentationInstrumentTypeComboBox = new ComboBox<>(MusicalWorkHelper.getInstrumentTypes((SectionGroupType) _specialInstrumentationSectionGroupComboBox.getSelectionModel().getSelectedItem().getValue()));
+        _specialInstrumentationInstrumentTypeComboBox = new ComboBox<>(InstrumentationHelper.getInstrumentTypes((SectionGroupType) _specialInstrumentationSectionGroupComboBox.getSelectionModel().getSelectedItem().getValue()));
+        _specialInstrumentationInstrumentTypeComboBox.getSelectionModel().selectFirst();
         _specialInstrumentationInstrumentTypeComboBox.setMaxWidth(80);
         _specialInstrumentationContent.addColumn(1, _specialInstrumentationInstrumentTypeComboBox);
 
@@ -356,8 +357,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _specialInstrumentationButton = new Button("+");
         SpecialInstrumentationEntity instrumentationEntityDefault=new SpecialInstrumentationEntity(0, _specialInstrumentationSectionGroupComboBox, _specialInstrumentationInstrumentTypeComboBox,_specialInstrumentationNumberField,_specialInstrumentationContent);
         _specialInstrumentationEntityList.add(instrumentationEntityDefault);
-        _specialInstrumentationButton.setOnAction(event ->
-                addSpecialInstrumentationItem(0, _specialInstrumentationSectionGroupComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationInstrumentTypeComboBox.getSelectionModel().getSelectedItem(), _specialInstrumentationNumberField.getNumber().intValue()));
 
         _specialInstrumentationContent.addColumn(3, _specialInstrumentationButton);
         _specialInstrumentationPane = new ScrollPane(_specialInstrumentationContent);
@@ -367,6 +366,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         pane.add(_specialInstrumentationPane, 8, 3);
         pane.setRowSpan(_specialInstrumentationPane, 6);
         pane.setColumnSpan(_specialInstrumentationPane, 4);
+
+        InstrumentationHelper.addListeners(_specialInstrumentationEntityList, _specialInstrumentationContent, _specialInstrumentationSectionGroupComboBox,
+                _specialInstrumentationInstrumentTypeComboBox, _specialInstrumentationNumberField, _specialInstrumentationButton);
 
         return pane;
     }
@@ -457,44 +459,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
     }
 
-    private void addSpecialInstrumentationItem(int id, KeyValuePair sectionType, KeyValuePair specialInstrumentation, int specialInstrumentationCount) {
-        GridPane tmpPane = new GridPane();
-
-        ComboBox<KeyValuePair> sectionTypeComboBox = new ComboBox<>(_specialInstrumentationSectionGroupComboBox.getItems());
-        sectionTypeComboBox.getSelectionModel().select(sectionType);
-        sectionTypeComboBox.setMaxWidth(80);
-        tmpPane.addColumn(0, sectionTypeComboBox);
-
-        ComboBox<KeyValuePair> specialInstrumentationComboBox = new ComboBox<>(MusicalWorkHelper.getInstrumentTypes((SectionGroupType) sectionType.getValue()));
-        specialInstrumentationComboBox.getSelectionModel().select(specialInstrumentation);
-        specialInstrumentationComboBox.setMaxWidth(80);
-        tmpPane.addColumn(1, specialInstrumentationComboBox);
-
-        NumberField tmpNumberField = null;
-        try {
-            tmpNumberField = new NumberField(specialInstrumentationCount, _specialInstrumentationNumberField.getMinValue().intValue(), _specialInstrumentationNumberField.getMaxValue().intValue());
-            tmpPane.addColumn(2, tmpNumberField);
-            tmpNumberField.setMaxWidth(60);
-        } catch (NumberRangeException e) {
-        }
-
-        Button tmpButton = new Button("-");
-        tmpPane.addColumn(3, tmpButton);
-
-        _specialInstrumentationContent.addRow(_specialInstrumentationEntityList.size()+1, tmpPane);
-        _specialInstrumentationContent.setColumnSpan(tmpPane, 4);
-        SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity(id, sectionTypeComboBox, specialInstrumentationComboBox, tmpNumberField, tmpPane);
-
-        tmpButton.setOnAction(e -> removeSpecialInstrumentationItem(specialInstrumentationEntity));
-
-         _specialInstrumentationEntityList.add(specialInstrumentationEntity);
-    }
-
-    private void removeSpecialInstrumentationItem(SpecialInstrumentationEntity specialInstrumentationEntity) {
-        _specialInstrumentationContent.getChildren().remove(specialInstrumentationEntity.getPane());
-        _specialInstrumentationEntityList.remove(specialInstrumentationEntity);
-    }
-
     private void setMusicalWork(MusicalWork musicalWork, boolean createInstrumentation) {
         musicalWork.setName(_nameField.getText());
         musicalWork.setComposer(_composerField.getText());
@@ -524,20 +488,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         musicalWork.getInstrumentation().setPercussion(Integer.parseInt(_percussionField.getText()));
         musicalWork.getInstrumentation().setHarp(Integer.parseInt(_harpField.getText()));
 
-        List<SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
-        SpecialInstrumentation specialInstrumentation;
-
-        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-                if (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0) {
-                    specialInstrumentation = new SpecialInstrumentation();
-                    specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-                    specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
-                    specialInstrumentation.setSpecialInstrumentation(String.valueOf(item.getSpecialInstrumentationComboBox().getSelectionModel().getSelectedItem().getValue()));
-                    specialInstrumentationList.add(specialInstrumentation);
-                }
-        }
-
+        List<SpecialInstrumentation> specialInstrumentationList = team_f.client.helper.gui.InstrumentationHelper.getSpecialInstrumentation(_specialInstrumentationEntityList);
         musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
     }
 
@@ -547,7 +498,6 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             List<MusicalWork> musicalWorkList = _loadList.doAction(musicalWorkParameter);
 
             if (musicalWorkList != null) {
-                //_workTable.setItems(FXCollections.observableList(musicalWorkList));
                 _masterData.setAll(musicalWorkList);
                 update();
             } else {
@@ -611,39 +561,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             _percussionField.setNumber(new BigDecimal(instrumentation.getPercussion()));
             _harpField.setNumber(new BigDecimal(instrumentation.getHarp()));
 
-            for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-                removeSpecialInstrumentationItem(item);
-            }
-
-            if (instrumentation.getSpecialInstrumentation() != null) {
-                List<KeyValuePair> sectionTypeList = MusicalWorkHelper.getSectionGroupTypeList();
-                KeyValuePair sectionTypeKeyValuePair;
-                List<KeyValuePair> specialInstrumentationList;
-                KeyValuePair specialInstrumentationKeyValuePair = null;
-
-                for(SpecialInstrumentation specialInstrumentation : instrumentation.getSpecialInstrumentation()) {
-                    sectionTypeKeyValuePair = null;
-
-                    for(KeyValuePair pair : sectionTypeList) {
-                        if(String.valueOf(pair.getValue()).equals(specialInstrumentation.getSectionType())) {
-                            sectionTypeKeyValuePair = pair;
-                            specialInstrumentationList = MusicalWorkHelper.getInstrumentTypes((SectionGroupType) sectionTypeKeyValuePair.getValue());
-
-                            for(KeyValuePair item : specialInstrumentationList) {
-                                if(String.valueOf(item.getValue()).equals(specialInstrumentation)) {
-                                    specialInstrumentationKeyValuePair = item;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        }
-                    }
-
-                    addSpecialInstrumentationItem(specialInstrumentation.getSpecialInstrumentationID(), sectionTypeKeyValuePair,
-                            specialInstrumentationKeyValuePair, specialInstrumentation.getSpecialInstrumentCount());
-                }
-            }
+            InstrumentationHelper.fillSpecialInstrumentationEntity(_specialInstrumentationEntityList, instrumentation, _specialInstrumentationContent,
+                    _specialInstrumentationSectionGroupComboBox, _specialInstrumentationNumberField);
         }
     }
 
@@ -665,14 +584,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             field.setStyle("-fx-border-color: transparent");
         }
 
-        for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            item.getSpecialInstrumentationNumberField().setNumber(BigDecimal.ZERO);
-            item.getSectionTypeComboBox().getSelectionModel().selectFirst();
-            item.getSpecialInstrumentationComboBox().setItems(MusicalWorkHelper.getInstrumentTypes((SectionGroupType) item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getValue()));
-            item.getSpecialInstrumentationComboBox().getSelectionModel().selectFirst();
-            _specialInstrumentationContent.getChildren().remove(item.getPane());
-        }
-        _specialInstrumentationEntityList.clear();
+        InstrumentationHelper.resetSpecialInstrumentation(_specialInstrumentationEntityList, _specialInstrumentationContent);
         SpecialInstrumentationEntity instrumentationEntityDefault = new SpecialInstrumentationEntity(0, _specialInstrumentationSectionGroupComboBox, _specialInstrumentationInstrumentTypeComboBox,_specialInstrumentationNumberField,_specialInstrumentationContent);
         _specialInstrumentationEntityList.add(instrumentationEntityDefault);
     }
