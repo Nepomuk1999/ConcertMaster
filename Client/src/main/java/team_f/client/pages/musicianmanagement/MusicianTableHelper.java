@@ -117,7 +117,12 @@ public class MusicianTableHelper {
                         new KeyValuePair("Horn", InstrumentType.HORN),
                         new KeyValuePair("Trombone", InstrumentType.TROMBONE),
                         new KeyValuePair("Trumpet", InstrumentType.TRUMPET),
-                        new KeyValuePair("Tube", InstrumentType.TUBE));
+                        new KeyValuePair("Tube", InstrumentType.TUBE),
+                        new KeyValuePair("Cimbasso", InstrumentType.CIMBASSO),
+                        new KeyValuePair("Wagner Tuba", InstrumentType.WAGNERTUBA),
+                        new KeyValuePair("Euphonium", InstrumentType.EUPHONIUM),
+                        new KeyValuePair("Saxophone", InstrumentType.SAXOPHONE)
+                );
                 break;
             case VIOLA:
                 list.addAll(
@@ -139,7 +144,18 @@ public class MusicianTableHelper {
                         new KeyValuePair("Flute", InstrumentType.FLUTE),
                         new KeyValuePair("Oboe", InstrumentType.OBOE),
                         new KeyValuePair("Clarinet", InstrumentType.CLARINET),
-                        new KeyValuePair("Bassoon", InstrumentType.BASSOON));
+                        new KeyValuePair("Bassoon", InstrumentType.BASSOON),
+                        new KeyValuePair("Contrabassoon", InstrumentType.CONTRABASSOON),
+                        new KeyValuePair("Heckelphone", InstrumentType.HECKELPHONE),
+                        new KeyValuePair("Bassclarinet", InstrumentType.BASSCLARINET),
+                        new KeyValuePair("Piccolo", InstrumentType.PICCOLO),
+                        new KeyValuePair("Contrabasstrombone", InstrumentType.CONTRABASSTROMBONE),
+                        new KeyValuePair("Basstrombone", InstrumentType.BASSTROMBONE),
+                        new KeyValuePair("Bassethorn", InstrumentType.BASSETHORN),
+                        new KeyValuePair("French Horn", InstrumentType.FRENCHHORN),
+
+                        new KeyValuePair("English Horn", InstrumentType.ENGLISHHORN)
+                );
 
                 break;
             case DOUBLEBASS:
@@ -152,7 +168,18 @@ public class MusicianTableHelper {
                 list.addAll(
                         new KeyValuePair("Percussion", InstrumentType.PERCUSSION),
                         new KeyValuePair("Harp", InstrumentType.HARP),
-                        new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM)
+                        new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM),
+
+
+                        new KeyValuePair("Piano", InstrumentType.PIANO),
+                        new KeyValuePair("Celesta", InstrumentType.CELESTA),
+                        new KeyValuePair("Organ", InstrumentType.ORGAN),
+                        new KeyValuePair("Cembalo", InstrumentType.CEMBALO),
+                        new KeyValuePair("Accordeon", InstrumentType.ACCORDEON),
+                        new KeyValuePair("Keyboard", InstrumentType.KEYBOARD),
+                        new KeyValuePair("Bandoneon", InstrumentType.BANDONEON),
+                        new KeyValuePair("Guitar", InstrumentType.GUITAR),
+                        new KeyValuePair("Mandolin", InstrumentType.MANDOLIN)
                 );
 
                 break;

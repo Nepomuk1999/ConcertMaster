@@ -57,10 +57,10 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionServiceSchedule);
 
         MenuSection menuSectionServices = new MenuSection("Services", "/dutyM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Service Schedules");
+        /* menuSectionItem = new MenuSectionItem("Service Schedules");
         menuSectionServices.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Service Management");
-        menuSectionServices.add(menuSectionItem);
+        menuSectionServices.add(menuSectionItem); */
         _sidebar.add(menuSectionServices);
         menuSectionArrayList.add(menuSectionServices);
 
@@ -84,18 +84,18 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionCompositions);
 
         MenuSection menuSectionInventory = new MenuSection("Inventory", "/inventaryM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Show Inventory");
+        /*menuSectionItem = new MenuSectionItem("Show Inventory");
         menuSectionInventory.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Add Item");
-        menuSectionInventory.add(menuSectionItem);
+        menuSectionInventory.add(menuSectionItem); */
         _sidebar.add(menuSectionInventory);
         menuSectionArrayList.add(menuSectionInventory);
 
         MenuSection menuSectionUserScreen = new MenuSection("User Profile", "/userM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Section Management");
+        /*menuSectionItem = new MenuSectionItem("Section Management");
         menuSectionUserScreen.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSectionUserScreen.add(menuSectionItem);
+        menuSectionUserScreen.add(menuSectionItem); */
         _sidebar.add(menuSectionUserScreen);
         menuSectionArrayList.add(menuSectionUserScreen);
 

@@ -10,4 +10,3 @@ public enum SectionType {
     BRASS,
     PERCUSSION
 }
-
