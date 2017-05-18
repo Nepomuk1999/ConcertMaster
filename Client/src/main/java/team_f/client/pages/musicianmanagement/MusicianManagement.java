@@ -95,7 +95,8 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         //comboboxes
         _comboBoxSectionType = new ComboBox<>(_sectionTypeList);
         _comboBoxInstrumentType = new ComboBox<>();
-        _comboBoxInstrumentType.setMinWidth(100);
+        _comboBoxInstrumentType.setMaxWidth(130);
+        _comboBoxInstrumentType.setMinWidth(130);
         _comboBoxRole = new ComboBox<>(_personRoleList);
         _comboBoxGender = new ComboBox<>(_genderList);
         _comboBoxAccountRole = new ComboBox<>(_accountRoleList);
@@ -156,8 +157,9 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _comboBoxSectionType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) newValue.getValue()));
-                _comboBoxInstrumentType.getSelectionModel().selectFirst();
-                removeInstruments();
+                    _comboBoxInstrumentType.getSelectionModel().selectFirst();
+                    removeInstruments();
+
             }
         });
 
@@ -236,10 +238,11 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
     private void removeInstruments() {
         for(MusicianInstrumentEntity item : _playedInstrumentsList) {
-            item.getSectionTypeComboBox().getSelectionModel().selectFirst();
             _instrumentContent.getChildren().remove(item.getPane());
         }
         _playedInstrumentsList.clear();
+        _comboBoxInstrumentType.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(_comboBoxSectionType.getSelectionModel().getSelectedIndex()).getValue()));
+        _comboBoxInstrumentType.getSelectionModel().selectFirst();
         MusicianInstrumentEntity instrumentationEntityDefault=new MusicianInstrumentEntity(0,_comboBoxInstrumentType, _instrumentContent);
         _playedInstrumentsList.add(instrumentationEntityDefault);
 
@@ -365,13 +368,12 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
 
         ComboBox<KeyValuePair> tmpComboBox = new ComboBox<>();
-        tmpComboBox.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(0).getValue()));
+        tmpComboBox.setItems(MusicianTableHelper.getInstrumentTypeList((SectionType) _comboBoxSectionType.getItems().get(_comboBoxSectionType.getSelectionModel().getSelectedIndex()).getValue()));
         tmpComboBox.getSelectionModel().selectFirst();
-
         //tmpComboBox.getSelectionModel().select(sectionType);
-        tmpComboBox.setMinWidth(100);
+        tmpComboBox.setMaxWidth(130);
+        tmpComboBox.setMinWidth(130);
         tmpPane.addColumn(0, tmpComboBox);
-
 
         Button tmpButton = new Button("-");
         tmpPane.addColumn(3, tmpButton);
