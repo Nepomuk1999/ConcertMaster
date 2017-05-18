@@ -4,7 +4,7 @@ import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
 import team_f.domain.enums.AccountRole;
-import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
@@ -16,6 +16,7 @@ import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.PersonConverter;
 import team_f.server.helper.response.CommonResponse;
 import team_f.server.helper.response.JsonResponse;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -109,12 +110,12 @@ public class Person extends HttpServlet {
                                 }
                             }*/
 
-                            List<InstrumentType> instrumentTypeList = new ArrayList<>();
+                            List<AllInstrumentTypes> instrumentTypeList = new ArrayList<>();
 
                             if(person.getInstrumentTypeList() != null) {
                                 for(team_f.jsonconnector.enums.InstrumentType instrumentType : person.getInstrumentTypeList()) {
                                     try {
-                                        instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(instrumentType)));
+                                        instrumentTypeList.add(AllInstrumentTypes.valueOf(String.valueOf(instrumentType)));
                                     } catch (Exception e) {
                                     }
                                 }

@@ -1,6 +1,6 @@
-package team_f.jsonconnector.enums;
+package team_f.domain.enums;
 
-public enum InstrumentType {
+public enum AllInstrumentTypes {
     FLUTE,
     OBOE,
     CLARINET,
