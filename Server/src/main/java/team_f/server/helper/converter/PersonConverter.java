@@ -40,8 +40,9 @@ public class PersonConverter {
 
             for(AllInstrumentTypes instrumentType : person.getPlayedInstruments()) {
                 try {
-                    instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(person.getPlayedInstruments().get(0))));
+                    instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(instrumentType)));
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

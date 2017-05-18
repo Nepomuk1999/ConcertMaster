@@ -71,7 +71,7 @@ public class MusicianTableHelper {
 
     public static TableColumn<Person, String> getInstrumentColumn() {
         TableColumn<Person, String> countryCol = new TableColumn<>("Instrument Type");
-        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrumentType");
+        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("listToString");
         countryCol.setCellValueFactory(countryCellValueFactory);
         return countryCol;
     }

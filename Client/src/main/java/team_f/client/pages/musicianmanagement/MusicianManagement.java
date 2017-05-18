@@ -573,6 +573,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         }
     }
+
     private void reset() {
         for(TextField field:_fieldsList){
             field.clear();
