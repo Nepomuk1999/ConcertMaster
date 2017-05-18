@@ -190,7 +190,7 @@ public class Instrumentation implements DomainEntity {
     }
 
     //TODO: specialinstrumentation
-    public String getSpecialInstrumentation() {
+    public String getSpecialInstrumentationText() {
         return "Special: " + TextHelper.getTextFromString('+', "","","");
     }
 
@@ -204,10 +204,14 @@ public class Instrumentation implements DomainEntity {
         text.append('\n');
         text.append(getPercussionInstrumentation());
         text.append('\n');
-        text.append(getSpecialInstrumentation());
+        text.append(getSpecialInstrumentationText());
 
 
         return text.toString();
+    }
+
+    public List<SpecialInstrumentation> getSpecial() {
+        return special;
     }
 
     public void addToSpecial(int id, String instrumentation, int instrumentationCount, String section) {
