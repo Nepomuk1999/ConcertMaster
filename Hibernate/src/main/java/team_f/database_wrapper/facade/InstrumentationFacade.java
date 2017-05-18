@@ -1,7 +1,10 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.*;
+import team_f.database_wrapper.enums.SectionType;
 import team_f.domain.entities.Instrumentation;
+import team_f.domain.entities.SpecialInstrumentation;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -40,6 +43,15 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         instrumentationEntity.setPercussionInstrumentation(percussionInstrumentationEntity.getPercussionInstrumentationId());
 
         session.persist(instrumentationEntity);
+
+        // set special-instrumentations
+        for (SpecialInstrumentation specialInstrumentation : instrumentation.getSpecial()) {
+            SpecialInstrumentationEntity specialInstrumentationEntity;
+            specialInstrumentationEntity = convertToSpecialInstrumentationEntity(specialInstrumentation);
+            specialInstrumentationEntity.setInstrumentationId(instrumentationEntity.getInstrumentationId());
+
+            session.persist(specialInstrumentationEntity);
+        }
 
         try {
             session.flush();
@@ -118,15 +130,23 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         instrumentation.setHarp(pie.getHarp());
         instrumentation.setPercussion(pie.getPercussion());
 
-        // @TODO: special instrumentations
-        /*
         if (speiList != null) {
             for (SpecialInstrumentationEntity spei : speiList) {
-                i.addToSpecial(spei.getSpecialInstrument(), spei.getSpecialInstrumentationNumber(), spei.getSectionType().toString());
+                instrumentation.addToSpecial(spei.getInstrumentationId(), spei.getSpecialInstrument(), spei.getSpecialInstrumentationNumber(), spei.getSectionType().toString());
             }
-        }*/
+        }
 
         return instrumentation;
+    }
+
+    private SpecialInstrumentationEntity convertToSpecialInstrumentationEntity(SpecialInstrumentation specialInstrumentation) {
+        SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity();
+
+        specialInstrumentationEntity.setSectionType(SectionType.valueOf(specialInstrumentation.getSectionType()));
+        specialInstrumentationEntity.setSpecialInstrument(specialInstrumentation.getSpecialInstrument());
+        specialInstrumentationEntity.setSpecialInstrumentationNumber(specialInstrumentation.getSpecialInstrumentCount());
+
+        return specialInstrumentationEntity;
     }
 
     private WoodInstrumentationEntity getWoodInstrumentationEntityFromInstrumentation (Instrumentation instrumentation) {
@@ -171,23 +191,6 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         percussionInstrumentationEntity.setHarp(instrumentation.getHarp());
 
         return percussionInstrumentationEntity;
-    }
-
-    private BrassInstrumentationEntity getBrassInstrumentationEntity(int brassInstrumentationID) {
-        EntityManager session = getCurrentSession();
-        Query query = session.createQuery("from BrassInstrumentationEntity where brassInstrumentationId = :id");
-        query.setParameter("id", brassInstrumentationID);
-        query.setMaxResults(1);
-
-        List<BrassInstrumentationEntity> bie = query.getResultList();
-
-        BrassInstrumentationEntity entity = new BrassInstrumentationEntity();
-
-        if (bie.size() > 0) {
-            entity = bie.get(0);
-        }
-
-        return entity;
     }
 
     private WoodInstrumentationEntity getWoodInstrumentationEntity(int woodInstrumentationID) {
@@ -316,6 +319,23 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         //specialIE.setSpecialInstrument(value.getSpecialInstrumentation());
 
         return ie;
+    }
+
+    private BrassInstrumentationEntity getBrassInstrumentationEntity(int brassInstrumentationID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("from BrassInstrumentationEntity where brassInstrumentationId = :id");
+        query.setParameter("id", brassInstrumentationID);
+        query.setMaxResults(1);
+
+        List<BrassInstrumentationEntity> bie = query.getResultList();
+
+        BrassInstrumentationEntity entity = new BrassInstrumentationEntity();
+
+        if (bie.size() > 0) {
+            entity = bie.get(0);
+        }
+
+        return entity;
     }
 
     @Override
