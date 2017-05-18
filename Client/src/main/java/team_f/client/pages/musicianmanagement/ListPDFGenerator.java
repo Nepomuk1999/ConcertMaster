@@ -72,6 +72,7 @@ public class ListPDFGenerator {
 
         table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Username"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Sex"));
         table.addHeaderCell(new Cell().setFont(_bold).add("First Name"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Last Name"));
@@ -80,7 +81,7 @@ public class ListPDFGenerator {
         table.addHeaderCell(new Cell().setFont(_bold).add("Email"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Person Role"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Instruments"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Section"));
+
 
         table.setFontSize(10);
 
@@ -95,6 +96,12 @@ public class ListPDFGenerator {
 
                     if (person.getInitials() != null) {
                         table.addCell(new Cell().add(person.getInitials()));
+                    } else {
+                        table.addCell(" ");
+                    }
+
+                    if (person.getAccount()!=null&&person.getAccount().getUsername() != null) {
+                        table.addCell(new Cell().add(person.getAccount().getUsername().toString()));
                     } else {
                         table.addCell(" ");
                     }
@@ -141,19 +148,12 @@ public class ListPDFGenerator {
                         table.addCell(" ");
                     }
 
-                    // @TODO: fix issues
-                    /*
-                    if (person.getInstrumentType() != null && person.getInstrumentType().name() != null) {
-                        table.addCell(new Cell().add(person.getInstrumentType().name()));
+                    if (person.getInstrumentTypeList() != null) {
+                        table.addCell(new Cell().add(person.getInstrumentTypeList().get(0).toString()));
                     } else {
                         table.addCell(" ");
                     }
 
-                    if (person.getInstrumentType() != null && person.getInstrumentType().name() != null) {
-                        table.addCell(new Cell().add(person.getInstrumentType().name()));
-                    } else {
-                        table.addCell(" ");
-                    }*/
                 }
             }
 

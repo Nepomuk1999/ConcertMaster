@@ -159,4 +159,17 @@ public class Person implements JSONObjectEntity {
         }
         return sb.toString();
     }
+
+    public String getInstrumentsForList() {
+        StringBuilder sb = new StringBuilder();
+        if(_instrumentTypeList != null) {
+            for (InstrumentType instrumentType : _instrumentTypeList) {
+                if(!sb.toString().isEmpty()) {
+                    sb.append(",\n ");
+                }
+                sb.append(instrumentType);
+            }
+        }
+        return sb.toString();
+    }
 }

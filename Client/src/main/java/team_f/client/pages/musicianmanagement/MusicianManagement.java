@@ -338,7 +338,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
 
         _instrumentContent = new GridPane();
         _instrumentContent.setMaxHeight(140);
-        _instrumentContent.setMaxHeight(180);
+        _instrumentContent.setMaxWidth(180);
         _instrumentContent.add( _comboBoxInstrumentType,0,2);
          _addAnotherInstrumentButton = new Button("+");
 

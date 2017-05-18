@@ -207,7 +207,7 @@ public class MusicianTableHelper {
     }
 
     //TODO: bring lists in order
-    //Same order likeGetSectionTypeList
+    //Same order likeGetSectionTypeList, do not change!
     public static LinkedList<List> getSectionInstrumentPos() {
         List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE,
                 InstrumentType.CIMBASSO, InstrumentType.WAGNERTUBA, InstrumentType.EUPHONIUM, InstrumentType.SAXOPHONE);
