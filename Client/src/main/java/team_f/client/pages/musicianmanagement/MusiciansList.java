@@ -134,7 +134,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         gridPane.add(_instruments, 3, 12);
 
         Button MusicianToPdfButton = new Button("Convert Musician to PDF");
-       // MusicianToPdfButton.setDisable(true);
+        MusicianToPdfButton.setDisable(true);
         MusicianToPdfButton.setMinWidth(180);
         MusicianToPdfButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
@@ -172,7 +172,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
             if (newSelection != null) {
                 MusicianToPdfButton.setDisable(false);
             } else {
-                //MusicianToPdfButton.setDisable(true);
+                MusicianToPdfButton.setDisable(true);
             }
         });
 
@@ -302,6 +302,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         for(Label label:_labelList){
             label.setText(" ");
         }
+        _instruments.clear();
     }
 
     private void updateFilteredData() {
