@@ -5,8 +5,10 @@ import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PersonEntity;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
                 for (String instrumentType: playedInstruments) {
                     //person.addPlayedInstrument(InstrumentType.valueOf(instrumentType));
                     try {
-                        person.addPlayedInstrument(InstrumentType.valueOf(instrumentType.replace(" ", "").toUpperCase()));
+                        person.addPlayedInstrument(AllInstrumentTypes.valueOf(instrumentType.replace(" ", "").toUpperCase()));
                     } catch (Exception e) {
                     }
                 }
@@ -146,7 +148,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
     protected List<MusicianPartEntity> getMusicianPartEntityFromPerson (Person person) {
         List<MusicianPartEntity> musicianPartEntities = new LinkedList();
 
-        for (InstrumentType instrumentType : person.getPlayedInstruments()) {
+        for (AllInstrumentTypes instrumentType : person.getPlayedInstruments()) {
             MusicianPartEntity musicianPartEntity = new MusicianPartEntity();
             musicianPartEntity.setPart(_instrumentTypeFacade.getPartIdByPlayedInstrument(instrumentType));
             musicianPartEntities.add(musicianPartEntity);
