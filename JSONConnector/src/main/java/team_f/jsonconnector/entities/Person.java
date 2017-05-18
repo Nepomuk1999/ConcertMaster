@@ -165,7 +165,7 @@ public class Person implements JSONObjectEntity {
         if(_instrumentTypeList != null) {
             for (InstrumentType instrumentType : _instrumentTypeList) {
                 if(!sb.toString().isEmpty()) {
-                    sb.append(",\n ");
+                    sb.append(",\n");
                 }
                 sb.append(instrumentType);
             }
