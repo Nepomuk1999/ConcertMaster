@@ -14,10 +14,14 @@ import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.helper.gui.InstrumentationHelper;
 import team_f.client.helper.gui.SpecialInstrumentationEntity;
 import team_f.client.pages.BaseTablePage;
+import team_f.client.pages.musicianmanagement.MusicianInstrumentEntity;
+import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
 import team_f.jsonconnector.enums.SectionGroupType;
+import team_f.jsonconnector.enums.SectionType;
+import team_f.jsonconnector.enums.errors.InstrumentationError;
 import team_f.jsonconnector.enums.properties.MusicalWorkProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.math.BigDecimal;
@@ -590,7 +594,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     }
 
     private void markInvalidFields(List<Pair<JSONObjectEntity, List<Error>>> occuredErrors) {
-        setBorder();
+        //setBorder();
         String error;
         List<Error> errorList=occuredErrors.get(0).getValue();
         for(int x=0;x<errorList.size();x++) {
@@ -601,7 +605,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             if (error.equals(MusicalWorkProperty.TITLE.toString())) {
                 _nameField.setStyle("-fx-border-color: red");
             }
-            if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+            if (error.equals(InstrumentationError.ALLZERO.toString())) {
                 for (BigDecimalField field : _fields) {
                     field.setStyle("-fx-border-color: red");
                 }

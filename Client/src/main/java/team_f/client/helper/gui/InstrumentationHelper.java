@@ -9,10 +9,13 @@ import javafx.scene.layout.Pane;
 import team_f.client.controls.numberfield.NumberField;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.exceptions.NumberRangeException;
+import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.SpecialInstrumentation;
 import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.enums.SectionGroupType;
+import team_f.jsonconnector.enums.SectionType;
+
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,8 +115,8 @@ public class InstrumentationHelper {
         sectionTypeComboBox.setMaxWidth(80);
         tmpPane.addColumn(0, sectionTypeComboBox);
 
-        ComboBox<KeyValuePair> specialInstrumentationComboBox = new ComboBox<>(team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionType.getValue()));
-        specialInstrumentationComboBox.getSelectionModel().select(specialInstrumentation);
+        ComboBox<KeyValuePair> specialInstrumentationComboBox = new ComboBox<>(team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionTypeComboBox.getSelectionModel().getSelectedItem().getValue()));
+        specialInstrumentationComboBox.getSelectionModel().selectFirst();
         specialInstrumentationComboBox.setMaxWidth(80);
         tmpPane.addColumn(1, specialInstrumentationComboBox);
 
@@ -125,6 +128,17 @@ public class InstrumentationHelper {
             tmpNumberField.setStyle("-fx-opacity: 1");
         } catch (NumberRangeException e) {
         }
+
+        sectionTypeComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                if(((team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionTypeComboBox.getSelectionModel().
+                        getSelectedItem().getValue())))!=null) {
+                    specialInstrumentationComboBox.setItems((team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionTypeComboBox.getSelectionModel().
+                            getSelectedItem().getValue())));
+                    specialInstrumentationComboBox.getSelectionModel().selectFirst();
+                }
+            }
+        });
 
         Button tmpButton = new Button("-");
         tmpPane.addColumn(3, tmpButton);
@@ -158,24 +172,12 @@ public class InstrumentationHelper {
 
         switch (sectionGroupType) {
             case STRING:
-                list.addAll(
-                        new KeyValuePair("1.Violin", InstrumentType.FIRSTVIOLIN),
-                        new KeyValuePair("2.Violin", InstrumentType.SECONDVIOLIN),
-                        new KeyValuePair("Viola", InstrumentType.VIOLA),
-                        new KeyValuePair("Violoncello", InstrumentType.VIOLONCELLO),
-                        new KeyValuePair("Doublebass", InstrumentType.DOUBLEBASS)
-                );
-
                 break;
             case BRASS:
                 list.addAll(
                         new KeyValuePair("French Horn", InstrumentType.FRENCHHORN),
-                        new KeyValuePair("Trumpet", InstrumentType.TRUMPET),
-                        new KeyValuePair("Trombone", InstrumentType.TROMBONE),
                         new KeyValuePair("Bass Trombone", InstrumentType.BASSTROMBONE),
                         new KeyValuePair("Contrabass Trombone", InstrumentType.CONTRABASSTROMBONE),
-                        new KeyValuePair("Tube", InstrumentType.TUBE),
-                        new KeyValuePair("Horn", InstrumentType.HORN),
                         new KeyValuePair("Euphonium", InstrumentType.EUPHONIUM),
                         new KeyValuePair("Wagner Tuba", InstrumentType.WAGNERTUBA),
                         new KeyValuePair("Cimbasso", InstrumentType.CIMBASSO)
@@ -186,12 +188,8 @@ public class InstrumentationHelper {
                 list.addAll(
                         new KeyValuePair("English Horn", InstrumentType.ENGLISHHORN),
                         new KeyValuePair("Basset Horn", InstrumentType.BASSETHORN),
-                        new KeyValuePair("Flute", InstrumentType.FLUTE),
                         new KeyValuePair("Piccolo", InstrumentType.PICCOLO),
-                        new KeyValuePair("Oboe", InstrumentType.OBOE),
-                        new KeyValuePair("Clarinet", InstrumentType.CLARINET),
                         new KeyValuePair("Bass Clarinet", InstrumentType.BASSCLARINET),
-                        new KeyValuePair("Bassoon", InstrumentType.BASSOON),
                         new KeyValuePair("Heckelphone", InstrumentType.HECKELPHONE),
                         new KeyValuePair("Contrabassoon", InstrumentType.CONTRABASSOON),
                         new KeyValuePair("Saxophone", InstrumentType.SAXOPHONE)
@@ -200,9 +198,6 @@ public class InstrumentationHelper {
                 break;
             case PERCUSSION:
                 list.addAll(
-                        new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM),
-                        new KeyValuePair("Percussion", InstrumentType.PERCUSSION),
-                        new KeyValuePair("Harp", InstrumentType.HARP),
                         new KeyValuePair("Piano", InstrumentType.PIANO),
                         new KeyValuePair("Celesta", InstrumentType.CELESTA),
                         new KeyValuePair("Organ", InstrumentType.ORGAN),
