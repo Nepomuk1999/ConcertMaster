@@ -9,7 +9,9 @@ import javafx.scene.layout.Pane;
 import team_f.client.controls.numberfield.NumberField;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.exceptions.NumberRangeException;
+import team_f.client.pages.musicianmanagement.MusicianInstrumentEntity;
 import team_f.client.pages.musicianmanagement.MusicianTableHelper;
+import team_f.jsonconnector.entities.Instrument;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.SpecialInstrumentation;
 import team_f.jsonconnector.enums.InstrumentType;
@@ -17,6 +19,7 @@ import team_f.jsonconnector.enums.SectionGroupType;
 import team_f.jsonconnector.enums.SectionType;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,16 +29,17 @@ public class InstrumentationHelper {
         SpecialInstrumentation specialInstrumentation;
 
         for(SpecialInstrumentationEntity item : _specialInstrumentationEntityList) {
-            if (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0) {
-                specialInstrumentation = new SpecialInstrumentation();
-                specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
-                specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
-                specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
-                specialInstrumentation.setSpecialInstrumentation(String.valueOf(item.getSpecialInstrumentationComboBox().getSelectionModel().getSelectedItem().getValue()));
-                specialInstrumentationList.add(specialInstrumentation);
+            if (item.getSpecialInstrumentationNumberField().getNumber().intValue() > 0 && item.getSpecialInstrumentationComboBox().getSelectionModel().getSelectedItem() != null) {
+                if (!specialInstrumentationList.contains(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem().getValue())) {
+                    specialInstrumentation = new SpecialInstrumentation();
+                    specialInstrumentation.setSpecialInstrumentationID(item.getSpecialInstrumentationID());
+                    specialInstrumentation.setSectionType(String.valueOf(item.getSectionTypeComboBox().getSelectionModel().getSelectedItem()));
+                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumberField().getNumber().intValue());
+                    specialInstrumentation.setSpecialInstrumentation(String.valueOf(item.getSpecialInstrumentationComboBox().getSelectionModel().getSelectedItem().getValue()));
+                    specialInstrumentationList.add(specialInstrumentation);
+                }
             }
         }
-
         return specialInstrumentationList;
     }
 
@@ -67,17 +71,16 @@ public class InstrumentationHelper {
 
     public static void fillSpecialInstrumentationEntity(List<SpecialInstrumentationEntity> specialInstrumentationEntityList, Instrumentation instrumentation,
                                                         GridPane specialInstrumentationContent, ComboBox<KeyValuePair> specialInstrumentationSectionGroupComboBox, NumberField specialInstrumentationNumberField) {
-        for (SpecialInstrumentationEntity item : specialInstrumentationEntityList) {
-            removeSpecialInstrumentationItem(item, specialInstrumentationContent, specialInstrumentationEntityList);
-        }
 
         if (instrumentation.getSpecialInstrumentation() != null) {
             List<KeyValuePair> sectionTypeList = team_f.client.helper.gui.InstrumentationHelper.getSectionGroupTypeList();
             KeyValuePair sectionTypeKeyValuePair;
             List<KeyValuePair> specialInstrumentationList;
             KeyValuePair specialInstrumentationKeyValuePair = null;
-
-            for(SpecialInstrumentation specialInstrumentation : instrumentation.getSpecialInstrumentation()) {
+            List<SpecialInstrumentation> instrumentationList=instrumentation.getSpecialInstrumentation();
+            SpecialInstrumentation specialInstrumentation;
+            for (int i = 1; i < instrumentationList.size(); i++) {
+                specialInstrumentation=instrumentationList.get(i);
                 sectionTypeKeyValuePair = null;
 
                 for(KeyValuePair pair : sectionTypeList) {
@@ -112,12 +115,14 @@ public class InstrumentationHelper {
 
         ComboBox<KeyValuePair> sectionTypeComboBox = new ComboBox<>(specialInstrumentationSectionGroupComboBox.getItems());
         sectionTypeComboBox.getSelectionModel().select(sectionType);
-        sectionTypeComboBox.setMaxWidth(80);
+        sectionTypeComboBox.setMaxWidth(100);
+        sectionTypeComboBox.setMinWidth(100);
         tmpPane.addColumn(0, sectionTypeComboBox);
 
         ComboBox<KeyValuePair> specialInstrumentationComboBox = new ComboBox<>(team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionTypeComboBox.getSelectionModel().getSelectedItem().getValue()));
         specialInstrumentationComboBox.getSelectionModel().selectFirst();
-        specialInstrumentationComboBox.setMaxWidth(80);
+        specialInstrumentationComboBox.setMaxWidth(100);
+        specialInstrumentationComboBox.setMinWidth(100);
         tmpPane.addColumn(1, specialInstrumentationComboBox);
 
         NumberField tmpNumberField = null;
@@ -213,5 +218,39 @@ public class InstrumentationHelper {
         }
 
         return list;
+    }
+
+
+    //TODO: bring lists in order
+    //Same order likeGetSectionTypeList, do not change!
+    public static LinkedList<List> getSectionInstrumentPos() {
+        List<InstrumentType> string= Arrays.asList();
+        List<InstrumentType> woodwind= Arrays.asList(InstrumentType.ENGLISHHORN, InstrumentType.BASSETHORN, InstrumentType.PICCOLO, InstrumentType.BASSCLARINET, InstrumentType.HECKELPHONE, InstrumentType.CONTRABASSOON, InstrumentType.SAXOPHONE);
+        List<InstrumentType> brass= Arrays.asList(InstrumentType.FRENCHHORN, InstrumentType.BASSTROMBONE, InstrumentType.CONTRABASSTROMBONE, InstrumentType.EUPHONIUM, InstrumentType.WAGNERTUBA, InstrumentType.CIMBASSO);
+        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PIANO, InstrumentType.CELESTA, InstrumentType.ORGAN, InstrumentType.CEMBALO, InstrumentType.KEYBOARD, InstrumentType.ACCORDEON, InstrumentType.BANDONEON, InstrumentType.GUITAR, InstrumentType.MANDOLIN);
+
+        LinkedList<List> sections = new LinkedList<>();
+        sections.add(string);
+        sections.add(woodwind);
+        sections.add(brass);
+        sections.add(percussion);
+
+        return sections;
+
+    }
+    public static int[] getInstrumentsPos(String instrumentType) {
+        List sections = getSectionInstrumentPos();
+        int sectionPos = 0;
+        int instrumentPos = 0;
+        for (int i = 0; i < sections.size(); i++) {
+            List instruments = (List) sections.get(i);
+            for (int j = 0; j < instruments.size(); j++) {
+                if (String.valueOf(instruments.get(j)).toLowerCase().toString().equals(instrumentType.toLowerCase().toString())) {
+                    sectionPos = i;
+                    instrumentPos = j;
+                }
+            }
+        }
+        return new int[]{sectionPos, instrumentPos};
     }
 }
