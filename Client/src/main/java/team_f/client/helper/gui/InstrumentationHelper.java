@@ -69,44 +69,6 @@ public class InstrumentationHelper {
         _specialInstrumentationEntityList.clear();
     }
 
-    public static void fillSpecialInstrumentationEntity(List<SpecialInstrumentationEntity> specialInstrumentationEntityList, Instrumentation instrumentation,
-                                                        GridPane specialInstrumentationContent, ComboBox<KeyValuePair> specialInstrumentationSectionGroupComboBox, NumberField specialInstrumentationNumberField) {
-
-        if (instrumentation.getSpecialInstrumentation() != null) {
-            List<KeyValuePair> sectionTypeList = team_f.client.helper.gui.InstrumentationHelper.getSectionGroupTypeList();
-            KeyValuePair sectionTypeKeyValuePair;
-            List<KeyValuePair> specialInstrumentationList;
-            KeyValuePair specialInstrumentationKeyValuePair = null;
-            List<SpecialInstrumentation> instrumentationList=instrumentation.getSpecialInstrumentation();
-            SpecialInstrumentation specialInstrumentation;
-            for (int i = 1; i < instrumentationList.size(); i++) {
-                specialInstrumentation=instrumentationList.get(i);
-                sectionTypeKeyValuePair = null;
-
-                for(KeyValuePair pair : sectionTypeList) {
-                    // we must compare the lowercase types
-                    if(specialInstrumentation.getSectionType() != null && String.valueOf(pair.getValue()).toLowerCase().equals(specialInstrumentation.getSectionType().toLowerCase())) {
-                        sectionTypeKeyValuePair = pair;
-                        specialInstrumentationList = team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionTypeKeyValuePair.getValue());
-
-                        for(KeyValuePair item : specialInstrumentationList) {
-                            if(specialInstrumentation.getSpecialInstrumentation() != null && String.valueOf(item.getValue()).toLowerCase().equals(specialInstrumentation.getSpecialInstrumentation().toLowerCase())) {
-                                specialInstrumentationKeyValuePair = item;
-                                break;
-                            }
-                        }
-
-                        break;
-                    }
-                }
-
-                addSpecialInstrumentationItem(specialInstrumentation.getSpecialInstrumentationID(), sectionTypeKeyValuePair,
-                        specialInstrumentationKeyValuePair, specialInstrumentation.getSpecialInstrumentCount(),
-                        specialInstrumentationEntityList, specialInstrumentationContent, specialInstrumentationSectionGroupComboBox,
-                        specialInstrumentationNumberField);
-            }
-        }
-    }
 
     public static void addSpecialInstrumentationItem(int id, KeyValuePair sectionType, KeyValuePair specialInstrumentation, int specialInstrumentationCount,
                                                      List<SpecialInstrumentationEntity> specialInstrumentationEntityList, GridPane specialInstrumentationContent,
