@@ -1,6 +1,10 @@
 package team_f.server.helper.converter;
 
 import team_f.jsonconnector.entities.Instrumentation;
+import team_f.jsonconnector.entities.SpecialInstrumentation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstrumentationConverter {
     public static Instrumentation convertToJSON(team_f.domain.entities.Instrumentation instrumentation) {
@@ -22,6 +26,18 @@ public class InstrumentationConverter {
         result.setViolin1(instrumentation.getViolin1());
         result.setViolin2(instrumentation.getViolin2());
         result.setViolincello(instrumentation.getViolincello());
+
+        if(instrumentation.getSpecial() != null) {
+            List<SpecialInstrumentation> specialInstrumentationList = new ArrayList<>(instrumentation.getSpecial().size());
+            SpecialInstrumentation specialInstrumentation;
+
+            for(team_f.domain.entities.SpecialInstrumentation item : instrumentation.getSpecial()) {
+                specialInstrumentation = SpecialInstrumentationConverter.convertToJSON(item);
+                specialInstrumentationList.add(specialInstrumentation);
+            }
+
+            result.setSpecialInstrumentation(specialInstrumentationList);
+        }
 
         return result;
     }

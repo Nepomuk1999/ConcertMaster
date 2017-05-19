@@ -379,7 +379,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     public void deleteInstrumentation() {
         if (_delete != null) {
             Instrumentation instrumentation = new Instrumentation();
-
             InstrumentationErrorList resultInstrumentationErrorList = _create.doAction(instrumentation);
 
             if (resultInstrumentationErrorList != null && resultInstrumentationErrorList.getKeyValueList() != null) {

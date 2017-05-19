@@ -610,12 +610,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     }
 
     private void setBorder() {
-       _nameField.setStyle("-fx-border-color: green");
+        _nameField.setStyle("-fx-border-color: green");
         _composerField.setStyle("-fx-border-color: green");
-
-       /* for (BigDecimalField field : _fields) {
-                field.setStyle("-fx-border-color: green");
-        }*/
     }
 
     private void setNumberfieldWidth(){

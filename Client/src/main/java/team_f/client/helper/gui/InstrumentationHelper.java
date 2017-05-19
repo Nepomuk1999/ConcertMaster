@@ -78,12 +78,13 @@ public class InstrumentationHelper {
                 sectionTypeKeyValuePair = null;
 
                 for(KeyValuePair pair : sectionTypeList) {
-                    if(String.valueOf(pair.getValue()).equals(specialInstrumentation.getSectionType())) {
+                    // we must compare the lowercase types
+                    if(specialInstrumentation.getSectionType() != null && String.valueOf(pair.getValue()).toLowerCase().equals(specialInstrumentation.getSectionType().toLowerCase())) {
                         sectionTypeKeyValuePair = pair;
                         specialInstrumentationList = team_f.client.helper.gui.InstrumentationHelper.getInstrumentTypes((SectionGroupType) sectionTypeKeyValuePair.getValue());
 
                         for(KeyValuePair item : specialInstrumentationList) {
-                            if((String.valueOf(item.getValue())).equals(specialInstrumentation)) {
+                            if(specialInstrumentation.getSpecialInstrumentation() != null && String.valueOf(item.getValue()).toLowerCase().equals(specialInstrumentation.getSpecialInstrumentation().toLowerCase())) {
                                 specialInstrumentationKeyValuePair = item;
                                 break;
                             }
@@ -145,7 +146,7 @@ public class InstrumentationHelper {
     public static ObservableList<KeyValuePair> getSectionGroupTypeList() {
         ObservableList<KeyValuePair> list = FXCollections.observableArrayList(
                 new KeyValuePair("String", SectionGroupType.STRING),
-                new KeyValuePair("Wood", SectionGroupType.WOOD),
+                new KeyValuePair("Wood", SectionGroupType.WOODWIND),
                 new KeyValuePair("Brass", SectionGroupType.BRASS),
                 new KeyValuePair("Percussion", SectionGroupType.PERCUSSION));
 
@@ -181,7 +182,7 @@ public class InstrumentationHelper {
                 );
 
                 break;
-            case WOOD:
+            case WOODWIND:
                 list.addAll(
                         new KeyValuePair("English Horn", InstrumentType.ENGLISHHORN),
                         new KeyValuePair("Basset Horn", InstrumentType.BASSETHORN),

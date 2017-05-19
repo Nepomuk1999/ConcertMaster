@@ -142,7 +142,11 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
     private SpecialInstrumentationEntity convertToSpecialInstrumentationEntity(SpecialInstrumentation specialInstrumentation) {
         SpecialInstrumentationEntity specialInstrumentationEntity = new SpecialInstrumentationEntity();
 
-        specialInstrumentationEntity.setSectionType(SectionType.valueOf(specialInstrumentation.getSectionType()));
+        try {
+            specialInstrumentationEntity.setSectionType(SectionType.valueOf(specialInstrumentation.getSectionType()));
+        } catch (Exception e) {
+        }
+
         specialInstrumentationEntity.setSpecialInstrument(specialInstrumentation.getSpecialInstrument());
         specialInstrumentationEntity.setSpecialInstrumentationNumber(specialInstrumentation.getSpecialInstrumentCount());
 
@@ -246,7 +250,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
 
     private List<SpecialInstrumentationEntity> getSpecialInstrumentationEntities(int instrumentationID) {
         EntityManager session = getCurrentSession();
-        Query query = session.createQuery("from SpecialInstrumentationEntity where specialInstrumentationId = :id");
+        Query query = session.createQuery("from SpecialInstrumentationEntity where instrumentationId = :id");
         query.setParameter("id", instrumentationID);
 
         List<SpecialInstrumentationEntity> spei = query.getResultList();
