@@ -30,7 +30,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private List<SpecialInstrumentationEntity> _specialInstrumentationEntityList;
 
     //String
-    private BigDecimalField _firstViolinField;
+    private NumberField _firstViolinField;
     private NumberField _secondViolinField;
     private NumberField _violaField;
     private NumberField _violoncelloField;
@@ -227,10 +227,10 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _addButton.setVisible(true);
 
         _addButton.setOnAction(e -> {
-            if (_firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
-                    _doublebassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
-                    _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubeField.getText().isEmpty()
-                    || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
+            if (_firstViolinField.getNumber().toPlainString().isEmpty() || _secondViolinField.getNumber().toPlainString().isEmpty() || _violaField.getNumber().toPlainString().isEmpty() || _violoncelloField.getNumber().toPlainString().isEmpty() ||
+                    _doublebassField.getNumber().toPlainString().isEmpty() || _fluteField.getNumber().toPlainString().isEmpty() || _oboeField.getNumber().toPlainString().isEmpty() || _clarinetField.getNumber().toPlainString().isEmpty() ||
+                    _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
+                    || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
                 validate(textFields);
                 validate(decimalFields);
                 showValuesMissingMessage();
@@ -400,25 +400,25 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     private void setInstrumentation(Instrumentation instrumentation) {
-        instrumentation.setViolin1(Integer.parseInt(_firstViolinField.getText()));
-        instrumentation.setViolin2(Integer.parseInt(_secondViolinField.getText()));
-        instrumentation.setViola(Integer.parseInt(_violaField.getText()));
-        instrumentation.setViolincello(Integer.parseInt(_violoncelloField.getText()));
-        instrumentation.setDoublebass(Integer.parseInt(_doublebassField.getText()));
+        instrumentation.setViolin1(_firstViolinField.getNumber().intValue());
+        instrumentation.setViolin2(_secondViolinField.getNumber().intValue());
+        instrumentation.setViola(_violaField.getNumber().intValue());
+        instrumentation.setViolincello(_violoncelloField.getNumber().intValue());
+        instrumentation.setDoublebass(_doublebassField.getNumber().intValue());
 
-        instrumentation.setFlute(Integer.parseInt(_fluteField.getText()));
-        instrumentation.setOboe(Integer.parseInt(_oboeField.getText()));
-        instrumentation.setClarinet(Integer.parseInt(_clarinetField.getText()));
-        instrumentation.setBassoon(Integer.parseInt(_bassoonField.getText()));
+        instrumentation.setFlute(_fluteField.getNumber().intValue());
+        instrumentation.setOboe(_oboeField.getNumber().intValue());
+        instrumentation.setClarinet(_clarinetField.getNumber().intValue());
+        instrumentation.setBassoon(_bassoonField.getNumber().intValue());
 
-        instrumentation.setHorn(Integer.parseInt(_hornField.getText()));
-        instrumentation.setTrumpet(Integer.parseInt(_trumpetField.getText()));
-        instrumentation.setTrombone(Integer.parseInt(_tromboneField.getText()));
-        instrumentation.setTube(Integer.parseInt(_tubeField.getText()));
+        instrumentation.setHorn(_hornField.getNumber().intValue());
+        instrumentation.setTrumpet(_trumpetField.getNumber().intValue());
+        instrumentation.setTrombone(_tromboneField.getNumber().intValue());
+        instrumentation.setTube(_tubeField.getNumber().intValue());
 
-        instrumentation.setKettledrum(Integer.parseInt(_kettledrumField.getText()));
-        instrumentation.setPercussion(Integer.parseInt(_percussionField.getText()));
-        instrumentation.setHarp(Integer.parseInt(_harpField.getText()));
+        instrumentation.setKettledrum(_kettledrumField.getNumber().intValue());
+        instrumentation.setPercussion(_percussionField.getNumber().intValue());
+        instrumentation.setHarp(_harpField.getNumber().intValue());
 
         List<SpecialInstrumentation> specialInstrumentationList = team_f.client.helper.gui.InstrumentationHelper.getSpecialInstrumentation(_specialInstrumentationEntityList);
         instrumentation.setSpecialInstrumentation(specialInstrumentationList);

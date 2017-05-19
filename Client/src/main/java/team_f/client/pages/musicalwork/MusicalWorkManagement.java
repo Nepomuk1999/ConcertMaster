@@ -283,10 +283,10 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         _addButton.setMinWidth(100);
         _addButton.setOnAction(e -> {
             if (_nameField.getText().isEmpty() || _composerField.getText().isEmpty() ||
-                    _firstViolinField.getText().isEmpty() || _secondViolinField.getText().isEmpty() || _violaField.getText().isEmpty() || _violoncelloField.getText().isEmpty() ||
-                    _doublebassField.getText().isEmpty() || _fluteField.getText().isEmpty() || _oboeField.getText().isEmpty() || _clarinetField.getText().isEmpty() ||
-                    _bassoonField.getText().isEmpty() || _hornField.getText().isEmpty() || _trumpetField.getText().isEmpty() || _tromboneField.getText().isEmpty() || _tubeField.getText().isEmpty()
-                    || _kettledrumField.getText().isEmpty() || _percussionField.getText().isEmpty() || _harpField.getText().isEmpty()) {
+                    _firstViolinField.getNumber().toPlainString().isEmpty() || _secondViolinField.getNumber().toPlainString().isEmpty() || _violaField.getNumber().toPlainString().isEmpty() || _violoncelloField.getNumber().toPlainString().isEmpty() ||
+                    _doublebassField.getNumber().toPlainString().isEmpty() || _fluteField.getNumber().toPlainString().isEmpty() || _oboeField.getNumber().toPlainString().isEmpty() || _clarinetField.getNumber().toPlainString().isEmpty() ||
+                    _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
+                    || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
                 validate(textFields);
                 validate(decimalFields);
                 showValuesMissingMessage();
@@ -468,25 +468,25 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             musicalWork.setInstrumentation(instrumentation);
         }
 
-        musicalWork.getInstrumentation().setViolin1(Integer.parseInt(_firstViolinField.getText()));
-        musicalWork.getInstrumentation().setViolin2(Integer.parseInt(_secondViolinField.getText()));
-        musicalWork.getInstrumentation().setViola(Integer.parseInt(_violaField.getText()));
-        musicalWork.getInstrumentation().setViolincello(Integer.parseInt(_violoncelloField.getText()));
-        musicalWork.getInstrumentation().setDoublebass(Integer.parseInt(_doublebassField.getText()));
+        musicalWork.getInstrumentation().setViolin1(_firstViolinField.getNumber().intValue());
+        musicalWork.getInstrumentation().setViolin2(_secondViolinField.getNumber().intValue());
+        musicalWork.getInstrumentation().setViola(_violaField.getNumber().intValue());
+        musicalWork.getInstrumentation().setViolincello(_violoncelloField.getNumber().intValue());
+        musicalWork.getInstrumentation().setDoublebass(_doublebassField.getNumber().intValue());
 
-        musicalWork.getInstrumentation().setFlute(Integer.parseInt(_fluteField.getText()));
-        musicalWork.getInstrumentation().setOboe(Integer.parseInt(_oboeField.getText()));
-        musicalWork.getInstrumentation().setClarinet(Integer.parseInt(_clarinetField.getText()));
-        musicalWork.getInstrumentation().setBassoon(Integer.parseInt(_bassoonField.getText()));
+        musicalWork.getInstrumentation().setFlute(_fluteField.getNumber().intValue());
+        musicalWork.getInstrumentation().setOboe(_oboeField.getNumber().intValue());
+        musicalWork.getInstrumentation().setClarinet(_clarinetField.getNumber().intValue());
+        musicalWork.getInstrumentation().setBassoon(_bassoonField.getNumber().intValue());
 
-        musicalWork.getInstrumentation().setHorn(Integer.parseInt(_hornField.getText()));
-        musicalWork.getInstrumentation().setTrumpet(Integer.parseInt(_trumpetField.getText()));
-        musicalWork.getInstrumentation().setTrombone(Integer.parseInt(_tromboneField.getText()));
-        musicalWork.getInstrumentation().setTube(Integer.parseInt(_tubeField.getText()));
+        musicalWork.getInstrumentation().setHorn(_hornField.getNumber().intValue());
+        musicalWork.getInstrumentation().setTrumpet(_trumpetField.getNumber().intValue());
+        musicalWork.getInstrumentation().setTrombone(_tromboneField.getNumber().intValue());
+        musicalWork.getInstrumentation().setTube(_tubeField.getNumber().intValue());
 
-        musicalWork.getInstrumentation().setKettledrum(Integer.parseInt(_kettledrumField.getText()));
-        musicalWork.getInstrumentation().setPercussion(Integer.parseInt(_percussionField.getText()));
-        musicalWork.getInstrumentation().setHarp(Integer.parseInt(_harpField.getText()));
+        musicalWork.getInstrumentation().setKettledrum(_kettledrumField.getNumber().intValue());
+        musicalWork.getInstrumentation().setPercussion(_percussionField.getNumber().intValue());
+        musicalWork.getInstrumentation().setHarp(_harpField.getNumber().intValue());
 
         List<SpecialInstrumentation> specialInstrumentationList = team_f.client.helper.gui.InstrumentationHelper.getSpecialInstrumentation(_specialInstrumentationEntityList);
         musicalWork.getInstrumentation().setSpecialInstrumentation(specialInstrumentationList);
