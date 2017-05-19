@@ -32,7 +32,6 @@ public class NavigationBar {
         ArrayList<MenuSection> menuSectionArrayList = new ArrayList<>();
         MenuSectionItem menuSectionItem;
         ToggleGroup toggleGroup = new ToggleGroup();
-        _sidebar.setStyle("-fx-background-color:   #e0e0d1");
 
         MenuSection menuSectionHome = new MenuSection("Home", "/homeM.png", null);
         menuSectionHome.setAnimated(false);

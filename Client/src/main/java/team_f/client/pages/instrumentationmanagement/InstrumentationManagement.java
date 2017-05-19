@@ -12,7 +12,6 @@ import team_f.client.exceptions.NumberRangeException;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.client.helper.gui.SpecialInstrumentationEntity;
-import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.InstrumentationErrorList;
@@ -70,7 +69,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     private Button _cancelButton;
 
     private GridPane _newDataPane;
-    private List<BigDecimalField> _fields;
+    private List<BigDecimalField> _decimalFields;
 
     public InstrumentationManagement() {
 
@@ -85,43 +84,43 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         getStylesheets().add(Style.toString());
         _specialInstrumentationEntityList = new LinkedList();
 
-        _fields = new ArrayList<>();
+        _decimalFields = new ArrayList<>();
         try {
             _firstViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_firstViolinField);
+            _decimalFields.add(_firstViolinField);
             _secondViolinField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_secondViolinField);
+            _decimalFields.add(_secondViolinField);
             _violaField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_violaField);
+            _decimalFields.add(_violaField);
             _violoncelloField = new NumberField(0, 0, Integer.MAX_VALUE);;
-            _fields.add(_violoncelloField);
+            _decimalFields.add(_violoncelloField);
             _doublebassField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_doublebassField);
+            _decimalFields.add(_doublebassField);
 
             _fluteField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_fluteField);
+            _decimalFields.add(_fluteField);
             _oboeField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_oboeField);
+            _decimalFields.add(_oboeField);
             _clarinetField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_clarinetField);
+            _decimalFields.add(_clarinetField);
             _bassoonField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_bassoonField);
+            _decimalFields.add(_bassoonField);
 
             _hornField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_hornField);
+            _decimalFields.add(_hornField);
             _trumpetField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_trumpetField);
+            _decimalFields.add(_trumpetField);
             _tromboneField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_tromboneField);
+            _decimalFields.add(_tromboneField);
             _tubeField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_tubeField);
+            _decimalFields.add(_tubeField);
 
             _kettledrumField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_kettledrumField);
+            _decimalFields.add(_kettledrumField);
             _percussionField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_percussionField);
+            _decimalFields.add(_percussionField);
             _harpField = new NumberField(0, 0, Integer.MAX_VALUE);
-            _fields.add(_harpField);
+            _decimalFields.add(_harpField);
         } catch (NumberRangeException e) {
         }
 
@@ -200,29 +199,6 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         pane.addRow(5, new Label("Percussion:"), _percussionField);
         pane.addRow(6, new Label("Harp:"), _harpField);
 
-        List<TextField> textFields = new LinkedList();
-
-        List<BigDecimalField> decimalFields = new LinkedList<>();
-        decimalFields.add(_firstViolinField);
-        decimalFields.add(_secondViolinField);
-        decimalFields.add(_violaField);
-        decimalFields.add(_violoncelloField);
-        decimalFields.add(_doublebassField);
-
-        decimalFields.add(_fluteField);
-        decimalFields.add(_oboeField);
-        decimalFields.add(_clarinetField);
-        decimalFields.add(_bassoonField);
-
-        decimalFields.add(_hornField);
-        decimalFields.add(_trumpetField);
-        decimalFields.add(_tromboneField);
-        decimalFields.add(_tubeField);
-
-        decimalFields.add(_kettledrumField);
-        decimalFields.add(_percussionField);
-        decimalFields.add(_harpField);
-
         _addButton = new Button("Add");
         _addButton.setMinWidth(100);
         _addButton.setVisible(true);
@@ -232,8 +208,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                     _doublebassField.getNumber().toPlainString().isEmpty() || _fluteField.getNumber().toPlainString().isEmpty() || _oboeField.getNumber().toPlainString().isEmpty() || _clarinetField.getNumber().toPlainString().isEmpty() ||
                     _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
                     || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
-                validate(textFields);
-                validate(decimalFields);
+                validate(_decimalFields);
                 showValuesMissingMessage();
             } else {
                 addInstrumentation();
@@ -519,7 +494,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         _updateButton.setVisible(false);
         _addButton.setVisible(true);
         _cancelButton.setText("Clear");
-        for (BigDecimalField field : _fields) {
+        for (BigDecimalField field : _decimalFields) {
             field.setNumber(new BigDecimal(0));
             field.setStyle("-fx-border-color: transparent");
         }
@@ -548,7 +523,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         for(int x=0;x<errorList.size();x++) {
             error = errorList.get(x).getKey().toString();
             if (error.equals(InstrumentationError.ALLZERO.toString())) {
-                for (BigDecimalField field : _fields) {
+                for (BigDecimalField field : _decimalFields) {
                     field.setStyle("-fx-border-color: red");
                 }
             }
@@ -557,13 +532,13 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
     }
 
     private void setBorder() {
-        for (BigDecimalField field : _fields) {
+        for (BigDecimalField field : _decimalFields) {
             field.setStyle("-fx-border-color: green");
         }
     }
 
     private void setNumberfieldWidth(){
-        for(BigDecimalField field:_fields){
+        for(BigDecimalField field: _decimalFields){
             field.setMaxWidth(60);
         }
     }
