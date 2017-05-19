@@ -1,6 +1,7 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.*;
+import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EventStatus;
@@ -82,13 +83,7 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
             }
         }
 
-        try {
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
-
+        StoreHelper.storeEntities(session);
         return eventEntity.getEventDutyId();
     }
 

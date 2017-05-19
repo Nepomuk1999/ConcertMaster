@@ -3,6 +3,7 @@ package team_f.database_wrapper.facade;
 import team_f.database_wrapper.entities.AccountEntity;
 import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PersonEntity;
+import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.AllInstrumentTypes;
@@ -78,12 +79,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
             personEntity.setAccount(accountEntity.getAccountId());
         }
 
-        try {
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
-
+        StoreHelper.storeEntities(session);
         session.getTransaction().begin();
 
         if (personEntity.getPersonId() > 0){
@@ -93,12 +89,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
             session.flush();
         }
 
-        try {
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
-
+        StoreHelper.storeEntities(session);
         session.getTransaction().begin();
 
         List<MusicianPartEntity> musicianPartEntities = getMusicianPartEntityFromPerson(person);
@@ -108,13 +99,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
             session.persist(musicianPartEntity);
         }
 
-        try {
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
-
+        StoreHelper.storeEntities(session);
         return personEntity.getPersonId();
     }
 

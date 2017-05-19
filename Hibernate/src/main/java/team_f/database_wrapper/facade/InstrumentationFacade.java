@@ -2,6 +2,7 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.*;
 import team_f.database_wrapper.enums.SectionType;
+import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.SpecialInstrumentation;
 
@@ -53,13 +54,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
             session.persist(specialInstrumentationEntity);
         }
 
-        try {
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
-
+        StoreHelper.storeEntities(session);
         return instrumentationEntity.getInstrumentationId();
     }
 
@@ -277,12 +272,8 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         }else{
             returnId = this.add(value);
         }
-        try {
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
+
+        StoreHelper.storeEntities(session);
         return returnId;
     }
 
@@ -344,22 +335,12 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
 
     @Override
     public boolean delete(int id) {
-        boolean result;
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
         Instrumentation instrumentation = getInstrumentationByID(id);
         session.remove(convertToInstrumentationEntity(instrumentation));
 
-        try {
-            session.flush();
-            session.getTransaction().commit();
-            result = true;
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-            result = false;
-        }
-
-        return result;
+        return StoreHelper.storeEntities(session);
     }
 }
