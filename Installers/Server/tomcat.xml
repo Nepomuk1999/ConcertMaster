@@ -138,7 +138,7 @@
             <validVersionList>
                 <validVersion>
                     <bitness></bitness>
-                    <maxVersion>1.8</maxVersion>
+                    <maxVersion></maxVersion>
                     <minVersion>1.8</minVersion>
                     <requireJDK>0</requireJDK>
                     <vendor></vendor>
@@ -175,6 +175,24 @@
             <files>${installdir}/*.sh</files>
             <permissions>744</permissions>
         </changePermissions>
+        <createSymLink>
+            <linkName>~/Desktop/Start ConcertMaster Server</linkName>
+            <target>${installdir}/tomcat/bin/startup.sh</target>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
+                </platformTest>
+            </ruleList>
+        </createSymLink>
+        <createSymLink>
+            <linkName>~/Desktop/Stop ConcertMaster Server</linkName>
+            <target>${installdir}/tomcat/bin/shutdown.sh</target>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
+                </platformTest>
+            </ruleList>
+        </createSymLink>
     </postInstallationActionList>
     <preUninstallationActionList>
         <runProgram>
@@ -184,6 +202,17 @@
             <ruleList>
                 <platformTest>
                     <type>linux</type>
+                </platformTest>
+            </ruleList>
+        </runProgram>
+        <runProgram>
+            <customErrorMessage>Could not launch the app due to MacOSX's security policy. Start the app manually.</customErrorMessage>
+            <program>${installdir}/tomcat/bin/shutdown.sh</program>
+            <programArguments></programArguments>
+            <workingDirectory>${installdir}</workingDirectory>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
                 </platformTest>
             </ruleList>
         </runProgram>
@@ -203,6 +232,7 @@
             <timeout>3000</timeout>
         </waitForPort>
     </preUninstallationActionList>
+    <createOsxBundleDmg>1</createOsxBundleDmg>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
     <saveRelativePaths>1</saveRelativePaths>
@@ -218,6 +248,17 @@
                     <ruleList>
                         <platformTest>
                             <type>linux</type>
+                        </platformTest>
+                    </ruleList>
+                </runProgram>
+                <runProgram>
+                    <customErrorMessage>Could not launch the app due to MacOSX's security policy. Start the app manually.</customErrorMessage>
+                    <program>${installdir}/tomcat/bin/startup.sh</program>
+                    <programArguments></programArguments>
+                    <workingDirectory>${installdir}</workingDirectory>
+                    <ruleList>
+                        <platformTest>
+                            <type>osx</type>
                         </platformTest>
                     </ruleList>
                 </runProgram>

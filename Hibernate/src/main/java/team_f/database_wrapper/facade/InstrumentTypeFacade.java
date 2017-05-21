@@ -42,6 +42,12 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
         return instrumentTypes;
     }
 
+    /** Function to get a list of database_wrapper entity instrumentTypeEntities objects from the DB with the
+     *  specific Id to convert the first of them to a domain entity InstrumentType object.
+     *
+     * @param id
+     * @return  instrumentType  InstrumentType
+     */
     public InstrumentType getInstrumentTypeById(int id) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from InstrumentTypeEntity where instrumentTypeId = :id");
@@ -61,6 +67,11 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
         return instrumentType;
     }
 
+    /** Function to get the parts a musician can play by his ID.
+     *
+     * @param id
+     * @return parts    List<String>    returns a list of the parts the musician plays
+     */
     protected List<String> getPlayedInstrumentsByPersonId(int id) {
         EntityManager session = getCurrentSession();
 
@@ -91,6 +102,11 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
         return parts;
     }
 
+    /** Function to return the ID of the part by checking the InstrumentType
+     *
+     * @param instrumentType
+     * @return  partId  Integer     returns the partId
+     */
     protected Integer getPartIdByPlayedInstrument (AllInstrumentTypes instrumentType) {
         Integer partId;
 

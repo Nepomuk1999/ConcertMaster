@@ -2,7 +2,10 @@ package team_f.client.pages.instrumentationmanagement;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import team_f.client.pages.musicianmanagement.MusicianInstrumentEntity;
+import team_f.client.pages.musicianmanagement.MusicianTableHelper;
 import team_f.jsonconnector.entities.Instrumentation;
+import team_f.jsonconnector.enums.SectionType;
 
 public class InstrumentationHelper {
 
@@ -20,4 +23,5 @@ public class InstrumentationHelper {
         instrumentationCol.setCellValueFactory(instrumentationCellValueFactory);
         return instrumentationCol;
     }
+
 }

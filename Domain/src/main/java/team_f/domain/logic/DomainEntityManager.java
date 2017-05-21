@@ -8,6 +8,7 @@ public class DomainEntityManager {
     private static PersonLogic personLogic = new PersonLogic();
     private static AccountLogic accountLogic = new AccountLogic();
     private static InstrumentationLogic instrumentationLogic = new InstrumentationLogic();
+    private static MusicalWorkLogic musicalWorkLogic = new MusicalWorkLogic();
 
     public DomainEntityManager() {
     }
@@ -22,6 +23,8 @@ public class DomainEntityManager {
                 return accountLogic;
             case INSTRUMENTATION:
                 return instrumentationLogic;
+            case MUSICALWORK:
+                return musicalWorkLogic;
             default:
                 return null;
         }

@@ -192,6 +192,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _editButton.setDisable(true);
         _editButton.setMinWidth(125);
         _editButton.setOnAction(e -> {
+            clearInstrumentsComboboxes();
             _musicianTable.setDisable(true);
             _addButton.setVisible(false);
             _updateButton.setVisible(true);
@@ -572,8 +573,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
                 int[] positions2 = MusicianTableHelper.getFirstInstrumentPos(person.getInstrumentTypeList().get(i));
                 addInstruments(0, _comboBoxSectionType.getSelectionModel().getSelectedItem());
                 _playedInstrumentsList.get(i).getSectionTypeComboBox().getSelectionModel().select(positions2[1]);
-                System.out.println(instruments.get(i).toString());
-                System.out.println(positions2[1]);
             }
 
         }

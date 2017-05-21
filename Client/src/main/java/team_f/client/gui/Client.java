@@ -20,11 +20,9 @@ import team_f.client.pages.home.TodoListHome;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.helper.WebHelper;
 import team_f.client.pages.legende.LegendTable;
-import team_f.client.pages.musicianManagementExplanation.MusicianManagementExplanationPage;
-import team_f.client.singletons.CalendarSingleton;
-import team_f.client.singletons.HomeScreenSingleton;
-import team_f.client.singletons.LegendSingleton;
-import team_f.client.singletons.MusicianManagementExplanationSingleton;
+import team_f.client.pages.musicalWorkManagementExplanation.MWMETable;
+import team_f.client.pages.musicianManagementExplanation.MMEPTable;
+import team_f.client.singletons.*;
 
 import javax.lang.model.type.NullType;
 import java.net.URI;
@@ -112,20 +110,23 @@ public class Client extends Application {
 
             menuHelp.getItems().add(menuItem);
 
-            //LegendTabel-äquivalent machen mit einfach Text (= auch singelton "kopieren")
-
             menuItem = new MenuItem("Show Musician Management Explanation"); //start
             menuItem.setOnAction(actionEvent -> {
-                MusicianManagementExplanationPage mmep = MusicianManagementExplanationSingleton.getInstance();
+                MMEPTable mmep = MusicianManagementExplanationSingleton.getInstance();
                 mmep.initialize();
                 mmep.load();
-                /*
-                LegendTable legendTablePage = LegendSingleton.getInstance();
-                legendTablePage.initialize();
-                legendTablePage.load();  */
             });
 
-            menuHelp.getItems().add(menuItem); //ende?
+            menuHelp.getItems().add(menuItem);
+
+            menuItem = new MenuItem("Show Musical Work Management Explanation"); //start
+            menuItem.setOnAction(actionEvent -> {
+                MWMETable mwmeTable = MusicalWorkManagementExplanationSingleton.getInstance();
+                mwmeTable.initialize();
+                mwmeTable.load();
+            });
+
+            menuHelp.getItems().add(menuItem);
 
             menuItem = new MenuItem("Info");
             menuItem.setOnAction(actionEvent -> {

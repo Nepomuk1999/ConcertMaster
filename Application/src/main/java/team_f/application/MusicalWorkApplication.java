@@ -5,7 +5,11 @@ import team_f.application.entities.SpecialInstrumentation;
 import team_f.database_wrapper.facade.MusicalWorkFacade;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
+import team_f.domain.enums.EntityType;
 import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.logic.DomainEntityManager;
+import team_f.domain.logic.InstrumentationLogic;
+import team_f.domain.logic.MusicalWorkLogic;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -51,6 +55,13 @@ public class MusicalWorkApplication {
             for(SpecialInstrumentation item : specialInstrumentationList) {
                 instrumentation.addToSpecial(item.getID(), item.getSpecialInstrumentation(), item.getspecialInstrumentationCount(), item.getSectionType());
             }
+        }
+
+        MusicalWorkLogic musicalWorkLogic = (MusicalWorkLogic) DomainEntityManager.getLogic(EntityType.MUSICALWORK);
+        List<Pair<String, String>> errorList = musicalWorkLogic.validate(musicalWork);
+
+        if (errorList.size() > 0) {
+            return new Pair<>(instrumentation, errorList);
         }
 
         musicalWork.setInstrumentation(instrumentation);

@@ -37,6 +37,31 @@ public class EventApplication {
         eventFacade.closeSession();
     }
 
+    /** Function creates a domain entity EventDuty object and sets its values
+     * checks if Event is a rehearsal for another Event and sets with with its Id
+     * sets the instrumentation of the EventDuty
+     * sets the points
+     * sets alternative musicalWorks to the eventDuty
+     * returns a errorList using EventDutyLogic when errors occur
+     * sets the eventMusicalList with the composers, alternativeInstrumentations and names
+     * saves the eventDuty to the Database and sets the eventDutyID from the DB
+     * returns the domain entity eventDuty object and an empty list
+     *
+     * @param id
+     * @param name
+     * @param description
+     * @param location
+     * @param startTime
+     * @param endTime
+     * @param conductor
+     * @param type
+     * @param rehearsalForId
+     * @param standardPoints
+     * @param instrumentationId
+     * @param musicalWorkIdList
+     * @param alternativeInstrumentationIdList
+     * @return  Pair<>(eventDuty, errorList) if errors occurred    or    Pair<>(eventDuty, new LinkedList<>())
+     */
     public Pair<DomainEntity, List<Pair<String, String>>> addEvent(int id, String name, String description, String location, LocalDateTime startTime,
                                                                    LocalDateTime endTime, String conductor, EventType type, int rehearsalForId,
                                                                    Double standardPoints, int instrumentationId, int[] musicalWorkIdList,
@@ -154,6 +179,11 @@ public class EventApplication {
         return eventFacade.getEventsByDay(dateTime.getDayOfMonth(), dateTime.getMonthValue(), dateTime.getYear());
     }
 
+    /** Function returns errorList which's entries show if and for what instrumentType there are not enough musicians
+     *
+     * @param eventDuty
+     * @return  errorList
+     */
     public List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
         List<Pair<String, String>> errorList = new LinkedList<>();
         List<EventDuty> eventList;
@@ -181,6 +211,13 @@ public class EventApplication {
         return errorList;
     }
 
+    /** Function to calculate the maximum number of musicians needed for an event. First sets the required number of
+     *      instruments to 0 for each insturmentType. For the instrumentationList of the eventDuty checks if more than 0
+     *          instruments of the instrumentType are required and sets that number into the maxInstrumentation of the
+     *          eventDuty.
+     *
+     * @param eventDuty
+     */
     public void calculateMaxInstrumentation(EventDuty eventDuty) {
 
         Instrumentation maxInstrumentation = new Instrumentation();
@@ -199,6 +236,12 @@ public class EventApplication {
         eventDuty.setMaxInstrumentation(maxInstrumentation);
     }
 
+    /**  Function to be used in the evaluateMusicianCountForEvent-Method of EventApplication.
+     * TODO?? what else does the method do with null?
+     * @param instrumentType
+     * @param list          a list of pairs of the instrumentTypes and lists of persons playing them
+     * @return  pair        list of pairs of instrumentTypes and the persons playing them
+     */
     public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
         Pair<InstrumentType, List<Person>> pair = null;
 
@@ -211,6 +254,12 @@ public class EventApplication {
         return pair;
     }
 
+    /**
+     * TODO  ??
+     *
+     * @param eventDuty
+     * @return
+     */
     public List<Pair<String, String>> getEventsByFrame(EventDuty eventDuty) {
         List<EventDuty> eventDutyList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
         List<EventDuty> rehearsalList = new ArrayList<>();
@@ -231,6 +280,13 @@ public class EventApplication {
         return errorList;
     }
 
+    /** Function to publish and persist events of a specific month in a specific year. Sets their status to published.
+     *           Returns an errorList of events that could not be published
+     *
+     * @param month
+     * @param year
+     * @return
+     */
     public List<Pair<DomainEntity, List<Pair<String, String>>>> publishEventsByMonth(int month, int year) {
         List<Pair<DomainEntity, List<Pair<String, String>>>> fullErrorList = new LinkedList<>();
 
@@ -251,6 +307,13 @@ public class EventApplication {
         return fullErrorList;
     }
 
+    /** Function to unpublish a specific month in a specific year. The status is set to unpublished. When no errors this
+     *          is persisted. If errors occur a errorList is returned. if not an empty list is returned
+     *
+     * @param month
+     * @param year
+     * @return    errorList     if errors occured they are returned in this list
+     */
     public List<Pair<DomainEntity, List<Pair<String, String>>>> unpublishEventsByMonth(int month, int year) {
         List<Pair<DomainEntity, List<Pair<String, String>>>> fullErrorList = new LinkedList<>();
         List<Pair<String, String>> errorList;

@@ -32,6 +32,9 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
     /**
      * Function to get all Musicians. Returns a List of Persons
      *
+     * creates a List<PeronEntity> from the database and from this a list of all musicians with the PersonFacades convertToPerson-method.
+     * Also adds instrumentType to the person if he plays an instrument
+     *
      * @return musicians      List<Person>         returns a list of persons
      */
     public List<Person> getAllMusicians() {
@@ -65,6 +68,17 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         return musicians;
     }
 
+    /** Function converts a domain entity Person object into a database_wrapper PersonEntity object
+     *  then sets the account for this person with the accountEntitys ID
+     *  then persists the account entity of this person
+     *
+     * gets the persons musicianPartEntities and sets the musician to them by id and then persists.
+     * returns the personId of the personEntity
+     *
+
+     * @param person
+     * @return personEntity.getPersonId()
+     */
     private Integer register(Person person) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -103,6 +117,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         return personEntity.getPersonId();
     }
 
+    //this method is not used
     public static boolean contains(String test) {
 
         for (InstrumentType c : InstrumentType.values()) {
@@ -114,6 +129,11 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         return false;
     }
 
+    /** Function to convert a domain entity Person object into a database_wrapper PersonEntity object
+     *
+     * @param person
+     * @return  entity      returns a database_wrapper PersonEntity object
+     */
     protected PersonEntity convertToPersonEntity(Person person) {
         PersonEntity entity = new PersonEntity();
 
@@ -130,6 +150,12 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         return entity;
     }
 
+    /**Function to return the Parts a musician plays from the DB with the getPlayedInstruments method of the Person
+     * domain entity object
+     *
+     * @param person
+     * @return      musicianPartEntities        returns list of MusicianPartEntities
+     */
     protected List<MusicianPartEntity> getMusicianPartEntityFromPerson (Person person) {
         List<MusicianPartEntity> musicianPartEntities = new LinkedList();
 
@@ -143,7 +169,8 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
     }
 
     /**
-     * Function to convert a PersonEntity object to a Person. Returns the Person after creating and setting information from PersonyEntity object.
+     * Function to convert a PersonEntity object to a Person. Returns the Person after creating and setting information
+     * from PersonEntity object.
      * @return person      Person        returns a person object
      */
     private Person convertToPerson(PersonEntity pe) {

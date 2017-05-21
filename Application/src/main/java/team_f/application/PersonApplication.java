@@ -37,6 +37,15 @@ public class PersonApplication {
         return personFacade.getAllMusicians();
     }
 
+    /** Function adds persons who play the specific instrument for every instrumentType and returns this list of
+     *                  InstrumentType,List<Person>>-pairs
+     * bzw
+     * Function to get a list of pairs of instrumentTypes and a list of lists of persons playing them  for a list of persons
+     *
+     * @param persons
+     * @return list     List<Pair<InstrumentType, List<Person>>>    returns list of pairs of
+     *                                                              instrumentTypes with persons playing them
+     */
     public List<Pair<InstrumentType, List<Person>>> getMusicianListByPlayedInstrumentType(List<Person> persons) {
         List<Pair<InstrumentType, List<Person>>> list = new LinkedList<>();
         List<Person> instrumentList = new LinkedList<>();
@@ -64,6 +73,35 @@ public class PersonApplication {
         return list;
     }
 
+    /**
+     * Creates domain entity Person object and sets its data.  The instruments played by the person (instrumentTypeList)
+     *                      is only set for the correct PersonRole (not Manager, Music_librarian, Orchestral_facility_manager)
+     *                      sets the persons initials
+     *                      creates domain entity Account object, sets its values and sets them to person
+     *                      validates with personLogic and accountLogic and creates errorList
+     *                      updating persons is permitted (=changing their data)
+     *                      checks if person with same data already exists and gives back errorList
+     *                      checks if person that is not an External_musician has already used username
+     *                      checks if person plays instrument
+     *                      if one or more errors occurred an errorList ist returned
+     *                      if no errors occur person is added with PersonFacade and the ID is set
+     *
+     * @param id
+     * @param firstname
+     * @param lastname
+     * @param gender
+     * @param address
+     * @param email
+     * @param phoneNumber
+     * @param accountID
+     * @param personRole
+     * @param username
+     * @param accountRole
+     * @param instrumentTypeList
+     * @return      Pair<>(person, errorList)    or     Pair<>(person, new LinkedList<>())  returns a pair of person and a list
+     *                                                          if errors occured the list is the errorlist
+
+     */
     public Pair<DomainEntity, List<Pair<String, String>>> add(int id, String firstname, String lastname, String gender, String address,
                                                                    String email, String phoneNumber, int accountID, PersonRole personRole, String username,
                                                                    AccountRole accountRole, List<AllInstrumentTypes> instrumentTypeList) {
@@ -113,7 +151,7 @@ public class PersonApplication {
             errorList.addAll(errorList2);
         }
 
-        // do not check if it exists when we updating the person and the account
+
         if(person.getPersonID() <= 0) {
             for(Person p : personList){
                 if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
