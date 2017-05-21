@@ -39,6 +39,11 @@ public class InstrumentFacade extends BaseDatabaseFacade<Instrument> {
         return instruments;
     }
 
+    /** Function to get an domain entity Instrument object from the database_wrappe entity InsturmentEntity object.
+     *
+     * @param id
+     * @return      instrument  Instrument
+     */
     public Instrument getInstrumentById(int id) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from InstrumentEntity where instrumentId = :id");
@@ -57,7 +62,9 @@ public class InstrumentFacade extends BaseDatabaseFacade<Instrument> {
     }
 
     /**
-     * Function to convert a InstrumentEntity object to a Instrument. Returns the Instrument after creating and setting information from InstrumentEntity object.
+     * Function to convert a database_wrapper entity InstrumentEntity object to a domain entity Instrument object.
+     *  Returns the Instrument after creating and setting information from InstrumentEntity object.
+     *
      * @return instrument      Instrument        returns a instrument object
      */
     protected Instrument convertToInstrument(InstrumentEntity instrumentEntity) {

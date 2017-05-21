@@ -68,8 +68,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         return musicians;
     }
 
-    /** Function
-     *  converts a domain entity Person object into a database_wrapper PersonEntity object
+    /** Function converts a domain entity Person object into a database_wrapper PersonEntity object
      *  then sets the account for this person with the accountEntitys ID
      *  then persists the account entity of this person
      *

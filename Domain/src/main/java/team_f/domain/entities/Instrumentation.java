@@ -222,7 +222,7 @@ public class Instrumentation implements DomainEntity {
         return special;
     }
 
-    /** Function to add a special Instrumentation to the list of special instrumentation of an instrumentation
+    /** Function to add a special instrumentation to a list of special instrumentations.
      *
      * @param id
      * @param instrumentation

@@ -21,6 +21,15 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         super(session);
     }
 
+    /** Function to convert a domain entity MusicalWork object to a database_wrapper entity MusicalWorkEntity object
+     *  and add the domain entity MusicalWork object's instrumentation to it and set the database_wrapper entity
+     *  MusicalWorkEntity object's Id after that
+     *  merge if the database_wrapper entity MusicalWorkEntity object's id is > 0. Else persist.
+     *  store the entities with StoreHelper's storeEntities-method
+     *
+     * @param musicalWork
+     * @return mwEntity.getMusicalWorkId     Integer     returns the musicalWorkEntity's Id
+     */
     private Integer addMusicalWork(MusicalWork musicalWork) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -78,7 +87,14 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         return musicalWorks;
     }
 
-
+    /**
+     *  Function to get the database_wrapper entity EventDutyMusicalWorkEntity objects from the DB
+     *    and get the database_wrapper entity MusicalWorkEntity objects of them. They are converted to
+     *    domain entity MusicalWork objects and their alternative insturmentation is set.
+     *
+     * @param eventId
+     * @return  mwList  List<MusicalWork>   returns the list of MusicalWorks for the specific event
+     */
     public List<MusicalWork> getMusicalWorksForEvent(int eventId) {
         EntityManager session = getCurrentSession();
 
