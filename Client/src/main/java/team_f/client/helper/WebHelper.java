@@ -6,6 +6,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 
+/** Function to open the application in webbrowser with checking what operating system is used.
+ */
 public class WebHelper {
     public static boolean openInWebbrowser(URI uri) {
         if (OSInfo.getOSType() == OSInfo.OSType.LINUX) {

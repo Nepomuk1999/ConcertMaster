@@ -173,6 +173,10 @@ public class Instrumentation implements DomainEntity {
         _harp = harp;
     }
 
+    /** Function to show the number of wood instruments separated with a "/"
+     *
+     * @return  String "Wood: " + the number of flues, oboes, clarinets and bassoons separated with a "/"
+     */
     public String getWoodInstrumentationText() {
         return "Wood: " + TextHelper.getSeparatedText('/', getFlute(), getOboe(), getClarinet(), getBassoon());
     }
@@ -194,6 +198,10 @@ public class Instrumentation implements DomainEntity {
         return "Special: " + TextHelper.getTextFromString('+', "","","");
     }
 
+    /** Function to get a String of all the instruments and their required number
+     *
+     * @return      text    returns String of the whole instrumentation (= instruments + number)
+     */
     public String getInstrumentationText() {
         StringBuilder text = new StringBuilder();
         text.append(getWoodInstrumentationText());
@@ -210,6 +218,13 @@ public class Instrumentation implements DomainEntity {
         return text.toString();
     }
 
+    /** Function to add a special Instrumentation to the list of special instrumentation of an instrumentation
+     *
+     * @param id
+     * @param instrumentation
+     * @param instrumentationCount
+     * @param section
+     */
     public void addToSpecial(int id, String instrumentation, int instrumentationCount, String section) {
         SpecialInstrumentation specialInstrumentation = new SpecialInstrumentation();
         specialInstrumentation.setSpecialInstrumentationID(id);
@@ -219,6 +234,10 @@ public class Instrumentation implements DomainEntity {
         special.add(specialInstrumentation);
     }
 
+    /** Function to increase the number of instruments of different types of an instrumentation
+     *
+     * @param instrumentation
+     */
     public void addToInstrumentations(Instrumentation instrumentation) {
         setFlute(getFlute() + instrumentation.getFlute());
         setOboe(getOboe() + instrumentation.getOboe());
@@ -241,6 +260,11 @@ public class Instrumentation implements DomainEntity {
         setHarp(getHarp() + instrumentation.getHarp());
     }
 
+    /** Function to return the number of instruments of an instrumentation for a specific instrument
+     *
+     * @param instrumentType
+     * @return int      returns number of instruments or -1 if the instrumentType does not exist
+     */
     public Integer getByInstrumentType(InstrumentType instrumentType) {
         switch (instrumentType) {
             case FLUTE:
@@ -280,6 +304,11 @@ public class Instrumentation implements DomainEntity {
         return -1;
     }
 
+    /** Function to set the number of instruments for a Type
+     *
+     * @param instrumentType
+     * @param count
+     */
     public void setByInstrumentType(InstrumentType instrumentType, Integer count) {
         switch (instrumentType) {
             case FLUTE:

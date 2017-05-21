@@ -1,21 +1,21 @@
 
 package team_f.client.singletons;
 
-import team_f.client.pages.musicianManagementExplanation.MusicianManagementExplanationPage;
+import team_f.client.pages.musicianManagementExplanation.MMEPTable;
 
 public class MusicianManagementExplanationSingleton {
 
 
-    private static MusicianManagementExplanationPage _musicianManagementExplanationPage;
+    private static MMEPTable _mMEPTable;
 
     private  MusicianManagementExplanationSingleton() {
     }
 
-    public static MusicianManagementExplanationPage getInstance() {
-        if (_musicianManagementExplanationPage == null) {
-            _musicianManagementExplanationPage = new MusicianManagementExplanationPage();
+    public static MMEPTable getInstance() {
+        if (_mMEPTable == null) {
+            _mMEPTable = new MMEPTable();
         }
 
-        return _musicianManagementExplanationPage;
+        return _mMEPTable;
     }
 }
