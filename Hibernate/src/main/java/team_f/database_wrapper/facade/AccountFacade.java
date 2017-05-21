@@ -17,6 +17,11 @@ public class AccountFacade extends BaseDatabaseFacade<Account> {
         super(session);
     }
 
+    /** Function to convert an domain entity Account object to a database_wrapper AccountEntity object
+     *
+     * @param account
+     * @return      entity      returns a database_wrapper AccountEntity object
+     */
     protected AccountEntity convertToAccountEntity(Account account) {
         AccountEntity entity = new AccountEntity();
         entity.setUsername(account.getUsername());
@@ -26,6 +31,11 @@ public class AccountFacade extends BaseDatabaseFacade<Account> {
         return entity;
     }
 
+    /** Function to convert a database_wrapper AccountEntity object to a Domain AccountEntity object
+     *
+     * @param accountEntity
+     * @return      account         returns a Domain AccountEntity object
+     */
     public Account convertToAccount(AccountEntity accountEntity) {
         Account account = new Account();
         account.setAccountID(accountEntity.getAccountId());
@@ -35,6 +45,12 @@ public class AccountFacade extends BaseDatabaseFacade<Account> {
         return account;
     }
 
+    /** from DB
+     * converts a list of database_wrapper AccountEntity objects to a list of domain entity Account objects
+     *
+     *
+     * @return      accounts    return list of accounts
+     */
     public List<Account> getAllUserNames() {
         EntityManager session = getCurrentSession();
 

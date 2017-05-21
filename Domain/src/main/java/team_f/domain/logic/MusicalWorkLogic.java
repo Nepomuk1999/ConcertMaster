@@ -34,7 +34,7 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
                 case INSTRUMENTAMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
                     List<Pair<String, String>> errorList = instrumentationLogic.validate(object.getInstrumentation());
-
+                    resultList.addAll(errorList);
                     break;
             }
         }

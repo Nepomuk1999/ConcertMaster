@@ -12,6 +12,12 @@ public class AccountLogic implements EntityLogic<Account, AccountProperty> {
     protected AccountLogic() {
     }
 
+    /** Function to return a resultList that shows that the specific username of an account is empty if it is
+     *
+     * @param account
+     * @param properties
+     * @return      resultList      returns         returns list of Pair<String, String>
+     */
     @Override
     public List<Pair<String, String>> validate(Account account, AccountProperty... properties) {
         List<Pair<String, String>> resultList = new LinkedList<>();

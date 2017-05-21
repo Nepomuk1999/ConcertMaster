@@ -20,6 +20,17 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         super(session);
     }
 
+    /** Function creates database_wrapper entity objects for the instrumentation and the wood-, brass-,..instrumentations of it
+     * persists all wood-, brass-,..instrumentations
+     * sets the ID of the wood-, brass-,..instrumentations into the instrumentation
+     * persists the database_wrapper entity instrumentationEntity object
+     * persist the special instrumentation (for that domain entity SpecialInstrumentation object is converted to database_wrapper entity specialInstrumentationEntity object)
+     * store the entities with StoreHelper's storeEntities-method
+     * return ID of the database_wrapper entity specialInstrumentationEntity object
+     *
+     * @param instrumentation
+     * @return instrumentationEntity.getInstrumentationId()
+     */
     private Integer addInstrumentation(Instrumentation instrumentation) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();

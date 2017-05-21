@@ -25,6 +25,17 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
 
     /**
      * Function to add a ModelLogic. Returns the EventDutyId after saving it in entities
+     * paul:
+     * converts domain entity eventDuty object into database_wrapper entity EventDutyIntity object
+     * merge if eventDutyID > 0	else persist
+     * if it isn't a nonmusical event a database_wrapper entity object EventDutyMusicalWorkEntity is created
+     * and the musicalWorkFacade gets the list of musical work Entities for this event
+     * checks for and avoids duplicated primary keys for musicalwork and eventIds
+     * set EventDuty and MusicalWork and alternativeInstrumentations for the EventDutyMusicalWorkEntity
+     * persists the EventDutyMusicalWorkEntity and adds it to EventDutyMusicalWorkList
+     * merge if eventDutyID > 0	else persist
+     * uses StoreHelpers storeEntities-Method to commit or rolls back
+     * returns the stored event's ID
      *
      * @return EventDutyId      int         returns the primary key of the event
      */
@@ -87,6 +98,12 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
         return eventEntity.getEventDutyId();
     }
 
+    /** Function to find one event with a specific ID from the DB
+     *  converts the database_wrapper EventDutyEntity object to a domain entity EventDuty object
+     *  and sets the musical Works for this domain entity from the DB with MusicalWorkFacade
+     * @param id
+     * @return  event
+     */
     public EventDuty getEventById(int id) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from EventDutyEntity where eventDutyId = :id");
@@ -108,6 +125,13 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
         return event;
     }
 
+    /** Function to get Events for a specific month in a specific year
+     *  converts the database_wrapper objects into domain objects
+     *
+     * @param month
+     * @param year
+     * @return  events
+     */
     public List<EventDuty> getEventsByMonth(int month, int year) {
         EntityManager session = getCurrentSession();
 
@@ -127,6 +151,14 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
         return events;
     }
 
+    /** Function to get Events for a specific day in a specific month in a specific year
+     *  converts the database_wrapper objects into domain objects
+     *
+     * @param day
+     * @param month
+     * @param year
+     * @return      events
+     */
     public List<EventDuty> getEventsByDay(int day, int month, int year) {
         EntityManager session = getCurrentSession();
 
@@ -148,6 +180,14 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
         return events;
     }
 
+    /** Function to get Events for a specific time frame
+     *  converts the database_wrapper objects into domain objects
+
+     *
+     * @param start
+     * @param end
+     * @return    events
+     */
     public List<EventDuty> getEventsByTimeFrame(LocalDateTime start, LocalDateTime end) {
         EntityManager session = getCurrentSession();
 
@@ -168,7 +208,9 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
     }
 
     /**
-     * Function to convert EventDutyEntity Object to EventDuty. Returns the EventDuty after creating and setting information from EventDutyEntity object.
+     * Function to convert dadabase_wrapper EventDutyEntity Object to domain entity EventDuty object.
+     * Returns the EventDuty after creating and setting information from EventDutyEntity object.
+     *
      * @return eventDuty    EventDuty       returns EventDuty Object
      */
     protected EventDuty convertToEventDuty(EventDutyEntity entity) {
@@ -204,7 +246,8 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
     }
 
     /**
-     * Function to convert EventDuty Object to EventDutyEntity. Returns the EventDutyEntity after creating and setting information from EventDuty object.
+     * Function to convert domain entity EventDuty Object to database_wrapper entity EventDutyEntity object.
+     * Returns the EventDutyEntity after creating and setting information from EventDuty object.
      * @return eventDutyEntity    EventDutyEntity       returns EventDutyEntity Object
      */
     protected EventDutyEntity convertToEventDutyEntity(EventDuty event) {
