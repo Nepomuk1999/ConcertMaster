@@ -4,8 +4,6 @@ package team_f.client.singletons;
 import team_f.client.pages.musicianManagementExplanation.MMEPTable;
 
 public class MusicianManagementExplanationSingleton {
-
-
     private static MMEPTable _mMEPTable;
 
     private  MusicianManagementExplanationSingleton() {
