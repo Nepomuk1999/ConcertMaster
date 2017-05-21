@@ -1,9 +1,13 @@
 package team_f.server.helper.converter;
 
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.enums.PersonRole;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonConverter {
     public static Person convertToJSON(team_f.domain.entities.Person person) {
@@ -32,10 +36,17 @@ public class PersonConverter {
         result.setAddress(person.getAddress());
 
         if(person.getPlayedInstruments() != null) {
-            // use only the first one
-            if(person.getPlayedInstruments().size() > 0) {
-                result.setInstrumentType(InstrumentType.valueOf(String.valueOf(person.getPlayedInstruments().get(0))));
+            List<InstrumentType> instrumentTypeList = new ArrayList<>(person.getPlayedInstruments().size());
+
+            for(AllInstrumentTypes instrumentType : person.getPlayedInstruments()) {
+                try {
+                    instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(instrumentType)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
+            result.setInstrumentTypeList(instrumentTypeList);
         }
 
         return result;

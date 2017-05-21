@@ -7,7 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import team_f.client.helper.ImageUtilHelper;
-
 import java.util.Collection;
 
 public class MenuSection extends TitledPane {

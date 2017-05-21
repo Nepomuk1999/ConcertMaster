@@ -4,7 +4,9 @@ import team_f.database_wrapper.entities.InstrumentTypeEntity;
 import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PartEntity;
 import team_f.database_wrapper.entities.PartTypeEntity;
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.InstrumentType;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -30,11 +32,11 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
 
         List<InstrumentTypeEntity> instrumentTypeEntities = query.getResultList();
         List<InstrumentType> instrumentTypes = new ArrayList<>(instrumentTypeEntities.size());
-        InstrumentType instrument;
+        InstrumentType instrumentType;
 
         for (InstrumentTypeEntity entity : instrumentTypeEntities) {
-            instrument = convertToInstrumentType(entity);
-            instrumentTypes.add(instrument);
+            instrumentType = convertToInstrumentType(entity);
+            instrumentTypes.add(instrumentType);
         }
 
         return instrumentTypes;
@@ -89,41 +91,85 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
         return parts;
     }
 
-    protected Integer getPartIdByPlayedInstrument (InstrumentType instrumentType) {
+    protected Integer getPartIdByPlayedInstrument (AllInstrumentTypes instrumentType) {
         Integer partId;
 
-        if (instrumentType.equals(InstrumentType.FIRSTVIOLIN)) {
+        if (instrumentType.equals(AllInstrumentTypes.FIRSTVIOLIN)) {
             partId = 1;
-        } else if (instrumentType.equals(InstrumentType.SECONDVIOLIN)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.SECONDVIOLIN)) {
             partId = 2;
-        } else if (instrumentType.equals(InstrumentType.VIOLA)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.VIOLA)) {
             partId = 3;
-        } else if (instrumentType.equals(InstrumentType.VIOLONCELLO)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.VIOLONCELLO)) {
             partId = 4;
-        } else if (instrumentType.equals(InstrumentType.DOUBLEBASS)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.DOUBLEBASS)) {
             partId = 5;
-        } else if (instrumentType.equals(InstrumentType.FLUTE)) {
-            partId = 17;
-        } else if (instrumentType.equals(InstrumentType.OBOE)) {
-            partId = 19;
-        } else if (instrumentType.equals(InstrumentType.CLARINET)) {
-            partId = 20;
-        } else if (instrumentType.equals(InstrumentType.BASSOON)) {
-            partId = 22;
-        } else if (instrumentType.equals(InstrumentType.HORN)) {
-            partId = 26;
-        } else if (instrumentType.equals(InstrumentType.TRUMPET)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.ENGLISHHORN)) {
+            partId = 6;
+        } else if (instrumentType.equals(AllInstrumentTypes.FRENCHHORN)) {
+            partId = 7;
+        } else if (instrumentType.equals(AllInstrumentTypes.BASSETHORN)) {
+            partId = 8;
+        } else if (instrumentType.equals(AllInstrumentTypes.TRUMPET)) {
             partId = 9;
-        } else if (instrumentType.equals(InstrumentType.TROMBONE)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.TROMBONE)) {
             partId = 10;
-        } else if (instrumentType.equals(InstrumentType.TUBE)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.BASSTROMBONE)) {
+            partId = 11;
+        } else if (instrumentType.equals(AllInstrumentTypes.CONTRABASSTROMBONE)) {
+            partId = 12;
+        } else if (instrumentType.equals(AllInstrumentTypes.TUBE)) {
             partId = 13;
-        } else if (instrumentType.equals(InstrumentType.KETTLEDRUM)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.KETTLEDRUM)) {
             partId = 14;
-        } else if (instrumentType.equals(InstrumentType.PERCUSSION)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.PERCUSSION)) {
             partId = 15;
-        } else if (instrumentType.equals(InstrumentType.HARP)) {
+        } else if (instrumentType.equals(AllInstrumentTypes.HARP)) {
             partId = 16;
+        } else if (instrumentType.equals(AllInstrumentTypes.FLUTE)) {
+            partId = 17;
+        } else if (instrumentType.equals(AllInstrumentTypes.PICCOLO)) {
+            partId = 18;
+        } else if (instrumentType.equals(AllInstrumentTypes.OBOE)) {
+            partId = 19;
+        } else if (instrumentType.equals(AllInstrumentTypes.CLARINET)) {
+            partId = 20;
+        } else if (instrumentType.equals(AllInstrumentTypes.BASSCLARINET)) {
+            partId = 21;
+        } else if (instrumentType.equals(AllInstrumentTypes.BASSOON)) {
+            partId = 22;
+        } else if (instrumentType.equals(AllInstrumentTypes.HECKELPHONE)) {
+            partId = 23;
+        } else if (instrumentType.equals(AllInstrumentTypes.CONTRABASSOON)) {
+            partId = 24;
+        } else if (instrumentType.equals(AllInstrumentTypes.SAXOPHONE)) {
+            partId = 25;
+        } else if (instrumentType.equals(AllInstrumentTypes.HORN)) {
+            partId = 26;
+        } else if (instrumentType.equals(AllInstrumentTypes.EUPHONIUM)) {
+            partId = 27;
+        } else if (instrumentType.equals(AllInstrumentTypes.WAGNERTUBA)) {
+            partId = 28;
+        } else if (instrumentType.equals(AllInstrumentTypes.CIMBASSO)) {
+            partId = 29;
+        } else if (instrumentType.equals(AllInstrumentTypes.PIANO)) {
+            partId = 30;
+        } else if (instrumentType.equals(AllInstrumentTypes.CELESTA)) {
+            partId = 31;
+        } else if (instrumentType.equals(AllInstrumentTypes.ORGAN)) {
+            partId = 32;
+        } else if (instrumentType.equals(AllInstrumentTypes.CEMBALO)) {
+            partId = 33;
+        } else if (instrumentType.equals(AllInstrumentTypes.KEYBOARD)) {
+            partId = 34;
+        } else if (instrumentType.equals(AllInstrumentTypes.ACCORDEON)) {
+            partId = 35;
+        } else if (instrumentType.equals(AllInstrumentTypes.BANDONEON)) {
+            partId = 36;
+        } else if (instrumentType.equals(AllInstrumentTypes.GUITAR)) {
+            partId = 37;
+        } else if (instrumentType.equals(AllInstrumentTypes.MANDOLIN)) {
+            partId = 38;
         } else {
             partId = -1;
         }
@@ -141,6 +187,10 @@ public class InstrumentTypeFacade extends BaseDatabaseFacade<InstrumentType> {
         //InstrumentType.setInstrumentTypeID(instrumentTypeEntity.getInstrumentTypeId());
 
         InstrumentType instrumentType = InstrumentType.valueOf(instrumentTypeEntity.getInstrumentType());
+
+        /*InstrumentType instrumentType = new InstrumentType();
+        instrumentType.setID(instrumentTypeEntity.getInstrumentTypeId());
+        instrumentType.setName(instrumentTypeEntity.getInstrumentType());*/
 
         return instrumentType;
     }

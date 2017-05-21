@@ -41,7 +41,7 @@ public class ListPDFGenerator {
     }
 
     protected String parseToPath(String directory){
-        StringBuilder finalPath=new StringBuilder();
+        StringBuilder finalPath = new StringBuilder();
         for(int i=0; i<directory.length();i++){
             if (directory.charAt(i)=='\\') {
                 finalPath.append('/');
@@ -61,149 +61,113 @@ public class ListPDFGenerator {
         img.setFixedPosition(600 , 500 );
         doc.add(img);
 
-        Paragraph p=new Paragraph("Musician List");
+        Paragraph p = new Paragraph("Musician List");
         p.setFont(_bold);
         p.setFontSize(20);
         p.setMarginTop(35);
         doc.add(p);
 
 
-        Table table = new Table(new float[]{1,1,1,1,1,1,1,1,1,1,1,1,1});
+        Table table = new Table(new float[]{1,1,1,2,2,2,2,2,2,2,2,2});
 
         table.addHeaderCell(new Cell().setFont(_bold).add("ID"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Initials"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Username"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Sex"));
         table.addHeaderCell(new Cell().setFont(_bold).add("First Name"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Last Name"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Username"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Address"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Phone Number"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Email"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Account Role"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Person Role"));
-        table.addHeaderCell(new Cell().setFont(_bold).add("Section"));
+        table.addHeaderCell(new Cell().setFont(_bold).add("Account Role"));
         table.addHeaderCell(new Cell().setFont(_bold).add("Instruments"));
+
+
+        table.setFontSize(10);
 
        if(_list != null && !_list.isEmpty()) {
             for (Person person : _list) {
-                if (person.getPersonID() > 0) {
-                    table.addCell(String.valueOf(person.getPersonID()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                if (person != null) {
+                    if (person.getPersonID() > 0) {
+                        table.addCell(new Cell().add(String.valueOf(person.getPersonID())));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                if (person.getInitials().toString() != null) {
-                    table.addCell(String.valueOf(person.getInitials().toString()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getInitials() != null) {
+                        table.addCell(new Cell().add(person.getInitials()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //gender
-                if (person.getGender().toString() != null) {
-                    table.addCell(String.valueOf(person.getGender().toString()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getAccount()!=null&&person.getAccount().getUsername() != null) {
+                        table.addCell(new Cell().add(person.getAccount().getUsername().toString()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //firstname
-                if (person.getFirstname() != null) {
-                    table.addCell(String.valueOf(person.getFirstname()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getGender()!= null) {
+                        table.addCell(new Cell().add(person.getGender().toString()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //lastname
-                if (person.getLastname() != null) {
-                    table.addCell(String.valueOf(person.getLastname()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getFirstname() != null) {
+                        table.addCell(new Cell().add(person.getFirstname()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //username
-                if (person.getAccount().getUsername() != null) {
-                    table.addCell(String.valueOf(person.getAccount().getUsername()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getLastname() != null) {
+                        table.addCell(new Cell().add(person.getLastname()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //address
-                if (person.getAddress() != null) {
-                    table.addCell(String.valueOf(person.getAddress()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getAddress() != null) {
+                        table.addCell(new Cell().add(person.getAddress()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //phone number
-                if (person.getPhoneNumber() != null) {
-                    table.addCell(String.valueOf(person.getPhoneNumber()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getPhoneNumber() != null) {
+                        table.addCell(new Cell().add(person.getPhoneNumber()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                if (person.getPhoneNumber() != null) {
-                    table.addCell(String.valueOf(person.getPhoneNumber()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getEmail() != null) {
+                        table.addCell(new Cell().add(person.getEmail()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                if (person.getEmail() != null) {
-                    table.addCell(String.valueOf(person.getEmail()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getPersonRole().toString() != null) {
+                        table.addCell(new Cell().add(person.getPersonRole().toString()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                if (person.getAccount().getRole().toString() != null) {
-                    table.addCell(String.valueOf(person.getAccount().getRole().toString()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getAccount()!=null && person.getAccount().getRole()!=null) {
+                        table.addCell(new Cell().add(person.getAccount().getRole().toString()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //person role
-                if (person.getPersonRole().toString() != null) {
-                    table.addCell(String.valueOf(person.getPersonRole().toString()));
-                }
-                else {
-                    table.addCell(" ");
-                }
-                //section
-                if (person.getInstrumentType().name() != null) {
-                    table.addCell(String.valueOf(person.getInstrumentType().name()));
-                }
-                else {
-                    table.addCell(" ");
-                }
+                    if (person.getInstrumentTypeList() != null) {
+                        table.addCell(new Cell().add(person.getInstrumentTypeList().get(0).toString()));
+                    } else {
+                        table.addCell(" ");
+                    }
 
-                //instr
-                if (person.getInstrumentType().name() != null) {
-                    table.addCell(String.valueOf(person.getInstrumentType().name()));
                 }
-                else {
-                    table.addCell(" ");
-                }
-
-
-
-
-
             }
-            table.setMarginTop(15);
-            doc.add(table);
 
-        }
 
-        doc.close();
-        pdfDoc.close();
+           doc.add(table);
+           doc.close();
+           pdfDoc.close();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
@@ -216,4 +180,4 @@ public class ListPDFGenerator {
 
 }
 
-
+}

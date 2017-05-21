@@ -8,6 +8,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -55,11 +57,18 @@ public class Client extends Application {
 
         BorderPane content = new BorderPane();
 
-        BorderPane mainContent = new BorderPane();
-        mainContent.setCenter(HomeScreenSingleton.getInstance());
+        ScrollPane mainContent = new ScrollPane();
+        mainContent.setFitToHeight(true);
+        mainContent.setFitToWidth(true);
+        BorderPane mainContentPane = new BorderPane();
+        mainContentPane.maxHeightProperty().bind(mainContent.heightProperty());
+        mainContentPane.maxWidthProperty().bind(mainContent.widthProperty());
+
+        mainContent.setContent(mainContentPane);
+        content.setCenter(mainContent);
 
         // set the sidebar
-        NavigationBar navigationBar = new NavigationBar(content, _configuration);
+        NavigationBar navigationBar = new NavigationBar(mainContentPane, _configuration);
         Sidebar sidebar = navigationBar.getNavigationBar();
         content.setLeft(sidebar);
 
@@ -72,7 +81,7 @@ public class Client extends Application {
             MenuItem menuItem;
 
             menuItem = new MenuItem("Home");
-            menuItem.setOnAction(event -> mainContent.setCenter(HomeScreenSingleton.getInstance()));
+            menuItem.setOnAction(event -> mainContent.setContent(HomeScreenSingleton.getInstance()));
             menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCodeCombination.CONTROL_DOWN));
             menuFile.getItems().add(menuItem);
 
@@ -173,16 +182,16 @@ public class Client extends Application {
                 }
             });
 
-            Label label=new Label("Zoom");
+            Label label = new Label("Zoom");
             final URL Style = ClassLoader.getSystemResource("style/stylesheetClient.css");
             label.getStylesheets().add(Style.toString());
-            VBox zoomTool=new VBox(label,slider);
+            VBox zoomTool = new VBox(label,slider);
             zoomTool.setSpacing(10);
             zoomTool.setAlignment(Pos.CENTER);
 
             CustomMenuItem sliderItem = new CustomMenuItem(zoomTool);
             sliderItem.setHideOnClick(false);
-            menuSettings.getItems().addAll( new SeparatorMenuItem(),sliderItem, new SeparatorMenuItem());
+            menuSettings.getItems().addAll(new SeparatorMenuItem(), sliderItem, new SeparatorMenuItem());
 
             menuBar.getMenus().addAll(menuFile, menuTodo, menuSettings, menuHelp);
             content.setTop(menuBar);
@@ -205,6 +214,7 @@ public class Client extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(t -> Common.closeAppWithWarning(t, primaryStage, _configuration));
+        primaryStage.setMaximized(true);
 
         primaryStage.show();
     }

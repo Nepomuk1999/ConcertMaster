@@ -258,7 +258,7 @@ public class Instrumentation implements JSONObjectEntity {
             for(int i = 0; i < _special.size(); i++) {
                 specialInstrumentation.append(_special.get(i).getDisplayName());
 
-                if(i < _special.size()) {
+                if(i < _special.size() -1) {
                     specialInstrumentation.append(" + ");
                 }
             }

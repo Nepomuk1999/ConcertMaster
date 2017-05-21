@@ -1,6 +1,6 @@
 package team_f.domain.helper;
 
-import team_f.domain.enums.EventDutyProperty;
+import team_f.domain.enums.properties.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
 

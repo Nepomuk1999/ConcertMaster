@@ -7,7 +7,6 @@ import jfxtras.labs.scene.control.BigDecimalField;
 import team_f.client.helper.AlertHelper;
 import team_f.client.pages.interfaces.BasePageControl;
 import javax.lang.model.type.NullType;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePageControl {
@@ -27,7 +26,7 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
     /**
      * return null to show that an error occurred
      */
-    protected PageAction<List<L>, S> _load;
+    protected PageAction<L, S> _load;
     /**
      * return null to show that an error occurred
      */
@@ -65,7 +64,7 @@ public abstract class BasePage<R, V, L, S> extends BorderPane implements BasePag
      * sets the event handler for loading the component (is called on every page reload)
      * @param action event handler
      */
-    public void setOnLoad(PageAction<List<L>, S> action) {
+    public void setOnLoad(PageAction<L, S> action) {
         _load = action;
     }
 

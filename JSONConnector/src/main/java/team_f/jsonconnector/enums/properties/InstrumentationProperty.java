@@ -1,7 +1,6 @@
-package team_f.domain.enums;
-import team_f.domain.interfaces.DomainEntityProperty;
+package team_f.jsonconnector.enums.properties;
 
-public enum InstrumentationProperty implements DomainEntityProperty {
+public enum InstrumentationProperty {
     FLUTE,
     OBOE,
     CLARINET,

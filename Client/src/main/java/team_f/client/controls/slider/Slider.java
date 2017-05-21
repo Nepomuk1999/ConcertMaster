@@ -1,11 +1,7 @@
 package team_f.client.controls.slider;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import team_f.client.pages.PageAction;
-
 import java.net.URL;
 
 public class Slider extends javafx.scene.control.Slider {

@@ -25,7 +25,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, MonthPublishParameter> {
+public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, EventDuty, EventDuty, MonthPublishParameter> {
     private ObservableList<Month> _data;
     private ObservableList<Integer> _year;
     private int _selectedYear;
@@ -163,11 +163,11 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         });
 
         //Title Label
-        Label titlePublisher=new Label("Publisher");
+        Label titlePublisher = new Label("Publisher");
         titlePublisher.setId("titlePublisher");
 
 
-        Label titlePdfConverter=new Label("PDF Converter");
+        Label titlePdfConverter = new Label("PDF Converter");
         titlePdfConverter.setId("titlePdfConverter");
 
         //Event Pane
@@ -184,13 +184,13 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         pane.add(_selectedPath, 10, 3);
         pane.add(pdfGeneratorButton, 11, 3);
 
-        HBox buttonsBox=new HBox(publishButton, unpublishButton);
+        HBox buttonsBox = new HBox(publishButton, unpublishButton);
         buttonsBox.setSpacing(10);
 
         _root = new VBox(25);
         _root.getChildren().addAll(pane,_table,buttonsBox);
 
-        BorderPane borderPane=new BorderPane();
+        BorderPane borderPane = new BorderPane();
         borderPane.setId("borderPane");
 
         borderPane.setCenter(_root);

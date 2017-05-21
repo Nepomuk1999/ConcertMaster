@@ -1,6 +1,5 @@
 package team_f.client.gui;
 
-import javafx.scene.Node;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import team_f.client.configuration.Configuration;
@@ -17,28 +16,22 @@ import java.util.List;
 
 
 public class NavigationBar {
-    private BorderPane _pane;
+    private Sidebar _sidebar;
+    private BorderPane _pagePane;
     private Configuration _configuration;
     private BasePage _currentPage;
     private List<BasePage> _initializedPageList = new LinkedList<>();
     private PageAction<Void, NullType> _loadPage;
 
-    public NavigationBar(BorderPane pane, Configuration configuration) {
-        _pane = pane;
+    public NavigationBar(BorderPane pagePane, Configuration configuration) {
         _configuration = configuration;
-    }
+        _pagePane = pagePane;
 
-    public void setOnLoad(PageAction<Void, NullType> action) {
-        _loadPage = action;
-    }
-
-    public Sidebar getNavigationBar() {
-        Sidebar sidebar = new Sidebar();
+        _sidebar = new Sidebar();
         //MenuSection menuSection;
-        ArrayList<MenuSection> menuSectionArrayList=new ArrayList<>();
+        ArrayList<MenuSection> menuSectionArrayList = new ArrayList<>();
         MenuSectionItem menuSectionItem;
         ToggleGroup toggleGroup = new ToggleGroup();
-        sidebar.setStyle("-fx-background-color:   #e0e0d1");
 
         MenuSection menuSectionHome = new MenuSection("Home", "/homeM.png", null);
         menuSectionHome.setAnimated(false);
@@ -46,7 +39,7 @@ public class NavigationBar {
         menuSectionHome.setOnMouseClicked(event -> {
             loadPage(HomeScreenSingleton.getInstance());
         });
-        sidebar.add(menuSectionHome);
+        _sidebar.add(menuSectionHome);
         menuSectionArrayList.add(menuSectionHome);
 
         MenuSection menuSectionServiceSchedule = new MenuSection("Service Schedule", "/calendarM.png", toggleGroup);
@@ -59,15 +52,15 @@ public class NavigationBar {
         //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
         menuSectionItem.setOnMouseClicked(event -> loadPage(MonthPublisherSingleton.getInstance(_configuration)));
         menuSectionServiceSchedule.add(menuSectionItem);
-        sidebar.add(menuSectionServiceSchedule);
+        _sidebar.add(menuSectionServiceSchedule);
         menuSectionArrayList.add(menuSectionServiceSchedule);
 
         MenuSection menuSectionServices = new MenuSection("Services", "/dutyM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Service Schedules");
+        /* menuSectionItem = new MenuSectionItem("Service Schedules");
         menuSectionServices.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Service Management");
-        menuSectionServices.add(menuSectionItem);
-        sidebar.add(menuSectionServices);
+        menuSectionServices.add(menuSectionItem); */
+        _sidebar.add(menuSectionServices);
         menuSectionArrayList.add(menuSectionServices);
 
         MenuSection menuSectionMusician = new MenuSection("Musicians", "/orchestraiconM.png", toggleGroup);
@@ -76,7 +69,7 @@ public class NavigationBar {
             loadPage(MusiciansListSingleton.getInstance(_configuration));
         });
         menuSectionMusician.add(menuSectionItem);
-        sidebar.add(menuSectionMusician);
+        _sidebar.add(menuSectionMusician);
         menuSectionArrayList.add(menuSectionMusician);
 
         MenuSection menuSectionCompositions = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
@@ -86,34 +79,34 @@ public class NavigationBar {
         menuSectionItem = new MenuSectionItem("Instrumentation Management");
         menuSectionItem.setOnMouseClicked(event -> loadPage(InstrumentationSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
-        sidebar.add(menuSectionCompositions);
+        _sidebar.add(menuSectionCompositions);
         menuSectionArrayList.add(menuSectionCompositions);
 
         MenuSection menuSectionInventory = new MenuSection("Inventory", "/inventaryM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Show Inventory");
+        /*menuSectionItem = new MenuSectionItem("Show Inventory");
         menuSectionInventory.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Add Item");
-        menuSectionInventory.add(menuSectionItem);
-        sidebar.add(menuSectionInventory);
+        menuSectionInventory.add(menuSectionItem); */
+        _sidebar.add(menuSectionInventory);
         menuSectionArrayList.add(menuSectionInventory);
 
         MenuSection menuSectionUserScreen = new MenuSection("User Profile", "/userM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Section Management");
+        /*menuSectionItem = new MenuSectionItem("Section Management");
         menuSectionUserScreen.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSectionUserScreen.add(menuSectionItem);
-        sidebar.add(menuSectionUserScreen);
+        menuSectionUserScreen.add(menuSectionItem); */
+        _sidebar.add(menuSectionUserScreen);
         menuSectionArrayList.add(menuSectionUserScreen);
 
         MenuSection menuSectionAdministration = new MenuSection("Administration", "/settingsM.png", toggleGroup);
-        menuSectionItem = new MenuSectionItem("Section Management");
-        menuSectionAdministration.add(menuSectionItem);
+        /*menuSectionItem = new MenuSectionItem("Section Management");
+        menuSectionAdministration.add(menuSectionItem);*/
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionAdministration.add(menuSectionItem);
         menuSectionItem.setOnMouseClicked(event -> {
             loadPage(MusiciansTableSingleton.getInstance(_configuration));
         });
-        sidebar.add(menuSectionAdministration);
+        _sidebar.add(menuSectionAdministration);
         menuSectionArrayList.add(menuSectionAdministration);
 
         menuSectionHome.setOnMouseClicked(event -> {
@@ -126,8 +119,14 @@ public class NavigationBar {
 
         // load the default site
         loadPage(HomeScreenSingleton.getInstance());
+    }
 
-        return sidebar;
+    public void setOnLoad(PageAction<Void, NullType> action) {
+        _loadPage = action;
+    }
+
+    public Sidebar getNavigationBar() {
+        return _sidebar;
     }
 
     public BasePage getCurrentPage() {
@@ -136,7 +135,6 @@ public class NavigationBar {
 
     private void setCurrentPage(BasePage page) {
         _currentPage = page;
-
         setPane(_currentPage);
     }
 
@@ -151,8 +149,8 @@ public class NavigationBar {
         }
     }
 
-    private void setPane(Node page) {
-        _pane.setCenter(page);
+    private void setPane(BasePage page) {
+        _pagePane.setCenter(page);
     }
 
     private boolean loadPage(BasePage page) {
@@ -166,7 +164,6 @@ public class NavigationBar {
                 }
 
                 page.load();
-
                 return true;
             }
 

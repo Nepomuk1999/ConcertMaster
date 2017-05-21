@@ -4,9 +4,14 @@ import javafx.util.Pair;
 import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
-import team_f.domain.entities.Instrument;
 import team_f.domain.entities.Person;
-import team_f.domain.enums.*;
+import team_f.domain.enums.AccountRole;
+import team_f.domain.enums.EntityType;
+import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.PersonRole;
+import team_f.domain.enums.properties.AccountProperty;
+import team_f.domain.enums.AllInstrumentTypes;
+import team_f.domain.enums.properties.PersonProperty;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.AccountLogic;
 import team_f.domain.logic.DomainEntityManager;
@@ -49,8 +54,14 @@ public class PersonApplication {
             Pair<InstrumentType, List<Person>> pair = new Pair<>(instrumentType, instrumentList);
 
             for (Person person : persons) {
-                for(Instrument instrument : person.getInstruments()) {
-                    if(instrument.getInstrumentType() == instrumentType) {
+                List<InstrumentType> standardInstruments = new LinkedList<>();
+                for (AllInstrumentTypes instrument: person.getPlayedInstruments()) {
+                    if (standardInstruments.contains(instrument.toString())) {
+                        standardInstruments.add(InstrumentType.valueOf(instrument.toString()));
+                    }
+                }
+                for(InstrumentType instrument : standardInstruments) {
+                    if(instrument == instrumentType) {
                         instrumentList.add(person);
                     }
                 }
@@ -93,7 +104,7 @@ public class PersonApplication {
      */
     public Pair<DomainEntity, List<Pair<String, String>>> add(int id, String firstname, String lastname, String gender, String address,
                                                                    String email, String phoneNumber, int accountID, PersonRole personRole, String username,
-                                                                   AccountRole accountRole, List<InstrumentType> instrumentTypeList) {
+                                                                   AccountRole accountRole, List<AllInstrumentTypes> instrumentTypeList) {
         Person person = new Person();
         person.setPersonID(id);
         person.setFirstname(firstname);
@@ -107,6 +118,7 @@ public class PersonApplication {
         if (!(person.getPersonRole().equals(PersonRole.Manager)||
                 person.getPersonRole().equals(PersonRole.Music_librarian))||
                 person.getPersonRole().equals(PersonRole.Orchestral_facility_manager)) {
+            // @TODO: use the id instead of the string
             person.setPlayedInstruments(instrumentTypeList);
         }
 

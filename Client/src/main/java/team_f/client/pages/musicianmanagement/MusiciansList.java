@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonParameter> {
+public class MusiciansList extends BaseTablePage<Person, Person, Person, Person, PersonParameter> {
     private Label _id;
     private Label _firstname;
     private Label _lastname;
@@ -30,7 +30,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
     private Label _personrole;
     private Label _initials;
     private Label _accountrole;
-    private Label _instruments;
+    private TextArea _instruments;
     private Label _gender;
 
     private TableView<Person> _musicianList;
@@ -54,12 +54,13 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         _email = new Label();
         _personrole = new Label();
         _accountrole = new Label();
-        _instruments = new Label();
+        _instruments = new TextArea();
         _initials = new Label();
         _section = new Label();
         _gender = new Label();
 
-        _labelList=new ArrayList<Label>() {{
+        _instruments.setEditable(false);
+        _labelList = new ArrayList<Label>() {{
             add(_id);
             add(_firstname);
             add(_lastname);
@@ -69,7 +70,6 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             add(_email);
             add(_personrole);
             add(_accountrole);
-            add(_instruments);
             add(_initials);
             add(_section);
             add(_gender);
@@ -161,7 +161,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
             if (selectedFile != null) {
                 List<Person> items = _musicianList.getItems();
                 try {
-                   ListPDFGenerator main=new ListPDFGenerator(_musicianList.getItems(),selectedFile.getAbsolutePath());
+                   ListPDFGenerator main = new ListPDFGenerator(_musicianList.getItems(),selectedFile.getAbsolutePath());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -182,7 +182,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         Label titleList = new Label("Musician List");
         titleList.setId("titleList");
 
-        _filterField =new TextField();
+        _filterField = new TextField();
         _filterField.setMaxWidth(200);
         _filterField.setPromptText("First- or Lastname");
         _filterField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -201,7 +201,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         listBox.setAlignment(Pos.TOP_CENTER);
         listBox.getChildren().addAll(titleList, searchField, _musicianList, ListToPdfButton);
 
-        TextField space=new TextField(" ");
+        TextField space = new TextField(" ");
         space.setVisible(false);
 
         VBox personBox = new VBox(20);
@@ -280,15 +280,15 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         if (person.getAccount() != null && person.getAccount().getRole() != null) {
             _accountrole.setText(person.getAccount().getRole().toString());
         }
-        if (person.getInstrumentType() != null) {
-            _instruments.setText(person.getInstrumentType().name());
+
+        if (person.getListToString() != null) {
+            _instruments.setText(person.getInstrumentsForList());
         }
+
         if (person.getInitials() != null) {
             _initials.setText(person.getInitials().toString());
         }
-        if (person.getInstrumentType() != null) {
-            _section.setText(person.getInstrumentType().toString());
-        }
+
         if (person.getGender() != null) {
             _gender.setText(person.getGender().toString());
         }
@@ -302,6 +302,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, PersonP
         for(Label label:_labelList){
             label.setText(" ");
         }
+        _instruments.clear();
     }
 
     private void updateFilteredData() {

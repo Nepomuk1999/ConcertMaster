@@ -10,6 +10,7 @@ import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.*;
+import team_f.domain.enums.properties.EventDutyProperty;
 import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
@@ -21,12 +22,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static team_f.domain.enums.EventDutyProperty.START_DATE;
+import static team_f.domain.enums.properties.EventDutyProperty.START_DATE;
 
 public class EventApplication {
     private EntityManager session = SessionFactory.getSession();
     private EventFacade eventFacade = new EventFacade(session);
-    InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
+    private InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
     private MusicalWorkFacade musicalWorkFacade = new MusicalWorkFacade(session);
     private PersonApplication personApplication = new PersonApplication();
 

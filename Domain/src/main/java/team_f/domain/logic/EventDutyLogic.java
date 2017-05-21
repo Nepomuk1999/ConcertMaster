@@ -4,7 +4,7 @@ import javafx.util.Pair;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
-import team_f.domain.enums.EventDutyProperty;
+import team_f.domain.enums.properties.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
 import team_f.domain.helper.DateTimeHelper;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import static team_f.domain.enums.EventDutyProperty.*;
+import static team_f.domain.enums.properties.EventDutyProperty.*;
 
 public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty> {
     protected EventDutyLogic() {

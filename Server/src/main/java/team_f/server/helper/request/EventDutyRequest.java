@@ -1,6 +1,6 @@
 package team_f.server.helper.request;
 
-import team_f.domain.enums.EventDutyProperty;
+import team_f.domain.enums.properties.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
 import team_f.server.helper.DateTimeHelper;

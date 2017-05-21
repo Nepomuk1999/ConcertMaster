@@ -2,11 +2,11 @@ package team_f.domain.logic;
 
 import javafx.util.Pair;
 import team_f.domain.entities.Account;
-import team_f.domain.enums.AccountProperty;
+import team_f.domain.enums.properties.AccountProperty;
 import team_f.domain.interfaces.EntityLogic;
 import java.util.LinkedList;
 import java.util.List;
-import static team_f.domain.enums.AccountProperty.*;
+import static team_f.domain.enums.properties.AccountProperty.*;
 
 public class AccountLogic implements EntityLogic<Account, AccountProperty> {
     protected AccountLogic() {

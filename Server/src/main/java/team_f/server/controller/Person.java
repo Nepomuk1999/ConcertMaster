@@ -4,7 +4,7 @@ import javafx.util.Pair;
 import org.json.JSONArray;
 import team_f.application.PersonApplication;
 import team_f.domain.enums.AccountRole;
-import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
@@ -100,10 +100,25 @@ public class Person extends HttpServlet {
                                 accountRole = AccountRole.valueOf(String.valueOf(person.getAccount().getRole()));
                             }
 
-                            List<InstrumentType> instrumentTypeList = new ArrayList<>();
+                            /*List<Integer> instrumentTypeList = new ArrayList<>();
 
-                            if(person.getInstrumentType() != null) {
-                                instrumentTypeList.add(InstrumentType.valueOf(String.valueOf(person.getInstrumentType())));
+                            if(person.getInstrumentTypeList() != null) {
+                                for(team_f.jsonconnector.entities.InstrumentType instrumentType : person.getInstrumentTypeList()) {
+                                    if(instrumentType != null) {
+                                        instrumentTypeList.add(instrumentType.getID());
+                                    }
+                                }
+                            }*/
+
+                            List<AllInstrumentTypes> instrumentTypeList = new ArrayList<>();
+
+                            if(person.getInstrumentTypeList() != null) {
+                                for(team_f.jsonconnector.enums.InstrumentType instrumentType : person.getInstrumentTypeList()) {
+                                    try {
+                                        instrumentTypeList.add(AllInstrumentTypes.valueOf(String.valueOf(instrumentType)));
+                                    } catch (Exception e) {
+                                    }
+                                }
                             }
 
                             tmpErrorList = facade.add(person.getPersonID(), person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),

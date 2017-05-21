@@ -3,7 +3,7 @@ package team_f.domain.logic;
 import javafx.util.Pair;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
-import team_f.domain.enums.MusicalWorkProperty;
+import team_f.domain.enums.properties.MusicalWorkProperty;
 import team_f.domain.interfaces.EntityLogic;
 
 import java.util.LinkedList;
@@ -34,7 +34,7 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
                 case INSTRUMENTAMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
                     List<Pair<String, String>> errorList = instrumentationLogic.validate(object.getInstrumentation());
-
+                    resultList.addAll(errorList);
                     break;
             }
         }

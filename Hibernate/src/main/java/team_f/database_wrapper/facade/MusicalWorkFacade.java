@@ -2,6 +2,7 @@ package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.EventDutyMusicalWorkEntity;
 import team_f.database_wrapper.entities.MusicalWorkEntity;
+import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
 import javax.persistence.EntityManager;
@@ -35,13 +36,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
             session.flush();
         }
 
-        try {
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
-
+        StoreHelper.storeEntities(session);
         return mwEntity.getMusicalWorkId();
     }
 
@@ -169,32 +164,19 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         }else{
             returnId = this.add(value);
         }
-        try {
-            session.flush();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-        }
+
+        StoreHelper.storeEntities(session);
         return returnId;
     }
 
     @Override
     public boolean delete(int id) {
-        boolean result;
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
         MusicalWork mw = getMusicalWorkById(id);
         session.remove(convertToMusicalWorkEntity(mw));
 
-        try {
-            session.flush();
-            session.getTransaction().commit();
-            result = true;
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-            result = false;
-        }
-        return result;
+        return StoreHelper.storeEntities(session);
     }
 }

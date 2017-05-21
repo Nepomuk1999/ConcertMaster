@@ -3,14 +3,12 @@ package team_f.domain.logic;
 import javafx.util.Pair;
 import org.apache.commons.validator.routines.EmailValidator;
 import team_f.domain.entities.Person;
-import team_f.domain.enums.PersonProperty;
+import team_f.domain.enums.properties.PersonProperty;
 import team_f.domain.interfaces.EntityLogic;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static team_f.domain.enums.PersonProperty.*;
+import static team_f.domain.enums.properties.PersonProperty.*;
 
 public class PersonLogic implements EntityLogic<Person, PersonProperty> {
     protected PersonLogic() {

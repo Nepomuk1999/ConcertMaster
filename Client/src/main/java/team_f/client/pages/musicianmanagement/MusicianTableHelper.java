@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import team_f.client.entities.KeyValuePair;
+import team_f.jsonconnector.entities.Instrument;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.*;
 
@@ -71,7 +72,7 @@ public class MusicianTableHelper {
 
     public static TableColumn<Person, String> getInstrumentColumn() {
         TableColumn<Person, String> countryCol = new TableColumn<>("Instrument Type");
-        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("instrumentType");
+        PropertyValueFactory<Person, String> countryCellValueFactory = new PropertyValueFactory<>("listToString");
         countryCol.setCellValueFactory(countryCellValueFactory);
         return countryCol;
     }
@@ -111,12 +112,18 @@ public class MusicianTableHelper {
         ObservableList<KeyValuePair> list = FXCollections.observableArrayList();
 
         switch (sectionType) {
+
             case BRASS:
                 list.addAll(
                         new KeyValuePair("Horn", InstrumentType.HORN),
                         new KeyValuePair("Trombone", InstrumentType.TROMBONE),
                         new KeyValuePair("Trumpet", InstrumentType.TRUMPET),
-                        new KeyValuePair("Tube", InstrumentType.TUBE));
+                        new KeyValuePair("Tube", InstrumentType.TUBE),
+                        new KeyValuePair("Cimbasso", InstrumentType.CIMBASSO),
+                        new KeyValuePair("Wagner Tuba", InstrumentType.WAGNERTUBA),
+                        new KeyValuePair("Euphonium", InstrumentType.EUPHONIUM),
+                        new KeyValuePair("Saxophone", InstrumentType.SAXOPHONE)
+                );
                 break;
             case VIOLA:
                 list.addAll(
@@ -138,7 +145,17 @@ public class MusicianTableHelper {
                         new KeyValuePair("Flute", InstrumentType.FLUTE),
                         new KeyValuePair("Oboe", InstrumentType.OBOE),
                         new KeyValuePair("Clarinet", InstrumentType.CLARINET),
-                        new KeyValuePair("Bassoon", InstrumentType.BASSOON));
+                        new KeyValuePair("Bassoon", InstrumentType.BASSOON),
+                        new KeyValuePair("Contrabassoon", InstrumentType.CONTRABASSOON),
+                        new KeyValuePair("Heckelphone", InstrumentType.HECKELPHONE),
+                        new KeyValuePair("Bassclarinet", InstrumentType.BASSCLARINET),
+                        new KeyValuePair("Piccolo", InstrumentType.PICCOLO),
+                        new KeyValuePair("Contrabasstrombone", InstrumentType.CONTRABASSTROMBONE),
+                        new KeyValuePair("Basstrombone", InstrumentType.BASSTROMBONE),
+                        new KeyValuePair("Bassethorn", InstrumentType.BASSETHORN),
+                        new KeyValuePair("French Horn", InstrumentType.FRENCHHORN),
+                        new KeyValuePair("English Horn", InstrumentType.ENGLISHHORN)
+                );
 
                 break;
             case DOUBLEBASS:
@@ -151,7 +168,16 @@ public class MusicianTableHelper {
                 list.addAll(
                         new KeyValuePair("Percussion", InstrumentType.PERCUSSION),
                         new KeyValuePair("Harp", InstrumentType.HARP),
-                        new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM)
+                        new KeyValuePair("Kettledrum", InstrumentType.KETTLEDRUM),
+                        new KeyValuePair("Piano", InstrumentType.PIANO),
+                        new KeyValuePair("Celesta", InstrumentType.CELESTA),
+                        new KeyValuePair("Organ", InstrumentType.ORGAN),
+                        new KeyValuePair("Cembalo", InstrumentType.CEMBALO),
+                        new KeyValuePair("Accordeon", InstrumentType.ACCORDEON),
+                        new KeyValuePair("Keyboard", InstrumentType.KEYBOARD),
+                        new KeyValuePair("Bandoneon", InstrumentType.BANDONEON),
+                        new KeyValuePair("Guitar", InstrumentType.GUITAR),
+                        new KeyValuePair("Mandolin", InstrumentType.MANDOLIN)
                 );
 
                 break;
@@ -181,17 +207,22 @@ public class MusicianTableHelper {
     }
 
     //TODO: bring lists in order
-    //Same order likeGetSectionTypeList
+    //Same order likeGetSectionTypeList, do not change!
     public static LinkedList<List> getSectionInstrumentPos() {
-        List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE);
+        List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE,
+                InstrumentType.CIMBASSO, InstrumentType.WAGNERTUBA, InstrumentType.EUPHONIUM, InstrumentType.SAXOPHONE);
         List<InstrumentType> viola= Arrays.asList(InstrumentType.VIOLA);
         List<InstrumentType> violin1= Arrays.asList(InstrumentType.FIRSTVIOLIN);
         List<InstrumentType> violin2= Arrays.asList(InstrumentType.SECONDVIOLIN);
-        List<InstrumentType> woodwind= Arrays.asList(InstrumentType.FLUTE,InstrumentType.OBOE, InstrumentType.CLARINET,InstrumentType.BASSOON);
+        List<InstrumentType> woodwind= Arrays.asList(InstrumentType.FLUTE,InstrumentType.OBOE, InstrumentType.CLARINET,InstrumentType.BASSOON,
+                InstrumentType.CONTRABASSOON, InstrumentType.HECKELPHONE, InstrumentType.BASSCLARINET, InstrumentType.PICCOLO, InstrumentType.CONTRABASSTROMBONE,
+                InstrumentType.BASSTROMBONE, InstrumentType.BASSETHORN, InstrumentType.FRENCHHORN, InstrumentType.ENGLISHHORN);
         List<InstrumentType> doublebass= Arrays.asList(InstrumentType.DOUBLEBASS);
-        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM);
+        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM, InstrumentType.KETTLEDRUM, InstrumentType.PIANO,
+                InstrumentType.CELESTA, InstrumentType.ORGAN, InstrumentType.CEMBALO, InstrumentType.ACCORDEON, InstrumentType.KEYBOARD, InstrumentType.BANDONEON,
+                InstrumentType.GUITAR, InstrumentType.MANDOLIN);
         List<InstrumentType> violincello= Arrays.asList(InstrumentType.VIOLONCELLO);
-        LinkedList<List> sections=new LinkedList<>();
+        LinkedList<List> sections = new LinkedList<>();
         sections.add(brass);
         sections.add(doublebass);
         sections.add(percussion);
@@ -230,7 +261,7 @@ public class MusicianTableHelper {
     }
 
     //Todo: change names
-    public static int[] getSectionPos(InstrumentType instrumentType) {
+    public static int[] getFirstInstrumentPos(InstrumentType instrumentType) {
         List sections = getSectionInstrumentPos();
         int sectionPos = 0;
         int instrumentPos = 0;
@@ -246,6 +277,7 @@ public class MusicianTableHelper {
         return new int[]{sectionPos, instrumentPos};
 
     }
+
 
     public static int getAccountPos(AccountRole accountRole) {
         int pos = 0;
