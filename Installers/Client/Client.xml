@@ -95,7 +95,7 @@
             <validVersionList>
                 <validVersion>
                     <bitness></bitness>
-                    <maxVersion>1.8</maxVersion>
+                    <maxVersion></maxVersion>
                     <minVersion>1.8</minVersion>
                     <requireJDK>0</requireJDK>
                     <vendor></vendor>
@@ -114,7 +114,17 @@
             <files>${installdir}/*.jar</files>
             <permissions>755</permissions>
         </changePermissions>
+        <createSymLink>
+            <linkName>~/Desktop/Start ConcertMaster</linkName>
+            <target>${installdir}/Client/Client.jar</target>
+            <ruleList>
+                <platformTest>
+                    <type>osx</type>
+                </platformTest>
+            </ruleList>
+        </createSymLink>
     </postInstallationActionList>
+    <createOsxBundleDmg>1</createOsxBundleDmg>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
     <saveRelativePaths>1</saveRelativePaths>
@@ -129,6 +139,16 @@
                     <ruleList>
                         <platformTest>
                             <type>linux</type>
+                        </platformTest>
+                    </ruleList>
+                </runProgram>
+                <runProgram>
+                    <customErrorMessage>Could not launch the app due to MacOSX's security policy. Start the app manually</customErrorMessage>
+                    <program>${installdir}/Client/Client.jar</program>
+                    <programArguments></programArguments>
+                    <ruleList>
+                        <platformTest>
+                            <type>osx</type>
                         </platformTest>
                     </ruleList>
                 </runProgram>

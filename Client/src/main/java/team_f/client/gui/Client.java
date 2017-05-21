@@ -110,32 +110,23 @@ public class Client extends Application {
 
             menuHelp.getItems().add(menuItem);
 
-            //LegendTabel-äquivalent machen mit einfach Text (= auch singelton "kopieren")
-
             menuItem = new MenuItem("Show Musician Management Explanation"); //start
             menuItem.setOnAction(actionEvent -> {
                 MMEPTable mmep = MusicianManagementExplanationSingleton.getInstance();
                 mmep.initialize();
                 mmep.load();
-                /*
-                LegendTable legendTablePage = LegendSingleton.getInstance();
-                legendTablePage.initialize();
-                legendTablePage.load();  */
             });
 
-            menuHelp.getItems().add(menuItem); //ende?
+            menuHelp.getItems().add(menuItem);
+
             menuItem = new MenuItem("Show Musical Work Management Explanation"); //start
             menuItem.setOnAction(actionEvent -> {
                 MWMETable mwmeTable = MusicalWorkManagementExplanationSingleton.getInstance();
                 mwmeTable.initialize();
                 mwmeTable.load();
-                /*
-                LegendTable legendTablePage = LegendSingleton.getInstance();
-                legendTablePage.initialize();
-                legendTablePage.load();  */
             });
 
-            menuHelp.getItems().add(menuItem); //ende?
+            menuHelp.getItems().add(menuItem);
 
             menuItem = new MenuItem("Info");
             menuItem.setOnAction(actionEvent -> {

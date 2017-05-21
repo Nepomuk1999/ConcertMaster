@@ -130,11 +130,6 @@
             <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>domain-layer</groupId>
-            <artifactId>domain-layer</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 
     <build>
