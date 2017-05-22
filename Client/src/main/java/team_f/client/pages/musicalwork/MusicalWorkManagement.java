@@ -18,7 +18,6 @@ import team_f.jsonconnector.entities.*;
 import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.MusicalWorkErrorList;
 import team_f.jsonconnector.enums.SectionGroupType;
-import team_f.jsonconnector.enums.errors.InstrumentationError;
 import team_f.jsonconnector.enums.properties.MusicalWorkProperty;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.math.BigDecimal;
@@ -602,7 +601,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             if (error.equals(MusicalWorkProperty.TITLE.toString())) {
                 _nameField.setStyle("-fx-border-color: red");
             }
-            if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
+            if (error.equals(MusicalWorkProperty.INSTRUMENTATION.toString())) {
                 for (BigDecimalField field : _decimalFields) {
                     field.setStyle("-fx-border-color: red");
                 }
