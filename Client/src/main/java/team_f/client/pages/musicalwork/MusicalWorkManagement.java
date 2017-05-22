@@ -602,7 +602,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
             if (error.equals(MusicalWorkProperty.TITLE.toString())) {
                 _nameField.setStyle("-fx-border-color: red");
             }
-            if (error.equals(InstrumentationError.ALLZERO.toString())) {
+            if (error.equals(MusicalWorkProperty.INSTRUMENTAMENTATION.toString())) {
                 for (BigDecimalField field : _decimalFields) {
                     field.setStyle("-fx-border-color: red");
                 }
