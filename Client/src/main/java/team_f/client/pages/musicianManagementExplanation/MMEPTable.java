@@ -36,7 +36,7 @@ public class MMEPTable extends BasePage<Void, NullType, NullType, NullType> {
         alert.setTitle("Musician Management Explanation");
         alert.setHeaderText("                                 ");
 
-        Image image1 = new Image("musicianManagementExplanation.png");
+        Image image1 = new Image("MusicianManagementExplanationPic.png");
         ImageView imageView = new ImageView(image1);
 
         imageView.setPreserveRatio(true);

@@ -34,7 +34,7 @@ public class MWMETable extends BasePage<Void, NullType, NullType, NullType> {
         alert.setTitle("Musical Work Management Explanation");
         alert.setHeaderText(" ");
 
-        Image image1 = new Image("musicalWorkManagementExplanation.png");
+        Image image1 = new Image("MusicalWorkManagementExplanationPic.png");
         ImageView imageView = new ImageView(image1);
         imageView.setPreserveRatio(true);
         imageView.setFitHeight(400);
