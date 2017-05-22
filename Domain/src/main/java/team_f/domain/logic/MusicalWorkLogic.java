@@ -31,10 +31,11 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
 
                     break;
 
-                case INSTRUMENTAMENTATION:
+                case INSTRUMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-                    List<Pair<String, String>> errorList = instrumentationLogic.validate(object.getInstrumentation());
-                    resultList.addAll(errorList);
+                    if (!instrumentationLogic.validate(object.getInstrumentation()).isEmpty()) {
+                        resultList.add(new Pair<>(String.valueOf(MusicalWorkProperty.INSTRUMENTATION), " all inputs are null!"));
+                    }
                     break;
             }
         }

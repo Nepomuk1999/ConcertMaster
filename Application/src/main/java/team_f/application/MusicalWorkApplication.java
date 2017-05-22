@@ -8,7 +8,6 @@ import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.logic.DomainEntityManager;
-import team_f.domain.logic.InstrumentationLogic;
 import team_f.domain.logic.MusicalWorkLogic;
 
 import java.util.LinkedList;
@@ -57,14 +56,15 @@ public class MusicalWorkApplication {
             }
         }
 
+        musicalWork.setInstrumentation(instrumentation);
+
         MusicalWorkLogic musicalWorkLogic = (MusicalWorkLogic) DomainEntityManager.getLogic(EntityType.MUSICALWORK);
         List<Pair<String, String>> errorList = musicalWorkLogic.validate(musicalWork);
 
         if (errorList.size() > 0) {
-            return new Pair<>(instrumentation, errorList);
+            return new Pair<>(musicalWork, errorList);
         }
 
-        musicalWork.setInstrumentation(instrumentation);
         Integer resultID = musicalworkfacade.add(musicalWork);
         musicalWork.setMusicalWorkID(resultID);
 
