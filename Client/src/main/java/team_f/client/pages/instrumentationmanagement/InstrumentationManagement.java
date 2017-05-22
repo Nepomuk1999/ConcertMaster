@@ -28,7 +28,7 @@ import java.util.List;
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TableView<Instrumentation> _instrumentationTable;
     private List<SpecialInstrumentationEntity> _specialInstrumentationEntityList;
-
+    private TextField _instrumentationName;
     //String
     private NumberField _firstViolinField;
     private NumberField _secondViolinField;
@@ -83,6 +83,9 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         final URL Style = ClassLoader.getSystemResource("style/stylesheetInstrumentation.css");
         getStylesheets().add(Style.toString());
         _specialInstrumentationEntityList = new LinkedList();
+
+        _instrumentationName=new TextField();
+        _instrumentationName.setMinWidth(200);
 
         _decimalFields = new ArrayList<>();
         try {
@@ -174,6 +177,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         titleInstrumentation.setMinWidth(200);
 
         pane.addRow(0, titleInstrumentation);
+        pane.addRow(1, new Label("Name*:"), _instrumentationName);
 
         //Strings
         pane.addRow(4, new Label("1. Violin:"), _firstViolinField);
