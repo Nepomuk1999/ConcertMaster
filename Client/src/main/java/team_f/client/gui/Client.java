@@ -191,7 +191,7 @@ public class Client extends Application {
         // set window
         Scene scene = new Scene(content);
 
-        if (_configuration.getWidth() <= 0 || _configuration.getHeight() < 0) {
+        if (_configuration.getWidth() <= 0 || _configuration.getHeight() <= 0) {
             primaryStage.setMaximized(true);
         }
 
