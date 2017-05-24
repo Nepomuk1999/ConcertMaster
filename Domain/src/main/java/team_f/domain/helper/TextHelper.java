@@ -4,10 +4,10 @@ public class TextHelper {
     public static String getSeparatedText(char separator, int... values) {
         String result = null;
 
-        if(values != null) {
+        if (values != null) {
             String[] tmpArray = new String[values.length];
 
-            for(int i = 0; i < values.length; i++) {
+            for (int i = 0; i < values.length; i++) {
                 tmpArray[i] = String.valueOf(values[i]);
             }
 

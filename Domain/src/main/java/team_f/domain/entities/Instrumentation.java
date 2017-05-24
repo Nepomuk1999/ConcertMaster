@@ -195,7 +195,18 @@ public class Instrumentation implements DomainEntity {
 
     //TODO: specialinstrumentation
     public String getSpecialInstrumentationText() {
-        return "Special: " + TextHelper.getTextFromString('+', "","","");
+        List<SpecialInstrumentation> specialInstrumentations=getSpecial();
+        String[] specialInstrumenationValues=new String[specialInstrumentations.size()];
+        int i=0;
+        for(SpecialInstrumentation special : specialInstrumentations){
+            if(special != null && special.getSpecialInstrument().toString().length() >= 3) {
+                specialInstrumenationValues[i] = special.getSpecialInstrument().toString().substring(0, 3)+"(" + special.getSpecialInstrumentCount() + ")";;
+            } else {
+                specialInstrumenationValues[i] = special.getSpecialInstrument().toString();
+            }
+            i++;
+        }
+        return "Special: " + TextHelper.getTextFromString('+', specialInstrumenationValues);
     }
 
     /** Function to get a String of all the instruments and their required number
