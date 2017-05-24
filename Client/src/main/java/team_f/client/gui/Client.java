@@ -1,5 +1,6 @@
 package team_f.client.gui;
 
+import Database.Facade.DatabaseFacade;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -68,6 +69,7 @@ public class Client extends Application {
         content.setCenter(mainContent);
 
         // set the sidebar
+        DatabaseFacade.initialize(_configuration);
         NavigationBar navigationBar = new NavigationBar(mainContentPane, _configuration);
         Sidebar sidebar = navigationBar.getNavigationBar();
         content.setLeft(sidebar);
