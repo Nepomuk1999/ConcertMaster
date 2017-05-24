@@ -212,7 +212,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                     _doublebassField.getNumber().toPlainString().isEmpty() || _fluteField.getNumber().toPlainString().isEmpty() || _oboeField.getNumber().toPlainString().isEmpty() || _clarinetField.getNumber().toPlainString().isEmpty() ||
                     _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
                     || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
-                validate(_decimalFields);
+                //validate(_decimalFields);
                 showValuesMissingMessage();
             } else {
                 addInstrumentation();

@@ -268,7 +268,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                     _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
                     || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
                 validate(_textFieldsList);
-                validate(_decimalFields);
+                //validate(_decimalFields);
                 showValuesMissingMessage();
             } else {
                 addMusicalWork();

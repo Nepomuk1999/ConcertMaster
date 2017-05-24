@@ -34,8 +34,8 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
 
                 case INSTRUMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-                    if (!instrumentationLogic.validate(object.getInstrumentation()).isEmpty()) {
-                        resultList.add(new Pair<>(String.valueOf(InstrumentationError.ALLZERO), " all inputs are null!"));
+                    if (!(instrumentationLogic.validate(object.getInstrumentation()).isEmpty())) {
+                        resultList.add(new Pair<>(String.valueOf(InstrumentationError.ALLZERO.toString()), " all inputs are null!"));
                     }
                     break;
             }
