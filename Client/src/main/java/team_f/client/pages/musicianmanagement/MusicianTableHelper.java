@@ -84,7 +84,9 @@ public class MusicianTableHelper {
                 new KeyValuePair("Manager", PersonRole.Manager),
                 new KeyValuePair("Musical Librarian", PersonRole.Music_librarian),
                 new KeyValuePair("Facility Manager", PersonRole.Orchestral_facility_manager),
-                new KeyValuePair("Substitute", PersonRole.Substitute));
+                new KeyValuePair("Substitute", PersonRole.Substitute),
+                new KeyValuePair("Section Leader", PersonRole.Section_Leader),
+                new KeyValuePair("Concert Master", PersonRole.Concert_Master));
 
         return list;
     }
@@ -206,7 +208,6 @@ public class MusicianTableHelper {
         return list;
     }
 
-    //TODO: bring lists in order
     //Same order likeGetSectionTypeList, do not change!
     public static LinkedList<List> getSectionInstrumentPos() {
         List<InstrumentType> brass= Arrays.asList(InstrumentType.HORN,InstrumentType.TROMBONE, InstrumentType.TRUMPET,InstrumentType.TUBE,
@@ -260,7 +261,6 @@ public class MusicianTableHelper {
 
     }
 
-    //Todo: change names
     public static int[] getFirstInstrumentPos(InstrumentType instrumentType) {
         List sections = getSectionInstrumentPos();
         int sectionPos = 0;

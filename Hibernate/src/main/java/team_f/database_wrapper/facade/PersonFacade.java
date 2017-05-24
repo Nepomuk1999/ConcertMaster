@@ -85,12 +85,22 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
 
         PersonEntity personEntity = convertToPersonEntity(person);
 
-        if (!(person.getPersonRole().equals(PersonRole.External_musician) || personEntity.getPersonId()> 0)) {
-            Account account = person.getAccount();
-            AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
-            session.persist(accountEntity);
+        if (!person.getPersonRole().equals(PersonRole.External_musician)) {
+            if (person.getID() > 0) {
+                Query query = session.createQuery("from AccountEntity where username = :user");
+                query.setParameter("user", person.getAccount().getUsername());
+                query.setMaxResults(1);
 
-            personEntity.setAccount(accountEntity.getAccountId());
+                List<AccountEntity> accounts = query.getResultList();
+                AccountEntity accountEntity = accounts.get(0);
+                personEntity.setAccount(accountEntity.getAccountId());
+
+            } else {
+                Account account = person.getAccount();
+                AccountEntity accountEntity = _accountFacade.convertToAccountEntity(account);
+                session.persist(accountEntity);
+                personEntity.setAccount(accountEntity.getAccountId());
+            }
         }
 
         StoreHelper.storeEntities(session);
@@ -107,6 +117,10 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         session.getTransaction().begin();
 
         List<MusicianPartEntity> musicianPartEntities = getMusicianPartEntityFromPerson(person);
+
+        Query query = session.createQuery("delete MusicianPartEntity where musician = :ID");
+        query.setParameter("ID", personEntity.getPersonId());
+        query.executeUpdate();
 
         for (MusicianPartEntity musicianPartEntity: musicianPartEntities) {
             musicianPartEntity.setMusician(personEntity.getPersonId());

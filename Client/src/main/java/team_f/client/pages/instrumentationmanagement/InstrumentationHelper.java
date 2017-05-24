@@ -8,8 +8,6 @@ import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.enums.SectionType;
 
 public class InstrumentationHelper {
-
-
     public static TableColumn<Instrumentation, Integer> getIdColumn() {
         TableColumn<Instrumentation, Integer> idCol = new TableColumn<>("Id");
         PropertyValueFactory<Instrumentation, Integer> idCellValueFactory = new PropertyValueFactory<>("instrumentationID");

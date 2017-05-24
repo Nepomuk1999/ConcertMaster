@@ -3,6 +3,7 @@ package team_f.domain.logic;
 import javafx.util.Pair;
 import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
+import team_f.domain.enums.errors.InstrumentationError;
 import team_f.domain.enums.properties.MusicalWorkProperty;
 import team_f.domain.interfaces.EntityLogic;
 
@@ -31,10 +32,11 @@ public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkPro
 
                     break;
 
-                case INSTRUMENTAMENTATION:
+                case INSTRUMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-                    List<Pair<String, String>> errorList = instrumentationLogic.validate(object.getInstrumentation());
-                    resultList.addAll(errorList);
+                    if (!(instrumentationLogic.validate(object.getInstrumentation()).isEmpty())) {
+                        resultList.add(new Pair<>(String.valueOf(InstrumentationError.ALLZERO.toString()), " all inputs are null!"));
+                    }
                     break;
             }
         }

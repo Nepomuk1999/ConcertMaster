@@ -9,14 +9,9 @@ import javafx.scene.layout.Pane;
 import team_f.client.controls.numberfield.NumberField;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.exceptions.NumberRangeException;
-import team_f.client.pages.musicianmanagement.MusicianInstrumentEntity;
-import team_f.client.pages.musicianmanagement.MusicianTableHelper;
-import team_f.jsonconnector.entities.Instrument;
-import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.SpecialInstrumentation;
 import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.enums.SectionGroupType;
-import team_f.jsonconnector.enums.SectionType;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -127,7 +122,7 @@ public class InstrumentationHelper {
     public static ObservableList<KeyValuePair> getSectionGroupTypeList() {
         ObservableList<KeyValuePair> list = FXCollections.observableArrayList(
                 new KeyValuePair("String", SectionGroupType.STRING),
-                new KeyValuePair("Wood", SectionGroupType.WOODWIND),
+                new KeyValuePair("Woodwind", SectionGroupType.WOODWIND),
                 new KeyValuePair("Brass", SectionGroupType.BRASS),
                 new KeyValuePair("Percussion", SectionGroupType.PERCUSSION));
 

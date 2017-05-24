@@ -268,7 +268,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                     _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
                     || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
                 validate(_textFieldsList);
-                validate(_decimalFields);
+                //validate(_decimalFields);
                 showValuesMissingMessage();
             } else {
                 addMusicalWork();
@@ -551,6 +551,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                 if (positions[0] >= 0 && (positions[1] >= 0)) {
                     _specialInstrumentationSectionGroupComboBox.getSelectionModel().select(positions[0]);
                     _specialInstrumentationInstrumentTypeComboBox.getSelectionModel().select(positions[1]);
+                    _specialInstrumentationNumberField.setNumber(BigDecimal.valueOf(instrumentation.getSpecialInstrumentation().get(0).getSpecialInstrumentCount()));
                 }
                 List<SpecialInstrumentation> instruments = instrumentation.getSpecialInstrumentation();
                 for (int i = 1; i < instruments.size(); i++) {

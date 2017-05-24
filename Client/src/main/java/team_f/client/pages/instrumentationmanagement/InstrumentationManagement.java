@@ -28,7 +28,7 @@ import java.util.List;
 public class InstrumentationManagement extends BaseTablePage<InstrumentationErrorList, Instrumentation, Instrumentation, Instrumentation, InstrumentationParameter> {
     private TableView<Instrumentation> _instrumentationTable;
     private List<SpecialInstrumentationEntity> _specialInstrumentationEntityList;
-
+    private TextField _instrumentationName;
     //String
     private NumberField _firstViolinField;
     private NumberField _secondViolinField;
@@ -83,6 +83,9 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         final URL Style = ClassLoader.getSystemResource("style/stylesheetInstrumentation.css");
         getStylesheets().add(Style.toString());
         _specialInstrumentationEntityList = new LinkedList();
+
+        _instrumentationName=new TextField();
+        _instrumentationName.setMinWidth(200);
 
         _decimalFields = new ArrayList<>();
         try {
@@ -174,6 +177,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
         titleInstrumentation.setMinWidth(200);
 
         pane.addRow(0, titleInstrumentation);
+        pane.addRow(1, new Label("Name*:"), _instrumentationName);
 
         //Strings
         pane.addRow(4, new Label("1. Violin:"), _firstViolinField);
@@ -208,7 +212,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                     _doublebassField.getNumber().toPlainString().isEmpty() || _fluteField.getNumber().toPlainString().isEmpty() || _oboeField.getNumber().toPlainString().isEmpty() || _clarinetField.getNumber().toPlainString().isEmpty() ||
                     _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
                     || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
-                validate(_decimalFields);
+                //validate(_decimalFields);
                 showValuesMissingMessage();
             } else {
                 addInstrumentation();
@@ -472,6 +476,7 @@ public class InstrumentationManagement extends BaseTablePage<InstrumentationErro
                 if (positions[0] >= 0 && (positions[1] >= 0)) {
                     _specialInstrumentationSectionGroupComboBox.getSelectionModel().select(positions[0]);
                     _specialInstrumentationInstrumentTypeComboBox.getSelectionModel().select(positions[1]);
+                    _specialInstrumentationNumberField.setNumber(BigDecimal.valueOf(instrumentation.getSpecialInstrumentation().get(0).getSpecialInstrumentCount()));
                 }
                 List<SpecialInstrumentation> instruments = instrumentation.getSpecialInstrumentation();
                 for (int i = 1; i < instruments.size(); i++) {
