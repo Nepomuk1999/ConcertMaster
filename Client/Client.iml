@@ -44,5 +44,7 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.16" level="project" />
     <orderEntry type="library" name="Maven: xom:xom:1.2.5" level="project" />
+    <orderEntry type="library" name="Maven: com.jfoenix:jfoenix:1.4.0" level="project" />
+    <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:5.5.11" level="project" />
   </component>
 </module>

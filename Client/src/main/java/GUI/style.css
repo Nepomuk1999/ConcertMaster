@@ -1,0 +1,29 @@
+.tour {
+    -fx-background-color: #ed7813;
+    -fx-fill: #ed7813;
+}
+
+.concert {
+    -fx-background-color: #00e800;
+    -fx-fill: #00e800;
+}
+
+.opera {
+    -fx-background-color: #00d5ff;
+    -fx-fill: #00d5ff;
+}
+
+.rehearsal {
+    -fx-background-color: #909c9a;
+    -fx-fill: #909c9a;
+}
+
+.nonMusicalEvent {
+    -fx-background-color: #cfcf00;
+    -fx-fill: #cfcf00;
+}
+
+.hofkapelle {
+    -fx-background-color: #f173ff;
+    -fx-fill: #f173ff;
+}

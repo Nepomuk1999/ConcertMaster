@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="GUI.Duty.DutyController">
+
+    <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints prefHeight="35.0" vgrow="NEVER"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints prefHeight="35.0" vgrow="NEVER"/>
+        </rowConstraints>
+        <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <ChoiceBox fx:id="monthChoiceBox" prefWidth="100.0"/>
+        </ToolBar>
+        <AnchorPane GridPane.rowIndex="1">
+            <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints prefHeight="200.0" vgrow="SOMETIMES"/>
+                    <RowConstraints prefHeight="200.0" vgrow="SOMETIMES"/>
+                </rowConstraints>
+                <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="66.0"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <ScrollPane fitToHeight="true" fitToWidth="true">
+                        <AnchorPane>
+                            <TableView fx:id="eventTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                </columnResizePolicy>
+                                <placeholder>
+                                    <Label text="Please select a month first."/>
+                                </placeholder>
+                                <columns>
+                                    <TableColumn fx:id="dutyNameCol" editable="false" prefWidth="150.0" text="Name"/>
+                                    <TableColumn fx:id="dutyStartCol" editable="false" prefWidth="150.0"
+                                                 text="Start Time"/>
+                                    <TableColumn fx:id="dutyEndCol" editable="false" prefWidth="150.0" text="End Time"/>
+                                    <TableColumn fx:id="dutyTypeCol" editable="false" prefWidth="150.0"
+                                                 text="Event Type"/>
+                                </columns>
+                            </TableView>
+                        </AnchorPane>
+                    </ScrollPane>
+                    <GridPane GridPane.columnIndex="1">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="10.0"/>
+                            <ColumnConstraints hgrow="NEVER" percentWidth="20.0"/>
+                            <ColumnConstraints hgrow="NEVER" percentWidth="60.0"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="10.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints vgrow="ALWAYS"/>
+                            <RowConstraints maxHeight="30" minHeight="30.0" prefHeight="30.0" vgrow="NEVER"/>
+                            <RowConstraints maxHeight=" 30" minHeight="30.0" prefHeight="30.0" vgrow="NEVER"/>
+                            <RowConstraints maxHeight=" 30" minHeight="30.0" prefHeight="30.0" vgrow="NEVER"/>
+                            <RowConstraints vgrow="ALWAYS"/>
+                        </rowConstraints>
+                        <Label fx:id="eventLabel" text="Event:" visible="false" GridPane.columnIndex="1"
+                               GridPane.rowIndex="1"/>
+                        <Label fx:id="startLabel" text="Start Time:" visible="false" GridPane.columnIndex="1"
+                               GridPane.rowIndex="2"/>
+                        <Label fx:id="endLabel" text="End Time:" visible="false" GridPane.columnIndex="1"
+                               GridPane.rowIndex="3"/>
+                        <Label fx:id="eventValue" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <Label fx:id="startValue" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <Label fx:id="endValue" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    </GridPane>
+                </GridPane>
+                <TableView fx:id="dutyTableMusicians" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                    <placeholder>
+                        <Label text="No duties available for this event."/>
+                    </placeholder>
+                </TableView>
+            </GridPane>
+        </AnchorPane>
+        <ToolBar GridPane.rowIndex="2">
+            <Button fx:id="selectMusician" disable="true" mnemonicParsing="false" onMouseReleased="#selectMusician"
+                    text="Select Musicians"/>
+            <Button fx:id="editMusicians" disable="true" mnemonicParsing="false" onMouseReleased="#editMusicians"
+                    text="Edit Musician Selection"/>
+        </ToolBar>
+    </GridPane>
+</AnchorPane>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="600.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8.0.111"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="GUI.Event.MusicalWorkSelection.MusicalWorkSelectionController">
+    <GridPane AnchorPane.bottomAnchor="25" AnchorPane.leftAnchor="25" AnchorPane.rightAnchor="25"
+              AnchorPane.topAnchor="25">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="40" minHeight="40" prefHeight="40.0" vgrow="NEVER"/>
+            <RowConstraints maxHeight="20" minHeight="20.0" prefHeight="20.0" vgrow="NEVER"/>
+            <RowConstraints vgrow="ALWAYS"/>
+            <RowConstraints maxHeight="40" minHeight="40" prefHeight="40.0" vgrow="NEVER"/>
+        </rowConstraints>
+        <Label text="Select Musical Works:">
+            <font>
+                <Font size="36.0"/>
+            </font>
+        </Label>
+        <TableView fx:id="musicalWorkTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <columns>
+                <TableColumn fx:id="nameCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Name"/>
+                <TableColumn fx:id="composerCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Composer"/>
+                <TableColumn maxWidth="625.0" minWidth="625.0" prefWidth="625.0" text="Standard Instrumentation">
+                    <columns>
+                        <TableColumn fx:id="stringCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0"
+                                     text="String"/>
+                        <TableColumn fx:id="brassCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Brass"/>
+                        <TableColumn fx:id="woodCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Wood"/>
+                        <TableColumn fx:id="percussionCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0"
+                                     text="Percussion"/>
+                        <TableColumn fx:id="otherCol" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Other"/>
+                    </columns>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <GridPane maxWidth="875.0" minWidth="875.0" prefWidth="875.0" GridPane.rowIndex="3">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER"/>
+                <ColumnConstraints hgrow="NEVER"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="NEVER"/>
+            </rowConstraints>
+            <GridPane maxWidth="875.0" minWidth="875.0" prefWidth="875.0" GridPane.columnIndex="1">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                    <ColumnConstraints hgrow="NEVER"/>
+                    <ColumnConstraints hgrow="NEVER"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
+                </rowConstraints>
+                <Button mnemonicParsing="false" onMouseReleased="#addWorks" text="Set Selection"
+                        GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Button mnemonicParsing="false" onMouseReleased="#abortAction" text="Abort" GridPane.columnIndex="1"
+                        GridPane.rowIndex="1"/>
+            </GridPane>
+        </GridPane>
+    </GridPane>
+</AnchorPane>
