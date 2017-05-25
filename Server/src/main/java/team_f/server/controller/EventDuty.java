@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet(urlPatterns = {URIList.event})
@@ -61,6 +63,7 @@ public class EventDuty extends HttpServlet {
                     case GET_BY_PARAMETER:
                         int month = -1;
                         int year = -1;
+                        int id = -1;
 
                         for(Pair<String, String> item : request.getParameterValueList()) {
                             if(String.valueOf(EventDutyParameter.MONTH).equals(item.getKey())) {
@@ -71,6 +74,11 @@ public class EventDuty extends HttpServlet {
                             } else if(String.valueOf(EventDutyParameter.YEAR).equals(item.getKey())) {
                                 try {
                                     year = Integer.parseInt(item.getValue());
+                                } catch (NumberFormatException e) {
+                                }
+                            } else if(String.valueOf(EventDutyParameter.ID).equals(item.getKey())) {
+                                try {
+                                    id = Integer.parseInt(item.getValue());
                                 } catch (NumberFormatException e) {
                                 }
                             }
@@ -90,11 +98,17 @@ public class EventDuty extends HttpServlet {
 
                             resp.setContentType(MediaType.APPLICATION_JSON);
                             WriteHelper.writeJSONObject(resp.getWriter(), eventDutyList);
+                        } else if(id > 0) {
+                            eventDuty = EventDutyConverter.convertToJSON(facade.getEventById(id));
+
+                            resp.setContentType(MediaType.APPLICATION_JSON);
+                            WriteHelper.writeJSONObject(resp.getWriter(), eventDuty);
                         }
 
                         break;
                     case GET_ALL:
-                        /*List<team_f.domain.entities.EventDuty> eventDutyEntityList = facade.getEventList();
+                        // @TODO: perhaps implement a more accurate method
+                        List<team_f.domain.entities.EventDuty> eventDutyEntityList = facade.getEventsByTimeFrame(LocalDateTime.now().minusYears(100), LocalDateTime.now().plusYears(100));
                         List<team_f.jsonconnector.entities.EventDuty> eventDutyList = new LinkedList<>();
                         EventDutyList eventDuties = new EventDutyList();
 
@@ -106,7 +120,7 @@ public class EventDuty extends HttpServlet {
                         eventDuties.setEventDutyList(eventDutyList);
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
-                        WriteHelper.writeJSONObject(resp.getWriter(), eventDuties);*/
+                        WriteHelper.writeJSONObject(resp.getWriter(), eventDuties);
 
                         break;
                     case CREATE:

@@ -8,6 +8,7 @@ import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.pages.BasePage;
 import team_f.client.pages.PageAction;
+import team_f.client.pages.event.Event;
 import team_f.client.singletons.*;
 import javax.lang.model.type.NullType;
 import java.util.ArrayList;
@@ -36,9 +37,7 @@ public class NavigationBar {
         MenuSection menuSectionHome = new MenuSection("Home", "/homeM.png", null);
         menuSectionHome.setAnimated(false);
         menuSectionHome.setCollapsible(false);
-        menuSectionHome.setOnMouseClicked(event -> {
-            loadPage(HomeScreenSingleton.getInstance());
-        });
+        menuSectionHome.setOnMouseClicked(event -> loadPage(HomeScreenSingleton.getInstance()));
         _sidebar.add(menuSectionHome);
         menuSectionArrayList.add(menuSectionHome);
 
@@ -49,8 +48,8 @@ public class NavigationBar {
 
         menuSectionServiceSchedule.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
-        //  menuSectionItem.setOnMouseClicked(event -> new LegendTable());
-        menuSectionItem.setOnMouseClicked(event -> loadPage(MonthPublisherSingleton.getInstance(_configuration)));
+        //  menuSectionItem.setOnAction(event -> new LegendTable());
+        menuSectionItem.setOnAction(event -> loadPage(MonthPublisherSingleton.getInstance(_configuration)));
         menuSectionServiceSchedule.add(menuSectionItem);
         _sidebar.add(menuSectionServiceSchedule);
         menuSectionArrayList.add(menuSectionServiceSchedule);
@@ -65,19 +64,18 @@ public class NavigationBar {
 
         MenuSection menuSectionMusician = new MenuSection("Musicians", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician List");
-        menuSectionItem.setOnMouseClicked(event -> {
-            loadPage(MusiciansListSingleton.getInstance(_configuration));
-        });
+        menuSectionItem.setOnAction(event -> loadPage(MusiciansListSingleton.getInstance(_configuration)));
         menuSectionMusician.add(menuSectionItem);
         _sidebar.add(menuSectionMusician);
         menuSectionArrayList.add(menuSectionMusician);
 
         MenuSection menuSectionCompositions = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musical Work Management");
-        menuSectionItem.setOnMouseClicked(event -> loadPage(MusicalWorkSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> loadPage(MusicalWorkSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
+        
         menuSectionItem = new MenuSectionItem("Instrumentation Management");
-        menuSectionItem.setOnMouseClicked(event -> loadPage(InstrumentationSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> loadPage(InstrumentationSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
         _sidebar.add(menuSectionCompositions);
         menuSectionArrayList.add(menuSectionCompositions);
@@ -92,9 +90,13 @@ public class NavigationBar {
 
         MenuSection menuSectionUserScreen = new MenuSection("User Profile", "/userM.png", toggleGroup);
         /*menuSectionItem = new MenuSectionItem("Section Management");
+        menuSectionItem.setOnAction(event -> {
+        });
         menuSectionUserScreen.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Musician Management");
-        menuSectionUserScreen.add(menuSectionItem); */
+        menuSectionItem.setOnAction(event -> {
+        });*/
+        menuSectionUserScreen.add(menuSectionItem);
         _sidebar.add(menuSectionUserScreen);
         menuSectionArrayList.add(menuSectionUserScreen);
 
@@ -103,7 +105,7 @@ public class NavigationBar {
         menuSectionAdministration.add(menuSectionItem);*/
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionAdministration.add(menuSectionItem);
-        menuSectionItem.setOnMouseClicked(event -> {
+        menuSectionItem.setOnAction(event -> {
             loadPage(MusiciansTableSingleton.getInstance(_configuration));
         });
         _sidebar.add(menuSectionAdministration);

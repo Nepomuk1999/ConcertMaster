@@ -8,6 +8,7 @@ import Domain.Event.EventDomainInterface;
 import Domain.MusicalWork.MusicalWorkDomainInterface;
 import Domain.Person.PersonDomainObject;
 import Enums.*;
+import javafx.scene.layout.Pane;
 import team_f.client.configuration.Configuration;
 import team_f.client.helper.RequestResponseHelper;
 import team_f.jsonconnector.common.URIList;
@@ -33,6 +34,7 @@ import static team_f.client.helper.AlertHelper.showTryAgainLaterErrorMessage;
  */
 public class DatabaseFacade {
     private static Configuration _configuration;
+    private static Pane _pane;
 
     public DatabaseFacade() {
     }
@@ -41,11 +43,14 @@ public class DatabaseFacade {
         _configuration = configuration;
     }
 
+    public static void setPane(Pane pane) {
+        _pane = pane;
+    }
+
     public List<EventDomainInterface> getAllEvents() {
         Request request = new Request();
         request.setActionType(ActionType.GET_ALL);
 
-        // @TODO: implement in server layer
         EventDutyList eventDutyList = (EventDutyList) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDutyList.class);
 
         if(eventDutyList != null) {
@@ -61,7 +66,7 @@ public class DatabaseFacade {
                 return resultList;
             }
         } else {
-            showTryAgainLaterErrorMessage(null);
+            showTryAgainLaterErrorMessage(_pane);
         }
 
         return new LinkedList<>();
@@ -82,10 +87,10 @@ public class DatabaseFacade {
             if(eventDuty != null) {
                 return eventDuty.getEventDutyID();
             } else {
-                showTryAgainLaterErrorMessage(null);
+                showTryAgainLaterErrorMessage(_pane);
             }
         } else {
-            showTryAgainLaterErrorMessage(null);
+            showTryAgainLaterErrorMessage(_pane);
         }
 
         return -1;
@@ -110,7 +115,7 @@ public class DatabaseFacade {
                 return resultList;
             }
         } else {
-            showTryAgainLaterErrorMessage(null);
+            showTryAgainLaterErrorMessage(_pane);
         }
 
         return new LinkedList<>();
@@ -136,7 +141,7 @@ public class DatabaseFacade {
         if(eventDuty != null) {
             return EventDutyConverter.convert(eventDuty);
         } else {
-            showTryAgainLaterErrorMessage(null);
+            showTryAgainLaterErrorMessage(_pane);
         }
 
         return null;

@@ -3,9 +3,11 @@ package Database.Facade.helper.converter;
 import Domain.Event.*;
 import Domain.MusicalWork.MusicalWorkDomainInterface;
 import Enums.EventStatus;
+import Enums.EventType;
 import team_f.jsonconnector.entities.EventDuty;
 import team_f.jsonconnector.entities.MusicalWork;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class EventDutyConverter {
@@ -42,24 +44,36 @@ public class EventDutyConverter {
         eventDomain.setEndTime(eventDuty.getEndTime().toLocalTime());
         eventDomain.setEventStatus(EventStatus.valueOf(String.valueOf(eventDuty.getEventStatus())));
         eventDomain.setDescription(eventDuty.getDescription());
-        eventDomain.setConductor(eventDuty.getConductor());
+        eventDomain.setLocation(eventDuty.getLocation());
+
+        if(String.valueOf(EventType.Tour).equals(String.valueOf(eventDuty.getEventType())) || String.valueOf(EventType.Concert).equals(String.valueOf(eventDuty.getEventType())) || String.valueOf(EventType.Hofkapelle).equals(String.valueOf(eventDuty.getEventType()))) {
+            eventDomain.setConductor(eventDuty.getConductor());
+        }
+
         //eventDomain.setDuties();
 
         if(eventDuty.getInstrumentation() != null) {
             eventDomain.setGeneralInstrumentation(InstrumentationConverter.convert(eventDuty.getInstrumentation()));
         }
 
-        if(eventDuty.getMusicalWorkList() != null) {
-            List<MusicalWorkDomainInterface> musicalWorkList = new ArrayList<>(eventDuty.getMusicalWorkList().size());
+        if (String.valueOf(EventType.Tour).equals(String.valueOf(eventDuty.getEventType())) || String.valueOf(EventType.Opera).equals(String.valueOf(eventDuty.getEventType()))
+                || String.valueOf(EventType.Concert).equals(String.valueOf(eventDuty.getEventType())) || String.valueOf(EventType.Hofkapelle).equals(String.valueOf(eventDuty.getEventType()))) {
+            List<MusicalWorkDomainInterface> musicalWorkList = new LinkedList<>();
 
-            for(MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
-                musicalWorkList.add(MusicalWorkConverter.convert(musicalWork));
+            if(eventDuty.getMusicalWorkList() != null) {
+                musicalWorkList = new ArrayList<>(eventDuty.getMusicalWorkList().size());
+
+                if(eventDuty.getMusicalWorkList() != null) {
+                    for(MusicalWork musicalWork : eventDuty.getMusicalWorkList()) {
+                        musicalWorkList.add(MusicalWorkConverter.convert(musicalWork));
+                    }
+                }
             }
 
             eventDomain.setMusicalWorks(musicalWorkList);
         }
 
-        if(eventDuty.getRehearsalFor() != null) {
+        if(eventDuty.getRehearsalFor() != null && String.valueOf(EventType.Rehearsal).equals(String.valueOf(eventDuty.getEventType()))) {
             eventDomain.setRehearsalFor(EventDutyConverter.convert(eventDuty.getRehearsalFor()));
         }
 
