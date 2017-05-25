@@ -30,7 +30,10 @@ import java.util.List;
 import static team_f.client.helper.AlertHelper.showTryAgainLaterErrorMessage;
 
 /**
- * implements an abstraction layer to the server which handles the request
+ * Implements an abstraction layer to the server which handles the request.
+ *
+ * Through to the complexity of the pages we abstract only the store and load layer to prevent unnecessary refactoring of the fxml and controller files.
+ * This class can be loaded through reflection or replaced in the given compiled or not compiled files. This is only possible through to the nature of Java and other managed languages.
  */
 public class DatabaseFacade {
     private static Configuration _configuration;
@@ -129,7 +132,6 @@ public class DatabaseFacade {
         Pair<String, String> pair;
 
         pair = new Pair<>();
-        // @TODO: implement in Server layer
         pair.setKey(String.valueOf(EventDutyParameter.ID));
         pair.setValue("" + id);
         keyValueList.add(pair);
