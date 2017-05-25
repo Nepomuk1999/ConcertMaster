@@ -58,6 +58,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
                     try {
                         person.addPlayedInstrument(AllInstrumentTypes.valueOf(instrumentType.replace(" ", "").toUpperCase()));
                     } catch (Exception e) {
+                        System.out.println(e);
                     }
                 }
             }
