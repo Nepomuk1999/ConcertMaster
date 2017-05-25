@@ -162,6 +162,12 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         entity.setPhoneNumber(person.getPhoneNumber());
         entity.setPersonRole(team_f.database_wrapper.enums.PersonRole.valueOf(String.valueOf(person.getPersonRole())));
 
+        Account account = person.getAccount();
+
+        if(account != null) {
+            entity.setAccount(account.getAccountID());
+        }
+
         return entity;
     }
 
@@ -188,7 +194,7 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
      * from PersonEntity object.
      * @return person      Person        returns a person object
      */
-    private Person convertToPerson(PersonEntity pe) {
+    protected Person convertToPerson(PersonEntity pe) {
         Person person = new Person();
 
         person.setPersonID(pe.getPersonId());
