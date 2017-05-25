@@ -36,16 +36,15 @@ public class MusicianPDFGenerator {
         _regular = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
         _bold = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
 
-        //if(person!=null){
-            _person=person;
+        if (person != null) {
+            _person = person;
             File file = new File(DEST);
             file.getParentFile().mkdirs();
             manipulatePdf(DEST);
+        } else {
+            return;
+        }
     }
-        //else{
-           // return;
-        //}
-
 
     protected String parseToPath(String directory){
         StringBuilder finalPath = new StringBuilder();
@@ -76,7 +75,7 @@ public class MusicianPDFGenerator {
             Paragraph p = new Paragraph("Information for: " + _person.getFirstname() + " " + _person.getLastname());
             p.setFont(_bold);
             p.setFontSize(20);
-            p.setMarginTop(35);
+            p.setMarginTop(50);
             doc.add(p);
 
             table.addCell(new Cell().setFont(_bold).add("ID"));
