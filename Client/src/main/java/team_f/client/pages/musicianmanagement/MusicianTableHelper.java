@@ -219,7 +219,7 @@ public class MusicianTableHelper {
                 InstrumentType.CONTRABASSOON, InstrumentType.HECKELPHONE, InstrumentType.BASSCLARINET, InstrumentType.PICCOLO, InstrumentType.CONTRABASSTROMBONE,
                 InstrumentType.BASSTROMBONE, InstrumentType.BASSETHORN, InstrumentType.FRENCHHORN, InstrumentType.ENGLISHHORN);
         List<InstrumentType> doublebass= Arrays.asList(InstrumentType.DOUBLEBASS);
-        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM, InstrumentType.KETTLEDRUM, InstrumentType.PIANO,
+        List<InstrumentType> percussion= Arrays.asList(InstrumentType.PERCUSSION,InstrumentType.HARP, InstrumentType.KETTLEDRUM, InstrumentType.PIANO,
                 InstrumentType.CELESTA, InstrumentType.ORGAN, InstrumentType.CEMBALO, InstrumentType.ACCORDEON, InstrumentType.KEYBOARD, InstrumentType.BANDONEON,
                 InstrumentType.GUITAR, InstrumentType.MANDOLIN);
         List<InstrumentType> violincello= Arrays.asList(InstrumentType.VIOLONCELLO);
