@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import team_f.client.converter.PersonConverter;
 import team_f.client.entities.KeyValuePair;
+import team_f.client.helper.BoyerMooreAlgo;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.*;
@@ -61,7 +62,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     private ComboBox<KeyValuePair> _comboBoxInstrumentType;
     private Button _addAnotherInstrumentButton;
     private List<MusicianInstrumentEntity> _playedInstrumentsList;
-
+    private BoyerMooreAlgo _boyBoyerMooreAlgo;
 
     @Override
     public void initialize() {
@@ -70,6 +71,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         }
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianManagement.css");
         getStylesheets().add(Style.toString());
+        _boyBoyerMooreAlgo=new BoyerMooreAlgo();
 
         //textfields
         _firstNameField = new TextField();
@@ -703,7 +705,6 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         }
     }
 
-    //Search Filter methods
     private void updateFilteredData() {
         _filteredData.clear();
 
@@ -720,15 +721,14 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
     private boolean matchesFilter(Person person) {
         String filterString = _filterField.getText();
         if (filterString == null || filterString.isEmpty()) {
-            // No filter --> Add all.
             return true;
         }
 
         String lowerCaseFilterString = filterString.toLowerCase();
 
-        if (person.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+        if (_boyBoyerMooreAlgo.findPattern(person.getFirstname().toLowerCase(),lowerCaseFilterString)!= -1) {
             return true;
-        } else if (person.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+        } else if (_boyBoyerMooreAlgo.findPattern(person.getLastname().toLowerCase(),lowerCaseFilterString)!= -1) {
             return true;
         }
 

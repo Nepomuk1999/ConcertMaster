@@ -10,6 +10,7 @@ import team_f.client.controls.numberfield.NumberField;
 import team_f.client.converter.MusicalWorkConverter;
 import team_f.client.entities.KeyValuePair;
 import team_f.client.exceptions.NumberRangeException;
+import team_f.client.helper.BoyerMooreAlgo;
 import team_f.client.helper.ErrorMessageHelper;
 import team_f.client.helper.gui.InstrumentationHelper;
 import team_f.client.helper.gui.SpecialInstrumentationEntity;
@@ -77,10 +78,9 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     private ObservableList<MusicalWork> _masterData = FXCollections.observableArrayList();
     private ObservableList<MusicalWork> _filteredData = FXCollections.observableArrayList();
     private TextField _filterField;
+    private BoyerMooreAlgo _boyBoyerMooreAlgo;
 
 
-    public MusicalWorkManagement() {
-    }
 
     @Override
     public void initialize() {
@@ -89,6 +89,8 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
         }
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicalWork.css");
         getStylesheets().add(Style.toString());
+        _boyBoyerMooreAlgo=new BoyerMooreAlgo();
+
         _decimalFields = new ArrayList<>();
         _nameField = new TextField();
         _nameField.setMinWidth(200);
@@ -268,7 +270,7 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
                     _bassoonField.getNumber().toPlainString().isEmpty() || _hornField.getNumber().toPlainString().isEmpty() || _trumpetField.getNumber().toPlainString().isEmpty() || _tromboneField.getNumber().toPlainString().isEmpty() || _tubeField.getNumber().toPlainString().isEmpty()
                     || _kettledrumField.getNumber().toPlainString().isEmpty() || _percussionField.getNumber().toPlainString().isEmpty() || _harpField.getNumber().toPlainString().isEmpty()) {
                 validate(_textFieldsList);
-                //validate(_decimalFields);
+                validate(_decimalFields);
                 showValuesMissingMessage();
             } else {
                 addMusicalWork();
@@ -669,15 +671,14 @@ public class MusicalWorkManagement extends BaseTablePage<MusicalWorkErrorList, M
     private boolean matchesFilter(MusicalWork musicalWork) {
         String filterString = _filterField.getText();
         if (filterString == null || filterString.isEmpty()) {
-            // No filter --> Add all.
             return true;
         }
 
         String lowerCaseFilterString = filterString.toLowerCase();
 
-        if (musicalWork.getName().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+        if (_boyBoyerMooreAlgo.findPattern(musicalWork.getName().toLowerCase(), lowerCaseFilterString) != -1) {
             return true;
-        } else if (musicalWork.getComposer().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+        } else  if (_boyBoyerMooreAlgo.findPattern(musicalWork.getComposer().toLowerCase(), lowerCaseFilterString) != -1) {
             return true;
         }
 
