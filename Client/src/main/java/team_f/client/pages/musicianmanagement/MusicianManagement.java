@@ -564,7 +564,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         }
 
-        if (person.getInstrumentTypeList() != null) {
+        if (person.getInstrumentTypeList() != null&&person.getInstrumentTypeList().size()>0) {
             int[] positions = MusicianTableHelper.getFirstInstrumentPos(person.getInstrumentTypeList().get(0));
             if (positions[0] >= 0 && (positions[1] >= 0)) {
                 _comboBoxSectionType.getSelectionModel().select(positions[0]);
