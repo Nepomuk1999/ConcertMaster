@@ -28,8 +28,8 @@ public class NavigationBar {
     public NavigationBar(BorderPane pagePane, Configuration configuration) {
         _configuration = configuration;
         _pagePane = pagePane;
-
         _sidebar = new Sidebar();
+
         //MenuSection menuSection;
         ArrayList<MenuSection> menuSectionArrayList = new ArrayList<>();
         MenuSectionItem menuSectionItem;
@@ -99,7 +99,7 @@ public class NavigationBar {
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionItem.setOnAction(event -> {
         });*/
-        menuSectionUserScreen.add(menuSectionItem);
+        //menuSectionUserScreen.add(menuSectionItem);
         _sidebar.add(menuSectionUserScreen);
         menuSectionArrayList.add(menuSectionUserScreen);
 

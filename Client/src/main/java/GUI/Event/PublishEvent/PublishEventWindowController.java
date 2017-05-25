@@ -151,10 +151,10 @@ public class PublishEventWindowController implements Initializable {
             try {
                 PdfWriter.getInstance(document, new FileOutputStream(path + "/schedule_" + selected.getMonth().name().toLowerCase() + ".pdf"));
                 document.open();
-                Image logo = Image.getInstance("src/GUI/Icons/COS_Logo.png");
+                /*Image logo = Image.getInstance("src/GUI/Icons/COS_Logo.png");
                 logo.scalePercent(10);
                 logo.setAlignment(Element.ALIGN_RIGHT);
-                document.add(logo);
+                document.add(logo);*/
                 document.add(createEventSchedule(eventTable.getItems()));
                 document.close();
                 //eventUseCaseController.publishSchedule(selected); //TODO SET Active

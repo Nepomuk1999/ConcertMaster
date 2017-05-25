@@ -564,7 +564,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             }
         }
 
-        if (person.getInstrumentTypeList() != null) {
+        if (person.getInstrumentTypeList() != null&&person.getInstrumentTypeList().size()>0) {
             int[] positions = MusicianTableHelper.getFirstInstrumentPos(person.getInstrumentTypeList().get(0));
             if (positions[0] >= 0 && (positions[1] >= 0)) {
                 _comboBoxSectionType.getSelectionModel().select(positions[0]);
@@ -573,8 +573,10 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
             List<InstrumentType> instruments = person.getInstrumentTypeList();
             for (int i = 1; i < instruments.size(); i++) {
                 int[] positions2 = MusicianTableHelper.getFirstInstrumentPos(person.getInstrumentTypeList().get(i));
-                addInstruments(0, _comboBoxSectionType.getSelectionModel().getSelectedItem());
-                _playedInstrumentsList.get(i).getSectionTypeComboBox().getSelectionModel().select(positions2[1]);
+                if (positions[0] >= 0 && (positions[1] >= 0)) {
+                    addInstruments(0, _comboBoxSectionType.getSelectionModel().getSelectedItem());
+                    _playedInstrumentsList.get(i).getSectionTypeComboBox().getSelectionModel().select(positions2[1]);
+                }
             }
 
         }
