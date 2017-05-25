@@ -1,6 +1,7 @@
 package team_f.client.helper;
 
 public class BoyerMooreAlgo {
+    /**return -1 if no matches found**/
     public int findPattern(String textToAnalyze, String patternToFind)
     {
         char[] text = textToAnalyze.toCharArray();
