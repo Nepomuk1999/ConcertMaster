@@ -144,7 +144,7 @@ public class MonthPublisher extends BaseTablePage<EventDutyErrorList, Publish, E
         });
 
         Button pdfGeneratorButton = new Button("Convert");
-        pdfGeneratorButton.setMinWidth(180);
+        pdfGeneratorButton.setMinWidth(120);
         pdfGeneratorButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));

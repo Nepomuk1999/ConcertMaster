@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import team_f.client.helper.BoyerMooreAlgo;
 import team_f.client.pages.BaseTablePage;
 import team_f.jsonconnector.entities.Person;
 
@@ -30,7 +31,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
     private Label _personrole;
     private Label _initials;
     private Label _accountrole;
-    private TextArea _instruments;
+    private Label _instruments;
     private Label _gender;
 
     private TableView<Person> _musicianList;
@@ -39,11 +40,13 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
     private ObservableList<Person> _masterData = FXCollections.observableArrayList();
     private ObservableList<Person> _filteredData = FXCollections.observableArrayList();
     private TextField _filterField;
+    private BoyerMooreAlgo _boyBoyerMooreAlgo;
 
     @Override
     public void initialize() {
         final URL Style = ClassLoader.getSystemResource("style/stylesheetMusicianList.css");
         getStylesheets().add(Style.toString());
+        _boyBoyerMooreAlgo=new BoyerMooreAlgo();
 
         _id = new Label();
         _firstname = new Label();
@@ -54,12 +57,12 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         _email = new Label();
         _personrole = new Label();
         _accountrole = new Label();
-        _instruments = new TextArea();
+        _instruments = new Label();
         _initials = new Label();
         _section = new Label();
         _gender = new Label();
 
-        _instruments.setEditable(false);
+        //_instruments.setEditable(false);
         _labelList = new ArrayList<Label>() {{
             add(_id);
             add(_firstname);
@@ -113,8 +116,8 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         gridPane.add(new Label("Address:"), 2, 6);
         gridPane.add(new Label("Phone:"), 0, 8);
         gridPane.add(new Label("Email:"), 2, 8);
-        gridPane.add(new Label("Account Role:"), 0, 10);
-        gridPane.add(new Label("Person Role:"), 2, 10);
+        gridPane.add(new Label("Account R.:"), 0, 10);
+        gridPane.add(new Label("Person R.:"), 2, 10);
         gridPane.add(new Label("Section:"), 0, 12);
         gridPane.add(new Label("Instruments:"), 2, 12);
 
@@ -302,7 +305,7 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
         for(Label label:_labelList){
             label.setText(" ");
         }
-        _instruments.clear();
+        _instruments.setText(" ");
     }
 
     private void updateFilteredData() {
@@ -319,15 +322,14 @@ public class MusiciansList extends BaseTablePage<Person, Person, Person, Person,
     private boolean matchesFilter(Person person) {
         String filterString = _filterField.getText();
         if (filterString == null || filterString.isEmpty()) {
-            // No filter --> Add all.
             return true;
         }
 
         String lowerCaseFilterString = filterString.toLowerCase();
 
-        if (person.getFirstname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+        if (_boyBoyerMooreAlgo.findPattern(person.getFirstname().toLowerCase(),lowerCaseFilterString)!= -1) {
             return true;
-        } else if (person.getLastname().toLowerCase().indexOf(lowerCaseFilterString) != -1) {
+        } else if (_boyBoyerMooreAlgo.findPattern(person.getLastname().toLowerCase(),lowerCaseFilterString)!= -1) {
             return true;
         }
 

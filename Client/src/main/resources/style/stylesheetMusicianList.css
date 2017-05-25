@@ -14,6 +14,12 @@
 -fx-border-radius: 5;
 -fx-border-color: grey;
 }
+#gridpane .label {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: black;
+
+}
 #titleMusician,#titleList{
     -fx-font-size: 20px;
     -fx-font-weight: bold;
@@ -23,3 +29,4 @@
 .button{
 -fx-font: 14 arial;
 }
+
