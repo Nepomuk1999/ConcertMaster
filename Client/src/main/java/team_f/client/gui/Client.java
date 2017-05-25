@@ -1,6 +1,5 @@
 package team_f.client.gui;
 
-import Database.Facade.DatabaseFacade;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,8 +8,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -24,7 +21,6 @@ import team_f.client.pages.legende.LegendTable;
 import team_f.client.pages.musicalWorkManagementExplanation.MWMETable;
 import team_f.client.pages.musicianManagementExplanation.MMEPTable;
 import team_f.client.singletons.*;
-
 import javax.lang.model.type.NullType;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -69,7 +65,6 @@ public class Client extends Application {
         content.setCenter(mainContent);
 
         // set the sidebar
-        DatabaseFacade.initialize(_configuration);
         NavigationBar navigationBar = new NavigationBar(mainContentPane, _configuration);
         Sidebar sidebar = navigationBar.getNavigationBar();
         content.setLeft(sidebar);

@@ -1,16 +1,20 @@
 package team_f.client.singletons;
 
 import Database.Facade.DatabaseFacade;
+import team_f.client.configuration.Configuration;
 import team_f.client.pages.duty.Duty;
 
 public class DutySingleton {
     private static Duty _duty;
+    private static Configuration _configuration;
 
     private DutySingleton() {
     }
 
-    public static Duty getInstance() {
+    public static Duty getInstance(Configuration configuration) {
         if (_duty == null) {
+            _configuration = configuration;
+            DatabaseFacade.initialize(configuration);
             _duty = new Duty();
         } else {
             _duty.initialize();

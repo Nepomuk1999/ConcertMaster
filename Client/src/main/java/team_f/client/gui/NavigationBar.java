@@ -8,6 +8,7 @@ import team_f.client.controls.sidebar.MenuSectionItem;
 import team_f.client.controls.sidebar.Sidebar;
 import team_f.client.pages.BasePage;
 import team_f.client.pages.PageAction;
+import team_f.client.pages.duty.Duty;
 import team_f.client.pages.event.Event;
 import team_f.client.singletons.*;
 import javax.lang.model.type.NullType;
@@ -55,10 +56,12 @@ public class NavigationBar {
         menuSectionArrayList.add(menuSectionServiceSchedule);
 
         MenuSection menuSectionServices = new MenuSection("Services", "/dutyM.png", toggleGroup);
-        /* menuSectionItem = new MenuSectionItem("Service Schedules");
+        menuSectionItem = new MenuSectionItem("Service Schedules");
+        menuSectionItem.setOnAction(event -> loadPage(EventSingleton.getInstance(_configuration)));
         menuSectionServices.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Service Management");
-        menuSectionServices.add(menuSectionItem); */
+        menuSectionItem.setOnAction(event -> loadPage(DutySingleton.getInstance(_configuration)));
+        menuSectionServices.add(menuSectionItem);
         _sidebar.add(menuSectionServices);
         menuSectionArrayList.add(menuSectionServices);
 
@@ -73,7 +76,7 @@ public class NavigationBar {
         menuSectionItem = new MenuSectionItem("Musical Work Management");
         menuSectionItem.setOnAction(event -> loadPage(MusicalWorkSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
-        
+
         menuSectionItem = new MenuSectionItem("Instrumentation Management");
         menuSectionItem.setOnAction(event -> loadPage(InstrumentationSingleton.getInstance(_configuration)));
         menuSectionCompositions.add(menuSectionItem);
