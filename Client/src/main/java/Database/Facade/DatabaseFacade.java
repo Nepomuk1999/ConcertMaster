@@ -71,6 +71,8 @@ public class DatabaseFacade {
                 request.setActionType(ActionType.UPDATE);
             }
 
+            request.setEntity(EventDutyConverter.convert(event));
+
             EventDuty eventDuty = (EventDuty) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDuty.class);
 
             if(eventDuty != null) {
@@ -136,8 +138,34 @@ public class DatabaseFacade {
     }
 
     public void saveMusicalWorksForEvent(EventDomainInterface event, List<MusicalWorkDomainInterface> musicalWorksList) {
-        // @TODO: implement
         EventDuty eventDuty = EventDutyConverter.convert(event);
+
+        if(musicalWorksList != null) {
+            List<MusicalWork> musicalWorkList = new ArrayList(musicalWorksList.size());
+
+            for(MusicalWorkDomainInterface musicalWork : musicalWorksList) {
+                musicalWorkList.add(MusicalWorkConverter.convert(musicalWork));
+            }
+
+            eventDuty.setMusicalWorkList(musicalWorkList);
+        }
+
+        Request request = new Request();
+
+        if(eventDuty.getEventDutyID() > 0) {
+            request.setActionType(ActionType.CREATE);
+        } else {
+            request.setActionType(ActionType.UPDATE);
+        }
+
+        request.setEntity(eventDuty);
+
+        EventDuty response = (EventDuty) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDuty.class);
+
+        if(response != null) {
+        } else {
+            showTryAgainLaterErrorMessage(_pane);
+        }
     }
 
     public List<EventDomainInterface> getUnpublishedEventsForMonth(YearMonth month) {
