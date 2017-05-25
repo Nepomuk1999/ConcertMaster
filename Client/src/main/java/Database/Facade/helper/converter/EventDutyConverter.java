@@ -2,10 +2,12 @@ package Database.Facade.helper.converter;
 
 import Domain.Event.*;
 import Domain.MusicalWork.MusicalWorkDomainInterface;
+import Domain.MusicalWork.MusicalWorkViewInterface;
 import Enums.EventStatus;
 import Enums.EventType;
 import team_f.jsonconnector.entities.EventDuty;
 import team_f.jsonconnector.entities.MusicalWork;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,5 +80,40 @@ public class EventDutyConverter {
         }
 
         return eventDomain;
+    }
+
+    public static EventDuty convert(EventViewInterface eventDuty) {
+        EventDuty result = new EventDuty();
+        result.setEventDutyID(eventDuty.getId());
+        result.setEventType(team_f.jsonconnector.enums.EventType.valueOf(String.valueOf(eventDuty.getEventType())));
+        result.setName(eventDuty.getName());
+        result.setDefaultPoints(eventDuty.getDefaultPoints());
+        result.setStartTime(LocalDateTime.of(eventDuty.getStartDate(), eventDuty.getStartTime()));
+        result.setEndTime(LocalDateTime.of(eventDuty.getEndDate(), eventDuty.getEndTime()));
+        result.setEventStatus(team_f.jsonconnector.enums.EventStatus.valueOf(String.valueOf(eventDuty.getEventStatus())));
+        result.setDescription(eventDuty.getDescription());
+        result.setLocation(eventDuty.getLocation());
+        result.setConductor(eventDuty.getConductor());
+        // we do not have to use this method
+        //result.setMaxInstrumentation();
+        //eventDuty.getGeneralInstrumentation();
+
+        List<MusicalWorkViewInterface> musicalWorkList = eventDuty.getMusicalWorks();
+
+        if(musicalWorkList != null) {
+            List<MusicalWork> musicalWorks = new ArrayList<>(musicalWorkList.size());
+
+            for(MusicalWorkViewInterface item : musicalWorkList) {
+                musicalWorks.add(MusicalWorkConverter.convert(item));
+            }
+
+            result.setMusicalWorkList(musicalWorks);
+        }
+
+        if(eventDuty.getRehearsalFor() != null) {
+            result.setRehearsalFor(EventDutyConverter.convert(eventDuty.getRehearsalFor()));
+        }
+
+        return result;
     }
 }

@@ -32,10 +32,6 @@ public class MusiciansListSingleton {
                         Request request = new Request();
                         request.setActionType(ActionType.GET_ALL);
 
-                        if(value != null) {
-                            request.setEntity(value.getPerson());
-                        }
-
                         PersonList personList = (PersonList) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, PersonList.class);
 
                         if(personList != null) {

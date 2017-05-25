@@ -26,7 +26,6 @@ public class InstrumentationConverter {
         percussionInstrumentationDomainObject.setHarp(instrumentation.getHarp());
         percussionInstrumentationDomainObject.setKettledrum(instrumentation.getKettledrum());
         percussionInstrumentationDomainObject.setPercussion(instrumentation.getPercussion());
-        percussionInstrumentationDomainObject.setPercussionDescription(instrumentation.getPercussionInstrumentation());
 
         instrumentationDomain.setPercussionInstrumentation(percussionInstrumentationDomainObject);
 
@@ -67,5 +66,65 @@ public class InstrumentationConverter {
         instrumentationDomain.setWoodInstrumentation(woodInstrumentationDomainObject);
 
         return instrumentationDomain;
+    }
+
+    public static Instrumentation convert(InstrumentationViewInterface instrumentation) {
+        Instrumentation result = new Instrumentation();
+        result.setInstrumentationID(instrumentation.getId());
+
+        BrassInstrumentationViewInterface brassInstrumentation = instrumentation.getBrassInstrumentation();
+
+        if(brassInstrumentation != null) {
+            result.setHorn(brassInstrumentation.getHorn());
+            result.setTrombone(brassInstrumentation.getTrombone());
+            result.setTrumpet(brassInstrumentation.getTrumpet());
+            result.setTube(brassInstrumentation.getTube());
+        }
+
+        PercussionInstrumentationViewInterface percussionInstrumentation = instrumentation.getPercussionInstrumentation();
+
+        if(percussionInstrumentation != null) {
+            result.setHarp(percussionInstrumentation.getHarp());
+            result.setKettledrum(percussionInstrumentation.getKettledrum());
+            result.setPercussion(percussionInstrumentation.getPercussion());
+        }
+
+        List<SpecialInstrumentationViewInterface> specialInstrumentationList = instrumentation.getSpecialInstrumentation();
+
+        if(specialInstrumentationList != null) {
+            List<SpecialInstrumentation> tmpSpecialInstrumentationList = new ArrayList<>(specialInstrumentationList.size());
+            SpecialInstrumentation tmpSpecialInstrumentation;
+
+            for(SpecialInstrumentationViewInterface item : specialInstrumentationList) {
+                tmpSpecialInstrumentation = new SpecialInstrumentation();
+                tmpSpecialInstrumentation.setSpecialInstrumentationID(item.getId());
+                tmpSpecialInstrumentation.setSectionType(String.valueOf(item.getSectionType()));
+                tmpSpecialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrument());
+                tmpSpecialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentationNumber());
+            }
+
+            result.setSpecialInstrumentation(tmpSpecialInstrumentationList);
+        }
+
+        StringInstrumentationViewInterface stringInstrumentation = instrumentation.getStringInstrumentation();
+
+        if(stringInstrumentation != null) {
+            result.setDoublebass(stringInstrumentation.getDoublebass());
+            result.setViola(stringInstrumentation.getViola());
+            result.setViolin1(stringInstrumentation.getViolin1());
+            result.setViolin2(stringInstrumentation.getViolin2());
+            result.setViolincello(stringInstrumentation.getViolincello());
+        }
+
+        WoodInstrumentationViewInterface woodInstrumentation = instrumentation.getWoodInstrumentation();
+
+        if (woodInstrumentation != null) {
+            result.setBassoon(woodInstrumentation.getBassoon());
+            result.setClarinet(woodInstrumentation.getClarinet());
+            result.setFlute(woodInstrumentation.getFlute());
+            result.setOboe(woodInstrumentation.getOboe());
+        }
+
+        return result;
     }
 }

@@ -83,7 +83,4 @@ public class BoyerMooreAlgo {
         }
         return len;
     }
-
-
-
 }

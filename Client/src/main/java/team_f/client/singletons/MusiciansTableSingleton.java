@@ -125,15 +125,6 @@ public class MusiciansTableSingleton {
 
         return null;
     }
-
-    private static URL getInstrumentTypeList() {
-        try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.instrumentType);
-        } catch (MalformedURLException e) {
-        }
-
-        return null;
-    }
 }
 
 
