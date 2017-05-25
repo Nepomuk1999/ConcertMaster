@@ -21,6 +21,7 @@ public class Person implements JSONObjectEntity {
     private PersonRole _personRole;
     private Account _account;
     private List<team_f.jsonconnector.enums.InstrumentType> _instrumentTypeList;
+    private List<DutyDisposition> _dutyDispositionList;
 
     @JsonGetter("id")
     public int getPersonID() {
@@ -77,6 +78,11 @@ public class Person implements JSONObjectEntity {
         return _instrumentTypeList;
     }
 
+    @JsonGetter("duty_dispositions")
+    public List<DutyDisposition> getDutyDispositionList() {
+        return _dutyDispositionList;
+    }
+
     @JsonSetter("id")
     public void setPersonID(int personID) {
         _personID = personID;
@@ -130,6 +136,11 @@ public class Person implements JSONObjectEntity {
     @JsonSetter("instrument_types")
     public void setInstrumentTypeList(List<team_f.jsonconnector.enums.InstrumentType> instrumentTypeList) {
         _instrumentTypeList = instrumentTypeList;
+    }
+
+    @JsonSetter("duty_dispositions")
+    public void setDutyDispositionList(List<DutyDisposition> dutyDispositionList) {
+        _dutyDispositionList = dutyDispositionList;
     }
 
     @Override

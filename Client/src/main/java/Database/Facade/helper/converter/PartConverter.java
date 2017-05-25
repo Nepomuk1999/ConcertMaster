@@ -33,4 +33,8 @@ public class PartConverter {
 
         return partDomain;
     }
+
+    public static team_f.jsonconnector.enums.InstrumentType convert(PartDomainObject instrumentType) {
+        return InstrumentType.valueOf(instrumentType.getPartType().getDescription());
+    }
 }

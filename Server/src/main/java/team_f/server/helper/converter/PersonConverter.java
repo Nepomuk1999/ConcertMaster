@@ -1,11 +1,11 @@
 package team_f.server.helper.converter;
 
 import team_f.domain.enums.AllInstrumentTypes;
+import team_f.jsonconnector.entities.DutyDisposition;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.Gender;
 import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.enums.PersonRole;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +47,16 @@ public class PersonConverter {
             }
 
             result.setInstrumentTypeList(instrumentTypeList);
+        }
+
+        if(person.getDutyDispositionList() != null) {
+            List<DutyDisposition> eventDutyList = new ArrayList<>(person.getDutyDispositionList().size());
+
+            for(team_f.domain.entities.DutyDisposition dutyDisposition : person.getDutyDispositionList()) {
+                eventDutyList.add(DutyDispositionConverter.convertToJSON(dutyDisposition));
+            }
+
+            result.setDutyDispositionList(eventDutyList);
         }
 
         return result;

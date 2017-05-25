@@ -3,16 +3,17 @@ package team_f.jsonconnector.entities.list;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import team_f.jsonconnector.entities.DutyDisposition;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DutyDispositionList implements JSONObjectEntity {
-    private List<DutyDispositionList> _eventDutyList;
+    private List<DutyDisposition> _eventDutyList;
     private double _points;
 
     @JsonGetter("event_duties")
-    public List<DutyDispositionList> getEventDutyList() {
+    public List<DutyDisposition> getEventDutyList() {
         return _eventDutyList;
     }
 
@@ -22,7 +23,7 @@ public class DutyDispositionList implements JSONObjectEntity {
     }
 
     @JsonSetter("event_duties")
-    public void setEventDutyList(List<DutyDispositionList> eventDutyList) {
+    public void setEventDutyList(List<DutyDisposition> eventDutyList) {
         _eventDutyList = eventDutyList;
     }
 

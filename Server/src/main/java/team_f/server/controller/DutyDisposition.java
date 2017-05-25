@@ -3,7 +3,6 @@ package team_f.server.controller;
 import org.json.JSONArray;
 import team_f.application.DutyDispositionApplication;
 import team_f.domain.enums.DutyDispositionStatus;
-import team_f.domain.enums.EventType;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.Pair;
@@ -23,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet(urlPatterns = {URIList.dutyDisposition})
@@ -103,8 +103,8 @@ public class DutyDisposition extends HttpServlet {
                             int eventDutyID = -1;
                             DutyDispositionStatus dutyDispositionStatus = null;
 
-                            if(dutyDisposition.getMusician() != null) {
-                                personID = dutyDisposition.getMusician().getPersonID();
+                            if(dutyDisposition.getPerson() != null) {
+                                personID = dutyDisposition.getPerson().getPersonID();
                             }
 
                             if(dutyDisposition.getEventDuty() != null) {
@@ -127,30 +127,61 @@ public class DutyDisposition extends HttpServlet {
 
                         break;
                     case UPDATE:
-                        /*eventDuty = request.getEntity();
+                        dutyDisposition = request.getEntity();
 
-                        if(eventDuty != null) {
-                            // @TODO: add update functionality
-                            tmpErrorList = facade.update(eventDuty);
-                            errorList = JsonResponse.prepareErrorMessage(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) tmpErrorList.getKey()), tmpErrorList.getValue());
+                        if(dutyDisposition != null) {
+                            int personID = -1;
+                            int eventDutyID = -1;
+                            DutyDispositionStatus dutyDispositionStatus = null;
+
+                            if(dutyDisposition.getPerson() != null) {
+                                personID = dutyDisposition.getPerson().getPersonID();
+                            }
+
+                            if(dutyDisposition.getEventDuty() != null) {
+                                eventDutyID = dutyDisposition.getEventDuty().getEventDutyID();
+                            }
+
+                            try {
+                                dutyDispositionStatus = DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getDutyDispositionStatus()));
+                            } catch (Exception e) {
+                            }
+
+                            tmpErrorList = facade.addDutyDisposition(eventDutyID, personID, dutyDisposition.getPoints(),
+                                    dutyDisposition.getDescription(), dutyDispositionStatus);
+
+                            errorList = JsonResponse.prepareErrorMessage(DutyDispositionConverter.convertToJSON((team_f.domain.entities.DutyDisposition) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
-*/
+
                         break;
                     case DELETE:
-                        /*eventDuty = request.getEntity();
+                        dutyDisposition = request.getEntity();
 
-                        if(eventDuty != null) {
+                        if(dutyDisposition != null) {
                             // @TODO: add delete functionality
-                            tmpErrorList = facade.delete(eventDuty.getEventDutyID());
-                            errorList = JsonResponse.prepareErrorMessage(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) tmpErrorList.getKey()), tmpErrorList.getValue());
+                            int personID = -1;
+                            int eventID = -1;
+
+                            if(dutyDisposition.getEventDuty() != null) {
+                                eventID = dutyDisposition.getEventDuty().getEventDutyID();
+                            }
+
+                            if(dutyDisposition.getPerson() != null) {
+                                personID = dutyDisposition.getPerson().getPersonID();
+                            }
+
+                            boolean result = facade.delete(eventID, personID);
+                            // @TODO: perhaps send an error back
+                            tmpErrorList = new javafx.util.Pair<>(null, new LinkedList<>());
+                            errorList = JsonResponse.prepareErrorMessage(DutyDispositionConverter.convertToJSON((team_f.domain.entities.DutyDisposition) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
-*/
+
                         break;
                     default:
                         break;

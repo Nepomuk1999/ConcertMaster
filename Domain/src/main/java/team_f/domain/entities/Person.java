@@ -3,7 +3,6 @@ package team_f.domain.entities;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.interfaces.DomainEntity;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +19,7 @@ public class Person implements DomainEntity {
     private Account _account;
     private List<Instrument> _instruments = new LinkedList<>();
     private List<AllInstrumentTypes> _playedInstruments = new LinkedList<>();
+    private List<DutyDisposition> _dutyDispositions = new LinkedList<>();
 
     public int getPersonID() {
         return _personID;
@@ -67,6 +67,10 @@ public class Person implements DomainEntity {
 
     public Account getAccount() {
         return _account;
+    }
+
+    public List<DutyDisposition> getDutyDispositionList() {
+        return _dutyDispositions;
     }
 
     public void setPersonID(int personID) {
@@ -127,6 +131,10 @@ public class Person implements DomainEntity {
 
     public void setAccount(Account account) {
         _account = account;
+    }
+
+    public void setDutyDispositions(List<DutyDisposition> dutyDispositions) {
+        _dutyDispositions = dutyDispositions;
     }
 
     @Override

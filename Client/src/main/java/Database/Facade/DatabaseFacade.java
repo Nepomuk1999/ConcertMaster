@@ -1,5 +1,6 @@
 package Database.Facade;
 
+import Database.Facade.helper.converter.DutyDispositionConverter;
 import Database.Facade.helper.converter.EventDutyConverter;
 import Database.Facade.helper.converter.MusicalWorkConverter;
 import Database.Facade.helper.converter.PersonConverter;
@@ -14,15 +15,18 @@ import team_f.client.configuration.Configuration;
 import team_f.client.helper.RequestResponseHelper;
 import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
+import team_f.jsonconnector.entities.list.DutyDispositionList;
 import team_f.jsonconnector.entities.list.EventDutyList;
 import team_f.jsonconnector.entities.list.MusicalWorkList;
 import team_f.jsonconnector.entities.list.PersonList;
 import team_f.jsonconnector.entities.special.errorlist.EventDutyErrorList;
 import team_f.jsonconnector.enums.PublishType;
 import team_f.jsonconnector.enums.request.ActionType;
+import team_f.jsonconnector.enums.request.DutyDispositionParameter;
 import team_f.jsonconnector.enums.request.EventDutyParameter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -220,12 +224,61 @@ public class DatabaseFacade {
     }
 
     public double getPointsForPersonAndMonth(PersonDomainObject person, Month month) {
-        // @TODO: implement
+        Request request = new Request();
+        request.setActionType(ActionType.GET_BY_PARAMETER);
+
+        List<Pair<String, String>> keyValueList = new LinkedList<>();
+        Pair<String, String> pair;
+
+        pair = new Pair<>();
+        pair.setKey(String.valueOf(DutyDispositionParameter.PERSON_ID));
+        pair.setValue("" + month.getValue());
+        keyValueList.add(pair);
+
+        pair.setKey(String.valueOf(DutyDispositionParameter.MONTH));
+        pair.setValue("" + month.getValue());
+        keyValueList.add(pair);
+
+        pair.setKey(String.valueOf(DutyDispositionParameter.YEAR));
+        LocalDateTime now = LocalDateTime.now();
+        int year;
+
+        // we have to guess the year
+        if(now.getMonthValue() > month.getValue()) {
+            year = now.getYear() -1;
+        } else {
+            year = now.getYear();
+        }
+
+        pair.setValue("" + year);
+        keyValueList.add(pair);
+
+        request.setParameterKeyList(keyValueList);
+
+        DutyDispositionList dutyDisposition = (DutyDispositionList) RequestResponseHelper.writeAndReadJSONObject(getDutyDispositionURL(), request, DutyDispositionList.class);
+
+        if(dutyDisposition != null) {
+            return dutyDisposition.getPoints();
+        } else {
+            showTryAgainLaterErrorMessage(_pane);
+        }
+
         return -1;
     }
 
     public void saveDutyDisposition(DutyDispositionDomainObject duty) {
-        // @TODO: implement
+        DutyDisposition dutyDisposition = DutyDispositionConverter.convert(duty);
+
+        Request request = new Request();
+        request.setActionType(ActionType.UPDATE);
+        request.setEntity(dutyDisposition);
+
+        DutyDisposition response = (DutyDisposition) RequestResponseHelper.writeAndReadJSONObject(getDutyDispositionURL(), request, DutyDisposition.class);
+
+        if(response != null) {
+        } else {
+            showTryAgainLaterErrorMessage(_pane);
+        }
     }
 
     public List<SectionDutyRosterDomainObject> getSectionDutyRoastersBySection(SectionType type) {
@@ -234,7 +287,18 @@ public class DatabaseFacade {
     }
 
     public void removeDutyDisposition(DutyDispositionDomainObject dutyDomain) {
-        // @TODO: implement
+        DutyDisposition dutyDisposition = DutyDispositionConverter.convert(dutyDomain);
+
+        Request request = new Request();
+        request.setActionType(ActionType.DELETE);
+        request.setEntity(dutyDisposition);
+
+        DutyDisposition response = (DutyDisposition) RequestResponseHelper.writeAndReadJSONObject(getDutyDispositionURL(), request, DutyDisposition.class);
+
+        if(response != null) {
+        } else {
+            showTryAgainLaterErrorMessage(_pane);
+        }
     }
 
     private List<EventDomainInterface> convertToEventDutyList(EventDutyList eventDutyList) {
@@ -305,6 +369,15 @@ public class DatabaseFacade {
     private static URL getPersonURL() {
         try {
             return new URL(new URL(_configuration.getStartURI()), URIList.person);
+        } catch (MalformedURLException e) {
+        }
+
+        return null;
+    }
+
+    private static URL getDutyDispositionURL() {
+        try {
+            return new URL(new URL(_configuration.getStartURI()), URIList.dutyDisposition);
         } catch (MalformedURLException e) {
         }
 

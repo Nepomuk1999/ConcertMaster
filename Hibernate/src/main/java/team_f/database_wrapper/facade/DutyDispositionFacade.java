@@ -1,11 +1,14 @@
 package team_f.database_wrapper.facade;
 
 import team_f.database_wrapper.entities.DutyDispositionEntity;
+import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.DutyDisposition;
+import team_f.domain.entities.EventDuty;
 import team_f.domain.enums.DutyDispositionStatus;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DutyDispositionFacade extends BaseDatabaseFacade<DutyDisposition> {
@@ -46,6 +49,23 @@ public class DutyDispositionFacade extends BaseDatabaseFacade<DutyDisposition> {
         return result;
     }
 
+    public List<DutyDisposition> getDutyDispositionsForPersonID(int personID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("FROM DutyDispositionEntity where musician = :musician", DutyDispositionEntity.class);
+        query.setParameter("musician", personID);
+
+        List<DutyDispositionEntity> dutyDispositionEntities = query.getResultList();
+        List<DutyDisposition> dutyDispositions = new ArrayList<>(dutyDispositionEntities.size());
+        DutyDisposition dutyDisposition;
+
+        for (DutyDispositionEntity dutyDispositionEntity : dutyDispositionEntities) {
+            dutyDisposition = convertToDutyDisposition(dutyDispositionEntity);
+            dutyDispositions.add(dutyDisposition);
+        }
+
+        return dutyDispositions;
+    }
+
     private int addDutyDisposition(DutyDisposition dutyDisposition) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -71,6 +91,17 @@ public class DutyDispositionFacade extends BaseDatabaseFacade<DutyDisposition> {
     @Override
     public boolean delete(int id) {
         return false;
+    }
+
+    public boolean delete(int eventID, int musicianID) {
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        Query query = session.createQuery("DELETE FROM DutyDispositionEntity where musician = :musician and eventDuty = :event");
+        query.setParameter("musician", musicianID);
+        query.setParameter("event", eventID);
+
+        return query.executeUpdate() > 0;
     }
 
     protected DutyDisposition convertToDutyDisposition(DutyDispositionEntity entity) {

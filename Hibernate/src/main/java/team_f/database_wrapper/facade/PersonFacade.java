@@ -5,11 +5,11 @@ import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PersonEntity;
 import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.Account;
+import team_f.domain.entities.DutyDisposition;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import java.util.List;
 public class PersonFacade extends BaseDatabaseFacade<Person> {
     private static AccountFacade _accountFacade = new AccountFacade();
     private static InstrumentTypeFacade _instrumentTypeFacade = new InstrumentTypeFacade();
+    private static DutyDispositionFacade _dutyDispositionFacade = new DutyDispositionFacade();
 
     public PersonFacade() {
         super();
@@ -62,6 +63,9 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
                     }
                 }
             }
+
+            List<DutyDisposition> dutyDispositions = _dutyDispositionFacade.getDutyDispositionsForPersonID(entity.getPersonId());
+            person.setDutyDispositions(dutyDispositions);
 
             musicians.add(person);
         }

@@ -24,6 +24,10 @@ public class DutyDispositionApplication {
         return dutyDispositionFacade.getPointsForPersonAndMonth(personID, month, year);
     }
 
+    public List<DutyDisposition> getDutyDispositionByPersonID(int personID) {
+        return dutyDispositionFacade.getDutyDispositionsForPersonID(personID);
+    }
+
     public Pair<DomainEntity, List<Pair<String, String>>> addDutyDisposition(int eventDutyID, int personID, double points, String description,
                                                                              DutyDispositionStatus dutyDispositionStatus) {
         DutyDisposition dutyDisposition = new DutyDisposition();
@@ -43,5 +47,9 @@ public class DutyDispositionApplication {
         dutyDispositionFacade.add(dutyDisposition);
 
         return new Pair<>(dutyDisposition, new LinkedList<>());
+    }
+
+    public boolean delete(int eventDutyID, int musicianID) {
+        return dutyDispositionFacade.delete(eventDutyID, musicianID);
     }
 }

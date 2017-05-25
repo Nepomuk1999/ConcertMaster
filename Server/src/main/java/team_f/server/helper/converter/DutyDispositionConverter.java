@@ -15,7 +15,7 @@ public class DutyDispositionConverter {
         }
 
         if(dutyDisposition.getMusician() != null) {
-            result.setMusician(PersonConverter.convertToJSON(dutyDisposition.getMusician()));
+            result.setPerson(PersonConverter.convertToJSON(dutyDisposition.getMusician()));
         }
 
         return result;
