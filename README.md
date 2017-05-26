@@ -15,7 +15,7 @@ The git commands are in the bottom right corner of Intellij.
 Or use a [Git](https://git-scm.com/downloads) client and a preffered IDE.
 
 ## Build
-**execute the following commands in the main directory of the cloned git repository**
+**Execute the following commands in the main directory of the cloned git repository**
 **Maven has to be installed!**  
 cd Domain    
 mvn clean install  
