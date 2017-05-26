@@ -65,7 +65,7 @@ public class BoyerMooreAlgo {
         }
         return table;
     }
-    /** function to check if needle[p:end] a prefix of pattern **/
+    /** function to check prefixes of pattern **/
     private static boolean isPrefix(char[] pattern, int p)
     {
         for (int i = p, j = 0; i < pattern.length; ++i, ++j) {
