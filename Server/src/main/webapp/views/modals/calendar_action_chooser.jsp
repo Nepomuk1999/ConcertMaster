@@ -17,6 +17,11 @@
             <button id="calendar-action-chooser-plan" type="button" class="btn btn-info btn-block" data-dismiss="modal">Add Rehearsal</button>
         </div>
     </div>
+    <div class="control-group row">
+        <div class="form-group col-xs-3 col-sm-12">
+            <button id="calendar-action-chooser-duty-dispositions" type="button" class="btn btn-info btn-block" data-dismiss="modal">Show Duty Dispositions</button>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
     <button id="modal-cancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button><!--data-dismiss="modal"-->
@@ -31,6 +36,11 @@
 
         $('#calendar-action-chooser-date').click(function () {
             showModal("date", "/Date", ${eventData}, false, isFurtherEditable(JSON.parse('${eventData}')['start']), function () {
+            });
+        });
+
+        $('#calendar-action-chooser-duty-dispositions').click(function () {
+            showModal("date", "/DutyDisposition", ${eventData}, false, isFurtherEditable(JSON.parse('${eventData}')['start']), function () {
             });
         });
     });

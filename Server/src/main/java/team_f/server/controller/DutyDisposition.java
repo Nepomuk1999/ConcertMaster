@@ -2,6 +2,7 @@ package team_f.server.controller;
 
 import org.json.JSONArray;
 import team_f.application.DutyDispositionApplication;
+import team_f.domain.entities.*;
 import team_f.domain.enums.DutyDispositionStatus;
 import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.common.URIList;
@@ -13,6 +14,7 @@ import team_f.jsonconnector.enums.request.DutyDispositionParameter;
 import team_f.jsonconnector.helper.ReadHelper;
 import team_f.jsonconnector.helper.WriteHelper;
 import team_f.server.helper.converter.DutyDispositionConverter;
+import team_f.server.helper.request.CalendarRequest;
 import team_f.server.helper.response.CommonResponse;
 import team_f.server.helper.response.JsonResponse;
 import javax.servlet.ServletException;
@@ -39,7 +41,11 @@ public class DutyDisposition extends HttpServlet {
         if (contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.setContentType(MediaType.TEXT_HTML);
+            CalendarRequest.getAndSetParameters(req, true);
+            setAttributes(req);
+
+            req.getRequestDispatcher(getServletContext().getContextPath() + "/views/modals/duty_dispositions.jsp").include(req, resp);
         }
     }
 
@@ -181,5 +187,27 @@ public class DutyDisposition extends HttpServlet {
         } else {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+
+    private void setAttributes(HttpServletRequest request) {
+        DutyDispositionApplication facade = new DutyDispositionApplication();
+
+        String tmp = request.getParameter("EventDutyId");
+        int eventDutyID = -1;
+
+        try {
+            eventDutyID = Integer.parseInt(tmp);
+        } catch (NumberFormatException e) {
+        }
+
+        List<team_f.domain.entities.DutyDisposition> dutyDispositionList = facade.getDutyDispositionByEventID(eventDutyID);
+        team_f.domain.entities.EventDuty eventDuty = null;
+
+        if(dutyDispositionList != null && dutyDispositionList.size() > 0) {
+            eventDuty = dutyDispositionList.get(0).getEventDuty();
+        }
+
+        request.setAttribute("DUTY_DISPOSITION_EVENT_DUTY", eventDuty);
+        request.setAttribute("DUTY_DISPOSITION_LIST", dutyDispositionList);
     }
 }
