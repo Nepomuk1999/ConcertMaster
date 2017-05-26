@@ -66,6 +66,23 @@ public class DutyDispositionFacade extends BaseDatabaseFacade<DutyDisposition> {
         return dutyDispositions;
     }
 
+    public List<DutyDisposition> getDutyDispositionsForEventID(int eventID) {
+        EntityManager session = getCurrentSession();
+        Query query = session.createQuery("FROM DutyDispositionEntity where eventDuty = :event", DutyDispositionEntity.class);
+        query.setParameter("event", eventID);
+
+        List<DutyDispositionEntity> dutyDispositionEntities = query.getResultList();
+        List<DutyDisposition> dutyDispositions = new ArrayList<>(dutyDispositionEntities.size());
+        DutyDisposition dutyDisposition;
+
+        for (DutyDispositionEntity dutyDispositionEntity : dutyDispositionEntities) {
+            dutyDisposition = convertToDutyDisposition(dutyDispositionEntity);
+            dutyDispositions.add(dutyDisposition);
+        }
+
+        return dutyDispositions;
+    }
+
     private int addDutyDisposition(DutyDisposition dutyDisposition) {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
@@ -73,7 +90,7 @@ public class DutyDispositionFacade extends BaseDatabaseFacade<DutyDisposition> {
         DutyDispositionEntity dutyDispositionEntity = convertToDutyDispositionEntity(dutyDisposition);
 
         session.persist(dutyDispositionEntity);
-        session.flush();
+        StoreHelper.storeEntities(session);
 
         return 1;
     }

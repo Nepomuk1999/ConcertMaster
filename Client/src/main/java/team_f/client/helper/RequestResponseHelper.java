@@ -37,6 +37,7 @@ public class RequestResponseHelper {
 
                 return entity;
             } catch (IOException e) {
+                System.out.println(e);
             }
         }
 

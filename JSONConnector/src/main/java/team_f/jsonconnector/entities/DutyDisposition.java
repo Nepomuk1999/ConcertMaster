@@ -1,16 +1,19 @@
 package team_f.jsonconnector.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.DutyDispositionStatus;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DutyDisposition implements JSONObjectEntity {
     private EventDuty _eventDuty;
     private Person _person;
     private double _points;
     private String _description;
-    private DutyDispositionStatus _dutyDispositionStatus;
+    private DutyDispositionStatus _status;
 
     @JsonGetter("event")
     public EventDuty getEventDuty() {
@@ -33,8 +36,8 @@ public class DutyDisposition implements JSONObjectEntity {
     }
 
     @JsonGetter("status")
-    public DutyDispositionStatus getDutyDispositionStatus() {
-        return _dutyDispositionStatus;
+    public DutyDispositionStatus getStatus() {
+        return _status;
     }
 
     @JsonSetter("event")
@@ -58,8 +61,8 @@ public class DutyDisposition implements JSONObjectEntity {
     }
 
     @JsonSetter("status")
-    public void setDutyDispositionStatus(DutyDispositionStatus dutyDispositionStatus) {
-        _dutyDispositionStatus = dutyDispositionStatus;
+    public void setStatus(DutyDispositionStatus status) {
+        _status = status;
     }
 
     @Override

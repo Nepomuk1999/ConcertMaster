@@ -62,6 +62,7 @@ public class DutyDisposition extends HttpServlet {
                         int month = -1;
                         int year = -1;
                         int personId = -1;
+                        int eventId = -1;
 
                         for(Pair<String, String> item : request.getParameterValueList()) {
                             if(String.valueOf(DutyDispositionParameter.MONTH).equals(item.getKey())) {
@@ -79,6 +80,11 @@ public class DutyDisposition extends HttpServlet {
                                     personId = Integer.parseInt(item.getValue());
                                 } catch (NumberFormatException e) {
                                 }
+                            } else if(String.valueOf(DutyDispositionParameter.EVENT_ID).equals(item.getKey())) {
+                                try {
+                                    eventId = Integer.parseInt(item.getValue());
+                                } catch (NumberFormatException e) {
+                                }
                             }
                         }
 
@@ -89,6 +95,21 @@ public class DutyDisposition extends HttpServlet {
 
                             resp.setContentType(MediaType.APPLICATION_JSON);
                             WriteHelper.writeJSONObject(resp.getWriter(), dutyDispositionList);
+                        } else if(eventId > 0) {
+                            List<team_f.domain.entities.DutyDisposition> dutyDispositionList = facade.getDutyDispositionByEventID(eventId);
+                            DutyDispositionList dutyDispositions = new DutyDispositionList();
+                            List<team_f.jsonconnector.entities.DutyDisposition> tmpDutyDispositions = new LinkedList<>();
+                            team_f.jsonconnector.entities.DutyDisposition tmpDutyDisposition;
+
+                            for(team_f.domain.entities.DutyDisposition item : dutyDispositionList) {
+                                tmpDutyDisposition = DutyDispositionConverter.convertToJSON(item);
+                                tmpDutyDispositions.add(tmpDutyDisposition);
+                            }
+
+                            dutyDispositions.setDutyDispositionList(tmpDutyDispositions);
+
+                            resp.setContentType(MediaType.APPLICATION_JSON);
+                            WriteHelper.writeJSONObject(resp.getWriter(), dutyDispositions);
                         }
 
                         break;
@@ -96,36 +117,6 @@ public class DutyDisposition extends HttpServlet {
                         // @TODO: implement
                         break;
                     case CREATE:
-                        dutyDisposition = request.getEntity();
-
-                        if(dutyDisposition != null) {
-                            int personID = -1;
-                            int eventDutyID = -1;
-                            DutyDispositionStatus dutyDispositionStatus = null;
-
-                            if(dutyDisposition.getPerson() != null) {
-                                personID = dutyDisposition.getPerson().getPersonID();
-                            }
-
-                            if(dutyDisposition.getEventDuty() != null) {
-                                eventDutyID = dutyDisposition.getEventDuty().getEventDutyID();
-                            }
-
-                            try {
-                                dutyDispositionStatus = DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getDutyDispositionStatus()));
-                            } catch (Exception e) {
-                            }
-
-                            tmpErrorList = facade.addDutyDisposition(eventDutyID, personID, dutyDisposition.getPoints(),
-                                                                     dutyDisposition.getDescription(), dutyDispositionStatus);
-
-                            errorList = JsonResponse.prepareErrorMessage(DutyDispositionConverter.convertToJSON((team_f.domain.entities.DutyDisposition) tmpErrorList.getKey()), tmpErrorList.getValue());
-                        }
-
-                        resp.setContentType(MediaType.APPLICATION_JSON);
-                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
-
-                        break;
                     case UPDATE:
                         dutyDisposition = request.getEntity();
 
@@ -143,12 +134,12 @@ public class DutyDisposition extends HttpServlet {
                             }
 
                             try {
-                                dutyDispositionStatus = DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getDutyDispositionStatus()));
+                                dutyDispositionStatus = DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getStatus()));
                             } catch (Exception e) {
                             }
 
                             tmpErrorList = facade.addDutyDisposition(eventDutyID, personID, dutyDisposition.getPoints(),
-                                    dutyDisposition.getDescription(), dutyDispositionStatus);
+                                                                     dutyDisposition.getDescription(), dutyDispositionStatus);
 
                             errorList = JsonResponse.prepareErrorMessage(DutyDispositionConverter.convertToJSON((team_f.domain.entities.DutyDisposition) tmpErrorList.getKey()), tmpErrorList.getValue());
                         }

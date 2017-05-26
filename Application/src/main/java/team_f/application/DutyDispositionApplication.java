@@ -28,6 +28,10 @@ public class DutyDispositionApplication {
         return dutyDispositionFacade.getDutyDispositionsForPersonID(personID);
     }
 
+    public List<DutyDisposition> getDutyDispositionByEventID(int eventID) {
+        return dutyDispositionFacade.getDutyDispositionsForEventID(eventID);
+    }
+
     public Pair<DomainEntity, List<Pair<String, String>>> addDutyDisposition(int eventDutyID, int personID, double points, String description,
                                                                              DutyDispositionStatus dutyDispositionStatus) {
         DutyDisposition dutyDisposition = new DutyDisposition();

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import team_f.jsonconnector.enums.*;
 import team_f.jsonconnector.enums.InstrumentType;
 import team_f.jsonconnector.interfaces.JSONObjectEntity;
+
+import java.util.LinkedList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,8 +22,8 @@ public class Person implements JSONObjectEntity {
     private String _phoneNumber;
     private PersonRole _personRole;
     private Account _account;
-    private List<team_f.jsonconnector.enums.InstrumentType> _instrumentTypeList;
-    private List<DutyDisposition> _dutyDispositionList;
+    private List<team_f.jsonconnector.enums.InstrumentType> _instrumentTypeList = new LinkedList<>();
+    private List<DutyDisposition> _dutyDispositionList = new LinkedList<>();
 
     @JsonGetter("id")
     public int getPersonID() {

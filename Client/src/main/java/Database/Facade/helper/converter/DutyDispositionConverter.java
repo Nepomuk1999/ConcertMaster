@@ -2,21 +2,22 @@ package Database.Facade.helper.converter;
 
 import Domain.Duty.DutyDispositionDomainObject;
 import Enums.DutyDispositionStatus;
+import team_f.client.configuration.Configuration;
 import team_f.jsonconnector.entities.DutyDisposition;
 
 public class DutyDispositionConverter {
-    public static DutyDispositionDomainObject convert(DutyDisposition dutyDisposition) {
+    public static DutyDispositionDomainObject convert(DutyDisposition dutyDisposition, Configuration configuration, int level) {
         DutyDispositionDomainObject dutyDispositionDomain = new DutyDispositionDomainObject();
         dutyDispositionDomain.setDescription(dutyDisposition.getDescription());
         dutyDispositionDomain.setPoints(dutyDisposition.getPoints());
-        dutyDispositionDomain.setStatus(DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getDutyDispositionStatus())));
+        dutyDispositionDomain.setStatus(DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getStatus())));
 
-        if(dutyDisposition.getEventDuty() != null) {
-            dutyDispositionDomain.setEvent(EventDutyConverter.convert(dutyDisposition.getEventDuty()));
+        if(dutyDisposition.getEventDuty() != null && level > 0) {
+            dutyDispositionDomain.setEvent(EventDutyConverter.convert(dutyDisposition.getEventDuty(), configuration, level -1));
         }
 
         if(dutyDisposition.getPerson() != null) {
-            dutyDispositionDomain.setMusician(PersonConverter.convert(dutyDisposition.getPerson()));
+            dutyDispositionDomain.setMusician(PersonConverter.convert(dutyDisposition.getPerson(), configuration));
         }
 
         return dutyDispositionDomain;
@@ -26,7 +27,7 @@ public class DutyDispositionConverter {
         DutyDisposition result = new DutyDisposition();
         result.setDescription(dutyDisposition.getDescription());
         result.setPoints(dutyDisposition.getPoints());
-        result.setDutyDispositionStatus(team_f.jsonconnector.enums.DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getStatus())));
+        result.setStatus(team_f.jsonconnector.enums.DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getStatus())));
 
         if(dutyDisposition.getEvent() != null) {
             result.setEventDuty(EventDutyConverter.convert(dutyDisposition.getEvent()));

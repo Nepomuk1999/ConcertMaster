@@ -4,6 +4,7 @@ import Domain.Duty.DutyViewInterface;
 import Domain.Person.PartDomainObject;
 import Domain.Person.PersonDomainObject;
 import Enums.PersonRole;
+import team_f.client.configuration.Configuration;
 import team_f.jsonconnector.entities.DutyDisposition;
 import team_f.jsonconnector.entities.Person;
 import team_f.jsonconnector.enums.Gender;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonConverter {
-    public static PersonDomainObject convert(Person person) {
+    public static PersonDomainObject convert(Person person, Configuration configuration) {
         PersonDomainObject personDomain = new PersonDomainObject();
         personDomain.setId(person.getPersonID());
         personDomain.setAddress(person.getAddress());
@@ -32,9 +33,11 @@ public class PersonConverter {
         if(person.getInstrumentTypeList() != null) {
             List<PartDomainObject> partDomainList = new ArrayList<>(person.getInstrumentTypeList().size());
 
-            for(team_f.jsonconnector.enums.InstrumentType part : person.getInstrumentTypeList()) {
-                PartConverter.convert(part);
+            for (team_f.jsonconnector.enums.InstrumentType part : person.getInstrumentTypeList()) {
+                partDomainList.add(PartConverter.convert(part));
             }
+
+            partDomainList.add(PartConverter.convert(InstrumentType.BASSOON));
 
             personDomain.setParts(partDomainList);
         }
@@ -43,7 +46,7 @@ public class PersonConverter {
             List<DutyViewInterface> eventDutyList = new ArrayList<>(person.getDutyDispositionList().size());
 
             for(DutyDisposition dutyDisposition : person.getDutyDispositionList()) {
-                eventDutyList.add(DutyConverter.convert(dutyDisposition));
+                eventDutyList.add(DutyConverter.convert(dutyDisposition, configuration));
             }
 
             personDomain.setDuties(eventDutyList);
@@ -59,10 +62,19 @@ public class PersonConverter {
         result.setEmail(person.getEmail());
         result.setFirstname(person.getFirstName());
         result.setLastname(person.getLastName());
-        result.setGender(Gender.valueOf(person.getGender()));
+
+        switch (person.getGender()) {
+            case "m":
+                result.setGender(Gender.MALE);
+                break;
+            case "w":
+                result.setGender(Gender.FEMALE);
+                break;
+        }
+
         result.setInitials(person.getInitials());
 
-        result.setPersonRole(team_f.jsonconnector.enums.PersonRole.valueOf(String.valueOf(person.getGender())));
+        result.setPersonRole(team_f.jsonconnector.enums.PersonRole.valueOf(String.valueOf(person.getPersonRole())));
         result.setPhoneNumber(person.getPhoneNumber());
 
         if(person.getAccount() != null) {
@@ -73,7 +85,7 @@ public class PersonConverter {
             List<InstrumentType> instrumentTypeList = new ArrayList<>(person.getParts().size());
 
             for(PartDomainObject part : person.getParts()) {
-                PartConverter.convert(part);
+                instrumentTypeList.add(PartConverter.convert(part));
             }
 
             result.setInstrumentTypeList(instrumentTypeList);

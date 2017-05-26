@@ -12,8 +12,8 @@ public class DutyDispositionList implements JSONObjectEntity {
     private List<DutyDisposition> _eventDutyList;
     private double _points;
 
-    @JsonGetter("event_duties")
-    public List<DutyDisposition> getEventDutyList() {
+    @JsonGetter("duty_dispositions")
+    public List<DutyDisposition> getDutyDispositionList() {
         return _eventDutyList;
     }
 
@@ -22,8 +22,8 @@ public class DutyDispositionList implements JSONObjectEntity {
         return _points;
     }
 
-    @JsonSetter("event_duties")
-    public void setEventDutyList(List<DutyDisposition> eventDutyList) {
+    @JsonSetter("duty_dispositions")
+    public void setDutyDispositionList(List<DutyDisposition> eventDutyList) {
         _eventDutyList = eventDutyList;
     }
 

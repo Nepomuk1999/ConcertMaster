@@ -124,6 +124,7 @@ public class EventDuty extends HttpServlet {
 
                         break;
                     case CREATE:
+                    case UPDATE:
                         eventDuty = request.getEntity();
 
                         if(eventDuty != null) {
@@ -162,19 +163,19 @@ public class EventDuty extends HttpServlet {
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
                         break;
-                    case UPDATE:
+                    /*case UPDATE:
                         eventDuty = request.getEntity();
 
-                        if(eventDuty != null) {
+                        if(eventDuty != null) {*/
                             // @TODO: add update functionality
                             /*tmpErrorList = facade.update(eventDuty);
                             errorList = JsonResponse.prepareErrorMessage(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) tmpErrorList.getKey()), tmpErrorList.getValue());*/
-                        }
+                        /*}
 
                         resp.setContentType(MediaType.APPLICATION_JSON);
                         WriteHelper.writeJSONObject(resp.getWriter(), errorList);
 
-                        break;
+                        break;*/
                     case DELETE:
                         eventDuty = request.getEntity();
 

@@ -18,18 +18,22 @@ public class PersonConverter {
         result.setPhoneNumber(person.getPhoneNumber());
         result.setInitials(person.getInitials());
 
-        if (!person.getPersonRole().equals(team_f.domain.enums.PersonRole.External_musician)) {
+        if (!String.valueOf(team_f.domain.enums.PersonRole.External_musician).equals(person.getPersonRole())) {
             if (person.getAccount() != null) {
                 result.setAccount(AccountConverter.convertToJSON(person.getAccount()));
             }
         }
 
-        result.setPersonRole(PersonRole.valueOf(String.valueOf(person.getPersonRole())));
+        if(person.getPersonRole() != null) {
+            result.setPersonRole(PersonRole.valueOf(String.valueOf(person.getPersonRole())));
+        }
 
-        if(person.getGender().equals("m")) {
-            result.setGender(Gender.MALE);
-        } else if(person.getGender().equals("w")){
-            result.setGender(Gender.FEMALE);
+        if(person.getGender() != null) {
+            if(person.getGender().equals("m")) {
+                result.setGender(Gender.MALE);
+            } else if(person.getGender().equals("w")){
+                result.setGender(Gender.FEMALE);
+            }
         }
 
         result.setEmail(person.getEmail());

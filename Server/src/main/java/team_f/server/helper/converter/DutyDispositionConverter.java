@@ -7,7 +7,7 @@ public class DutyDispositionConverter {
     public static DutyDisposition convertToJSON(team_f.domain.entities.DutyDisposition dutyDisposition) {
         DutyDisposition result = new DutyDisposition();
         result.setDescription(dutyDisposition.getDescription());
-        result.setDutyDispositionStatus(DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getDutyDispositionStatus())));
+        result.setStatus(DutyDispositionStatus.valueOf(String.valueOf(dutyDisposition.getDutyDispositionStatus())));
         result.setPoints(dutyDisposition.getPoints());
 
         if(dutyDisposition.getEventDuty() != null) {

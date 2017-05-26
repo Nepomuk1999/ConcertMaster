@@ -5,6 +5,7 @@ import Enums.SectionType;
 import team_f.jsonconnector.entities.Instrumentation;
 import team_f.jsonconnector.entities.SpecialInstrumentation;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InstrumentationConverter {
@@ -44,6 +45,9 @@ public class InstrumentationConverter {
             }
 
             instrumentationDomain.setSpecialInstrumentation(specialInstrumentationDomainObjectList);
+        } else {
+            // no null values are allowed in the view
+            instrumentationDomain.setSpecialInstrumentation(new LinkedList<>());
         }
 
         StringInstrumentationDomainObject stringInstrumentationDomainObject = new StringInstrumentationDomainObject();

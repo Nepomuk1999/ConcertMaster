@@ -19,7 +19,10 @@ import team_f.jsonconnector.entities.list.DutyDispositionList;
 import team_f.jsonconnector.entities.list.EventDutyList;
 import team_f.jsonconnector.entities.list.MusicalWorkList;
 import team_f.jsonconnector.entities.list.PersonList;
+import team_f.jsonconnector.entities.special.errorlist.DutyDispositionErrorList;
 import team_f.jsonconnector.entities.special.errorlist.EventDutyErrorList;
+import team_f.jsonconnector.entities.special.request.DutyDispositionRequest;
+import team_f.jsonconnector.entities.special.request.EventDutyRequest;
 import team_f.jsonconnector.enums.PublishType;
 import team_f.jsonconnector.enums.request.ActionType;
 import team_f.jsonconnector.enums.request.DutyDispositionParameter;
@@ -67,20 +70,21 @@ public class DatabaseFacade {
 
     public int saveEventDuty(EventDomainInterface event) {
         if(event != null) {
-            Request request = new Request();
+            EventDutyRequest request = new EventDutyRequest();
 
             if(event.getId() > 0) {
-                request.setActionType(ActionType.CREATE);
-            } else {
                 request.setActionType(ActionType.UPDATE);
+            } else {
+                request.setActionType(ActionType.CREATE);
             }
 
             request.setEntity(EventDutyConverter.convert(event));
 
-            EventDuty eventDuty = (EventDuty) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDuty.class);
+            EventDutyErrorList eventDuty = (EventDutyErrorList) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDutyErrorList.class);
 
-            if(eventDuty != null) {
-                return eventDuty.getEventDutyID();
+            if(eventDuty != null && eventDuty.getKeyValueList() != null && eventDuty.getKeyValueList().size() > 0 &&
+                    eventDuty.getKeyValueList().get(0).getKey() != null && eventDuty.getKeyValueList().get(0).getValue() != null && eventDuty.getKeyValueList().get(0).getValue().size() == 0) {
+                return eventDuty.getKeyValueList().get(0).getKey().getEventDutyID();
             } else {
                 showTryAgainLaterErrorMessage(_pane);
             }
@@ -133,7 +137,7 @@ public class DatabaseFacade {
         EventDuty eventDuty = (EventDuty) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDuty.class);
 
         if(eventDuty != null) {
-            return EventDutyConverter.convert(eventDuty);
+            return EventDutyConverter.convert(eventDuty, _configuration, 3);
         } else {
             showTryAgainLaterErrorMessage(_pane);
         }
@@ -154,17 +158,17 @@ public class DatabaseFacade {
             eventDuty.setMusicalWorkList(musicalWorkList);
         }
 
-        Request request = new Request();
+        EventDutyRequest request = new EventDutyRequest();
 
         if(eventDuty.getEventDutyID() > 0) {
-            request.setActionType(ActionType.CREATE);
-        } else {
             request.setActionType(ActionType.UPDATE);
+        } else {
+            request.setActionType(ActionType.CREATE);
         }
 
         request.setEntity(eventDuty);
 
-        EventDuty response = (EventDuty) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDuty.class);
+        EventDutyErrorList response = (EventDutyErrorList) RequestResponseHelper.writeAndReadJSONObject(getEventURL(), request, EventDutyErrorList.class);
 
         if(response != null) {
         } else {
@@ -232,13 +236,15 @@ public class DatabaseFacade {
 
         pair = new Pair<>();
         pair.setKey(String.valueOf(DutyDispositionParameter.PERSON_ID));
-        pair.setValue("" + month.getValue());
+        pair.setValue("" + person.getId());
         keyValueList.add(pair);
 
+        pair = new Pair<>();
         pair.setKey(String.valueOf(DutyDispositionParameter.MONTH));
         pair.setValue("" + month.getValue());
         keyValueList.add(pair);
 
+        pair = new Pair<>();
         pair.setKey(String.valueOf(DutyDispositionParameter.YEAR));
         LocalDateTime now = LocalDateTime.now();
         int year;
@@ -269,11 +275,11 @@ public class DatabaseFacade {
     public void saveDutyDisposition(DutyDispositionDomainObject duty) {
         DutyDisposition dutyDisposition = DutyDispositionConverter.convert(duty);
 
-        Request request = new Request();
-        request.setActionType(ActionType.UPDATE);
+        DutyDispositionRequest request = new DutyDispositionRequest();
+        request.setActionType(ActionType.CREATE);
         request.setEntity(dutyDisposition);
 
-        DutyDisposition response = (DutyDisposition) RequestResponseHelper.writeAndReadJSONObject(getDutyDispositionURL(), request, DutyDisposition.class);
+        DutyDispositionErrorList response = (DutyDispositionErrorList) RequestResponseHelper.writeAndReadJSONObject(getDutyDispositionURL(), request, DutyDispositionErrorList.class);
 
         if(response != null) {
         } else {
@@ -282,14 +288,14 @@ public class DatabaseFacade {
     }
 
     public List<SectionDutyRosterDomainObject> getSectionDutyRoastersBySection(SectionType type) {
-        // @TODO: implement
+        // not required
         return new LinkedList<>();
     }
 
     public void removeDutyDisposition(DutyDispositionDomainObject dutyDomain) {
         DutyDisposition dutyDisposition = DutyDispositionConverter.convert(dutyDomain);
 
-        Request request = new Request();
+        DutyDispositionRequest request = new DutyDispositionRequest();
         request.setActionType(ActionType.DELETE);
         request.setEntity(dutyDisposition);
 
@@ -309,7 +315,7 @@ public class DatabaseFacade {
                 List<EventDomainInterface> resultList = new ArrayList<>(tmpEventDuties.size());
 
                 for(EventDuty eventDuty : tmpEventDuties) {
-                    resultList.add(EventDutyConverter.convert(eventDuty));
+                    resultList.add(EventDutyConverter.convert(eventDuty, _configuration, 3));
                 }
 
                 return resultList;
@@ -329,7 +335,7 @@ public class DatabaseFacade {
                 List<PersonDomainObject> resultList = new ArrayList<>(tmpPersons.size());
 
                 for(Person person : tmpPersons) {
-                    resultList.add(PersonConverter.convert(person));
+                    resultList.add(PersonConverter.convert(person, _configuration));
                 }
 
                 return resultList;
