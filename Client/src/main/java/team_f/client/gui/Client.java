@@ -85,7 +85,7 @@ public class Client extends Application {
             menuItem = new MenuItem("Open in Browser");
             menuItem.setOnAction(actionEvent -> {
                 try {
-                    WebHelper.openInWebbrowser(new URI(_configuration.getStartURI()));
+                    WebHelper.openInWebbrowser(new URI(_configuration.getRootURI()));
                 } catch (URISyntaxException e) {
                 }
             });

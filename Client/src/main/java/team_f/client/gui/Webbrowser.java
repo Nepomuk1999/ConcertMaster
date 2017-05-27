@@ -1,4 +1,9 @@
 package team_f.client.gui;
+
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserCore;
+import com.teamdev.jxbrowser.chromium.internal.Environment;
+import com.teamdev.jxbrowser.chromium.javafx.BrowserView;
 import javafx.scene.Parent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -7,20 +12,33 @@ import java.net.URL;
 public class Webbrowser {
     private static boolean _initialized = false;
 
-    public static Parent getBrowser(URL initialURL) {
-        /*if(!_initialized) {
-            if (Environment.isMac()) {
-                BrowserCore.initialize();
-                _initialized = true;
+    public static Parent getBrowser(URL initialURL, boolean useJxBrowser) {
+        if(useJxBrowser) {
+            if(!_initialized) {
+                if (Environment.isMac()) {
+                    BrowserCore.initialize();
+                    _initialized = true;
+                }
             }
-        }*/
+        }
 
-        WebView _browserView = new WebView();
-        _browserView.getEngine().load(initialURL.toExternalForm());
-        addListeners(_browserView.getEngine());
-        _browserView.getEngine().load(initialURL.toExternalForm());
+        Parent result;
 
-        return _browserView;
+        if(useJxBrowser) {
+            Browser browser = new Browser();
+            BrowserView browserView = new BrowserView(browser);
+
+            result = browserView;
+        } else {
+            WebView _browserView = new WebView();
+            _browserView.getEngine().load(initialURL.toExternalForm());
+            addListeners(_browserView.getEngine());
+            _browserView.getEngine().load(initialURL.toExternalForm());
+
+            result = _browserView;
+        }
+
+        return result;
     }
 
     private static void addListeners(WebEngine engine) {

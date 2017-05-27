@@ -287,7 +287,7 @@ public class EventDutyConverter {
 
     private static URL getDutyDispositionURL(Configuration configuration) {
         try {
-            return new URL(new URL(configuration.getStartURI()), URIList.dutyDisposition);
+            return new URL(new URL(configuration.getRootURI()), URIList.dutyDisposition);
         } catch (MalformedURLException e) {
         }
 

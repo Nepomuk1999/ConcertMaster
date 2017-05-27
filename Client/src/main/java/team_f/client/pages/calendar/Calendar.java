@@ -22,7 +22,7 @@ public class Calendar extends BasePage<Void, NullType, NullType, NullType> {
             _initialize.doAction(null);
         }
 
-        _browser = Webbrowser.getBrowser(getCalendarURL());
+        _browser = Webbrowser.getBrowser(getCalendarURL(), _configuration.getUseJxBrowser());
         setCenter(_browser);
     }
 
@@ -49,7 +49,7 @@ public class Calendar extends BasePage<Void, NullType, NullType, NullType> {
 
     private URL getCalendarURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.calendar);
+            return new URL(new URL(_configuration.getRootURI()), URIList.calendar);
         } catch (MalformedURLException e) {
         }
 

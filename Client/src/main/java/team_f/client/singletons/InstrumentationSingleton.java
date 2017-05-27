@@ -88,7 +88,7 @@ public class InstrumentationSingleton {
 
     private static URL getInstrumentationURL(){
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.instrumentation);
+            return new URL(new URL(_configuration.getRootURI()), URIList.instrumentation);
         } catch (MalformedURLException e) {
         }
         return null;

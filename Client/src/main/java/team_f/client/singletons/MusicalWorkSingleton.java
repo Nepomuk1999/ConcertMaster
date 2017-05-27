@@ -100,7 +100,7 @@ public class MusicalWorkSingleton {
 
     private static URL getMusicalWorkURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.musicalWork);
+            return new URL(new URL(_configuration.getRootURI()), URIList.musicalWork);
         } catch (MalformedURLException e) {
         }
 

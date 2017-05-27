@@ -44,7 +44,7 @@ public class AppConfiguration {
         // check if the webbrowser instead of this application should be started
         if (_configuration.getOpenInWebbrowser()) {
             try {
-                WebHelper.openInWebbrowser(new URI(_configuration.getStartURI()));
+                WebHelper.openInWebbrowser(new URI(_configuration.getRootURI()));
             } catch (URISyntaxException e) {
             }
         }

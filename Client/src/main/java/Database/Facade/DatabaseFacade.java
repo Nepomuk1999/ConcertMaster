@@ -349,7 +349,7 @@ public class DatabaseFacade {
 
     private URL getEventURL(){
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.event);
+            return new URL(new URL(_configuration.getRootURI()), URIList.event);
         } catch (MalformedURLException e) {
         }
         return null;
@@ -357,7 +357,7 @@ public class DatabaseFacade {
 
     private URL getMusicalWorkURL(){
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.musicalWork);
+            return new URL(new URL(_configuration.getRootURI()), URIList.musicalWork);
         } catch (MalformedURLException e) {
         }
         return null;
@@ -365,7 +365,7 @@ public class DatabaseFacade {
 
     private static URL getPublishURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.publish);
+            return new URL(new URL(_configuration.getRootURI()), URIList.publish);
         } catch (MalformedURLException e) {
         }
 
@@ -374,7 +374,7 @@ public class DatabaseFacade {
 
     private static URL getPersonURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.person);
+            return new URL(new URL(_configuration.getRootURI()), URIList.person);
         } catch (MalformedURLException e) {
         }
 
@@ -383,7 +383,7 @@ public class DatabaseFacade {
 
     private static URL getDutyDispositionURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.dutyDisposition);
+            return new URL(new URL(_configuration.getRootURI()), URIList.dutyDisposition);
         } catch (MalformedURLException e) {
         }
 

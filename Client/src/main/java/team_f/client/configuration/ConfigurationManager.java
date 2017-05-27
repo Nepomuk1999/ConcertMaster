@@ -21,11 +21,14 @@ public class ConfigurationManager {
                     tmpValue = tmp[1].trim();
 
                     switch (tmp[0].trim()) {
+                        case Configuration.VERSION:
+                            config.setVersion(Double.parseDouble(tmpValue));
+                            break;
                         case Configuration.ROOT_DIR:
                             config.setRootDir(tmpValue);
                             break;
-                        case Configuration.START_URI:
-                            config.setStartURI(tmpValue);
+                        case Configuration.ROOT_URI:
+                            config.setRootURI(tmpValue);
                             break;
                         case Configuration.APP_NAME:
                             config.setAppName(tmpValue);
@@ -45,6 +48,9 @@ public class ConfigurationManager {
                         case Configuration.OPEN_IN_WEBBROWSER:
                             config.setOpenInWebbrowser(Boolean.parseBoolean(tmpValue));
                             break;
+                        case Configuration.USE_JX_BROWSER:
+                            config.setUseJxBrowser(Boolean.parseBoolean(tmpValue));
+                            break;
                         default:
                             break;
                     }
@@ -55,6 +61,10 @@ public class ConfigurationManager {
             }
 
             reader.close();
+
+            if(config.getVersion() < 1) {
+                throw new IOException("old configuration detected, regenerate the configuration");
+            }
 
             return config;
         }

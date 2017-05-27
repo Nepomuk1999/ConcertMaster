@@ -88,7 +88,7 @@ public class MonthPublisherSingleton {
 
     private static URL getPublishURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.publish);
+            return new URL(new URL(_configuration.getRootURI()), URIList.publish);
         } catch (MalformedURLException e) {
         }
 
@@ -97,7 +97,7 @@ public class MonthPublisherSingleton {
 
     private static URL getEventDutyURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.event);
+            return new URL(new URL(_configuration.getRootURI()), URIList.event);
         } catch (MalformedURLException e) {
         }
 

@@ -7,14 +7,16 @@ import java.util.Set;
 
 public class Configuration implements IConfigurable {
     // config symbols
+    protected static final String VERSION = "Version";
     protected static final String ROOT_DIR = "Root_Dir";
-    protected static final String START_URI = "Start_URI";
+    protected static final String ROOT_URI = "ROOT_URI";
     protected static final String APP_NAME = "App_Name";
     protected static final String HEIGHT = "Height";
     protected static final String WIDTH = "Width";
     protected static final String SHOW_CLOSE_WARNING = "Show_Close_Warning";
     protected static final String SHOW_MENU_BAR = "Show_Menu_Bar";
     protected static final String OPEN_IN_WEBBROWSER = "Open_In_Webbrowser";
+    protected static final String USE_JX_BROWSER = "Use_Jx_Browser";
 
     private HashMap<String, Object> _keyValues;
 
@@ -22,22 +24,24 @@ public class Configuration implements IConfigurable {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         _keyValues = new HashMap<>();
+        setVersion(1.0);
         setRootDir("./");
-        setStartURI("http://localhost:8080/views/example.html");
+        setRootURI("http://localhost:8080");
         setAppName("ConcertMaster");
         setHeight(-1);
         setWidth(-1);
         setShowCloseWarning(true);
         setShowMenuBar(true);
         setOpenInWebbrowser(false);
+        setUseJxBrowser(false);
     }
 
     public String getRootDir() {
         return (String) _keyValues.get(ROOT_DIR);
     }
 
-    public String getStartURI() {
-        return (String) _keyValues.get(START_URI);
+    public String getRootURI() {
+        return (String) _keyValues.get(ROOT_URI);
     }
 
     public String getAppName() {
@@ -64,12 +68,20 @@ public class Configuration implements IConfigurable {
         return (boolean) _keyValues.get(OPEN_IN_WEBBROWSER);
     }
 
+    public boolean getUseJxBrowser() {
+        return (boolean) _keyValues.get(USE_JX_BROWSER);
+    }
+
+    public double getVersion() {
+        return (double) _keyValues.get(VERSION);
+    }
+
     public void setRootDir(String rootDir) {
         _keyValues.put(ROOT_DIR, rootDir);
     }
 
-    public void setStartURI(String startURI) {
-        _keyValues.put(START_URI, startURI);
+    public void setRootURI(String rootURI) {
+        _keyValues.put(ROOT_URI, rootURI);
     }
 
     public void setAppName(String appName) {
@@ -94,6 +106,14 @@ public class Configuration implements IConfigurable {
 
     public void setOpenInWebbrowser(boolean openInWebbrowser) {
         _keyValues.put(OPEN_IN_WEBBROWSER, openInWebbrowser);
+    }
+
+    public void setUseJxBrowser(boolean useJxBrowser) {
+        _keyValues.put(USE_JX_BROWSER, useJxBrowser);
+    }
+
+    public void setVersion(double version) {
+        _keyValues.put(VERSION, version);
     }
 
     @Override

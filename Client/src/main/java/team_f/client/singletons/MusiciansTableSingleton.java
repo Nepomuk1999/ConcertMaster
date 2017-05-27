@@ -110,7 +110,7 @@ public class MusiciansTableSingleton {
 
     private static URL getRegisterURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.register);
+            return new URL(new URL(_configuration.getRootURI()), URIList.register);
         } catch (MalformedURLException e) {
         }
 
@@ -119,7 +119,7 @@ public class MusiciansTableSingleton {
 
     private static URL getPersonURL() {
         try {
-            return new URL(new URL(_configuration.getStartURI()), URIList.person);
+            return new URL(new URL(_configuration.getRootURI()), URIList.person);
         } catch (MalformedURLException e) {
         }
 
