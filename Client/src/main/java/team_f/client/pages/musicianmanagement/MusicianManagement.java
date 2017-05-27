@@ -208,7 +208,7 @@ public class MusicianManagement extends BaseTablePage<PersonErrorList, Person, P
         _deleteButton = new Button("Delete");
         _deleteButton.setDisable(true);
         _deleteButton.setMinWidth(125);
-        _deleteButton.setOnAction(e -> editPerson());
+        _deleteButton.setOnAction(e -> _editButton.fire());
 
         _filterField = new TextField();
         _filterField.setPromptText("First- or Lastname");
