@@ -26,9 +26,9 @@ public class Webbrowser {
 
         if(useJxBrowser) {
             Browser browser = new Browser();
-            browser.loadURL(initialURL.toExternalForm());
             BrowserView browserView = new BrowserView(browser);
 
+            browser.loadURL(initialURL.toExternalForm());
             result = browserView;
         } else {
             WebView _browserView = new WebView();
