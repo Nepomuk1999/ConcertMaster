@@ -8,11 +8,15 @@ import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
 
 public class Common {
+    public static void close() {
+        Platform.exit();
+        System.exit(0);
+    }
+
     public static void closeApp(Stage primaryStage, Configuration configuration) {
         AppConfiguration.saveConfiguration(primaryStage, configuration);
 
-        Platform.exit();
-        System.exit(0);
+        close();
     }
 
     public static void closeAppWithWarning(Event event, Stage primaryStage, Configuration _configuration) {

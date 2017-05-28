@@ -1,6 +1,5 @@
 package team_f.client.gui;
 
-import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import team_f.client.configuration.Configuration;
@@ -19,7 +18,7 @@ public class AppConfiguration {
     private final static String _configDelimiter = "\t";
     private static File _configFile;
 
-    public static Configuration getConfiguration(Application application) {
+    public static Configuration getConfiguration() {
         Configuration _configuration;
 
         Path configDir = Paths.get(System.getProperty("user.home"), ".ConcertMasterClient");

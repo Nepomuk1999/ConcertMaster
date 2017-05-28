@@ -29,7 +29,21 @@ import java.util.Locale;
 
 public class Client extends Application {
     private final static String _version = "1.0.0";
-    private Configuration _configuration;
+    private static Configuration _configuration;
+
+    static {
+        _configuration = AppConfiguration.getConfiguration();
+
+        if (_configuration == null) {
+            Common.close();
+        }
+
+        // @TODO: add i18n support and then set the correct language
+        Locale.setDefault(Locale.ENGLISH);
+
+        // load the webbrowser instance at the startup to avoid unnecessary lags for the user
+        CalendarSingleton.getInstance(_configuration).initialize();
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -37,18 +51,6 @@ public class Client extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        _configuration = AppConfiguration.getConfiguration(this);
-
-        // @TODO: add i18n support and then set the correct language
-        Locale.setDefault(Locale.ENGLISH);
-
-        if (_configuration == null) {
-            Common.closeApp(primaryStage, _configuration);
-        }
-
-        // load the webbrowser instance at the startup to avoid unnecessary lags for the user
-        CalendarSingleton.getInstance(_configuration);
-
         primaryStage.setTitle(_configuration.getAppName());
         primaryStage.getIcons().add(AppConfiguration.getAppIcon());
 
