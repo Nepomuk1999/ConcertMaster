@@ -65,7 +65,7 @@ public class AppConfiguration {
     }
 
     public static Image getAppIcon() {
-        Image anotherIcon = new Image(ClassLoader.class.getResourceAsStream("/LogoProgramm.png"));
+        Image anotherIcon = new Image(AppConfiguration.class.getClassLoader().getResourceAsStream("LogoProgramm.png"));
 
         return anotherIcon;
     }
