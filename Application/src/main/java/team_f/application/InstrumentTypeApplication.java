@@ -5,10 +5,19 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 public class InstrumentTypeApplication {
+    private static InstrumentTypeApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private InstrumentTypeFacade instrumentTypeFacade = new InstrumentTypeFacade(session);
 
-    public InstrumentTypeApplication() { }
+    private InstrumentTypeApplication() { }
+
+    public static InstrumentTypeApplication getInstance() {
+        if(_instance != null) {
+            _instance = new InstrumentTypeApplication();
+        }
+
+        return _instance;
+    }
 
     public void closeSession() {
         instrumentTypeFacade.closeSession();

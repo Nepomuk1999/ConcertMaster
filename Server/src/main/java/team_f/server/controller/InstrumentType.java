@@ -48,7 +48,7 @@ public class InstrumentType extends HttpServlet {
             EventDutyRequest request = (EventDutyRequest) ReadHelper.readJSONObject(req.getReader(), EventDutyRequest.class);
 
             if(request != null) {
-                InstrumentTypeApplication facade = new InstrumentTypeApplication();
+                InstrumentTypeApplication facade = InstrumentTypeApplication.getInstance();
                 team_f.jsonconnector.entities.InstrumentType instrumentType;
                 javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
                 ErrorList errorList = null;

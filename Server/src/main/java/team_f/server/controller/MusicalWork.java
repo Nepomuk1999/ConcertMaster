@@ -51,7 +51,7 @@ public class MusicalWork extends HttpServlet {
             MusicalWorkRequest request = (MusicalWorkRequest) ReadHelper.readJSONObject(req.getReader(), MusicalWorkRequest.class);
 
             if(request != null) {
-                MusicalWorkApplication facade = new MusicalWorkApplication();
+                MusicalWorkApplication facade = MusicalWorkApplication.getInstance();
                 team_f.jsonconnector.entities.MusicalWork musicalWork;
                 javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
                 ErrorList errorList = null;

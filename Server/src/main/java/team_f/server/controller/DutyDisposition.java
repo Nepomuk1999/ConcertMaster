@@ -58,7 +58,7 @@ public class DutyDisposition extends HttpServlet {
             DutyDispositionRequest request = (DutyDispositionRequest) ReadHelper.readJSONObject(req.getReader(), DutyDispositionRequest.class);
 
             if(request != null) {
-                DutyDispositionApplication facade = new DutyDispositionApplication();
+                DutyDispositionApplication facade = DutyDispositionApplication.getInstance();
                 team_f.jsonconnector.entities.DutyDisposition dutyDisposition;
                 javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
                 ErrorList errorList = null;
@@ -190,7 +190,7 @@ public class DutyDisposition extends HttpServlet {
     }
 
     private void setAttributes(HttpServletRequest request) {
-        DutyDispositionApplication facade = new DutyDispositionApplication();
+        DutyDispositionApplication facade = DutyDispositionApplication.getInstance();
 
         String tmp = request.getParameter("EventDutyId");
         int eventDutyID = -1;

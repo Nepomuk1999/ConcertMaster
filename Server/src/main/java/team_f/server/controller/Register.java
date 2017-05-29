@@ -50,7 +50,7 @@ public class Register extends HttpServlet {
             PersonRequest request = (PersonRequest) ReadHelper.readJSONObject(req.getReader(), PersonRequest.class);
 
             if(request != null) {
-                PersonApplication facade = new PersonApplication();
+                PersonApplication facade = PersonApplication.getInstance();
                 Pair<DomainEntity, List<Pair<String, String>>> tmpErrorList;
 
                 team_f.jsonconnector.entities.Person person = request.getEntity();

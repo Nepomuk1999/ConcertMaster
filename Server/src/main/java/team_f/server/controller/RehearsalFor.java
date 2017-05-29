@@ -48,7 +48,7 @@ public class RehearsalFor extends HttpServlet {
         if(contentType != null && contentType.startsWith(MediaType.APPLICATION_JSON)) {
             CommonResponse.writeJSONObject(resp, new JSONArray());
         } else {
-            EventApplication facade = new EventApplication();
+            EventApplication facade = EventApplication.getInstance();
             EventDutyRequest eventDutyRequest = new EventDutyRequest(req);
 
             Pair<DomainEntity, List<Pair<String, String>>> result = facade.addEvent(eventDutyRequest.getEventDutyId(), eventDutyRequest.getName(),

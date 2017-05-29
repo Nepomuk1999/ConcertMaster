@@ -55,7 +55,7 @@ public class Person extends HttpServlet {
             PersonRequest request = (PersonRequest) ReadHelper.readJSONObject(req.getReader(), PersonRequest.class);
 
             if(request != null) {
-                PersonApplication facade = new PersonApplication();
+                PersonApplication facade = PersonApplication.getInstance();
                 team_f.jsonconnector.entities.Person person;
                 javafx.util.Pair<DomainEntity, List<Pair<String, String>>> tmpErrorList;
                 ErrorList errorList = null;

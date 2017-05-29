@@ -25,7 +25,7 @@ public class Root extends HttpServlet {
 
     @Override
     public void destroy() {
-        EventApplication facade = new EventApplication();
+        EventApplication facade = EventApplication.getInstance();
         facade.closeSession();
     }
 }

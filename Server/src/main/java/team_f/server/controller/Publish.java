@@ -51,7 +51,7 @@ public class Publish extends HttpServlet {
             team_f.jsonconnector.entities.Publish request = (team_f.jsonconnector.entities.Publish) ReadHelper.readJSONObject(req.getReader(), team_f.jsonconnector.entities.Publish.class);
 
             if(request != null) {
-                EventApplication facade = new EventApplication();
+                EventApplication facade = EventApplication.getInstance();
                 List<javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>>> tmpErrorList = null;
                 ErrorList errorList = null;
 

@@ -52,7 +52,7 @@ public class Instrumentation extends HttpServlet {
             InstrumentationRequest request = (InstrumentationRequest) ReadHelper.readJSONObject(req.getReader(), InstrumentationRequest.class);
 
             if(request != null) {
-                InstrumentationApplication facade = new InstrumentationApplication();
+                InstrumentationApplication facade = InstrumentationApplication.getInstance();
                 team_f.jsonconnector.entities.Instrumentation instrumentation;
                 javafx.util.Pair<DomainEntity, List<Pair<String, String>>> tmpErrorList;
                 ErrorList errorList = null;

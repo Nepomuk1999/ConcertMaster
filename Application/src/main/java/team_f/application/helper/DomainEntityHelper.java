@@ -10,21 +10,21 @@ import java.util.List;
 
 public class DomainEntityHelper {
     public static List<MusicalWork> getMusicalWorkList() {
-        EventApplication facade = new EventApplication();
+        EventApplication facade = EventApplication.getInstance();
         List<MusicalWork> musicalWorkList = facade.getMusicalWorkList();
 
         return musicalWorkList;
     }
 
     public static List<Instrumentation> getInstrumentationList() {
-        InstrumentationApplication facade = new InstrumentationApplication();
+        InstrumentationApplication facade = InstrumentationApplication.getInstance();
         List<Instrumentation> instrumentationList = facade.getInstrumentationList();
 
         return instrumentationList;
     }
 
     public static List<Pair<MusicalWork, Instrumentation>> getMusicalWorkInstrumentationList() {
-        EventApplication facade = new EventApplication();
+        EventApplication facade = EventApplication.getInstance();
         List<Pair<MusicalWork, Instrumentation>> musicalWorkInstrumentation = facade.getMusicalWorkInstrumentationList();
 
         return musicalWorkInstrumentation;

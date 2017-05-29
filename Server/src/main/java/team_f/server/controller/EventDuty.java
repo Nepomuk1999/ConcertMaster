@@ -54,7 +54,7 @@ public class EventDuty extends HttpServlet {
             EventDutyRequest request = (EventDutyRequest) ReadHelper.readJSONObject(req.getReader(), EventDutyRequest.class);
 
             if(request != null) {
-                EventApplication facade = new EventApplication();
+                EventApplication facade = EventApplication.getInstance();
                 team_f.jsonconnector.entities.EventDuty eventDuty;
                 javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
                 ErrorList errorList = null;

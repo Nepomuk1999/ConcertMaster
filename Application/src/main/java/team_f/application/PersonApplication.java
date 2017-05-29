@@ -23,10 +23,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PersonApplication {
+    private static PersonApplication _instance;
     private PersonFacade personFacade = new PersonFacade();
     private AccountFacade accountFacade = new AccountFacade();
 
-    public PersonApplication() {
+    private PersonApplication() {
+    }
+
+    public static PersonApplication getInstance() {
+        if(_instance != null) {
+            _instance = new PersonApplication();
+        }
+
+        return _instance;
     }
 
     public void closeSession() {

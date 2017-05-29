@@ -25,13 +25,22 @@ import java.util.List;
 import static team_f.domain.enums.properties.EventDutyProperty.START_DATE;
 
 public class EventApplication {
+    private static EventApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private EventFacade eventFacade = new EventFacade(session);
     private InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
     private MusicalWorkFacade musicalWorkFacade = new MusicalWorkFacade(session);
-    private PersonApplication personApplication = new PersonApplication();
+    private PersonApplication personApplication = PersonApplication.getInstance();
 
-    public EventApplication() { }
+    private EventApplication() { }
+
+    public static EventApplication getInstance() {
+        if(_instance != null) {
+            _instance = new EventApplication();
+        }
+
+        return _instance;
+    }
 
     public void closeSession() {
         eventFacade.closeSession();

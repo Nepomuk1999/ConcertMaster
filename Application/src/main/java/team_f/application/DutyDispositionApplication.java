@@ -10,11 +10,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DutyDispositionApplication {
+    private static DutyDispositionApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private EventFacade eventFacade = new EventFacade(session);
     private DutyDispositionFacade dutyDispositionFacade = new DutyDispositionFacade(session);
 
-    public DutyDispositionApplication() { }
+    private DutyDispositionApplication() { }
+
+    public static DutyDispositionApplication getInstance() {
+        if(_instance != null) {
+            _instance = new DutyDispositionApplication();
+        }
+
+        return _instance;
+    }
 
     public void closeSession() {
         eventFacade.closeSession();

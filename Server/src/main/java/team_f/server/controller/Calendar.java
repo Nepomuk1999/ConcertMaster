@@ -59,7 +59,7 @@ public class Calendar extends HttpServlet {
             }
 
             if(startDate != null && endDate != null) {
-                EventApplication facade = new EventApplication();
+                EventApplication facade = EventApplication.getInstance();
                 List<EventDuty> eventList = facade.getEventsByMonth(startDate.getMonthValue() +1, startDate.getYear());
 
                 for(EventDuty event : eventList) {
@@ -91,7 +91,7 @@ public class Calendar extends HttpServlet {
             calendar.getProperties().add(CalScale.GREGORIAN);
             UidGenerator uidGenerator = new UidGenerator("concert-master");
 
-            EventApplication facade = new EventApplication();
+            EventApplication facade = EventApplication.getInstance();
 
             LocalDateTime start = LocalDateTime.now();
             //start = start.minusMonths(1);

@@ -15,10 +15,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InstrumentationApplication {
+    private static InstrumentationApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
 
-    public InstrumentationApplication() {
+    private InstrumentationApplication() {
+    }
+
+    public static InstrumentationApplication getInstance() {
+        if(_instance != null) {
+            _instance = new InstrumentationApplication();
+        }
+
+        return _instance;
     }
 
     public void closeSession() {

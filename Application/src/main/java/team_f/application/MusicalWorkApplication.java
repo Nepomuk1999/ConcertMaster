@@ -14,9 +14,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MusicalWorkApplication {
+    private static MusicalWorkApplication _instance;
     private MusicalWorkFacade musicalworkfacade = new MusicalWorkFacade();
 
-    public MusicalWorkApplication(){
+    private MusicalWorkApplication(){
+    }
+
+    public static MusicalWorkApplication getInstance() {
+        if(_instance != null) {
+            _instance = new MusicalWorkApplication();
+        }
+
+        return _instance;
     }
 
     public void closeSession() {
@@ -74,5 +83,4 @@ public class MusicalWorkApplication {
     public List<MusicalWork> getMusicalWorkList(){
         return musicalworkfacade.getMusicalWorks();
     }
-
 }

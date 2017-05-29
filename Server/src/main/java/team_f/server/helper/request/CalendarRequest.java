@@ -22,7 +22,7 @@ public class CalendarRequest {
             eventId = -1;
         }
 
-        EventApplication facade = new EventApplication();
+        EventApplication facade = EventApplication.getInstance();
 
         if(eventId > 0 && !isRehearsal) {
             eventDuty = facade.getEventById(eventId);
