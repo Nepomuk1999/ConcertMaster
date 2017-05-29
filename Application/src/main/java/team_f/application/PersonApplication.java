@@ -46,7 +46,7 @@ public class PersonApplication {
      * @return list     List<Pair<InstrumentType, List<Person>>>    returns list of pairs of
      *                                                              instrumentTypes with persons playing them
      */
-    public List<Pair<InstrumentType, List<Person>>> getMusicianListByPlayedInstrumentType(List<Person> persons) {
+    protected List<Pair<InstrumentType, List<Person>>> getMusicianListByPlayedInstrumentType(List<Person> persons) {
         List<Pair<InstrumentType, List<Person>>> list = new LinkedList<>();
         List<Person> instrumentList = new LinkedList<>();
 

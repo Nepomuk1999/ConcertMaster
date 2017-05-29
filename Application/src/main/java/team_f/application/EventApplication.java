@@ -184,7 +184,7 @@ public class EventApplication {
      * @param eventDuty
      * @return  errorList
      */
-    public List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
+    protected List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
         List<Pair<String, String>> errorList = new LinkedList<>();
         List<EventDuty> eventList;
 
@@ -218,7 +218,7 @@ public class EventApplication {
      *
      * @param eventDuty
      */
-    public void calculateMaxInstrumentation(EventDuty eventDuty) {
+    protected void calculateMaxInstrumentation(EventDuty eventDuty) {
 
         Instrumentation maxInstrumentation = new Instrumentation();
         for (InstrumentType instrumentType : InstrumentType.values()) {
@@ -242,7 +242,7 @@ public class EventApplication {
      * @param list          a list of pairs of the instrumentTypes and lists of persons playing them
      * @return  pair        list of pairs of instrumentTypes and the persons playing them
      */
-    public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
+    protected Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
         Pair<InstrumentType, List<Person>> pair = null;
 
         for (Pair<InstrumentType, List<Person>> exPair : list) {
@@ -260,7 +260,7 @@ public class EventApplication {
      * @param eventDuty
      * @return
      */
-    public List<Pair<String, String>> getEventsByFrame(EventDuty eventDuty) {
+    protected List<Pair<String, String>> getEventsByFrame(EventDuty eventDuty) {
         List<EventDuty> eventDutyList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
         List<EventDuty> rehearsalList = new ArrayList<>();
         List<Pair<String, String>> errorList = new LinkedList<>();
