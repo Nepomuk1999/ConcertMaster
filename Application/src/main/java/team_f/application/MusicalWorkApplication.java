@@ -21,7 +21,7 @@ public class MusicalWorkApplication {
     }
 
     public static MusicalWorkApplication getInstance() {
-        if(_instance != null) {
+        if(_instance == null) {
             _instance = new MusicalWorkApplication();
         }
 

@@ -12,7 +12,7 @@ public class InstrumentTypeApplication {
     private InstrumentTypeApplication() { }
 
     public static InstrumentTypeApplication getInstance() {
-        if(_instance != null) {
+        if(_instance == null) {
             _instance = new InstrumentTypeApplication();
         }
 

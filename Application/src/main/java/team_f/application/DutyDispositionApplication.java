@@ -18,7 +18,7 @@ public class DutyDispositionApplication {
     private DutyDispositionApplication() { }
 
     public static DutyDispositionApplication getInstance() {
-        if(_instance != null) {
+        if(_instance == null) {
             _instance = new DutyDispositionApplication();
         }
 

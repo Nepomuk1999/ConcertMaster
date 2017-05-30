@@ -35,7 +35,7 @@ public class EventApplication {
     private EventApplication() { }
 
     public static EventApplication getInstance() {
-        if(_instance != null) {
+        if(_instance == null) {
             _instance = new EventApplication();
         }
 

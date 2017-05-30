@@ -31,7 +31,7 @@ public class PersonApplication {
     }
 
     public static PersonApplication getInstance() {
-        if(_instance != null) {
+        if(_instance == null) {
             _instance = new PersonApplication();
         }
 
