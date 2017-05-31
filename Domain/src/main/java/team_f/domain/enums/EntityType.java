@@ -5,5 +5,6 @@ public enum EntityType {
     PERSON,
     ACCOUNT,
     INSTRUMENTATION,
-    MUSICALWORK
+    MUSICALWORK,
+    REQUEST
 }

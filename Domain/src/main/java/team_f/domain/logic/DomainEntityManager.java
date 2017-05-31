@@ -9,6 +9,7 @@ public class DomainEntityManager {
     private static AccountLogic accountLogic = new AccountLogic();
     private static InstrumentationLogic instrumentationLogic = new InstrumentationLogic();
     private static MusicalWorkLogic musicalWorkLogic = new MusicalWorkLogic();
+    private static RequestLogic requestLogic = new RequestLogic();
 
     public DomainEntityManager() {
     }
@@ -25,6 +26,8 @@ public class DomainEntityManager {
                 return instrumentationLogic;
             case MUSICALWORK:
                 return musicalWorkLogic;
+            case REQUEST:
+                return requestLogic;
             default:
                 return null;
         }

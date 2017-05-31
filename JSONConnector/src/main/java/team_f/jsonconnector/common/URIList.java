@@ -14,5 +14,6 @@ public class URIList {
     public static final String instrumentation = "/Instrumentation";
     public static final String instrumentType = "/InstrumentType";
     public static final String dutyDisposition = "/DutyDisposition";
+    public static final String request = "/Request";
     public static final String authenticate = "/Authenticate";
 }

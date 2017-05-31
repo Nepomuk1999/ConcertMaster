@@ -1,15 +1,17 @@
 package team_f.domain.helper;
 
+import team_f.domain.enums.RequestType;
 import team_f.domain.enums.properties.EventDutyProperty;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class EnumHelper {
     // save the values
     private static EventType[] _eventTypeList;
+    private static RequestType[] _requestTypeList;
+    private static EventDutyProperty[] _eventDutyList;
 
     public static EventStatus[] getEventStatusList() {
         return EventStatus.values();
@@ -39,7 +41,19 @@ public class EnumHelper {
         return _eventTypeList;
     }
 
+    public static RequestType[] getRequestTypeList() {
+        if (_requestTypeList == null) {
+            _requestTypeList = RequestType.values();
+        }
+
+        return _requestTypeList;
+    }
+
     public static EventDutyProperty[] getEventDutys() {
-        return EventDutyProperty.values();
+        if(_eventDutyList != null) {
+            _eventDutyList = EventDutyProperty.values();
+        }
+
+        return _eventDutyList;
     }
 }

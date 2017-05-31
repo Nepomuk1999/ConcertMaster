@@ -24,10 +24,12 @@ public class CalendarRequest {
 
         EventApplication facade = EventApplication.getInstance();
 
+        // @TODO: is this correct?
         if(eventId > 0 && !isRehearsal) {
             eventDuty = facade.getEventById(eventId);
         } else {
             eventDuty = new EventDuty();
+            eventDuty.setEventDutyID(eventId);
 
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

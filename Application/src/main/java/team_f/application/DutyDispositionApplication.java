@@ -57,9 +57,14 @@ public class DutyDispositionApplication {
         dutyDisposition.setDescription(description);
         dutyDisposition.setDutyDispositionStatus(dutyDispositionStatus);
 
-        dutyDispositionFacade.add(dutyDisposition);
+        int resultID = dutyDispositionFacade.add(dutyDisposition);
+        List<Pair<String, String>> errorList = new LinkedList<>();
 
-        return new Pair<>(dutyDisposition, new LinkedList<>());
+        if(resultID <= 0) {
+            errorList.add(new Pair<>("SERVER_ERROR", "internal server error"));
+        }
+
+        return new Pair<>(dutyDisposition, errorList);
     }
 
     public boolean delete(int eventDutyID, int musicianID) {
