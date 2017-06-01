@@ -2,6 +2,7 @@ package team_f.application;
 
 import javafx.util.Pair;
 import team_f.application.entities.SpecialInstrumentation;
+import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.MusicalWorkFacade;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
@@ -13,7 +14,7 @@ import team_f.domain.logic.MusicalWorkLogic;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MusicalWorkApplication {
+public class MusicalWorkApplication extends BaseApplicationFacade<MusicalWork> {
     private static MusicalWorkApplication _instance;
     private MusicalWorkFacade musicalworkfacade = new MusicalWorkFacade();
 
@@ -28,6 +29,7 @@ public class MusicalWorkApplication {
         return _instance;
     }
 
+    @Override
     public void closeSession() {
         musicalworkfacade.closeSession();
     }
@@ -80,7 +82,13 @@ public class MusicalWorkApplication {
         return new Pair<>(musicalWork, new LinkedList<>());
     }
 
-    public List<MusicalWork> getMusicalWorkList(){
+    @Override
+    public MusicalWork getByID(int id) {
+        return null;
+    }
+
+    @Override
+    public List<MusicalWork> getList() {
         return musicalworkfacade.getMusicalWorks();
     }
 }

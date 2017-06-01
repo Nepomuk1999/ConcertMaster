@@ -26,7 +26,7 @@ public class CalendarRequest {
 
         // @TODO: is this correct?
         if(eventId > 0 && !isRehearsal) {
-            eventDuty = facade.getEventById(eventId);
+            eventDuty = facade.getByID(eventId);
         } else {
             eventDuty = new EventDuty();
             eventDuty.setEventDutyID(eventId);
@@ -42,7 +42,7 @@ public class CalendarRequest {
             eventDuty.setEndTime(date);
 
             if(eventId > 0 && isRehearsal) {
-                eventDuty.setRehearsalFor(facade.getEventById(eventId));
+                eventDuty.setRehearsalFor(facade.getByID(eventId));
             }
         }
 

@@ -1,7 +1,9 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.application.entities.SpecialInstrumentation;
+import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.InstrumentationFacade;
 import team_f.database_wrapper.facade.SessionFactory;
 import team_f.domain.entities.Instrumentation;
@@ -14,7 +16,7 @@ import javax.persistence.EntityManager;
 import java.util.LinkedList;
 import java.util.List;
 
-public class InstrumentationApplication {
+public class InstrumentationApplication extends BaseApplicationFacade<Instrumentation> {
     private static InstrumentationApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private InstrumentationFacade instrumentationFacade = new InstrumentationFacade(session);
@@ -30,12 +32,9 @@ public class InstrumentationApplication {
         return _instance;
     }
 
+    @Override
     public void closeSession() {
         instrumentationFacade.closeSession();
-    }
-
-    public List<Instrumentation> getInstrumentationList() {
-        return instrumentationFacade.getInstrumentations();
     }
 
     public Pair<DomainEntity, List<Pair<String, String>>> addInstrumentation (int id, Integer violin1, Integer violin2, Integer viola, Integer violincello,
@@ -78,5 +77,15 @@ public class InstrumentationApplication {
         instrumentation.setInstrumentationID(resultID);
 
         return new Pair<>(instrumentation, new LinkedList<>());
+    }
+
+    @Override
+    public Instrumentation getByID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Instrumentation> getList() {
+        return instrumentationFacade.getInstrumentations();
     }
 }

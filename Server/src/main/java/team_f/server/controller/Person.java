@@ -65,7 +65,7 @@ public class Person extends HttpServlet {
                         // @TODO: add get by parameter functionality
                         break;
                     case GET_ALL:
-                        List<team_f.domain.entities.Person> personEntityList = facade.getAllMusicians();
+                        List<team_f.domain.entities.Person> personEntityList = facade.getList();
                         List<team_f.jsonconnector.entities.Person> personList = new LinkedList<>();
                         PersonList persons = new PersonList();
 

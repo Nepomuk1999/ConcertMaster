@@ -62,7 +62,7 @@ public class Instrumentation extends HttpServlet {
                         // @TODO: add get by parameter functionality
                         break;
                     case GET_ALL:
-                        List<team_f.domain.entities.Instrumentation> instrumentationEntityList = facade.getInstrumentationList();
+                        List<team_f.domain.entities.Instrumentation> instrumentationEntityList = facade.getList();
                         List<team_f.jsonconnector.entities.Instrumentation> instrumentationList = new LinkedList<>();
                         InstrumentationList instrumentations = new InstrumentationList();
 

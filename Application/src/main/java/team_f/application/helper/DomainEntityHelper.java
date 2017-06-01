@@ -18,7 +18,7 @@ public class DomainEntityHelper {
 
     public static List<Instrumentation> getInstrumentationList() {
         InstrumentationApplication facade = InstrumentationApplication.getInstance();
-        List<Instrumentation> instrumentationList = facade.getInstrumentationList();
+        List<Instrumentation> instrumentationList = facade.getList();
 
         return instrumentationList;
     }

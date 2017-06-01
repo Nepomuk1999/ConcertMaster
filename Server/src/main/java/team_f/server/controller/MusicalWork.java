@@ -61,7 +61,7 @@ public class MusicalWork extends HttpServlet {
                         // @TODO: add get by parameter functionality
                         break;
                     case GET_ALL:
-                        List<team_f.domain.entities.MusicalWork> musicalWorkEntityList = facade.getMusicalWorkList();
+                        List<team_f.domain.entities.MusicalWork> musicalWorkEntityList = facade.getList();
                         List<team_f.jsonconnector.entities.MusicalWork> musicalWorkList = new LinkedList<>();
                         MusicalWorkList musicalWorks = new MusicalWorkList();
 

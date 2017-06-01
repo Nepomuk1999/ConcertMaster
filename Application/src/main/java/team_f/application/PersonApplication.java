@@ -1,6 +1,8 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.AccountFacade;
 import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
@@ -22,7 +24,7 @@ import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PersonApplication {
+public class PersonApplication extends BaseApplicationFacade<Person> {
     private static PersonApplication _instance;
     private PersonFacade personFacade = new PersonFacade();
     private AccountFacade accountFacade = new AccountFacade();
@@ -38,12 +40,9 @@ public class PersonApplication {
         return _instance;
     }
 
+    @Override
     public void closeSession() {
         personFacade.closeSession();
-    }
-
-    public List<Person> getAllMusicians() {
-        return personFacade.getAllMusicians();
     }
 
     /** Function adds persons who play the specific instrument for every instrumentType and returns this list of
@@ -149,7 +148,7 @@ public class PersonApplication {
         PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
 
         List<Account> accountList= accountFacade.getAllUserNames();
-        List<Person> personList = getAllMusicians();
+        List<Person> personList = getList();
 
 
         AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
@@ -189,5 +188,15 @@ public class PersonApplication {
         person.setPersonID(resultID);
 
         return new Pair<>(person, new LinkedList<>());
+    }
+
+    @Override
+    public Person getByID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Person> getList() {
+        return personFacade.getAllMusicians();
     }
 }

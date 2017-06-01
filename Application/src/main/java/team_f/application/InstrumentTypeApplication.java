@@ -1,10 +1,13 @@
 package team_f.application;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.*;
+import team_f.domain.entities.InstrumentType;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class InstrumentTypeApplication {
+public class InstrumentTypeApplication extends BaseApplicationFacade<InstrumentType> {
     private static InstrumentTypeApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private InstrumentTypeFacade instrumentTypeFacade = new InstrumentTypeFacade(session);
@@ -19,13 +22,20 @@ public class InstrumentTypeApplication {
         return _instance;
     }
 
+    @Override
     public void closeSession() {
         instrumentTypeFacade.closeSession();
     }
 
-    public List<team_f.domain.entities.InstrumentType> getInstrumentTypeList() {
+    @Override
+    public InstrumentType getByID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<InstrumentType> getList() {
         // @TODO: implement and fix issues
         //return instrumentTypeFacade.getAllInstrumentTypes();
-        return null;
+        throw new NotImplementedException();
     }
 }

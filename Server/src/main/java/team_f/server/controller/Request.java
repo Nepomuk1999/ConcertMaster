@@ -76,6 +76,6 @@ public class Request extends HttpServlet {
 
     private void setAttributes(HttpServletRequest request) {
         PersonApplication personFacade = PersonApplication.getInstance();
-        request.setAttribute("PERSON_LIST", personFacade.getAllMusicians());
+        request.setAttribute("PERSON_LIST", personFacade.getList());
     }
 }

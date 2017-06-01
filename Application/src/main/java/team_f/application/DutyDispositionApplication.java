@@ -1,6 +1,8 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.*;
 import team_f.domain.entities.*;
 import team_f.domain.enums.*;
@@ -9,7 +11,7 @@ import javax.persistence.EntityManager;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DutyDispositionApplication {
+public class DutyDispositionApplication extends BaseApplicationFacade<DutyDisposition> {
     private static DutyDispositionApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private EventFacade eventFacade = new EventFacade(session);
@@ -25,6 +27,7 @@ public class DutyDispositionApplication {
         return _instance;
     }
 
+    @Override
     public void closeSession() {
         eventFacade.closeSession();
     }
@@ -69,5 +72,15 @@ public class DutyDispositionApplication {
 
     public boolean delete(int eventDutyID, int musicianID) {
         return dutyDispositionFacade.delete(eventDutyID, musicianID);
+    }
+
+    @Override
+    public DutyDisposition getByID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<DutyDisposition> getList() {
+        throw new NotImplementedException();
     }
 }

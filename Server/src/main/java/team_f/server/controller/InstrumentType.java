@@ -58,7 +58,7 @@ public class InstrumentType extends HttpServlet {
                         // @TODO: implement
                         break;
                     case GET_ALL:
-                        List<team_f.domain.entities.InstrumentType> instrumentTypeEntityList = facade.getInstrumentTypeList();
+                        List<team_f.domain.entities.InstrumentType> instrumentTypeEntityList = facade.getList();
                         List<team_f.jsonconnector.entities.InstrumentType> instrumentTypeList = new LinkedList<>();
                         InstrumentTypeList instrumentTypes = new InstrumentTypeList();
 

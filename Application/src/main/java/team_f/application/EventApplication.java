@@ -1,6 +1,7 @@
 package team_f.application;
 
 import javafx.util.Pair;
+import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.EventFacade;
 import team_f.database_wrapper.facade.InstrumentationFacade;
 import team_f.database_wrapper.facade.MusicalWorkFacade;
@@ -24,7 +25,7 @@ import java.util.List;
 
 import static team_f.domain.enums.properties.EventDutyProperty.START_DATE;
 
-public class EventApplication {
+public class EventApplication extends BaseApplicationFacade<EventDuty> {
     private static EventApplication _instance;
     private EntityManager session = SessionFactory.getSession();
     private EventFacade eventFacade = new EventFacade(session);
@@ -42,6 +43,7 @@ public class EventApplication {
         return _instance;
     }
 
+    @Override
     public void closeSession() {
         eventFacade.closeSession();
     }
@@ -154,16 +156,6 @@ public class EventApplication {
         return new Pair<>(eventDuty, new LinkedList<>());
     }
 
-    public EventDuty getEventById(int id) {
-        EventDuty entity = eventFacade.getEventById(id);
-
-        if (entity != null) {
-            return entity;
-        }
-
-        return null;
-    }
-
     public List<EventDuty> getEventsByMonth(int month, int year) {
         return eventFacade.getEventsByMonth(month, year);
     }
@@ -201,7 +193,7 @@ public class EventApplication {
 
         calculateMaxInstrumentation(eventDuty);
 
-        List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrumentType(personApplication.getAllMusicians());
+        List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrumentType(personApplication.getList());
         Instrumentation totalInstrumentation = eventDuty.getMaxInstrumentation();
 
         for (EventDuty event : eventList) {
@@ -246,7 +238,6 @@ public class EventApplication {
     }
 
     /**  Function to be used in the evaluateMusicianCountForEvent-Method of EventApplication.
-     * TODO?? what else does the method do with null?
      * @param instrumentType
      * @param list          a list of pairs of the instrumentTypes and lists of persons playing them
      * @return  pair        list of pairs of instrumentTypes and the persons playing them
@@ -261,32 +252,6 @@ public class EventApplication {
         }
 
         return pair;
-    }
-
-    /**
-     * TODO  ??
-     *
-     * @param eventDuty
-     * @return
-     */
-    protected List<Pair<String, String>> getEventsByFrame(EventDuty eventDuty) {
-        List<EventDuty> eventDutyList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
-        List<EventDuty> rehearsalList = new ArrayList<>();
-        List<Pair<String, String>> errorList = new LinkedList<>();
-
-        for (EventDuty event : eventDutyList) {
-            if (event.getRehearsalFor() != null) {
-                rehearsalList.add(event);
-            }
-        }
-        if (rehearsalList.size() > 0) {
-            for (EventDuty rehearsal : rehearsalList) {
-                if (eventDuty.getRehearsalFor().getEventDutyID() == rehearsal.getEventDutyID()) {
-                    errorList.add(new Pair<>(String.valueOf(EventDutyProperty.REHEARSAL_FOR), "you have already a rehearsal for this event"));
-                }
-            }
-        }
-        return errorList;
     }
 
     /** Function to publish and persist events of a specific month in a specific year. Sets their status to published.
@@ -350,5 +315,21 @@ public class EventApplication {
         }
 
         return fullErrorList;
+    }
+
+    @Override
+    public EventDuty getByID(int id) {
+        EventDuty entity = eventFacade.getEventById(id);
+
+        if (entity != null) {
+            return entity;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<EventDuty> getList() {
+        return getEventsByTimeFrame(LocalDateTime.now().minusYears(100), LocalDateTime.now().plusYears(100));
     }
 }

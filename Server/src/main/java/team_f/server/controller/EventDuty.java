@@ -99,7 +99,7 @@ public class EventDuty extends HttpServlet {
                             resp.setContentType(MediaType.APPLICATION_JSON);
                             WriteHelper.writeJSONObject(resp.getWriter(), eventDutyList);
                         } else if(id > 0) {
-                            eventDuty = EventDutyConverter.convertToJSON(facade.getEventById(id));
+                            eventDuty = EventDutyConverter.convertToJSON(facade.getByID(id));
 
                             resp.setContentType(MediaType.APPLICATION_JSON);
                             WriteHelper.writeJSONObject(resp.getWriter(), eventDuty);
@@ -107,8 +107,7 @@ public class EventDuty extends HttpServlet {
 
                         break;
                     case GET_ALL:
-                        // @TODO: perhaps implement a more accurate method
-                        List<team_f.domain.entities.EventDuty> eventDutyEntityList = facade.getEventsByTimeFrame(LocalDateTime.now().minusYears(100), LocalDateTime.now().plusYears(100));
+                        List<team_f.domain.entities.EventDuty> eventDutyEntityList = facade.getList();
                         List<team_f.jsonconnector.entities.EventDuty> eventDutyList = new LinkedList<>();
                         EventDutyList eventDuties = new EventDutyList();
 
