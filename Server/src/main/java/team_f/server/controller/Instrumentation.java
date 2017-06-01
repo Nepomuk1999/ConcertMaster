@@ -78,36 +78,6 @@ public class Instrumentation extends HttpServlet {
 
                         break;
                     case CREATE:
-                        instrumentation = request.getEntity();
-
-                        if(instrumentation != null) {
-                            List<team_f.application.entities.SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
-                            team_f.application.entities.SpecialInstrumentation specialInstrumentation;
-
-                            if(instrumentation.getSpecialInstrumentation() != null) {
-                                for(SpecialInstrumentation item : instrumentation.getSpecialInstrumentation()) {
-                                    specialInstrumentation = new team_f.application.entities.SpecialInstrumentation();
-                                    specialInstrumentation.setID(item.getSpecialInstrumentationID());
-                                    specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentation());
-                                    specialInstrumentation.setSectionType(item.getSectionType());
-                                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentCount());
-
-                                    specialInstrumentationList.add(specialInstrumentation);
-                                }
-                            }
-
-                            tmpErrorList = facade.addInstrumentation(0, instrumentation.getViolin1(), instrumentation.getViolin2(), instrumentation.getViola(), instrumentation.getViolincello(),
-                                    instrumentation.getDoublebass(), instrumentation.getFlute(), instrumentation.getOboe(), instrumentation.getClarinet(), instrumentation.getBassoon(), instrumentation.getHorn(), instrumentation.getTrumpet(),
-                                    instrumentation.getTrombone(), instrumentation.getTube(),instrumentation.getKettledrum(), instrumentation.getPercussion(), instrumentation.getHarp(),
-                                    specialInstrumentationList);
-
-                            errorList = JsonResponse.prepareErrorMessage(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()), tmpErrorList.getValue());
-                        }
-
-                        resp.setContentType(MediaType.APPLICATION_JSON);
-                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
-
-                        break;
                     case UPDATE:
                         instrumentation = request.getEntity();
 
@@ -127,7 +97,7 @@ public class Instrumentation extends HttpServlet {
                                 }
                             }
 
-                            tmpErrorList = facade.addInstrumentation(instrumentation.getInstrumentationID(), instrumentation.getViolin1(), instrumentation.getViolin2(), instrumentation.getViola(), instrumentation.getViolincello(),
+                            tmpErrorList = facade.addInstrumentation(0, instrumentation.getViolin1(), instrumentation.getViolin2(), instrumentation.getViola(), instrumentation.getViolincello(),
                                     instrumentation.getDoublebass(), instrumentation.getFlute(), instrumentation.getOboe(), instrumentation.getClarinet(), instrumentation.getBassoon(), instrumentation.getHorn(), instrumentation.getTrumpet(),
                                     instrumentation.getTrombone(), instrumentation.getTube(),instrumentation.getKettledrum(), instrumentation.getPercussion(), instrumentation.getHarp(),
                                     specialInstrumentationList);

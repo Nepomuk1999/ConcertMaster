@@ -50,7 +50,13 @@ public class NavigationBar {
         menuSectionServiceSchedule.add(menuSectionItem);
         menuSectionItem = new MenuSectionItem("Publish/Unpublish Schedule");
         //  menuSectionItem.setOnAction(event -> new LegendTable());
-        menuSectionItem.setOnAction(event -> loadPage(MonthPublisherSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> {
+            if(_configuration.getUseWebClient()) {
+                loadPage(MonthPublisherWebSingleton.getInstance(_configuration));
+            } else {
+                loadPage(MonthPublisherSingleton.getInstance(_configuration));
+            }
+        });
         menuSectionServiceSchedule.add(menuSectionItem);
         _sidebar.add(menuSectionServiceSchedule);
         menuSectionArrayList.add(menuSectionServiceSchedule);
@@ -67,18 +73,37 @@ public class NavigationBar {
 
         MenuSection menuSectionMusician = new MenuSection("Musicians", "/orchestraiconM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musician List");
-        menuSectionItem.setOnAction(event -> loadPage(MusiciansListSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> {
+            if(_configuration.getUseWebClient()) {
+                loadPage(MusiciansListWebSingleton.getInstance(_configuration));
+            } else {
+                loadPage(MusiciansListSingleton.getInstance(_configuration));
+            }
+        });
         menuSectionMusician.add(menuSectionItem);
         _sidebar.add(menuSectionMusician);
         menuSectionArrayList.add(menuSectionMusician);
 
         MenuSection menuSectionCompositions = new MenuSection("Compositions", "/musicfolderM.png", toggleGroup);
         menuSectionItem = new MenuSectionItem("Musical Work Management");
-        menuSectionItem.setOnAction(event -> loadPage(MusicalWorkSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> {
+            if(_configuration.getUseWebClient()) {
+                loadPage(MusicalWorkWebSingleton.getInstance(_configuration));
+            } else {
+                loadPage(MusicalWorkSingleton.getInstance(_configuration));
+            }
+        });
         menuSectionCompositions.add(menuSectionItem);
 
         menuSectionItem = new MenuSectionItem("Instrumentation Management");
-        menuSectionItem.setOnAction(event -> loadPage(InstrumentationSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> {
+            if(_configuration.getUseWebClient()) {
+                loadPage(InstrumentationWebSingleton.getInstance(_configuration));
+
+            } else {
+                loadPage(InstrumentationSingleton.getInstance(_configuration));
+            }
+        });
         menuSectionCompositions.add(menuSectionItem);
         _sidebar.add(menuSectionCompositions);
         menuSectionArrayList.add(menuSectionCompositions);
@@ -109,7 +134,11 @@ public class NavigationBar {
         menuSectionItem = new MenuSectionItem("Musician Management");
         menuSectionAdministration.add(menuSectionItem);
         menuSectionItem.setOnAction(event -> {
-            loadPage(MusiciansTableSingleton.getInstance(_configuration));
+            if(_configuration.getUseWebClient()) {
+                loadPage(MusiciansTableWebSingleton.getInstance(_configuration));
+            } else {
+                loadPage(MusiciansTableSingleton.getInstance(_configuration));
+            }
         });
         _sidebar.add(menuSectionAdministration);
         menuSectionArrayList.add(menuSectionAdministration);

@@ -1,23 +1,24 @@
 package team_f.client.singletons;
 
+import team_f.application.PersonApplication;
 import team_f.client.configuration.Configuration;
-import team_f.client.helper.RequestResponseHelper;
+import team_f.client.helper.converter.PersonConverter;
 import team_f.client.pages.PageAction;
 import team_f.client.pages.musicianmanagement.MusicianManagement;
 import team_f.client.pages.musicianmanagement.PersonParameter;
 import team_f.client.pages.musicianmanagement.PersonReturnValue;
-import team_f.jsonconnector.common.URIList;
+import team_f.domain.enums.AllInstrumentTypes;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.entities.*;
-import team_f.jsonconnector.entities.list.InstrumentTypeList;
-import team_f.jsonconnector.entities.list.PersonList;
+import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.PersonErrorList;
-import team_f.jsonconnector.enums.request.ActionType;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MusiciansTableSingleton {
     private static MusicianManagement _musicianTable;
+    private static PersonApplication _facade = PersonApplication.getInstance();
     private static Configuration _configuration;
 
     private MusiciansTableSingleton() {
@@ -31,21 +32,6 @@ public class MusiciansTableSingleton {
             _musicianTable.setOnLoad(new PageAction<PersonReturnValue, PersonParameter>() {
                 @Override
                 public PersonReturnValue doAction(PersonParameter value) {
-                    // @TODO: fix issues
-                    /*if(value != null) {
-                        Request request = new Request();
-                        request.setActionType(ActionType.GET_ALL);
-
-                        InstrumentTypeList instrumentTypeList = (InstrumentTypeList) RequestResponseHelper.writeAndReadJSONObject(getInstrumentTypeList(), request, InstrumentTypeList.class);
-
-                        if(instrumentTypeList != null) {
-                            PersonReturnValue personReturnValue = new PersonReturnValue();
-                            personReturnValue.setInstrumentTypeList(instrumentTypeList.getInstrumentTypeList());
-
-                            return personReturnValue;
-                        }
-                    }*/
-
                     return null;
                 }
             });
@@ -54,14 +40,16 @@ public class MusiciansTableSingleton {
                 @Override
                 public List<Person> doAction(PersonParameter value) {
                     if(value != null) {
-                        Request request = new Request();
-                        request.setActionType(ActionType.GET_ALL);
+                        List<team_f.domain.entities.Person> personEntityList = _facade.getList();
+                        List<team_f.jsonconnector.entities.Person> personList = new LinkedList<>();
+                        team_f.jsonconnector.entities.Person person;
 
-                        PersonList personList = (PersonList) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, PersonList.class);
-
-                        if(personList != null) {
-                            return personList.getPersonList();
+                        for(team_f.domain.entities.Person item : personEntityList) {
+                            person = PersonConverter.convertToJSON(item);
+                            personList.add(person);
                         }
+
+                        return personList;
                     }
 
                     return null;
@@ -71,12 +59,7 @@ public class MusiciansTableSingleton {
             _musicianTable.setOnCreate(new PageAction<PersonErrorList, Person>() {
                 @Override
                 public PersonErrorList doAction(Person value) {
-                    Request request = new Request();
-                    request.setActionType(ActionType.CREATE);
-                    request.setEntity(value);
-
-                    PersonErrorList errorList = (PersonErrorList) RequestResponseHelper.writeAndReadJSONObject(getRegisterURL(), request, PersonErrorList.class);
-                    return errorList;
+                    return addEdit(value);
                 }
             });
 
@@ -84,12 +67,7 @@ public class MusiciansTableSingleton {
                 @Override
                 public PersonErrorList doAction(Person value) {
                     if(value != null) {
-                        Request request = new Request();
-                        request.setActionType(ActionType.UPDATE);
-                        request.setEntity(value);
-
-                        PersonErrorList errorList = (PersonErrorList) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, PersonErrorList.class);
-                        return errorList;
+                        return addEdit(value);
                     }
 
                     return null;
@@ -108,22 +86,68 @@ public class MusiciansTableSingleton {
         return _musicianTable;
     }
 
-    private static URL getRegisterURL() {
+    private static PersonErrorList addEdit(Person person) {
+        team_f.domain.enums.PersonRole personRole = null;
+        String username = null;
+        team_f.domain.enums.AccountRole accountRole = null;
+        javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> tmpErrorList;
+
         try {
-            return new URL(new URL(_configuration.getRootURI()), URIList.register);
-        } catch (MalformedURLException e) {
+            personRole = team_f.domain.enums.PersonRole.valueOf(String.valueOf(person.getPersonRole()));
+        } catch (Exception e) {
         }
 
-        return null;
-    }
-
-    private static URL getPersonURL() {
-        try {
-            return new URL(new URL(_configuration.getRootURI()), URIList.person);
-        } catch (MalformedURLException e) {
+        if(person.getAccount() != null) {
+            username = person.getAccount().getUsername();
+            accountRole = team_f.domain.enums.AccountRole.valueOf(String.valueOf(person.getAccount().getRole()));
         }
 
-        return null;
+                    /*List<Integer> instrumentTypeList = new ArrayList<>();
+
+                    if(person.getInstrumentTypeList() != null) {
+                        for(team_f.jsonconnector.entities.InstrumentType instrumentType : person.getInstrumentTypeList()) {
+                            if(instrumentType != null) {
+                                instrumentTypeList.add(instrumentType.getID());
+                            }
+                        }
+                    }*/
+
+        List<AllInstrumentTypes> instrumentTypeList = new ArrayList<>();
+
+        if(person.getInstrumentTypeList() != null) {
+            for(team_f.jsonconnector.enums.InstrumentType instrumentType : person.getInstrumentTypeList()) {
+                try {
+                    instrumentTypeList.add(AllInstrumentTypes.valueOf(String.valueOf(instrumentType)));
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        tmpErrorList = _facade.add(0, person.getFirstname(), person.getLastname(), String.valueOf(person.getGender()), person.getAddress(), person.getEmail(),
+                person.getPhoneNumber(), 0, personRole, username, accountRole, instrumentTypeList);
+
+        PersonErrorList personErrorList = new PersonErrorList();
+        Error error;
+        List<Error> errors = new LinkedList<>();
+
+        if(tmpErrorList != null) {
+            for(javafx.util.Pair<String, String> item : tmpErrorList.getValue()) {
+                error = new Error();
+                error.setKey(item.getKey());
+                error.setValue(item.getValue());
+
+                errors.add(error);
+            }
+        }
+
+        List<team_f.jsonconnector.entities.Pair<Person, List<Error>>> list = new LinkedList<>();
+        team_f.jsonconnector.entities.Pair pair = new team_f.jsonconnector.entities.Pair();
+        pair.setKey(PersonConverter.convertToJSON((team_f.domain.entities.Person) tmpErrorList.getKey()));
+        pair.setValue(errors);
+        list.add(pair);
+        personErrorList.setErrorList(list);
+
+        return personErrorList;
     }
 }
 

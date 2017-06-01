@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class Configuration implements IConfigurable {
     // config symbols
+    protected static final double _version = 1.1;
     protected static final String VERSION = "Version";
     protected static final String ROOT_DIR = "Root_Dir";
     protected static final String ROOT_URI = "ROOT_URI";
@@ -17,6 +18,7 @@ public class Configuration implements IConfigurable {
     protected static final String SHOW_MENU_BAR = "Show_Menu_Bar";
     protected static final String OPEN_IN_WEBBROWSER = "Open_In_Webbrowser";
     protected static final String USE_JX_BROWSER = "Use_Jx_Browser";
+    protected static final String USE_WEB_CLIENT = "Use_Web_Client";
 
     private HashMap<String, Object> _keyValues;
 
@@ -24,7 +26,7 @@ public class Configuration implements IConfigurable {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         _keyValues = new HashMap<>();
-        setVersion(1.0);
+        setVersion(_version);
         setRootDir("./");
         setRootURI("http://localhost:8080");
         setAppName("ConcertMaster");
@@ -34,6 +36,7 @@ public class Configuration implements IConfigurable {
         setShowMenuBar(true);
         setOpenInWebbrowser(false);
         setUseJxBrowser(false);
+        setUseWebClient(false);
     }
 
     public String getRootDir() {
@@ -76,6 +79,10 @@ public class Configuration implements IConfigurable {
         return (double) _keyValues.get(VERSION);
     }
 
+    public boolean getUseWebClient() {
+        return (boolean) _keyValues.get(USE_WEB_CLIENT);
+    }
+
     public void setRootDir(String rootDir) {
         _keyValues.put(ROOT_DIR, rootDir);
     }
@@ -114,6 +121,10 @@ public class Configuration implements IConfigurable {
 
     public void setVersion(double version) {
         _keyValues.put(VERSION, version);
+    }
+
+    public void setUseWebClient(boolean useWebClient) {
+        _keyValues.put(USE_WEB_CLIENT, useWebClient);
     }
 
     @Override

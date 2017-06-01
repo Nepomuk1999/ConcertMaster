@@ -1,20 +1,18 @@
 package team_f.client.singletons;
 
+import team_f.application.PersonApplication;
 import team_f.client.configuration.Configuration;
-import team_f.client.helper.RequestResponseHelper;
+import team_f.client.helper.converter.PersonConverter;
 import team_f.client.pages.PageAction;
 import team_f.client.pages.musicianmanagement.MusiciansList;
 import team_f.client.pages.musicianmanagement.PersonParameter;
-import team_f.jsonconnector.common.URIList;
 import team_f.jsonconnector.entities.*;
-import team_f.jsonconnector.entities.list.PersonList;
-import team_f.jsonconnector.enums.request.ActionType;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MusiciansListSingleton {
     private static MusiciansList _musiciansList;
+    private static PersonApplication _facade = PersonApplication.getInstance();
     private static Configuration _configuration;
 
     private MusiciansListSingleton() {
@@ -29,14 +27,16 @@ public class MusiciansListSingleton {
                 @Override
                 public List<Person> doAction(PersonParameter value) {
                     if(value != null) {
-                        Request request = new Request();
-                        request.setActionType(ActionType.GET_ALL);
+                        List<team_f.domain.entities.Person> personEntityList = _facade.getList();
+                        List<team_f.jsonconnector.entities.Person> personList = new LinkedList<>();
+                        team_f.jsonconnector.entities.Person person;
 
-                        PersonList personList = (PersonList) RequestResponseHelper.writeAndReadJSONObject(getPersonURL(), request, PersonList.class);
-
-                        if(personList != null) {
-                            return personList.getPersonList();
+                        for(team_f.domain.entities.Person item : personEntityList) {
+                            person = PersonConverter.convertToJSON(item);
+                            personList.add(person);
                         }
+
+                        return personList;
                     }
 
                     return null;
@@ -45,23 +45,5 @@ public class MusiciansListSingleton {
         }
 
         return _musiciansList;
-    }
-
-    private static URL getRegisterURL() {
-        try {
-            return new URL(new URL(_configuration.getRootURI()), URIList.register);
-        } catch (MalformedURLException e) {
-        }
-
-        return null;
-    }
-
-    private static URL getPersonURL() {
-        try {
-            return new URL(new URL(_configuration.getRootURI()), URIList.person);
-        } catch (MalformedURLException e) {
-        }
-
-        return null;
     }
 }

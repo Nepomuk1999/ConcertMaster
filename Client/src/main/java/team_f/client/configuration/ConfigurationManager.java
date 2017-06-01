@@ -51,6 +51,9 @@ public class ConfigurationManager {
                         case Configuration.USE_JX_BROWSER:
                             config.setUseJxBrowser(Boolean.parseBoolean(tmpValue));
                             break;
+                        case Configuration.USE_WEB_CLIENT:
+                            config.setUseWebClient(Boolean.parseBoolean(tmpValue));
+                            break;
                         default:
                             break;
                     }
@@ -62,7 +65,7 @@ public class ConfigurationManager {
 
             reader.close();
 
-            if(config.getVersion() < 1) {
+            if(config.getVersion() < Configuration._version) {
                 throw new IOException("old configuration detected, regenerate the configuration");
             }
 

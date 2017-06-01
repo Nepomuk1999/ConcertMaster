@@ -77,37 +77,6 @@ public class MusicalWork extends HttpServlet {
 
                         break;
                     case CREATE:
-                        musicalWork = request.getEntity();
-
-                        if(musicalWork != null) {
-                            List<team_f.application.entities.SpecialInstrumentation> specialInstrumentationList = new LinkedList<>();
-                            team_f.application.entities.SpecialInstrumentation specialInstrumentation;
-
-                            if(musicalWork.getInstrumentation() != null && musicalWork.getInstrumentation().getSpecialInstrumentation() != null) {
-                                for(SpecialInstrumentation item : musicalWork.getInstrumentation().getSpecialInstrumentation()) {
-                                    specialInstrumentation = new team_f.application.entities.SpecialInstrumentation();
-                                    specialInstrumentation.setID(item.getSpecialInstrumentationID());
-                                    specialInstrumentation.setSpecialInstrumentation(item.getSpecialInstrumentation());
-                                    specialInstrumentation.setSectionType(item.getSectionType());
-                                    specialInstrumentation.setSpecialInstrumentationCount(item.getSpecialInstrumentCount());
-
-                                    specialInstrumentationList.add(specialInstrumentation);
-                                }
-                            }
-
-                             tmpErrorList = facade.addMusicalWork(0, musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
-                                    musicalWork.getInstrumentation().getViola(), musicalWork.getInstrumentation().getViolincello(), musicalWork.getInstrumentation().getDoublebass(), musicalWork.getInstrumentation().getFlute(),
-                                    musicalWork.getInstrumentation().getOboe(), musicalWork.getInstrumentation().getClarinet(), musicalWork.getInstrumentation().getBassoon(), musicalWork.getInstrumentation().getHorn(),
-                                    musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),
-                                    musicalWork.getInstrumentation().getPercussion(), musicalWork.getInstrumentation().getHarp(), specialInstrumentationList);
-
-                            errorList = JsonResponse.prepareErrorMessage(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()), tmpErrorList.getValue());
-                        }
-
-                        resp.setContentType(MediaType.APPLICATION_JSON);
-                        WriteHelper.writeJSONObject(resp.getWriter(), errorList);
-
-                        break;
                     case UPDATE:
                         musicalWork = request.getEntity();
 
@@ -127,7 +96,7 @@ public class MusicalWork extends HttpServlet {
                                 }
                             }
 
-                            tmpErrorList = facade.addMusicalWork(musicalWork.getMusicalWorkID(), musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
+                             tmpErrorList = facade.addMusicalWork(0, musicalWork.getName(), musicalWork.getComposer(), musicalWork.getInstrumentation().getViolin1(), musicalWork.getInstrumentation().getViolin2(),
                                     musicalWork.getInstrumentation().getViola(), musicalWork.getInstrumentation().getViolincello(), musicalWork.getInstrumentation().getDoublebass(), musicalWork.getInstrumentation().getFlute(),
                                     musicalWork.getInstrumentation().getOboe(), musicalWork.getInstrumentation().getClarinet(), musicalWork.getInstrumentation().getBassoon(), musicalWork.getInstrumentation().getHorn(),
                                     musicalWork.getInstrumentation().getTrumpet(), musicalWork.getInstrumentation().getTrombone(), musicalWork.getInstrumentation().getTube(), musicalWork.getInstrumentation().getKettledrum(),

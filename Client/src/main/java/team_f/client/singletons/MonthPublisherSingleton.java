@@ -1,24 +1,21 @@
 package team_f.client.singletons;
 
+import team_f.application.EventApplication;
 import team_f.client.configuration.Configuration;
-import team_f.client.helper.RequestResponseHelper;
+import team_f.client.helper.converter.EventDutyConverter;
 import team_f.client.pages.PageAction;
 import team_f.client.pages.monthpublish.MonthPublishParameter;
 import team_f.client.pages.monthpublish.MonthPublisher;
-import team_f.jsonconnector.common.URIList;
+import team_f.domain.interfaces.DomainEntity;
 import team_f.jsonconnector.entities.*;
-import team_f.jsonconnector.entities.list.EventDutyList;
+import team_f.jsonconnector.entities.Error;
 import team_f.jsonconnector.entities.special.errorlist.EventDutyErrorList;
-import team_f.jsonconnector.enums.request.ActionType;
-import team_f.jsonconnector.enums.request.EventDutyParameter;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
 public class MonthPublisherSingleton {
     private static MonthPublisher _monthPublisher;
+    private static EventApplication _facade = EventApplication.getInstance();
     private static Configuration _configuration;
 
     private MonthPublisherSingleton() {
@@ -33,16 +30,52 @@ public class MonthPublisherSingleton {
                 @Override
                 public EventDutyErrorList doAction(Publish value) {
                     EventDutyErrorList eventDutyErrorList = null;
+                    List<javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>>> tmpErrorList = null;
 
                     if(value != null) {
-                        eventDutyErrorList = (EventDutyErrorList) RequestResponseHelper.writeAndReadJSONObject(getPublishURL(), value, EventDutyErrorList.class);
-
                         // do some specific tasks
                         switch (value.getPublishType()) {
                             case UNPUBLISH:
+                                tmpErrorList = _facade.unpublishEventsByMonth(value.getMonth(), value.getYear());
+
                                 break;
                             case PUBLISH:
+                                tmpErrorList = _facade.publishEventsByMonth(value.getMonth(), value.getYear());
+
                                 break;
+                        }
+
+                        Error error;
+                        List<Error> errors;
+                        List<team_f.jsonconnector.entities.Pair<EventDuty, List<Error>>> list;
+                        team_f.jsonconnector.entities.Pair pair;
+
+                        if(tmpErrorList != null) {
+                            list = new LinkedList<>();
+
+                            for(javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> item : tmpErrorList) {
+                                errors = new LinkedList<>();
+
+                                pair = new team_f.jsonconnector.entities.Pair();
+                                pair.setKey(EventDutyConverter.convertToJSON((team_f.domain.entities.EventDuty) item.getKey()));
+
+                                if(item.getValue() != null) {
+                                    for(javafx.util.Pair<String, String> val : item.getValue()) {
+                                        error = new Error();
+                                        error.setKey(val.getKey());
+                                        error.setValue(val.getValue());
+
+                                        errors.add(error);
+                                    }
+                                }
+
+                                pair.setValue(errors);
+                                list.add(pair);
+                            }
+
+                            eventDutyErrorList.setErrorList(list);
+
+                            return eventDutyErrorList;
                         }
                     }
 
@@ -54,28 +87,16 @@ public class MonthPublisherSingleton {
                 @Override
                 public List<EventDuty> doAction(MonthPublishParameter value) {
                     if(value != null) {
-                        Request request = new Request();
-                        request.setActionType(ActionType.GET_BY_PARAMETER);
-                        Pair<String, String> tmpPair;
-                        List<Pair<String, String>> parameterList = new LinkedList<>();
+                        List<team_f.domain.entities.EventDuty> eventDutyEntityList = _facade.getList();
+                        List<team_f.jsonconnector.entities.EventDuty> eventDutyList = new LinkedList<>();
+                        EventDuty eventDuty;
 
-                        tmpPair = new Pair<>();
-                        tmpPair.setKey(String.valueOf(EventDutyParameter.MONTH));
-                        tmpPair.setValue(String.valueOf(value.getMonth()));
-                        parameterList.add(tmpPair);
-
-                        tmpPair = new Pair<>();
-                        tmpPair.setKey(String.valueOf(EventDutyParameter.YEAR));
-                        tmpPair.setValue(String.valueOf(value.getYear()));
-                        parameterList.add(tmpPair);
-
-                        request.setParameterKeyList(parameterList);
-
-                        EventDutyList eventDuty = (EventDutyList) RequestResponseHelper.writeAndReadJSONObject(getEventDutyURL(), request, EventDutyList.class);
-
-                        if(eventDuty != null) {
-                            return eventDuty.getEventDutyList();
+                        for(team_f.domain.entities.EventDuty item : eventDutyEntityList) {
+                            eventDuty = EventDutyConverter.convertToJSON(item);
+                            eventDutyList.add(eventDuty);
                         }
+
+                        return eventDutyList;
                     }
 
                     return null;
@@ -84,24 +105,6 @@ public class MonthPublisherSingleton {
         }
 
         return _monthPublisher;
-    }
-
-    private static URL getPublishURL() {
-        try {
-            return new URL(new URL(_configuration.getRootURI()), URIList.publish);
-        } catch (MalformedURLException e) {
-        }
-
-        return null;
-    }
-
-    private static URL getEventDutyURL() {
-        try {
-            return new URL(new URL(_configuration.getRootURI()), URIList.event);
-        } catch (MalformedURLException e) {
-        }
-
-        return null;
     }
 }
 
