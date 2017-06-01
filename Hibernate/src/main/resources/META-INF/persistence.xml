@@ -44,7 +44,6 @@
             <property name="hibernate.connection.username" value="hrh5775" />
             <property name="hibernate.connection.password" value="ofitthep" />
             <property name="hibernate.connection.url" value="jdbc:mysql://mysql.fhv.at:3306/hrh5775?useUnicode=yes&amp;characterEncoding=UTF-8&amp;connectionCollation=utf8_general_ci&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
-
             <!-- force to use UTC instead of CEST
             for issue: The server time zone value 'CEST' is unrecognized or represents more than one time zone -->
             <property name="hibernate.jdbc.time_zone" value="UTC"/>

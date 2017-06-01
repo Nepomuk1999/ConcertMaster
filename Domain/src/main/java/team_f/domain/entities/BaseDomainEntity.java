@@ -10,7 +10,7 @@ import team_f.domain.logic.DomainEntityManager;
 import java.util.List;
 
 public abstract class BaseDomainEntity<P extends DomainEntityProperty> implements DomainEntity, Validate<P> {
-    private static EntityLogic _logic;
+    private EntityLogic _logic;
 
     public BaseDomainEntity(EntityType entityType) {
         _logic = DomainEntityManager.getLogic(entityType);

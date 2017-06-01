@@ -63,7 +63,7 @@ public class NavigationBar {
 
         MenuSection menuSectionServices = new MenuSection("Services", "/dutyM.png", toggleGroup);
         /*menuSectionItem = new MenuSectionItem("Service Schedules");
-        menuSectionItem.setOnAction(event -> loadPage(EventSingleton.getInstance(_configuration)));
+        menuSectionItem.setOnAction(event -> loadPage());
         menuSectionServices.add(menuSectionItem);*/
         menuSectionItem = new MenuSectionItem("Service Management");
         menuSectionItem.setOnAction(event -> loadPage(DutySingleton.getInstance(_configuration)));

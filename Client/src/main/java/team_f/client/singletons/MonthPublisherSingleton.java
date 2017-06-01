@@ -52,6 +52,7 @@ public class MonthPublisherSingleton {
 
                         if(tmpErrorList != null) {
                             list = new LinkedList<>();
+                            eventDutyErrorList = new EventDutyErrorList();
 
                             for(javafx.util.Pair<DomainEntity, List<javafx.util.Pair<String, String>>> item : tmpErrorList) {
                                 errors = new LinkedList<>();

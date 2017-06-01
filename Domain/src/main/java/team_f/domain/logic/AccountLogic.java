@@ -54,7 +54,7 @@ public class AccountLogic implements EntityLogic<Account, AccountProperty> {
                     } else {
                         boolean isValid = false;
                         for (AccountRole accountRole : AccountRole.values()) {
-                            if (String.valueOf(accountRole).equals(account.getRole())) {
+                            if (String.valueOf(accountRole).equals(String.valueOf(account.getRole()))) {
                                 isValid = true;
                             }
                         }

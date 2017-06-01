@@ -124,7 +124,7 @@ public class MusicalWorkSingleton {
 
         List<team_f.jsonconnector.entities.Pair<MusicalWork, List<Error>>> list = new LinkedList<>();
         team_f.jsonconnector.entities.Pair pair = new team_f.jsonconnector.entities.Pair();
-        pair.setKey(InstrumentationConverter.convertToJSON((team_f.domain.entities.Instrumentation) tmpErrorList.getKey()));
+        pair.setKey(MusicalWorkConverter.convertToJSON((team_f.domain.entities.MusicalWork) tmpErrorList.getKey()));
         pair.setValue(errors);
         list.add(pair);
         musicalWorkErrorList.setErrorList(list);
