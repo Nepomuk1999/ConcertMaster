@@ -14,9 +14,6 @@ import team_f.domain.enums.*;
 import team_f.domain.enums.properties.EventDutyProperty;
 import team_f.domain.helper.DateTimeHelper;
 import team_f.domain.interfaces.DomainEntity;
-import team_f.domain.logic.DomainEntityManager;
-import team_f.domain.logic.EventDutyLogic;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -53,7 +50,7 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
      * sets the instrumentation of the EventDuty
      * sets the points
      * sets alternative musicalWorks to the eventDuty
-     * returns a errorList using EventDutyLogic when errors occur
+     * returns a errorList when errors occur
      * sets the eventMusicalList with the composers, alternativeInstrumentations and names
      * saves the eventDuty to the Database and sets the eventDutyID from the DB
      * returns the domain entity eventDuty object and an empty list
@@ -121,8 +118,7 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
         }
 
         // check for errors
-        EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
-        List<Pair<String, String>> errorList = eventDutyLogic.validate(eventDuty);
+        List<Pair<String, String>> errorList = eventDuty.validate();
 
         if (!DateTimeHelper.takesPlaceInFuture(eventDuty.getStartTime())) {
             errorList.add(new Pair<>(String.valueOf(START_DATE), "cannot be modified"));
@@ -293,13 +289,12 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
         List<Pair<String, String>> errorList;
         List<EventDuty> events = eventFacade.getEventsByMonth(month, year);
 
-        EventDutyLogic eventDutyLogic = (EventDutyLogic) DomainEntityManager.getLogic(EntityType.EVENT_DUTY);
         List<Pair<String, String>> tmpErrorList;
 
         for (EventDuty event : events) {
             event.setEventStatus(EventStatus.Unpublished);
 
-            tmpErrorList = eventDutyLogic.validate(event);
+            tmpErrorList = event.validate();
 
             if(tmpErrorList.size() == 0) {
                 try {

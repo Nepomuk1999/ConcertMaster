@@ -1,8 +1,9 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.EntityType;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.properties.EventDutyProperty;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EventDuty implements DomainEntity {
+public class EventDuty extends BaseDomainEntity<EventDutyProperty> {
     private int _eventDutyID;
     private String _name;
     private String _description;
@@ -26,6 +27,10 @@ public class EventDuty implements DomainEntity {
     private Instrumentation _maxInstrumentation;
     private List<MusicalWork> _musicalWorkList = new LinkedList<>();
     private List<Instrumentation> _instrumentationList = new LinkedList<>();
+
+    public EventDuty() {
+        super(EntityType.EVENT_DUTY);
+    }
 
     public int getEventDutyID() {
         return _eventDutyID;

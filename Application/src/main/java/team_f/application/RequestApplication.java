@@ -2,17 +2,12 @@ package team_f.application;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.application.interfaces.BaseApplicationFacade;
-import team_f.database_wrapper.entities.RequestEntity;
 import team_f.database_wrapper.facade.RequestFacade;
 import team_f.domain.entities.EventDuty;
 import team_f.domain.entities.Person;
 import team_f.domain.entities.Request;
-import team_f.domain.enums.EntityType;
 import team_f.domain.enums.RequestType;
 import team_f.domain.interfaces.DomainEntity;
-import team_f.domain.logic.DomainEntityManager;
-import team_f.domain.logic.RequestLogic;
-import java.util.LinkedList;
 import java.util.List;
 
 import javafx.util.Pair;
@@ -52,9 +47,7 @@ public class RequestApplication  extends BaseApplicationFacade<Request> {
         request.setPerson(person);
         request.setRequestType(requestType);
 
-
-        RequestLogic requestLogic = (RequestLogic) DomainEntityManager.getLogic((EntityType.REQUEST));
-        List<Pair<String, String>> errorList = requestLogic.validate(request);
+        List<Pair<String, String>> errorList = request.validate();
 
         if (errorList.size() > 0) {
             return new Pair<>(request, errorList);

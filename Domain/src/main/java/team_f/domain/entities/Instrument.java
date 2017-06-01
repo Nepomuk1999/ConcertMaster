@@ -1,13 +1,18 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.EntityType;
 import team_f.domain.enums.InstrumentType;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.properties.InstrumentProperty;
 
-public class Instrument implements DomainEntity {
+public class Instrument extends BaseDomainEntity<InstrumentProperty> {
     private int _instrumentID;
     private InstrumentType _instrumentType;
     private String _brand;
     private String _model;
+
+    public Instrument() {
+        super(EntityType.INSTRUMENT);
+    }
 
     public int getInstrumentID() {
         return _instrumentID;

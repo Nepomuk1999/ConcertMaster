@@ -7,11 +7,7 @@ import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.InstrumentationFacade;
 import team_f.database_wrapper.facade.SessionFactory;
 import team_f.domain.entities.Instrumentation;
-import team_f.domain.enums.EntityType;
 import team_f.domain.interfaces.DomainEntity;
-import team_f.domain.logic.DomainEntityManager;
-import team_f.domain.logic.InstrumentationLogic;
-
 import javax.persistence.EntityManager;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,8 +62,7 @@ public class InstrumentationApplication extends BaseApplicationFacade<Instrument
             }
         }
 
-        InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-        List<Pair<String, String>> errorList = instrumentationLogic.validate(instrumentation);
+        List<Pair<String, String>> errorList = instrumentation.validate();
 
         if (errorList.size() > 0) {
             return new Pair<>(instrumentation, errorList);

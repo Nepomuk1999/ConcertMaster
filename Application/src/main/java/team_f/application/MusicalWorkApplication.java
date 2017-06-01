@@ -6,11 +6,7 @@ import team_f.application.interfaces.BaseApplicationFacade;
 import team_f.database_wrapper.facade.MusicalWorkFacade;
 import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
-import team_f.domain.enums.EntityType;
 import team_f.domain.interfaces.DomainEntity;
-import team_f.domain.logic.DomainEntityManager;
-import team_f.domain.logic.MusicalWorkLogic;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,8 +65,7 @@ public class MusicalWorkApplication extends BaseApplicationFacade<MusicalWork> {
 
         musicalWork.setInstrumentation(instrumentation);
 
-        MusicalWorkLogic musicalWorkLogic = (MusicalWorkLogic) DomainEntityManager.getLogic(EntityType.MUSICALWORK);
-        List<Pair<String, String>> errorList = musicalWorkLogic.validate(musicalWork);
+        List<Pair<String, String>> errorList = musicalWork.validate();
 
         if (errorList.size() > 0) {
             return new Pair<>(musicalWork, errorList);

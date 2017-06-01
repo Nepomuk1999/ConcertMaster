@@ -1,13 +1,18 @@
 package team_f.domain.entities;
 
 import team_f.domain.enums.AccountRole;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.EntityType;
+import team_f.domain.enums.properties.AccountProperty;
 
-public class Account implements DomainEntity {
+public class Account extends BaseDomainEntity<AccountProperty> {
     private Integer _accountID;
     private String _username;
     private String _password;
     private AccountRole _accountRole;
+
+    public Account() {
+        super(EntityType.ACCOUNT);
+    }
 
     public Integer getAccountID() {
         return _accountID;

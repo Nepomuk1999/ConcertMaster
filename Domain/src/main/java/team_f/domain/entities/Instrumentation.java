@@ -1,13 +1,13 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.EntityType;
 import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.properties.InstrumentationProperty;
 import team_f.domain.helper.TextHelper;
-import team_f.domain.interfaces.DomainEntity;
-
 import java.util.LinkedList;
 import java.util.List;
 
-public class Instrumentation implements DomainEntity {
+public class Instrumentation extends BaseDomainEntity<InstrumentationProperty> {
     private int _instrumentationID;
 
     //WoodInstrumentation
@@ -36,6 +36,10 @@ public class Instrumentation implements DomainEntity {
 
     // specialInstrumentation
     private List<SpecialInstrumentation> special = new LinkedList<>();
+
+    public Instrumentation() {
+        super(EntityType.INSTRUMENTATION);
+    }
 
     public int getInstrumentationID() {
         return _instrumentationID;

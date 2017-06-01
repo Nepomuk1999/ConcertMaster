@@ -1,13 +1,18 @@
 package team_f.domain.entities;
 
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.EntityType;
+import team_f.domain.enums.properties.MusicalWorkProperty;
 
-public class MusicalWork implements DomainEntity {
+public class MusicalWork extends BaseDomainEntity<MusicalWorkProperty> {
     private int _musicalWorkID;
     private Instrumentation _instrumentation;
     private String _name;
     private String _composer;
     private Instrumentation _alternativeInstrumentation;
+
+    public MusicalWork() {
+        super(EntityType.MUSICALWORK);
+    }
 
     public int getMusicalWorkID() {
         return _musicalWorkID;

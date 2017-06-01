@@ -1,12 +1,13 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.EntityType;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.enums.AllInstrumentTypes;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.properties.PersonProperty;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Person implements DomainEntity {
+public class Person extends BaseDomainEntity<PersonProperty> {
     private int _personID;
     private String _initials;
     private String _firstname;
@@ -20,6 +21,10 @@ public class Person implements DomainEntity {
     private List<Instrument> _instruments = new LinkedList<>();
     private List<AllInstrumentTypes> _playedInstruments = new LinkedList<>();
     private List<DutyDisposition> _dutyDispositions = new LinkedList<>();
+
+    public Person() {
+        super(EntityType.PERSON);
+    }
 
     public int getPersonID() {
         return _personID;

@@ -1,14 +1,23 @@
 package team_f.domain.entities;
 
+import javafx.util.Pair;
 import team_f.domain.enums.DutyDispositionStatus;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.EntityType;
+import team_f.domain.enums.properties.DutyDispositionProperty;
 
-public class DutyDisposition implements DomainEntity {
+import java.util.LinkedList;
+import java.util.List;
+
+public class DutyDisposition extends BaseDomainEntity<DutyDispositionProperty> {
     private EventDuty eventDuty;
     private Person musician;
     private double points;
     private String description;
     private DutyDispositionStatus dutyDispositionStatus;
+
+    public DutyDisposition() {
+        super(EntityType.DUTY_DISPOSITION);
+    }
 
     public EventDuty getEventDuty() {
         return eventDuty;

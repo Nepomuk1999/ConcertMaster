@@ -15,10 +15,6 @@ import team_f.domain.enums.properties.AccountProperty;
 import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.properties.PersonProperty;
 import team_f.domain.interfaces.DomainEntity;
-import team_f.domain.logic.AccountLogic;
-import team_f.domain.logic.DomainEntityManager;
-import team_f.domain.logic.PersonLogic;
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.LinkedList;
@@ -86,7 +82,7 @@ public class PersonApplication extends BaseApplicationFacade<Person> {
      *                      is only set for the correct PersonRole (not Manager, Music_librarian, Orchestral_facility_manager)
      *                      sets the persons initials
      *                      creates domain entity Account object, sets its values and sets them to person
-     *                      validates with personLogic and accountLogic and creates errorList
+     *                      validates and creates errorList
      *                      updating persons is permitted (=changing their data)
      *                      checks if person with same data already exists and gives back errorList
      *                      checks if person that is not an External_musician has already used username
@@ -145,17 +141,13 @@ public class PersonApplication extends BaseApplicationFacade<Person> {
 
         person.setAccount(account);
 
-        PersonLogic personLogic = (PersonLogic) DomainEntityManager.getLogic(EntityType.PERSON);
-
         List<Account> accountList= accountFacade.getAllUserNames();
         List<Person> personList = getList();
 
-
-        AccountLogic accountLogic = (AccountLogic) DomainEntityManager.getLogic((EntityType.ACCOUNT));
-        List<Pair<String, String>> errorList = personLogic.validate(person);
+        List<Pair<String, String>> errorList = person.validate();
 
         if (!personRole.equals(PersonRole.External_musician)) {
-            List<Pair<String, String>> errorList2 = accountLogic.validate(account);
+            List<Pair<String, String>> errorList2 = account.validate();
             errorList.addAll(errorList2);
         }
 

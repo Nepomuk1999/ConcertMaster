@@ -1,13 +1,18 @@
 package team_f.domain.entities;
 
+import team_f.domain.enums.EntityType;
 import team_f.domain.enums.RequestType;
-import team_f.domain.interfaces.DomainEntity;
+import team_f.domain.enums.properties.InstrumentTypeProperty;
 
-public class Request implements DomainEntity {
+public class Request extends BaseDomainEntity<InstrumentTypeProperty> {
     private RequestType _requestType;
     private String _description;
     private EventDuty _eventDuty;
     private Person _person;
+
+    public Request() {
+        super(EntityType.REQUEST);
+    }
 
     public RequestType getRequestType() {
         return _requestType;
