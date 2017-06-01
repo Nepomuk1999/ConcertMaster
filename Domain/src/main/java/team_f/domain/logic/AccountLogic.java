@@ -2,11 +2,15 @@ package team_f.domain.logic;
 
 import javafx.util.Pair;
 import team_f.domain.entities.Account;
+import team_f.domain.enums.AccountRole;
 import team_f.domain.enums.properties.AccountProperty;
+import team_f.domain.helper.IntegerHelper;
+import team_f.domain.helper.StringHelper;
 import team_f.domain.interfaces.EntityLogic;
 import java.util.LinkedList;
 import java.util.List;
 import static team_f.domain.enums.properties.AccountProperty.*;
+import static team_f.domain.enums.properties.EventDutyProperty.ID;
 
 public class AccountLogic implements EntityLogic<Account, AccountProperty> {
     protected AccountLogic() {
@@ -26,15 +30,41 @@ public class AccountLogic implements EntityLogic<Account, AccountProperty> {
         for (AccountProperty property : properties) {
 
             switch (property) {
+                case ID:
+                    if (!IntegerHelper.isValidId(account.getAccountID())) {
+                        resultList.add(new Pair<>(String.valueOf(ID), "is not in the correct range"));
+                    }
+
+                    break;
                 case USERNAME:
-                    if (account.getUsername() == null) {
+                    if (account.getUsername() == null && !StringHelper.isNotEmpty(account.getUsername())) {
                         resultList.add(new Pair<>(String.valueOf(USERNAME), "is empty"));
                     }
 
                     break;
+                case PASSWORD:
+                    if (account.getPassword() == null && !StringHelper.isNotEmpty(account.getPassword())) {
+                        resultList.add(new Pair<>(String.valueOf(PASSWORD), "is empty"));
+                    }
 
-                // @TODO: validate the cases
-                // use AccountLogic for the account specific logic
+                    break;
+                case ACCOUNT_ROLE:
+                    if (account.getRole() == null) {
+                        resultList.add(new Pair<>(String.valueOf(ACCOUNT_ROLE), "is empty"));
+                    } else {
+                        boolean isValid = false;
+                        for (AccountRole accountRole : AccountRole.values()) {
+                            if (String.valueOf(accountRole).equals(account.getRole())) {
+                                isValid = true;
+                            }
+                        }
+
+                        if (!isValid) {
+                            resultList.add(new Pair<>(String.valueOf(ACCOUNT_ROLE), "is not valid"));
+                        }
+                    }
+
+                    break;
             }
         }
 

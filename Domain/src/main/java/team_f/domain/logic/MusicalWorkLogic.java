@@ -5,36 +5,35 @@ import team_f.domain.entities.MusicalWork;
 import team_f.domain.enums.EntityType;
 import team_f.domain.enums.errors.InstrumentationError;
 import team_f.domain.enums.properties.MusicalWorkProperty;
+import team_f.domain.helper.StringHelper;
 import team_f.domain.interfaces.EntityLogic;
-
 import java.util.LinkedList;
 import java.util.List;
+import static team_f.domain.enums.properties.MusicalWorkProperty.*;
 
 public class MusicalWorkLogic implements EntityLogic<MusicalWork, MusicalWorkProperty> {
 
     @Override
-    public List<Pair<String, String>> validate(MusicalWork object, MusicalWorkProperty... properties) {
+    public List<Pair<String, String>> validate(MusicalWork musicalWork, MusicalWorkProperty... properties) {
         List<Pair<String, String>> resultList = new LinkedList<>();
 
         for( MusicalWorkProperty property : properties){
             switch (property){
                 case CONDUCTOR:
-                    if ( object.getComposer() == null) {
-                        resultList.add(new Pair<>(String.valueOf(MusicalWorkProperty.CONDUCTOR), "is not inserted"));
+                    if (musicalWork.getComposer() == null && !StringHelper.isNotEmpty(musicalWork.getComposer())) {
+                        resultList.add(new Pair<>(String.valueOf(CONDUCTOR), "is empty"));
                     }
 
-                    break;
-
                 case TITLE:
-                    if ( object.getName() == null) {
-                        resultList.add(new Pair<>(String.valueOf(MusicalWorkProperty.TITLE), "is not inserted"));
+                    if (musicalWork.getName() == null && !StringHelper.isNotEmpty(musicalWork.getName())) {
+                        resultList.add(new Pair<>(String.valueOf(TITLE), "is empty"));
                     }
 
                     break;
 
                 case INSTRUMENTATION:
                     InstrumentationLogic instrumentationLogic = (InstrumentationLogic) DomainEntityManager.getLogic(EntityType.INSTRUMENTATION);
-                    if (!(instrumentationLogic.validate(object.getInstrumentation()).isEmpty())) {
+                    if (!(instrumentationLogic.validate(musicalWork.getInstrumentation()).isEmpty())) {
                         resultList.add(new Pair<>(String.valueOf(InstrumentationError.ALLZERO.toString()), " all inputs are null!"));
                     }
                     break;

@@ -20,7 +20,6 @@ public class RequestLogic implements EntityLogic<Request, RequestProperty> {
 
         LOOP:
         for (RequestProperty property : properties) {
-
             switch (property) {
                 case DESCRIPTION:
                     if (request.getDescription() == null && !StringHelper.isNotEmpty(request.getDescription())) {

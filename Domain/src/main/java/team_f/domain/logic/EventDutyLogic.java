@@ -85,7 +85,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                             }
                         }
                     } else {
-                        //TODO: if empty then default value 3h
                         resultList.add(new Pair<>(String.valueOf(END_DATE), "is empty"));
                     }
 
@@ -102,6 +101,7 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
                     if (eventDuty.getName() == null && !StringHelper.isNotEmpty(eventDuty.getName())) {
                         resultList.add(new Pair<>(String.valueOf(NAME), "is empty"));
                     }
+
                     break;
 
                 case LOCATION:
@@ -151,7 +151,6 @@ public class EventDutyLogic implements EntityLogic<EventDuty, EventDutyProperty>
 
                     break;
                 case MUSICAL_WORK_LIST:
-
                     Set<Pair<MusicalWork, Instrumentation>> set = new HashSet<>(eventDuty.getMusicalWorkList().size());
                     List<Instrumentation> iList = new LinkedList<>();
                     List<MusicalWork> wList = new LinkedList<>();
