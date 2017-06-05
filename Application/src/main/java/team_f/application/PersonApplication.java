@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class PersonApplication extends BaseApplicationFacade<Person> {
     private static PersonApplication _instance;
@@ -154,8 +155,10 @@ public class PersonApplication extends BaseApplicationFacade<Person> {
 
         if(person.getPersonID() <= 0) {
             for(Person p : personList){
-                if(p.getFirstname().equals(firstname.trim()) && p.getLastname().equals(lastname.trim()) && p.getGender().equals(gender) && p.getAddress().equals(address.trim())
-                        && p.getEmail().equals(email.trim()) && p.getPhoneNumber().equals(phoneNumber.trim()) && p.getPersonRole().equals(personRole) && p.getPlayedInstruments().equals(instrumentTypeList)){
+                if(Objects.equals(p.getFirstname(), firstname.trim()) && Objects.equals(p.getLastname(), lastname.trim()) &&
+                        Objects.equals(p.getGender(), gender) & Objects.equals(p.getAddress(), address.trim()) &&
+                        Objects.equals(p.getEmail(), email.trim()) && Objects.equals(p.getPhoneNumber(), phoneNumber.trim()) &&
+                        Objects.equals(p.getPersonRole(), personRole) && Objects.equals(p.getPlayedInstruments(), instrumentTypeList)) {
                     errorList.add(new Pair<>(String.valueOf(PersonProperty.FIRSTNAME), "this musician already exists"));
                 }
             }
