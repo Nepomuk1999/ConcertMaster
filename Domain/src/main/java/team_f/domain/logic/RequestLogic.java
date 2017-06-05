@@ -30,6 +30,8 @@ public class RequestLogic implements EntityLogic<Request, RequestProperty> {
                 case EVENT_DUTY:
                     if (request.getEventDuty() == null) {
                         resultList.add(new Pair<>(String.valueOf(EVENT_DUTY), "is empty"));
+                    } else if(request.getEventDuty().getID() <= 0) {
+                        resultList.add(new Pair<>(String.valueOf(EVENT_DUTY), "is not valid"));
                     }
 
                     break;
@@ -42,6 +44,8 @@ public class RequestLogic implements EntityLogic<Request, RequestProperty> {
                 case PERSON:
                     if (request.getPerson() == null) {
                         resultList.add(new Pair<>(String.valueOf(PERSON), "is empty"));
+                    } else if(request.getPerson().getID() <= 0) {
+                        resultList.add(new Pair<>(String.valueOf(PERSON), "is not valid"));
                     }
 
                     break;
