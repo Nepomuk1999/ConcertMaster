@@ -133,8 +133,8 @@ public class DatabaseFacade {
             EventDutyEntity eventDutyEntity = getEventEntityForId(event.getId());
             for (MusicalWorkEntity m : musicalWorks) {
                 EventDutyMusicalWorkEntity eventDutyMusicalWorkEntity = new EventDutyMusicalWorkEntity();
-                eventDutyMusicalWorkEntity.setEventDutyByEventDuty(eventDutyEntity);
-                eventDutyMusicalWorkEntity.setMusicalWorkByMusicalWork(m);
+                eventDutyMusicalWorkEntity.setEventDuty(eventDutyEntity.getEventDutyId());
+                eventDutyMusicalWorkEntity.setMusicalWork(m.getMusicalWorkId());
                 session.save(eventDutyMusicalWorkEntity);
             }
             session.flush();
@@ -601,24 +601,30 @@ public class DatabaseFacade {
 
     public void saveDutyDisposition(DutyDispositionDomainObject duty) {
         try (Session session = factory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+            //Transaction transaction = session.beginTransaction();
             DutyDispositionEntity dutyDispositionEntity = DutyTranslator.transformDutyToEntity(duty, this);
             session.saveOrUpdate(dutyDispositionEntity.getPersonByMusician());
             session.saveOrUpdate(dutyDispositionEntity.getEventDutyByEventDuty());
             Query<Long> query = session.createQuery("select count(*) from EventDutySectionDutyRosterEntity e where  e.eventDuty = :event and e.sectionDutyRosterBySectionDutyRoster.sectionType = :sectionType", Long.class);
-            query.setParameter("event", dutyDispositionEntity.getEventDuty());
+            query.setParameter("event", dutyDispositionEntity.getEventDutyByEventDuty().getEventDutyId());
             query.setParameter("sectionType", duty.getMusician().getParts().get(0).getSectionType());
             int count = Math.toIntExact(query.getSingleResult());
+            Transaction transaction = session.beginTransaction();
             if (count == 0) {
                 SectionDutyRosterEntity sectionDuty = new SectionDutyRosterEntity();
                 sectionDuty.setDutyRosterStatus(team_f.database_wrapper.enums.DutyRosterStatus.valueOf(String.valueOf(DutyRosterStatus.Unpublished)));
                 sectionDuty.setSectionType(team_f.database_wrapper.enums.SectionType.valueOf(String.valueOf(duty.getMusician().getParts().get(0).getSectionType())));
                 session.saveOrUpdate(sectionDuty);
                 EventDutySectionDutyRosterEntity eventDuty = new EventDutySectionDutyRosterEntity();
-                eventDuty.setEventDuty(dutyDispositionEntity.getEventDuty());
-                eventDuty.setSectionDutyRosterBySectionDutyRoster(sectionDuty);
+                eventDuty.setEventDuty(dutyDispositionEntity.getEventDutyByEventDuty().getEventDutyId());
+                eventDuty.setSectionDutyRoster(sectionDuty.getSectionDutyRosterId());
                 session.saveOrUpdate(eventDuty);
             }
+            session.flush();
+            session.clear();
+            transaction.commit();
+
+            transaction = session.beginTransaction();
             session.saveOrUpdate(dutyDispositionEntity);
             session.flush();
             session.clear();

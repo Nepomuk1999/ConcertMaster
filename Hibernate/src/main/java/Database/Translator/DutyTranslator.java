@@ -31,9 +31,11 @@ public class DutyTranslator {
     public static DutyDispositionEntity transformDutyToEntity(DutyDispositionDomainObject duty, DatabaseFacade facade) {
         DutyDispositionEntity entity = new DutyDispositionEntity();
         entity.setEventDutyByEventDuty(EventTranslator.transformEventToEntity(duty.getEvent(), facade));
+        entity.setEventDuty(entity.getEventDutyByEventDuty().getEventDutyId());
         entity.setDescription(duty.getDescription());
         entity.setPoints(duty.getPoints());
         entity.setPersonByMusician(PersonTranslator.transformPersonToEntity(facade, duty.getMusician()));
+        entity.setMusician(entity.getPersonByMusician().getPersonId());
         entity.setDutyDispositionStatus(team_f.database_wrapper.enums.DutyDispositionStatus.valueOf(String.valueOf(duty.getStatus())));
         return entity;
     }
