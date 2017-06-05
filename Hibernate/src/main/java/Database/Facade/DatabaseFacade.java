@@ -601,7 +601,7 @@ public class DatabaseFacade {
 
     public void saveDutyDisposition(DutyDispositionDomainObject duty) {
         try (Session session = factory.openSession()) {
-            //Transaction transaction = session.beginTransaction();
+            Transaction transaction = session.beginTransaction();
             DutyDispositionEntity dutyDispositionEntity = DutyTranslator.transformDutyToEntity(duty, this);
             session.saveOrUpdate(dutyDispositionEntity.getPersonByMusician());
             session.saveOrUpdate(dutyDispositionEntity.getEventDutyByEventDuty());
@@ -609,7 +609,6 @@ public class DatabaseFacade {
             query.setParameter("event", dutyDispositionEntity.getEventDutyByEventDuty().getEventDutyId());
             query.setParameter("sectionType", duty.getMusician().getParts().get(0).getSectionType());
             int count = Math.toIntExact(query.getSingleResult());
-            Transaction transaction = session.beginTransaction();
             if (count == 0) {
                 SectionDutyRosterEntity sectionDuty = new SectionDutyRosterEntity();
                 sectionDuty.setDutyRosterStatus(team_f.database_wrapper.enums.DutyRosterStatus.valueOf(String.valueOf(DutyRosterStatus.Unpublished)));
@@ -620,11 +619,7 @@ public class DatabaseFacade {
                 eventDuty.setSectionDutyRoster(sectionDuty.getSectionDutyRosterId());
                 session.saveOrUpdate(eventDuty);
             }
-            session.flush();
-            session.clear();
-            transaction.commit();
 
-            transaction = session.beginTransaction();
             session.saveOrUpdate(dutyDispositionEntity);
             session.flush();
             session.clear();
