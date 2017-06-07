@@ -194,7 +194,7 @@ public class DutyController implements Initializable {
         List<YearMonth> unpublishedMonths = new LinkedList<>();
         switch (section) {
             case "String":
-                unpublishedMonths.addAll(dutyUseCaseController.getUnpublishedDutyMonths(SectionType.Doublebass, SectionType.Viola, SectionType.Violin1, SectionType.Violin2, SectionType.Violoncello));
+                unpublishedMonths.addAll(dutyUseCaseController.getUnpublishedDutyMonths(SectionType.Doublebass, SectionType.Viola, SectionType.Violin1, SectionType.Violin2, SectionType.Violincello));
                 break;
             case "Brass":
                 unpublishedMonths.addAll(dutyUseCaseController.getUnpublishedDutyMonths(SectionType.Brass));

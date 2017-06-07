@@ -96,6 +96,7 @@ public class DutyDispositionEntity {
         return result;
     }
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "eventDuty", referencedColumnName = "eventDutyID", nullable = false, insertable = false, updatable = false)
     public EventDutyEntity getEventDutyByEventDuty() {
@@ -106,6 +107,7 @@ public class DutyDispositionEntity {
         this.eventDutyByEventDuty = eventDutyByEventDuty;
     }
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "musician", referencedColumnName = "personId", nullable = false, insertable = false, updatable = false)
     public PersonEntity getPersonByMusician() {
