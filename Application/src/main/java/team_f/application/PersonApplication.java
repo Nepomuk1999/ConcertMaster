@@ -8,13 +8,13 @@ import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.AccountRole;
-import team_f.domain.enums.EntityType;
+import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
 import team_f.domain.enums.properties.AccountProperty;
-import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.properties.PersonProperty;
 import team_f.domain.interfaces.DomainEntity;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.LinkedList;

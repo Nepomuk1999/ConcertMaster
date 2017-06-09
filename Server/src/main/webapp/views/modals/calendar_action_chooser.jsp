@@ -14,17 +14,17 @@
     </div>
     <div class="control-group row">
         <div class="form-group col-xs-3 col-sm-12">
-            <button id="calendar-action-chooser-plan" type="button" class="btn btn-info btn-block" data-dismiss="modal">Add Rehearsal</button>
+            <button id="calendar-action-chooser-plan" type="button" class="btn btn-warning btn-block" data-dismiss="modal">Add Rehearsal</button>
         </div>
     </div>
     <div class="control-group row">
         <div class="form-group col-xs-3 col-sm-12">
-            <button id="calendar-action-chooser-duty-dispositions" type="button" class="btn btn-info btn-block" data-dismiss="modal">Show Duty Dispositions</button>
+            <button id="calendar-action-chooser-duty-dispositions" type="button" class="btn btn-warning btn-block" data-dismiss="modal">Show Duty Dispositions</button>
         </div>
     </div>
     <div class="control-group row">
         <div class="form-group col-xs-3 col-sm-12">
-            <button id="calendar-action-chooser-request" type="button" class="btn btn-info btn-block" data-dismiss="modal">Add Request</button>
+            <button id="calendar-action-chooser-request" type="button" class="btn btn-warning btn-block" data-dismiss="modal">Add Request</button>
         </div>
     </div>
 </div>
