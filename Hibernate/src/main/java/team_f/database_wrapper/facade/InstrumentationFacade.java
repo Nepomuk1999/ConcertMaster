@@ -69,7 +69,8 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         return instrumentationEntity.getInstrumentationId();
     }
 
-    public Instrumentation getInstrumentationByID(int id) {
+    @Override
+    public Instrumentation getByID(int id) {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from InstrumentationEntity where id = :id");
@@ -88,7 +89,8 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         return instrumentation;
     }
 
-    public List<Instrumentation> getInstrumentations() {
+    @Override
+    public List<Instrumentation> getList() {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from InstrumentationEntity");
@@ -349,7 +351,7 @@ public class InstrumentationFacade extends BaseDatabaseFacade<Instrumentation> {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        Instrumentation instrumentation = getInstrumentationByID(id);
+        Instrumentation instrumentation = getByID(id);
         session.remove(convertToInstrumentationEntity(instrumentation));
 
         return StoreHelper.storeEntities(session);

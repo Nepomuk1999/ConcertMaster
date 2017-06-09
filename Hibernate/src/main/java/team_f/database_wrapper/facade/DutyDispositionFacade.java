@@ -1,5 +1,6 @@
 package team_f.database_wrapper.facade;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.database_wrapper.entities.DutyDispositionEntity;
 import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.DutyDisposition;
@@ -21,6 +22,16 @@ public class DutyDispositionFacade extends BaseDatabaseFacade<DutyDisposition> {
 
     public DutyDispositionFacade(EntityManager session) {
         super(session);
+    }
+
+    @Override
+    public DutyDisposition getByID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<DutyDisposition> getList() {
+        throw new NotImplementedException();
     }
 
     public double getPointsForPersonAndMonth(int personID, int month, int year) {

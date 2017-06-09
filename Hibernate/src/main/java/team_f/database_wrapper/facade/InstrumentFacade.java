@@ -22,7 +22,8 @@ public class InstrumentFacade extends BaseDatabaseFacade<Instrument> {
      *
      * @return instruments      List<Instrument>         returns a list of instruments
      */
-    public List<Instrument> getAllInstruments() {
+    @Override
+    public List<Instrument> getList() {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from InstrumentEntity ");
@@ -44,7 +45,8 @@ public class InstrumentFacade extends BaseDatabaseFacade<Instrument> {
      * @param id
      * @return      instrument  Instrument
      */
-    public Instrument getInstrumentById(int id) {
+    @Override
+    public Instrument getByID(int id) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from InstrumentEntity where instrumentId = :id");
         query.setParameter("id", id);
@@ -75,7 +77,7 @@ public class InstrumentFacade extends BaseDatabaseFacade<Instrument> {
         instrument.setModel(instrumentEntity.getModel());
 
         InstrumentTypeFacade instrumentTypeFacade = new InstrumentTypeFacade(getCurrentSession());
-        InstrumentType instrumentType = instrumentTypeFacade.getInstrumentTypeById(instrumentEntity.getInstrumentType());
+        InstrumentType instrumentType = instrumentTypeFacade.getByID(instrumentEntity.getInstrumentType());
         instrument.setInstrumentType(instrumentType);
 
         return instrument;

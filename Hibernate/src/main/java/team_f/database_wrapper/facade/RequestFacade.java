@@ -1,5 +1,6 @@
 package team_f.database_wrapper.facade;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.database_wrapper.entities.EventDutyEntity;
 import team_f.database_wrapper.entities.PersonEntity;
 import team_f.database_wrapper.entities.RequestEntity;
@@ -21,6 +22,16 @@ public class RequestFacade extends BaseDatabaseFacade<Request> {
 
     public RequestFacade(EntityManager session) {
         super(session);
+    }
+
+    @Override
+    public Request getByID(int id) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<Request> getList() {
+        throw new NotImplementedException();
     }
 
     public List<Request> getRequestByEventAndPersonId(int eventId, int personId) {

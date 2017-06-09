@@ -49,7 +49,8 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         return mwEntity.getMusicalWorkId();
     }
 
-    public MusicalWork getMusicalWorkById(int id) {
+    @Override
+    public MusicalWork getByID(int id) {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -69,7 +70,8 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         return musicalWork;
     }
 
-    public List<MusicalWork> getMusicalWorks() {
+    @Override
+    public List<MusicalWork> getList() {
         EntityManager session = getCurrentSession();
 
         // prevent SQL injections
@@ -120,7 +122,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
 
                 // set the alternative instrumentation on this object to avoid unnecessary lookups in the DB
                 if(edmwe.getAlternativeInstrumentation() != null) {
-                    musicalWork.setAlternativeInstrumentation(instrumentationFacade.getInstrumentationByID(edmwe.getAlternativeInstrumentation()));
+                    musicalWork.setAlternativeInstrumentation(instrumentationFacade.getByID(edmwe.getAlternativeInstrumentation()));
                 }
 
                 mwList.add(musicalWork);
@@ -139,7 +141,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         musicalWork.setMusicalWorkID(mwe.getMusicalWorkId());
 
         InstrumentationFacade instrumentationFacade = new InstrumentationFacade(getCurrentSession());
-        musicalWork.setInstrumentation(instrumentationFacade.getInstrumentationByID(mwe.getInstrumentationId()));
+        musicalWork.setInstrumentation(instrumentationFacade.getByID(mwe.getInstrumentationId()));
         musicalWork.setComposer(mwe.getComposer());
         musicalWork.setName(mwe.getName());
 
@@ -190,7 +192,7 @@ public class MusicalWorkFacade extends BaseDatabaseFacade<MusicalWork> {
         EntityManager session = getCurrentSession();
         session.getTransaction().begin();
 
-        MusicalWork mw = getMusicalWorkById(id);
+        MusicalWork mw = getByID(id);
         session.remove(convertToMusicalWorkEntity(mw));
 
         return StoreHelper.storeEntities(session);
