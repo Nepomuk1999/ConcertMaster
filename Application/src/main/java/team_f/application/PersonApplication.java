@@ -42,42 +42,6 @@ public class PersonApplication extends BaseApplicationFacade<Person> {
         personFacade.closeSession();
     }
 
-    /** Function adds persons who play the specific instrument for every instrumentType and returns this list of
-     *                  InstrumentType,List<Person>>-pairs
-     * bzw
-     * Function to get a list of pairs of instrumentTypes and a list of lists of persons playing them  for a list of persons
-     *
-     * @param persons
-     * @return list     List<Pair<InstrumentType, List<Person>>>    returns list of pairs of
-     *                                                              instrumentTypes with persons playing them
-     */
-    protected List<Pair<InstrumentType, List<Person>>> getMusicianListByPlayedInstrumentType(List<Person> persons) {
-        List<Pair<InstrumentType, List<Person>>> list = new LinkedList<>();
-        List<Person> instrumentList = new LinkedList<>();
-
-        for (InstrumentType instrumentType : InstrumentType.values()) {
-            Pair<InstrumentType, List<Person>> pair = new Pair<>(instrumentType, instrumentList);
-
-            for (Person person : persons) {
-                List<InstrumentType> standardInstruments = new LinkedList<>();
-                for (AllInstrumentTypes instrument: person.getPlayedInstruments()) {
-                    if (standardInstruments.contains(instrument.toString())) {
-                        standardInstruments.add(InstrumentType.valueOf(instrument.toString()));
-                    }
-                }
-                for(InstrumentType instrument : standardInstruments) {
-                    if(instrument == instrumentType) {
-                        instrumentList.add(person);
-                    }
-                }
-            }
-
-            list.add(pair);
-        }
-
-        return list;
-    }
-
     /**
      * Creates domain entity Person object and sets its data.  The instruments played by the person (instrumentTypeList)
      *                      is only set for the correct PersonRole (not Manager, Music_librarian, Orchestral_facility_manager)
@@ -142,7 +106,7 @@ public class PersonApplication extends BaseApplicationFacade<Person> {
 
         person.setAccount(account);
 
-        List<Account> accountList= accountFacade.getAllUserNames();
+        List<Account> accountList= accountFacade.getList();
         List<Person> personList = getList();
 
         List<Pair<String, String>> errorList = person.validate();
@@ -192,6 +156,6 @@ public class PersonApplication extends BaseApplicationFacade<Person> {
 
     @Override
     public List<Person> getList() {
-        return personFacade.getAllMusicians();
+        return personFacade.getList();
     }
 }

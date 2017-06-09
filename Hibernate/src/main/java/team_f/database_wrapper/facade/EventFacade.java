@@ -1,11 +1,17 @@
 package team_f.database_wrapper.facade;
 
+import javafx.util.Pair;
 import team_f.database_wrapper.entities.*;
 import team_f.database_wrapper.helper.StoreHelper;
 import team_f.domain.entities.EventDuty;
+import team_f.domain.entities.Instrumentation;
 import team_f.domain.entities.MusicalWork;
+import team_f.domain.entities.Person;
 import team_f.domain.enums.EventStatus;
 import team_f.domain.enums.EventType;
+import team_f.domain.enums.InstrumentType;
+import team_f.domain.enums.properties.EventDutyProperty;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.time.LocalDateTime;
@@ -15,6 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class EventFacade extends BaseDatabaseFacade<EventDuty> {
+    private PersonFacade _personFacade = new PersonFacade();
+
     public EventFacade() {
         super();
     }
@@ -104,7 +112,8 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
      * @param id
      * @return  event
      */
-    public EventDuty getEventById(int id) {
+    @Override
+    public EventDuty getByID(int id) {
         EntityManager session = getCurrentSession();
         Query query = session.createQuery("from EventDutyEntity where eventDutyId = :id");
         query.setParameter("id", id);
@@ -228,7 +237,7 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
         event.setDefaultPoints(entity.getDefaultPoints());
 
         if (entity.getRehearsalFor() != null) {
-            event.setRehearsalFor(getEventById(entity.getRehearsalFor()));
+            event.setRehearsalFor(getByID(entity.getRehearsalFor()));
         }
 
         InstrumentationFacade instrumentationFacade = new InstrumentationFacade(getCurrentSession());
@@ -236,7 +245,7 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
 
         for (MusicalWork musicalWork : musicalWorkFacade.getMusicalWorksForEvent(entity.getEventDutyId())) {
             if(musicalWork.getAlternativeInstrumentation() != null) {
-                event.addMusicalWork(musicalWork, instrumentationFacade.getInstrumentationByID(musicalWork.getAlternativeInstrumentation().getInstrumentationID()));
+                event.addMusicalWork(musicalWork, instrumentationFacade.getByID(musicalWork.getAlternativeInstrumentation().getInstrumentationID()));
             } else {
                 event.addMusicalWork(musicalWork, null);
             }
@@ -288,6 +297,67 @@ public class EventFacade extends BaseDatabaseFacade<EventDuty> {
         return eventDutyEntity;
     }
 
+    /** Function to calculate the maximum number of musicians needed for an event. First sets the required number of
+     *      instruments to 0 for each insturmentType. For the instrumentationList of the eventDuty checks if more than 0
+     *          instruments of the instrumentType are required and sets that number into the maxInstrumentation of the
+     *          eventDuty.
+     *
+     * @param eventDuty
+     */
+    public void calculateMaxInstrumentation(EventDuty eventDuty) {
+
+        Instrumentation maxInstrumentation = new Instrumentation();
+        for (InstrumentType instrumentType : InstrumentType.values()) {
+            maxInstrumentation.setByInstrumentType(instrumentType, 0);
+        }
+
+        for (Instrumentation instrumentation : eventDuty.getInstrumentationList()) {
+            for (InstrumentType instrumentType: InstrumentType.values()) {
+                if (maxInstrumentation.getByInstrumentType(instrumentType) < instrumentation.getByInstrumentType(instrumentType)) {
+                    maxInstrumentation.setByInstrumentType(instrumentType, instrumentation.getByInstrumentType(instrumentType));
+                }
+            }
+        }
+
+        eventDuty.setMaxInstrumentation(maxInstrumentation);
+    }
+
+    /** Function returns errorList which's entries show if and for what instrumentType there are not enough musicians
+     *
+     * @param eventDuty
+     * @return  errorList
+     */
+    public List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
+        List<Pair<String, String>> errorList = new LinkedList<>();
+        List<EventDuty> eventList;
+
+        eventList = getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
+
+        calculateMaxInstrumentation(eventDuty);
+
+        List<Pair<InstrumentType, List<Person>>> list = _personFacade.getMusicianListByPlayedInstrumentType(_personFacade.getList());
+        Instrumentation totalInstrumentation = eventDuty.getMaxInstrumentation();
+
+        for (EventDuty event : eventList) {
+            calculateMaxInstrumentation(event);
+            totalInstrumentation.addToInstrumentations(event.getMaxInstrumentation());
+        }
+
+        for (InstrumentType instrumentType : InstrumentType.values()) {
+            Pair<InstrumentType, List<Person>> pairList = _personFacade.getMusicianListByInstrumentType(instrumentType, list);
+
+            if (totalInstrumentation.getByInstrumentType(instrumentType) > pairList.getValue().size()) {
+                errorList.add(new Pair<>(String.valueOf(EventDutyProperty.START_DATE), "not enough musicians for section " + instrumentType + " at the given timeframe"));
+            }
+        }
+
+        return errorList;
+    }
+
+    @Override
+    public List<EventDuty> getList() {
+        return getEventsByTimeFrame(LocalDateTime.now().minusYears(100), LocalDateTime.now().plusYears(100));
+    }
 
     @Override
     public int add(EventDuty value) {

@@ -81,6 +81,6 @@ public class InstrumentationApplication extends BaseApplicationFacade<Instrument
 
     @Override
     public List<Instrumentation> getList() {
-        return instrumentationFacade.getInstrumentations();
+        return instrumentationFacade.getList();
     }
 }
