@@ -48,7 +48,7 @@ public class DutyDispositionApplication extends BaseApplicationFacade<DutyDispos
                                                                              DutyDispositionStatus dutyDispositionStatus) {
         DutyDisposition dutyDisposition = new DutyDisposition();
 
-        EventDuty eventDuty = eventFacade.getEventById(eventDutyID);
+        EventDuty eventDuty = eventFacade.getByID(eventDutyID);
         dutyDisposition.setEventDuty(eventDuty);
 
         //Person person = personFacade.getPersonByID(personID);

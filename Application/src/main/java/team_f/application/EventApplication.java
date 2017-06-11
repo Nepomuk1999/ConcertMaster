@@ -89,12 +89,12 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
 
         // load the data from the DB
         if (rehearsalForId >= 0) {
-            EventDuty rehearsalFor = eventFacade.getEventById(rehearsalForId);
+            EventDuty rehearsalFor = eventFacade.getByID(rehearsalForId);
             eventDuty.setRehearsalFor(rehearsalFor);
         }
 
         if (instrumentationId > 0) {
-            Instrumentation instrumentation = instrumentationFacade.getInstrumentationByID(instrumentationId);
+            Instrumentation instrumentation = instrumentationFacade.getByID(instrumentationId);
             eventDuty.setInstrumentation(instrumentation);
         }
 
@@ -111,7 +111,7 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
                 tmpMusicalWork.setMusicalWorkID(musicalWorkIdList[i]);
 
                 // set the alternative instrumentation even when it's the same as in the musical work
-                tmpMusicalWork.setAlternativeInstrumentation(instrumentationFacade.getInstrumentationByID(alternativeInstrumentationIdList[i]));
+                tmpMusicalWork.setAlternativeInstrumentation(instrumentationFacade.getByID(alternativeInstrumentationIdList[i]));
 
                 eventDuty.addMusicalWork(tmpMusicalWork, null);
             }
@@ -125,7 +125,7 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
         }
 
         if(type.equals(EventType.NonMusicalEvent)){
-            errorList.addAll(evaluateMusicianCountForEvent(eventDuty));
+            errorList.addAll(eventFacade.evaluateMusicianCountForEvent(eventDuty));
         }
 
         // return the errorList when the validation is not successful
@@ -161,7 +161,7 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
     }
 
     public List<MusicalWork> getMusicalWorkList() {
-        return musicalWorkFacade.getMusicalWorks();
+        return musicalWorkFacade.getList();
     }
 
     public List<Pair<MusicalWork, Instrumentation>> getMusicalWorkInstrumentationList() {
@@ -174,80 +174,6 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
 
     public List<EventDuty> getDateEventList(LocalDateTime dateTime) {
         return eventFacade.getEventsByDay(dateTime.getDayOfMonth(), dateTime.getMonthValue(), dateTime.getYear());
-    }
-
-    /** Function returns errorList which's entries show if and for what instrumentType there are not enough musicians
-     *
-     * @param eventDuty
-     * @return  errorList
-     */
-    protected List<Pair<String, String>> evaluateMusicianCountForEvent(EventDuty eventDuty) {
-        List<Pair<String, String>> errorList = new LinkedList<>();
-        List<EventDuty> eventList;
-
-        eventList = eventFacade.getEventsByTimeFrame(eventDuty.getStartTime(), eventDuty.getEndTime());
-
-        calculateMaxInstrumentation(eventDuty);
-
-        List<Pair<InstrumentType, List<Person>>> list = personApplication.getMusicianListByPlayedInstrumentType(personApplication.getList());
-        Instrumentation totalInstrumentation = eventDuty.getMaxInstrumentation();
-
-        for (EventDuty event : eventList) {
-                calculateMaxInstrumentation(event);
-                totalInstrumentation.addToInstrumentations(event.getMaxInstrumentation());
-        }
-
-        for (InstrumentType instrumentType : InstrumentType.values()) {
-            Pair<InstrumentType, List<Person>> pairList = getMusicianListByInstrumentType(instrumentType, list);
-
-            if (totalInstrumentation.getByInstrumentType(instrumentType) > pairList.getValue().size()) {
-                errorList.add(new Pair<>(String.valueOf(EventDutyProperty.START_DATE), "not enough musicians for section " + instrumentType + " at the given timeframe"));
-            }
-        }
-
-        return errorList;
-    }
-
-    /** Function to calculate the maximum number of musicians needed for an event. First sets the required number of
-     *      instruments to 0 for each insturmentType. For the instrumentationList of the eventDuty checks if more than 0
-     *          instruments of the instrumentType are required and sets that number into the maxInstrumentation of the
-     *          eventDuty.
-     *
-     * @param eventDuty
-     */
-    protected void calculateMaxInstrumentation(EventDuty eventDuty) {
-
-        Instrumentation maxInstrumentation = new Instrumentation();
-        for (InstrumentType instrumentType : InstrumentType.values()) {
-            maxInstrumentation.setByInstrumentType(instrumentType, 0);
-        }
-
-        for (Instrumentation instrumentation : eventDuty.getInstrumentationList()) {
-            for (InstrumentType instrumentType: InstrumentType.values()) {
-                if (maxInstrumentation.getByInstrumentType(instrumentType) < instrumentation.getByInstrumentType(instrumentType)) {
-                    maxInstrumentation.setByInstrumentType(instrumentType, instrumentation.getByInstrumentType(instrumentType));
-                }
-            }
-        }
-
-        eventDuty.setMaxInstrumentation(maxInstrumentation);
-    }
-
-    /**  Function to be used in the evaluateMusicianCountForEvent-Method of EventApplication.
-     * @param instrumentType
-     * @param list          a list of pairs of the instrumentTypes and lists of persons playing them
-     * @return  pair        list of pairs of instrumentTypes and the persons playing them
-     */
-    protected Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
-        Pair<InstrumentType, List<Person>> pair = null;
-
-        for (Pair<InstrumentType, List<Person>> exPair : list) {
-            if (exPair.getKey().equals(instrumentType)) {
-                pair = exPair;
-            }
-        }
-
-        return pair;
     }
 
     /** Function to publish and persist events of a specific month in a specific year. Sets their status to published.
@@ -314,7 +240,7 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
 
     @Override
     public EventDuty getByID(int id) {
-        EventDuty entity = eventFacade.getEventById(id);
+        EventDuty entity = eventFacade.getByID(id);
 
         if (entity != null) {
             return entity;
@@ -325,6 +251,6 @@ public class EventApplication extends BaseApplicationFacade<EventDuty> {
 
     @Override
     public List<EventDuty> getList() {
-        return getEventsByTimeFrame(LocalDateTime.now().minusYears(100), LocalDateTime.now().plusYears(100));
+        return eventFacade.getList();
     }
 }

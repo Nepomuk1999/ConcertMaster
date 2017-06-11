@@ -1,5 +1,6 @@
 package team_f.database_wrapper.facade;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.database_wrapper.entities.AccountEntity;
 import team_f.database_wrapper.enums.AccountRole;
 import team_f.domain.entities.Account;
@@ -15,6 +16,11 @@ public class AccountFacade extends BaseDatabaseFacade<Account> {
 
     public AccountFacade(EntityManager session) {
         super(session);
+    }
+
+    @Override
+    public Account getByID(int id) {
+        throw new NotImplementedException();
     }
 
     /** Function to convert an domain entity Account object to a database_wrapper AccountEntity object
@@ -51,7 +57,8 @@ public class AccountFacade extends BaseDatabaseFacade<Account> {
      *
      * @return      accounts    return list of accounts
      */
-    public List<Account> getAllUserNames() {
+    @Override
+    public List<Account> getList() {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from AccountEntity");

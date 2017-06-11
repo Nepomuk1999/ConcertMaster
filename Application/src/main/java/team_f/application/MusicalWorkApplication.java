@@ -84,6 +84,6 @@ public class MusicalWorkApplication extends BaseApplicationFacade<MusicalWork> {
 
     @Override
     public List<MusicalWork> getList() {
-        return musicalworkfacade.getMusicalWorks();
+        return musicalworkfacade.getList();
     }
 }

@@ -1,5 +1,7 @@
 package team_f.database_wrapper.facade;
 
+import javafx.util.Pair;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import team_f.database_wrapper.entities.AccountEntity;
 import team_f.database_wrapper.entities.MusicianPartEntity;
 import team_f.database_wrapper.entities.PersonEntity;
@@ -31,6 +33,11 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
         super(session);
     }
 
+    @Override
+    public Person getByID(int id) {
+        throw new NotImplementedException();
+    }
+
     /**
      * Function to get all Musicians. Returns a List of Persons
      *
@@ -39,7 +46,8 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
      *
      * @return musicians      List<Person>         returns a list of persons
      */
-    public List<Person> getAllMusicians() {
+    @Override
+    public List<Person> getList() {
         EntityManager session = getCurrentSession();
 
         Query query = session.createQuery("from PersonEntity");
@@ -220,6 +228,60 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
 
         return person;
     }
+
+    /** Function adds persons who play the specific instrument for every instrumentType and returns this list of
+     *                  InstrumentType,List<Person>>-pairs
+     * bzw
+     * Function to get a list of pairs of instrumentTypes and a list of lists of persons playing them  for a list of persons
+     *
+     * @param persons
+     * @return list     List<Pair<InstrumentType, List<Person>>>    returns list of pairs of
+     *                                                              instrumentTypes with persons playing them
+     */
+    public List<Pair<InstrumentType, List<Person>>> getMusicianListByPlayedInstrumentType(List<Person> persons) {
+        List<Pair<InstrumentType, List<Person>>> list = new LinkedList<>();
+        List<Person> instrumentList = new LinkedList<>();
+
+        for (InstrumentType instrumentType : InstrumentType.values()) {
+            Pair<InstrumentType, List<Person>> pair = new Pair<>(instrumentType, instrumentList);
+
+            for (Person person : persons) {
+                List<InstrumentType> standardInstruments = new LinkedList<>();
+                for (AllInstrumentTypes instrument: person.getPlayedInstruments()) {
+                    if (standardInstruments.contains(instrument.toString())) {
+                        standardInstruments.add(InstrumentType.valueOf(instrument.toString()));
+                    }
+                }
+                for(InstrumentType instrument : standardInstruments) {
+                    if(instrument == instrumentType) {
+                        instrumentList.add(person);
+                    }
+                }
+            }
+
+            list.add(pair);
+        }
+
+        return list;
+    }
+
+    /**  Function to be used in the evaluateMusicianCountForEvent-Method of EventApplication.
+     * @param instrumentType
+     * @param list          a list of pairs of the instrumentTypes and lists of persons playing them
+     * @return  pair        list of pairs of instrumentTypes and the persons playing them
+     */
+    public Pair<InstrumentType, List<Person>> getMusicianListByInstrumentType(InstrumentType instrumentType, List<Pair<InstrumentType, List<Person>>> list) {
+        Pair<InstrumentType, List<Person>> pair = null;
+
+        for (Pair<InstrumentType, List<Person>> exPair : list) {
+            if (exPair.getKey().equals(instrumentType)) {
+                pair = exPair;
+            }
+        }
+
+        return pair;
+    }
+
 
     @Override
     public int add(Person value) {

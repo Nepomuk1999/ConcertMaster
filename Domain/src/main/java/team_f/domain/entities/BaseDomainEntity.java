@@ -6,14 +6,14 @@ import team_f.domain.interfaces.DomainEntity;
 import team_f.domain.interfaces.DomainEntityProperty;
 import team_f.domain.interfaces.EntityLogic;
 import team_f.domain.interfaces.Validate;
-import team_f.domain.logic.DomainEntityManager;
+import team_f.domain.logic.LogicFactory;
 import java.util.List;
 
 public abstract class BaseDomainEntity<P extends DomainEntityProperty> implements DomainEntity, Validate<P> {
     private EntityLogic _logic;
 
     public BaseDomainEntity(EntityType entityType) {
-        _logic = DomainEntityManager.getLogic(entityType);
+        _logic = LogicFactory.getLogic(entityType);
     }
 
     @Override
