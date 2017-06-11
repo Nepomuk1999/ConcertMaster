@@ -10,6 +10,7 @@ import team_f.domain.entities.Person;
 import team_f.domain.enums.AllInstrumentTypes;
 import team_f.domain.enums.InstrumentType;
 import team_f.domain.enums.PersonRole;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
@@ -232,6 +233,22 @@ public class PersonFacade extends BaseDatabaseFacade<Person> {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        EntityManager session = getCurrentSession();
+        session.getTransaction().begin();
+
+        try {
+            // your code
+            String hql = "delete from PersonEntity where personId= :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("id", id);
+            query.executeUpdate();
+            // your code end
+
+            session.getTransaction().commit();
+            return true;
+        } catch (Throwable t) {
+            session.getTransaction().rollback();
+            return false;
+        }
     }
 }

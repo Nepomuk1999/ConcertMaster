@@ -3,6 +3,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import team_f.application.PersonApplication;
+import team_f.database_wrapper.facade.PersonFacade;
 import team_f.domain.entities.Account;
 import team_f.domain.entities.Person;
 import team_f.domain.enums.AccountRole;
@@ -15,15 +16,20 @@ import java.util.List;
 public class PersonApplicationTest {
 
     private PersonApplication personApplication;
+    private PersonFacade personFacade;
+    private int deleteId = 0;
 
 
     @Before
     public void setUp() {
         personApplication = PersonApplication.getInstance();
+        personFacade = new PersonFacade();
     }
 
     @After
-    public void clearDB() { }
+    public void clearfromDB() {
+        personFacade.delete(deleteId);
+    }
 
     @Test
     public void registerPerson() {
@@ -53,18 +59,12 @@ public class PersonApplicationTest {
                 person.getEmail(), person.getPhoneNumber(), person.getAccount().getAccountID(), person.getPersonRole(),
                 person.getAccount().getUsername(),person.getAccount().getRole(), instrumentTypeList);
 
-        int id = person.getPersonID();
-
-        Assert.assertNotNull(id);
+        deleteId = person.getPersonID();
 
         List<Person> personArrayList = personApplication.getList();
-        Person newPerson = new Person();
+        Person newPerson = personArrayList.get(personArrayList.size()-1);
 
-        for (Person findPerson: personArrayList ) {
-            if (person.getID() == id) {
-                newPerson = findPerson;
-            }
-        }
+        deleteId = newPerson.getPersonID();
 
         Assert.assertEquals(person.getFirstname(), newPerson.getFirstname());
         Assert.assertEquals(person.getLastname(), newPerson.getLastname());
